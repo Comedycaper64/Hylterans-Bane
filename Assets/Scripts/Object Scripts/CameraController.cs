@@ -74,7 +74,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleZoom()
     {
-        float zoomIncreaseAmount = 1f;
+        float zoomIncreaseAmount = 0.01f;
         targetFollowOffset.y += InputManager.Instance.GetCameraZoomAmount() * zoomIncreaseAmount;   
 
         targetFollowOffset.y = Mathf.Clamp(targetFollowOffset.y, MIN_FOLLOW_Y_OFFSET, MAX_FOLLOW_Y_OFFSET);

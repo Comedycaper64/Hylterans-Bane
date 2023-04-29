@@ -9,8 +9,8 @@ public class UnitActionSystemUI : MonoBehaviour
 {
     [SerializeField] private Transform actionButtonPrefab;
     [SerializeField] private Transform actionButtonContainerTransform;
-    [SerializeField] private TextMeshProUGUI actionPointsText;
-    [SerializeField] private TextMeshProUGUI actionPointCostText;
+    // [SerializeField] private TextMeshProUGUI actionPointsText;
+    // [SerializeField] private TextMeshProUGUI actionPointCostText;
 
     private List<ActionButtonUI> actionButtonUIList;
     //Creates list for actionbuttons
@@ -24,12 +24,12 @@ public class UnitActionSystemUI : MonoBehaviour
     {
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
-        UnitActionSystem.Instance.OnActionStarted += UnitActionSystem_OnActionStarted;
-        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-        Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
+        // UnitActionSystem.Instance.OnActionStarted += UnitActionSystem_OnActionStarted;
+        // TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        // Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
 
-        UpdateActionPoints();
-        UpdateActionPointCost();
+        // UpdateActionPoints();
+        // UpdateActionPointCost();
         CreateUnitActionButtons();
         UpdateSelectedVisuals();
     }
@@ -68,36 +68,6 @@ public class UnitActionSystemUI : MonoBehaviour
         }
     }
 
-    //Updates the actionPoint UI whenever an action is started, when the turn is changed, when the selected unit is changed and when any action point is changed
-    private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
-    {
-        CreateUnitActionButtons();
-        UpdateSelectedVisuals();   
-        UpdateActionPointCost();
-        UpdateActionPoints();
-    }
-
-    private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction e)
-    {
-        UpdateSelectedVisuals();
-        UpdateActionPointCost();
-    }
-    
-    private void UnitActionSystem_OnActionStarted(object sender, EventArgs e)
-    {
-        UpdateActionPoints();
-    }
-
-    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    {
-        UpdateActionPoints();
-    }
-
-    private void Unit_OnAnyActionPointsChanged(object sender, EventArgs e)
-    {
-        UpdateActionPoints();
-    }
-
     //Puts a green outline around the action that was selected
     private void UpdateSelectedVisuals()
     {
@@ -107,20 +77,56 @@ public class UnitActionSystemUI : MonoBehaviour
         }
     }
 
-    private void UpdateActionPoints()
+    //Updates the actionPoint UI whenever an action is started, when the turn is changed, when the selected unit is changed and when any action point is changed
+    private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
     {
-        Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
-        if (!selectedUnit) {return;}
-
-        actionPointsText.text = "Action Points: " + selectedUnit.GetActionPoints();
+        CreateUnitActionButtons();
+        UpdateSelectedVisuals();   
+        //UpdateActionPointCost();
+        //UpdateActionPoints();
     }
 
-    //Shows how many actionpoints a unit has left above their actins
-    private void UpdateActionPointCost()
+    private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction e)
     {
-        BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-        if (!selectedAction) {return;}
-
-        actionPointCostText.text = "Action Point Cost: " + selectedAction.GetActionPointsCost();
+        UpdateSelectedVisuals();
+        //UpdateActionPointCost();
     }
+
+    private void OnDisable() 
+    {
+        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
+        UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;    
+    }
+    
+    // private void UnitActionSystem_OnActionStarted(object sender, EventArgs e)
+    // {
+    //     UpdateActionPoints();
+    // }
+
+    // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    // {
+    //     UpdateActionPoints();
+    // }
+
+    // private void Unit_OnAnyActionPointsChanged(object sender, EventArgs e)
+    // {
+    //     UpdateActionPoints();
+    // }
+
+    // private void UpdateActionPoints()
+    // {
+    //     Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+    //     if (!selectedUnit) {return;}
+
+    //     actionPointsText.text = "Action Points: " + selectedUnit.GetActionPoints();
+    // }
+
+    // //Shows how many actionpoints a unit has left above their actins
+    // private void UpdateActionPointCost()
+    // {
+    //     BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
+    //     if (!selectedAction) {return;}
+
+    //     actionPointCostText.text = "Action Point Cost: " + selectedAction.GetActionPointsCost();
+    // }
 }

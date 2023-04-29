@@ -30,8 +30,11 @@ public class TurnSystem : MonoBehaviour
     //Advances turn, fires off OnTurnChanged event
     public void NextTurn()
     {
-        turnNumber++;
         isPlayerTurn = !isPlayerTurn;
+        if (isPlayerTurn)
+        {
+            turnNumber++;
+        }
         AudioSource.PlayClipAtPoint(turnButtonPressed, Camera.main.transform.position, SoundManager.Instance.GetSoundEffectVolume());
         OnTurnChanged?.Invoke(this, EventArgs.Empty);
     } 

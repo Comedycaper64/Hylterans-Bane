@@ -6,9 +6,9 @@ using UnityEngine;
 public class GridMouseVisual : MonoBehaviour
 {    
     [SerializeField] private GameObject mouseGridVisual;
-    [SerializeField] private GameObject mouseGridGrenadeVisual;
+    //[SerializeField] private GameObject mouseGridGrenadeVisual;
     private Transform mouseGridVisualPosition;
-    private Transform mouseGridGrenadeVisualPosition;
+    //private Transform mouseGridGrenadeVisualPosition;
     private GridSystemVisualSingle mouseGridVisualScript;
     //[SerializeField] private Material mouseGridVisualMaterial;
     private float mouseGridVisualYOffset = 0.1f;
@@ -16,8 +16,8 @@ public class GridMouseVisual : MonoBehaviour
     private void Start() 
     {
         mouseGridVisualPosition = Instantiate(mouseGridVisual, new Vector3(0, 0, 0), Quaternion.identity).transform;
-        mouseGridGrenadeVisualPosition = Instantiate(mouseGridGrenadeVisual, mouseGridVisualPosition).transform;
-        mouseGridGrenadeVisualPosition.gameObject.SetActive(false);
+        //mouseGridGrenadeVisualPosition = Instantiate(mouseGridGrenadeVisual, mouseGridVisualPosition).transform;
+        //mouseGridGrenadeVisualPosition.gameObject.SetActive(false);
         mouseGridVisualScript = mouseGridVisualPosition.GetComponent<GridSystemVisualSingle>();
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;    
         UpdateMouseVisual();
@@ -29,16 +29,16 @@ public class GridMouseVisual : MonoBehaviour
         if (!TurnSystem.Instance.IsPlayerTurn() || UnitManager.Instance.GetFriendlyUnitList().Count < 1 || !UnitActionSystem.Instance.GetSelectedUnit()) 
         {
             mouseGridVisualPosition.gameObject.SetActive(false);
-            mouseGridGrenadeVisualPosition.gameObject.SetActive(false);
+            //mouseGridGrenadeVisualPosition.gameObject.SetActive(false);
             return;
         }
 
-        if (UnitActionSystem.Instance.GetSelectedAction().GetActionPointsCost() > UnitActionSystem.Instance.GetSelectedUnit().GetActionPoints()) 
-        {
-            mouseGridVisualPosition.gameObject.SetActive(false);
-            mouseGridGrenadeVisualPosition.gameObject.SetActive(false);
-            return;
-        }
+        // if (UnitActionSystem.Instance.GetSelectedAction().GetActionPointsCost() > UnitActionSystem.Instance.GetSelectedUnit().GetActionPoints()) 
+        // {
+        //     mouseGridVisualPosition.gameObject.SetActive(false);
+        //     //mouseGridGrenadeVisualPosition.gameObject.SetActive(false);
+        //     return;
+        // }
         
         GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
         if (UnitActionSystem.Instance.GetSelectedAction().IsValidActionGridPosition(mouseGridPosition))
@@ -57,8 +57,8 @@ public class GridMouseVisual : MonoBehaviour
     {
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
         GridSystemVisual.GridVisualType gridVisualType;
-        mouseGridVisualPosition.localScale = new Vector3(1, 1, 1);
-        mouseGridGrenadeVisualPosition.gameObject.SetActive(false);
+        //mouseGridVisualPosition.localScale = new Vector3(1, 1, 1);
+        //mouseGridGrenadeVisualPosition.gameObject.SetActive(false);
         switch (selectedAction)
         {
             default:
@@ -68,19 +68,19 @@ public class GridMouseVisual : MonoBehaviour
             case ShootAction shootAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Red;
                 break;
-            case TauntAction tauntAction:
-                gridVisualType = GridSystemVisual.GridVisualType.Blue;
-                break;
+            // case TauntAction tauntAction:
+            //     gridVisualType = GridSystemVisual.GridVisualType.Blue;
+            //     break;
             case GrenadeAction grenadeAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Yellow;
-                mouseGridGrenadeVisualPosition.gameObject.SetActive(true);
+                //mouseGridGrenadeVisualPosition.gameObject.SetActive(true);
                 break;
             case SwordAction swordAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Red;
                 break;
             case WideSlashAction slashAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Red;
-                mouseGridVisualPosition.localScale = new Vector3(3.2f, 3.2f, 3.2f);
+                //mouseGridVisualPosition.localScale = new Vector3(3.2f, 3.2f, 3.2f);
                 break;
             case InteractAction interactAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Blue;

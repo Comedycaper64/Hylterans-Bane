@@ -6,10 +6,7 @@ using UnityEngine.EventSystems;
 
 public class UnitActionSystem : MonoBehaviour
 {
-    //Instanced for instance reaosdns
     public static UnitActionSystem Instance { get; private set; }
-
-
     public event EventHandler OnSelectedUnitChanged;
     public event EventHandler<BaseAction> OnSelectedActionChanged;
     public event EventHandler<bool> OnBusyChanged;
@@ -34,12 +31,11 @@ public class UnitActionSystem : MonoBehaviour
         Instance = this;
     }
 
-    //Has a default unit to set as SelectedUnit at the start just so everything works correctly
     private void Start()
     {
-        SetSelectedUnit(GameObject.FindGameObjectWithTag("FriendlyUnit").GetComponent<Unit>());
-        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-        FuseButtonUI.OnAnySummonChosen += FuseButtonUI_OnAnySummonChosen;
+        //SetSelectedUnit(GameObject.FindGameObjectWithTag("FriendlyUnit").GetComponent<Unit>());
+        //TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        //FuseButtonUI.OnAnySummonChosen += FuseButtonUI_OnAnySummonChosen;
     }
 
     private void Update()
@@ -61,16 +57,19 @@ public class UnitActionSystem : MonoBehaviour
             return;
         }
 
-        /*
+       
         //If the cursor is above the unit
         if (TryHandleUnitSelection())
         {
             return;
         }
-        */
+        
 
         //Does a selected action if none of the above are true
-        HandleSelectedAction();
+        if (selectedUnit)
+        {
+            HandleSelectedAction();
+        }
     }
 
     private void HandleSelectedAction()
@@ -82,12 +81,13 @@ public class UnitActionSystem : MonoBehaviour
             if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
                 //Action only goes through is Unit has enough AP
-                if (selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
-                {
-                    SetBusy();
-                    selectedAction.TakeAction(mouseGridPosition, ClearBusy);
-                    OnActionStarted?.Invoke(this, EventArgs.Empty);
-                }
+                // if (selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
+                // {
+                    
+                // }
+                SetBusy();
+                selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+                OnActionStarted?.Invoke(this, EventArgs.Empty);
             }
         }
     }
@@ -149,7 +149,7 @@ public class UnitActionSystem : MonoBehaviour
             return;
         }
         //Default selected action for new selected unit
-        SetSelectedAction(unit.GetAction<UnitSwitchAction>());
+        SetSelectedAction(unit.GetAction<MoveAction>());
 
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -171,26 +171,26 @@ public class UnitActionSystem : MonoBehaviour
         return selectedAction;
     }
 
-    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    {
-        if (TurnSystem.Instance.IsPlayerTurn())
-        {
-            List<Unit> unitList = UnitManager.Instance.GetFriendlyUnitList();
-            if (unitList.Count > 0)
-            {
-                SetSelectedUnit(unitList[0]);
-            }
-        }
-        else
-        {
-            SetSelectedUnit(null);
-        }
-        OnSelectedUnitChanged.Invoke(this, EventArgs.Empty);
-    }
+    // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    // {
+    //     if (TurnSystem.Instance.IsPlayerTurn())
+    //     {
+    //         List<Unit> unitList = UnitManager.Instance.GetFriendlyUnitList();
+    //         if (unitList.Count > 0)
+    //         {
+    //             SetSelectedUnit(unitList[0]);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         SetSelectedUnit(null);
+    //     }
+    //     OnSelectedUnitChanged.Invoke(this, EventArgs.Empty);
+    // }
 
-    private void FuseButtonUI_OnAnySummonChosen(object sender, FuseButtonUI.OnSummonChosenArgs e)
-    {
-        ClearBusyForSummon();
-    }
+    // private void FuseButtonUI_OnAnySummonChosen(object sender, FuseButtonUI.OnSummonChosenArgs e)
+    // {
+    //     ClearBusyForSummon();
+    // }
 
 }

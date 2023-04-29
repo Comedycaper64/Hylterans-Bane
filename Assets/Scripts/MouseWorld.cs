@@ -8,7 +8,6 @@ public class MouseWorld : MonoBehaviour
     //Allows raycast interactions for gameobjects on the specified layermask
     [SerializeField] private LayerMask mousePlaneLayerMask;
 
-    // Start is called before the first frame update
     private void Awake() 
     {
         instance = this;

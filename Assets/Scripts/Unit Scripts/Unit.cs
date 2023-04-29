@@ -8,13 +8,13 @@ public class Unit : MonoBehaviour
     [SerializeField] private String unitName;
 
     //Action points unit gets each turn
-    [SerializeField] private int actionPointMax;
+    //[SerializeField] private int actionPointMax;
 
-    public static event EventHandler OnAnyActionPointsChanged;
+    //public static event EventHandler OnAnyActionPointsChanged;
     public static event EventHandler<GridPosition> OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
-    public static event EventHandler OnTaunted;
-    public static event EventHandler OnTauntRemoved;
+    //public static event EventHandler OnTaunted;
+    //public static event EventHandler OnTauntRemoved;
 
 
     //Toggles unit to have enemyBehaviour
@@ -23,21 +23,21 @@ public class Unit : MonoBehaviour
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
     private BaseAction[] baseActionArray;
-    private int actionPoints;
+    //private int actionPoints;
 
-    [SerializeField] private GameObject skeletonBones;
+    //[SerializeField] private GameObject skeletonBones;
 
     [SerializeField] private GameObject backSpriteAttacking;
     [SerializeField] private GameObject backSpriteDead;
 
-    private Unit focusTargetUnit;
+    //private Unit focusTargetUnit;
 
     private void Awake() 
     {
         healthSystem = GetComponent<HealthSystem>();
         //Puts each component that extends the BaseAction into the array
         baseActionArray = GetComponents<BaseAction>();
-        actionPoints = actionPointMax;
+        //actionPoints = actionPointMax;
 
     }
 
@@ -49,8 +49,8 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);    
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         healthSystem.OnDead += HealthSystem_OnDead;
-        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
-        RemoveSummonIndicators();
+        //Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
+        //RemoveSummonIndicators();
         OnAnyUnitSpawned?.Invoke(this, gridPosition);
     }
 
@@ -81,18 +81,6 @@ public class Unit : MonoBehaviour
 
     }
 
-    private void RemoveSummonIndicators()
-    {
-        Collider[] colliderArray = Physics.OverlapSphere(LevelGrid.Instance.GetWorldPosition(gridPosition), 1f);
-        foreach (Collider collider in colliderArray)
-        {
-            if (collider.gameObject.tag == "Summon")
-            {
-                Destroy(collider.gameObject);
-            }
-        }
-    }
-
     public Vector3 GetWorldPosition()
     {
         return transform.position;
@@ -110,63 +98,24 @@ public class Unit : MonoBehaviour
         return gridPosition;
     }
 
-    //Spends action points and returns true if has enough AP to perform action, returns false if not
-    public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
+    public void Damage(int damageAmount)
     {
-        if (CanSpendActionPointsToTakeAction(baseAction))
-        {
-            SpendActionPoints(baseAction.GetActionPointsCost());
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        healthSystem.Damage(damageAmount);
+    }
+    
+    public float GetHealthNormalized()
+    {
+        return healthSystem.GetHealthNormalized();
     }
 
-    //Helper for above^
-    public bool CanSpendActionPointsToTakeAction(BaseAction baseAction)
+    public String GetUnitName()
     {
-        if (actionPoints >= baseAction.GetActionPointsCost())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return unitName;
     }
 
-    //Decreases from actionPoints, fires off ActionsPointsChanged event
-    private void SpendActionPoints(int amount)
+    public bool IsEnemy()
     {
-        actionPoints -= amount;
-        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
-        if (actionPoints < 0)
-        {
-            Debug.LogError("Action points for " + gameObject + "are lower than 0!");
-        }
-    }
-
-    public void RefundActionPoints(int amount)
-    {
-        actionPoints += amount;
-        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    public int GetActionPoints()
-    {
-        return actionPoints;
-    }
-
-    //Regens action points for Player units if player unit turn, for enemy units instead if enemy turn
-    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    {
-        if ((IsEnemy() && !TurnSystem.Instance.IsPlayerTurn()) || (!IsEnemy() && TurnSystem.Instance.IsPlayerTurn()))
-        {
-            actionPoints = actionPointMax;
-            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
-        }
+        return isEnemy;
     }
 
     //Removes unit from Grid when dead, invoked UnitDead event
@@ -190,56 +139,115 @@ public class Unit : MonoBehaviour
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
 
-    private void Unit_OnAnyUnitDead(object sender, EventArgs e)
+    //Regens action points for Player units if player unit turn, for enemy units instead if enemy turn
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        Unit unit = sender as Unit;
-        if (unit == GetFocusTargetUnit())
-        {
-            RemoveTaunt();
-        }
+        // if ((IsEnemy() && !TurnSystem.Instance.IsPlayerTurn()) || (!IsEnemy() && TurnSystem.Instance.IsPlayerTurn()))
+        // {
+        //     actionPoints = actionPointMax;
+        //     OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        // }
     }
+
+    // private void RemoveSummonIndicators()
+    // {
+    //     Collider[] colliderArray = Physics.OverlapSphere(LevelGrid.Instance.GetWorldPosition(gridPosition), 1f);
+    //     foreach (Collider collider in colliderArray)
+    //     {
+    //         if (collider.gameObject.tag == "Summon")
+    //         {
+    //             Destroy(collider.gameObject);
+    //         }
+    //     }
+    // }
+
+    //Spends action points and returns true if has enough AP to perform action, returns false if not
+    // public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
+    // {
+    //     if (CanSpendActionPointsToTakeAction(baseAction))
+    //     {
+    //         SpendActionPoints(baseAction.GetActionPointsCost());
+    //         return true;
+    //     }
+    //     else
+    //     {
+    //         return false;
+    //     }
+    // }
+
+    //Helper for above^
+    // public bool CanSpendActionPointsToTakeAction(BaseAction baseAction)
+    // {
+    //     if (actionPoints >= baseAction.GetActionPointsCost())
+    //     {
+    //         return true;
+    //     }
+    //     else
+    //     {
+    //         return false;
+    //     }
+    // }
+
+    //Decreases from actionPoints, fires off ActionsPointsChanged event
+    // private void SpendActionPoints(int amount)
+    // {
+    //     actionPoints -= amount;
+    //     OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+    //     if (actionPoints < 0)
+    //     {
+    //         Debug.LogError("Action points for " + gameObject + "are lower than 0!");
+    //     }
+    // }
+
+    // public void RefundActionPoints(int amount)
+    // {
+    //     actionPoints += amount;
+    //     OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+    // }
+
+    // public int GetActionPoints()
+    // {
+    //     return actionPoints;
+    // }
 
     
-    public bool IsEnemy()
-    {
-        return isEnemy;
-    }
 
-    public void TauntUnit(Unit targetUnit)
-    {
-        focusTargetUnit = targetUnit;
-        OnTaunted?.Invoke(this, EventArgs.Empty);
-    }
     
-    public void RemoveTaunt()
-    {
-        focusTargetUnit = null;
-        OnTauntRemoved?.Invoke(this, EventArgs.Empty);
-    }
 
-    public bool HasFocusTargetUnit()
-    {
-        return focusTargetUnit;
-    }
+    // private void Unit_OnAnyUnitDead(object sender, EventArgs e)
+    // {
+    //     Unit unit = sender as Unit;
+    //     if (unit == GetFocusTargetUnit())
+    //     {
+    //         RemoveTaunt();
+    //     }
+    // }
 
-    public Unit GetFocusTargetUnit()
-    {
-        return focusTargetUnit;
-    }
-
-    public void Damage(int damageAmount)
-    {
-        healthSystem.Damage(damageAmount);
-    }
     
-    public float GetHealthNormalized()
-    {
-        return healthSystem.GetHealthNormalized();
-    }
+    
 
-    public String GetUnitName()
-    {
-        return unitName;
-    }
+    // public void TauntUnit(Unit targetUnit)
+    // {
+    //     focusTargetUnit = targetUnit;
+    //     OnTaunted?.Invoke(this, EventArgs.Empty);
+    // }
+    
+    // public void RemoveTaunt()
+    // {
+    //     focusTargetUnit = null;
+    //     OnTauntRemoved?.Invoke(this, EventArgs.Empty);
+    // }
+
+    // public bool HasFocusTargetUnit()
+    // {
+    //     return focusTargetUnit;
+    // }
+
+    // public Unit GetFocusTargetUnit()
+    // {
+    //     return focusTargetUnit;
+    // }
+
+    
 
 }

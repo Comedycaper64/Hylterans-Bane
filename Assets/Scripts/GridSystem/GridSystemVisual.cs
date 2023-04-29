@@ -72,6 +72,7 @@ public class GridSystemVisual : MonoBehaviour
 
         //Subscribes events
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
         Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
         FuseButtonUI.OnAnySummonChosen += FuseButtonUI_OnAnySummonChosen;
@@ -90,7 +91,7 @@ public class GridSystemVisual : MonoBehaviour
         {
             for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
             {
-                gridSystemVisualSingleArray[x, z].Hide();
+                gridSystemVisualSingleArray[x, z].Show(GetGridVisualTypeMaterial(GridVisualType.SoftWhite));
             }
         }
     }
@@ -172,7 +173,8 @@ public class GridSystemVisual : MonoBehaviour
         if (!selectedUnit)  {return;}
 
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-        if (selectedAction.GetActionPointsCost() > selectedUnit.GetActionPoints()) {return;}
+
+        //if (selectedAction.GetActionPointsCost() > selectedUnit.GetActionPoints()) {return;}
 
         GridVisualType gridVisualType;
 
@@ -186,10 +188,10 @@ public class GridSystemVisual : MonoBehaviour
                 gridVisualType = GridVisualType.White;
                 ShowGridPositionRange(selectedUnit.GetGridPosition(), moveAction.GetMaxMoveDistance(), GridVisualType.SoftWhite);
                 break;
-            case TauntAction tauntAction:
-                gridVisualType = GridVisualType.Blue;
-                ShowGridPositionRange(selectedUnit.GetGridPosition(), tauntAction.GetMaxTauntDistance(), GridVisualType.SoftBlue);
-                break;
+            // case TauntAction tauntAction:
+            //     gridVisualType = GridVisualType.Blue;
+            //     ShowGridPositionRange(selectedUnit.GetGridPosition(), tauntAction.GetMaxTauntDistance(), GridVisualType.SoftBlue);
+            //     break;
             case ShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
                 ShowGridPositionRange(selectedUnit.GetGridPosition(), shootAction.GetMaxShootDistance(), GridVisualType.RedSoft);
@@ -222,6 +224,11 @@ public class GridSystemVisual : MonoBehaviour
         UpdateGridVisual();
     }
 
+    private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+    {
+        UpdateGridVisual();
+    }
+
     //When a unit has moved on the grid, UpdateGridVisual
     private void LevelGrid_OnAnyUnitMovedGridPosition(object sender, EventArgs e)
     {
@@ -236,7 +243,9 @@ public class GridSystemVisual : MonoBehaviour
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         if (!TurnSystem.Instance.IsPlayerTurn())
+        {
             HideAllGridPosition();
+        }
     }
 
     private void FuseButtonUI_OnAnySummonChosen(object sender, FuseButtonUI.OnSummonChosenArgs e)
@@ -247,6 +256,17 @@ public class GridSystemVisual : MonoBehaviour
     private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
     {
         UpdateGridVisual();
+    }
+
+    private void OnDisable() 
+    {
+        UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
+        LevelGrid.Instance.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
+        Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
+        FuseButtonUI.OnAnySummonChosen -= FuseButtonUI_OnAnySummonChosen;
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;    
     }
 
     //Gets the corresponding material of the gridVisualType enum

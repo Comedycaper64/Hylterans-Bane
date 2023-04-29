@@ -136,15 +136,15 @@ public class SwordAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        if (unit.HasFocusTargetUnit())
-        {
-            if (unit.GetFocusTargetUnit() != LevelGrid.Instance.GetUnitAtGridPosition(gridPosition))
-                return new EnemyAIAction
-                {
-                    gridPosition = gridPosition,
-                    actionValue = 0,
-                };
-        }
+        // if (unit.HasFocusTargetUnit())
+        // {
+        //     if (unit.GetFocusTargetUnit() != LevelGrid.Instance.GetUnitAtGridPosition(gridPosition))
+        //         return new EnemyAIAction
+        //         {
+        //             gridPosition = gridPosition,
+        //             actionValue = 0,
+        //         };
+        // }
         return new EnemyAIAction
         {
             gridPosition = gridPosition,

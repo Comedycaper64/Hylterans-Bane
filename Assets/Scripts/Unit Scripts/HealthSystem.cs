@@ -8,9 +8,6 @@ public class HealthSystem : MonoBehaviour
     //Contains logic for managing health, fires off events when taking damage or dying
     public event EventHandler OnDead;
     public event EventHandler<float> OnDamaged;
-
-
-
     [SerializeField] private int health = 100;
     private int healthMax;
 

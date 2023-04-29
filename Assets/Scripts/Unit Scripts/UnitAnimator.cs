@@ -9,8 +9,8 @@ public class UnitAnimator : MonoBehaviour
     public event EventHandler OnAttackEnd;
 
     [SerializeField] private Animator animator;
-    [SerializeField] private Transform bulletProjectilePrefab;
-    [SerializeField] private Transform shootPointTransform;
+    // [SerializeField] private Transform bulletProjectilePrefab;
+    // [SerializeField] private Transform shootPointTransform;
     //[SerializeField] private Transform rifleTransform;
     //[SerializeField] private Transform swordTransform;
 

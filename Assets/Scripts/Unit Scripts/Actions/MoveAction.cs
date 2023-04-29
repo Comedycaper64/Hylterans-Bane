@@ -8,9 +8,6 @@ public class MoveAction : BaseAction
 
     public event EventHandler OnStartMoving;
     public event EventHandler OnStopMoving;
-
-
-
     [SerializeField] private int maxMoveDistance = 4;
 
     private List<Vector3> positionList;
@@ -128,11 +125,11 @@ public class MoveAction : BaseAction
         int closestPlayerDistance = 0;
         foreach(Unit playerUnit in playerUnitList)
         {
-            if (unit.HasFocusTargetUnit())
-            {
-                if (unit.GetFocusTargetUnit() != playerUnit)
-                    continue;
-            }
+            // if (unit.HasFocusTargetUnit())
+            // {
+            //     if (unit.GetFocusTargetUnit() != playerUnit)
+            //         continue;
+            // }
 
             if (closestPlayerUnit == null)
             {

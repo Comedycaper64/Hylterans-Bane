@@ -47,7 +47,7 @@ public class InputManager : MonoBehaviour
 
     public float GetCameraZoomAmount()
     {
-        return controls.Player.CameraZoom.ReadValue<float>();
+        return controls.Player.CameraZoom.ReadValue<Vector2>().y;
     }
 
 

@@ -199,11 +199,11 @@ public class ShootAction : BaseAction
         ActionStart(onActionComplete);
     }
 
-    public Unit GetTargetUnit()
-    {
-        return targetUnit;
+    // public Unit GetTargetUnit()
+    // {
+    //     return targetUnit;
 
-    }
+    // }
 
     public override float GetDamage()
     {
@@ -219,15 +219,15 @@ public class ShootAction : BaseAction
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-        if (unit.HasFocusTargetUnit())
-        {
-            if (unit.GetFocusTargetUnit() != targetUnit)
-                return new EnemyAIAction
-                {
-                    gridPosition = gridPosition,
-                    actionValue = 0,
-                };
-        }
+        // if (unit.HasFocusTargetUnit())
+        // {
+        //     if (unit.GetFocusTargetUnit() != targetUnit)
+        //         return new EnemyAIAction
+        //         {
+        //             gridPosition = gridPosition,
+        //             actionValue = 0,
+        //         };
+        // }
         
         return new EnemyAIAction
         {
