@@ -25,7 +25,9 @@ public class EnemyAI : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError("There's more than one UnitActionSystem! " + transform + " - " + Instance);
+            Debug.LogError(
+                "There's more than one UnitActionSystem! " + transform + " - " + Instance
+            );
             Destroy(gameObject);
             return;
         }
@@ -36,6 +38,11 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+    }
+
+    private void OnDisable()
+    {
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
     }
 
     //Goes through state machine in similar manner to Shootaction
@@ -57,7 +64,8 @@ public class EnemyAI : MonoBehaviour
                     if (TryTakeEnemyAIAction(SetStateTakingTurn))
                     {
                         state = State.Busy;
-                    } else
+                    }
+                    else
                     {
                         // No more enemies have actions they can take, end enemy turn
                         OnEnemyTurnFinished?.Invoke(this, EventArgs.Empty);
@@ -102,7 +110,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     //Does as many actions as it can based on AP, goes through all possible actions and does the one with the best action value
-        //Value calculation for an action is done in the actions themselves (hence baseAction is being used)
+    //Value calculation for an action is done in the actions themselves (hence baseAction is being used)
     private bool TryTakeEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete)
     {
         EnemyAIAction bestEnemyAIAction = null;
@@ -124,13 +132,15 @@ public class EnemyAI : MonoBehaviour
             else
             {
                 EnemyAIAction testEnemyAIAction = baseAction.GetBestEnemyAIAction();
-                if (testEnemyAIAction != null && testEnemyAIAction.actionValue > bestEnemyAIAction.actionValue)
+                if (
+                    testEnemyAIAction != null
+                    && testEnemyAIAction.actionValue > bestEnemyAIAction.actionValue
+                )
                 {
                     bestEnemyAIAction = testEnemyAIAction;
                     bestBaseAction = baseAction;
                 }
             }
-
         }
 
         if (bestEnemyAIAction != null)
@@ -143,5 +153,4 @@ public class EnemyAI : MonoBehaviour
             return false;
         }
     }
-
 }

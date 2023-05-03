@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-
     public static InputManager Instance { get; private set; }
 
     private Controls controls;
@@ -24,15 +23,19 @@ public class InputManager : MonoBehaviour
         controls.Enable();
     }
 
-
     public Vector2 GetMouseScreenPosition()
     {
         return Mouse.current.position.ReadValue();
     }
 
-    public bool IsMouseButtonDownThisFrame()
+    public bool IsLeftClickDownThisFrame()
     {
-        return controls.Player.Click.WasPressedThisFrame();
+        return controls.Player.LeftClick.WasPressedThisFrame();
+    }
+
+    public bool IsRightClickDownThisFrame()
+    {
+        return controls.Player.RightClick.WasPressedThisFrame();
     }
 
     public Vector2 GetCameraMoveVector()
@@ -49,7 +52,4 @@ public class InputManager : MonoBehaviour
     {
         return controls.Player.CameraZoom.ReadValue<Vector2>().y;
     }
-
-
 }
-

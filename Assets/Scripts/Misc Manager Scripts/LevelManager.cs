@@ -7,10 +7,16 @@ using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
-    public static LevelManager Instance {get; private set;} 
-    [SerializeField] private GameObject levelLostUI;
-    [SerializeField] private GameObject levelBeatUI;
-    [SerializeField] private TextMeshProUGUI turnsTakenText;
+    public static LevelManager Instance { get; private set; }
+
+    [SerializeField]
+    private GameObject levelLostUI;
+
+    [SerializeField]
+    private GameObject levelBeatUI;
+
+    [SerializeField]
+    private TextMeshProUGUI turnsTakenText;
 
     private void Awake()
     {
@@ -23,10 +29,16 @@ public class LevelManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start() 
+    private void Start()
     {
-        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;   
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
         UnitManager.Instance.OnEnemyDied += UnitManager_OnEnemyDied;
+    }
+
+    private void OnDisable()
+    {
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+        UnitManager.Instance.OnEnemyDied -= UnitManager_OnEnemyDied;
     }
 
     public void ResetLevel()
@@ -51,7 +63,7 @@ public class LevelManager : MonoBehaviour
         {
             levelBeatUI.SetActive(true);
             turnsTakenText.text = "Turns Taken: " + TurnSystem.Instance.GetTurnNumber();
-        }   
+        }
     }
 
     private void Unit_OnAnyUnitDead(object sender, EventArgs e)

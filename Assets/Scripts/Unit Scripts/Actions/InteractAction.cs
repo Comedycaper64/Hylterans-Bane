@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class InteractAction : BaseAction
 {
-
     private int maxInteractDistance = 1;
-
 
     private void Update()
     {
@@ -24,11 +22,7 @@ public class InteractAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        return new EnemyAIAction
-        {
-            gridPosition = gridPosition,
-            actionValue = 0
-        };
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0 };
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -49,7 +43,9 @@ public class InteractAction : BaseAction
                     continue;
                 }
 
-                IInteractable interactable = LevelGrid.Instance.GetInteractableAtGridPosition(testGridPosition);
+                IInteractable interactable = LevelGrid.Instance.GetInteractableAtGridPosition(
+                    testGridPosition
+                );
 
                 if (interactable == null)
                 {
@@ -77,5 +73,4 @@ public class InteractAction : BaseAction
     {
         ActionComplete();
     }
-
 }

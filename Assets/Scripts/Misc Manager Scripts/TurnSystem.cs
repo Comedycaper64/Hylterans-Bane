@@ -8,12 +8,12 @@ public class TurnSystem : MonoBehaviour
     //Instanced because there should only be one
     public static TurnSystem Instance {get; private set;}
 
-    [SerializeField] private AudioClip turnButtonPressed;
+    [SerializeField] private AudioClip turnButtonPressedSFX;
 
     public event EventHandler OnTurnChanged;
     //Keeps track of what turn it is
     private int turnNumber = 1;
-    private bool isPlayerTurn = true;
+    private bool isPlayerPhase = true;
 
     //Singleton-ed
     private void Awake()
@@ -30,12 +30,12 @@ public class TurnSystem : MonoBehaviour
     //Advances turn, fires off OnTurnChanged event
     public void NextTurn()
     {
-        isPlayerTurn = !isPlayerTurn;
-        if (isPlayerTurn)
+        isPlayerPhase = !isPlayerPhase;
+        if (isPlayerPhase)
         {
             turnNumber++;
         }
-        AudioSource.PlayClipAtPoint(turnButtonPressed, Camera.main.transform.position, SoundManager.Instance.GetSoundEffectVolume());
+        AudioSource.PlayClipAtPoint(turnButtonPressedSFX, Camera.main.transform.position, SoundManager.Instance.GetSoundEffectVolume());
         OnTurnChanged?.Invoke(this, EventArgs.Empty);
     } 
 
@@ -46,6 +46,6 @@ public class TurnSystem : MonoBehaviour
 
     public bool IsPlayerTurn()
     {
-        return isPlayerTurn;
+        return isPlayerPhase;
     }
 }

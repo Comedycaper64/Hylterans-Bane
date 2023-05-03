@@ -14,7 +14,7 @@ public class SpinAction : BaseAction
         {
             return;
         }
-        
+
         float spinAddAmount = 360f * Time.deltaTime;
         transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
 
@@ -40,10 +40,7 @@ public class SpinAction : BaseAction
     {
         GridPosition unitGridPosition = unit.GetGridPosition();
 
-        return new List<GridPosition>
-        {
-            unitGridPosition
-        };
+        return new List<GridPosition> { unitGridPosition };
     }
 
     public override int GetActionPointsCost()
@@ -51,16 +48,8 @@ public class SpinAction : BaseAction
         return 1;
     }
 
-
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        return new EnemyAIAction
-        {
-            gridPosition = gridPosition,
-            actionValue = 0,
-        };
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0, };
     }
-
-
-
 }

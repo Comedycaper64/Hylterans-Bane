@@ -7,10 +7,15 @@ using TMPro;
 public class ActionButtonUI : MonoBehaviour
 {
     //Generic UI script for each of a unit's actions. Instantiated elsewhere, here the Baseaction is stored,
-        //selectedUI is toggled if the action button was clicked on, and a listener is added to the button for setting the selectedAction
-    [SerializeField] private TextMeshProUGUI textMeshPro;
-    [SerializeField] private Button button;
-    [SerializeField] private Image selectedUI;
+    //selectedUI is toggled if the action button was clicked on, and a listener is added to the button for setting the selectedAction
+    [SerializeField]
+    private TextMeshProUGUI textMeshPro;
+
+    [SerializeField]
+    private Button button;
+
+    [SerializeField]
+    private Image selectedUI;
 
     private BaseAction baseAction;
 
@@ -18,10 +23,10 @@ public class ActionButtonUI : MonoBehaviour
     {
         this.baseAction = baseAction;
         textMeshPro.text = baseAction.GetActionName().ToUpper();
-        button.onClick.AddListener(() => {
+        button.onClick.AddListener(() =>
+        {
             UnitActionSystem.Instance.SetSelectedAction(baseAction);
         });
-
     }
 
     public void UpdateSelectedVisual()
@@ -29,5 +34,4 @@ public class ActionButtonUI : MonoBehaviour
         BaseAction selectedBaseAction = UnitActionSystem.Instance.GetSelectedAction();
         selectedUI.enabled = (selectedBaseAction == baseAction);
     }
-
 }

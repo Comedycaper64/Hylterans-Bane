@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
-
-    [SerializeField] private bool isOpen;
+    [SerializeField]
+    private bool isOpen;
 
     private GridPosition gridPosition;
     private Animator animator;
     private Action onInteractionComplete;
     private bool isActive;
     private float timer;
-
 
     private void Awake()
     {
@@ -28,7 +27,8 @@ public class Door : MonoBehaviour, IInteractable
         if (isOpen)
         {
             OpenDoor();
-        } else
+        }
+        else
         {
             CloseDoor();
         }
@@ -49,8 +49,6 @@ public class Door : MonoBehaviour, IInteractable
             onInteractionComplete();
         }
     }
-
-
 
     public void Interact(Action onInteractionComplete)
     {
@@ -81,5 +79,4 @@ public class Door : MonoBehaviour, IInteractable
         animator.SetBool("IsOpen", isOpen);
         Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, false);
     }
-
 }

@@ -11,7 +11,7 @@ public class SwordAction : BaseAction
 
     [SerializeField] private int damageAmount;
 
-    [SerializeField] private AudioClip attackHit;
+    [SerializeField] private AudioClip attackHitSFX;
 
 
     private enum State
@@ -62,7 +62,7 @@ public class SwordAction : BaseAction
                 float afterHitStateTime = 0.5f;
                 stateTimer = afterHitStateTime;
                 targetUnit.Damage(damageAmount);
-                AudioSource.PlayClipAtPoint(attackHit, Camera.main.transform.position, SoundManager.Instance.GetSoundEffectVolume());
+                AudioSource.PlayClipAtPoint(attackHitSFX, Camera.main.transform.position, SoundManager.Instance.GetSoundEffectVolume());
                 OnAnySwordHit?.Invoke(this, EventArgs.Empty);
                 break;
             case State.SwingingSwordAfterHit:

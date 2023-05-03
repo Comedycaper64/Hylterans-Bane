@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 50
-  attackHit: {fileID: 8300000, guid: 4707b9c33f3013a4b956b549a4bb1455, type: 3}
+  attackHitSFX: {fileID: 8300000, guid: 4707b9c33f3013a4b956b549a4bb1455, type: 3}
 --- !u!114 &8613332449785233535
 MonoBehaviour:
   m_ObjectHideFlags: 0

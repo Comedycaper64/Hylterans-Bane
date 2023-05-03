@@ -9,10 +9,11 @@ public class WideSlashAction : BaseAction
     public event EventHandler OnSlashActionStarted;
     public event EventHandler OnSlashActionCompleted;
 
-    [SerializeField] private int damageAmount;
+    [SerializeField]
+    private int damageAmount;
 
-    [SerializeField] private AudioClip slashHit;
-
+    [SerializeField]
+    private AudioClip slashHitSFX;
 
     private enum State
     {
@@ -24,7 +25,6 @@ public class WideSlashAction : BaseAction
     private State state;
     private float stateTimer;
     private List<Unit> targetUnits = new List<Unit>();
-
 
     private void Update()
     {
@@ -61,14 +61,18 @@ public class WideSlashAction : BaseAction
                 state = State.SwingingSwordAfterHit;
                 float afterHitStateTime = 2f;
                 stateTimer = afterHitStateTime;
-                foreach(Unit targetUnit in targetUnits)
+                foreach (Unit targetUnit in targetUnits)
                 {
                     if (targetUnit.IsEnemy())
                         targetUnit.Damage(damageAmount);
                     else
                         targetUnit.Damage(damageAmount * 2);
                 }
-                AudioSource.PlayClipAtPoint(slashHit, Camera.main.transform.position, SoundManager.Instance.GetSoundEffectVolume());
+                AudioSource.PlayClipAtPoint(
+                    slashHitSFX,
+                    Camera.main.transform.position,
+                    SoundManager.Instance.GetSoundEffectVolume()
+                );
                 OnAnySlashHit?.Invoke(this, EventArgs.Empty);
                 break;
             case State.SwingingSwordAfterHit:
@@ -85,11 +89,7 @@ public class WideSlashAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        return new EnemyAIAction
-        {
-            gridPosition = gridPosition,
-            actionValue = 200,
-        };
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 200, };
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -123,7 +123,10 @@ public class WideSlashAction : BaseAction
 
                 float damageRadius = 3f;
                 List<Unit> tempUnitList = new List<Unit>();
-                Collider[] colliderArray = Physics.OverlapSphere(LevelGrid.Instance.GetWorldPosition(testGridPosition), damageRadius);
+                Collider[] colliderArray = Physics.OverlapSphere(
+                    LevelGrid.Instance.GetWorldPosition(testGridPosition),
+                    damageRadius
+                );
                 foreach (Collider collider in colliderArray)
                 {
                     if (collider.TryGetComponent<Unit>(out Unit tempUnit))
@@ -140,7 +143,6 @@ public class WideSlashAction : BaseAction
                     continue;
                 }
 
-
                 validGridPositionList.Add(testGridPosition);
             }
         }
@@ -153,7 +155,10 @@ public class WideSlashAction : BaseAction
         //targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
         targetUnits = new List<Unit>();
         float damageRadius = 3f;
-        Collider[] colliderArray = Physics.OverlapSphere(LevelGrid.Instance.GetWorldPosition(gridPosition), damageRadius);
+        Collider[] colliderArray = Physics.OverlapSphere(
+            LevelGrid.Instance.GetWorldPosition(gridPosition),
+            damageRadius
+        );
         foreach (Collider collider in colliderArray)
         {
             if (collider.TryGetComponent<Unit>(out Unit targetUnit))
@@ -193,7 +198,7 @@ public class WideSlashAction : BaseAction
     {
         return maxSlashDistance;
     }
-    
+
     public int GetTargetCountAtPosition(GridPosition gridPosition)
     {
         return GetValidActionGridPositionList().Count;

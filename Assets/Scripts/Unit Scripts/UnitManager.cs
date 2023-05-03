@@ -8,11 +8,11 @@ public class UnitManager : MonoBehaviour
     public event EventHandler OnEnemyDied;
 
     public static UnitManager Instance { get; private set; }
-    //Logic for managing the Unit Listd
+
+    //Logic for managing the Unit List
     private List<Unit> unitList;
     private List<Unit> friendlyUnitList;
     private List<Unit> enemyUnitList;
-
 
     private void Awake()
     {
@@ -35,6 +35,12 @@ public class UnitManager : MonoBehaviour
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
     }
 
+    private void OnDisable()
+    {
+        Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+    }
+
     //Changes are made to the lists based on the events
     private void Unit_OnAnyUnitSpawned(object sender, GridPosition e)
     {
@@ -44,8 +50,8 @@ public class UnitManager : MonoBehaviour
 
         if (unit.IsEnemy())
         {
-            enemyUnitList.Add(unit);   
-        } 
+            enemyUnitList.Add(unit);
+        }
         else
         {
             friendlyUnitList.Add(unit);
@@ -83,5 +89,4 @@ public class UnitManager : MonoBehaviour
     {
         return enemyUnitList;
     }
-
 }

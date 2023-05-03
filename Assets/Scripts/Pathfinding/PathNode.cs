@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PathNode
 {
-
     private GridPosition gridPosition;
     private int gCost;
     private int hCost;
@@ -71,7 +70,7 @@ public class PathNode
     {
         return gridPosition;
     }
-    
+
     public bool IsWalkable()
     {
         return isWalkable;
@@ -81,6 +80,4 @@ public class PathNode
     {
         this.isWalkable = isWalkable;
     }
-
-
 }

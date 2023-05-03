@@ -5,10 +5,12 @@ using UnityEngine;
 public class MouseWorld : MonoBehaviour
 {
     private static MouseWorld instance;
-    //Allows raycast interactions for gameobjects on the specified layermask
-    [SerializeField] private LayerMask mousePlaneLayerMask;
 
-    private void Awake() 
+    //Allows raycast interactions for gameobjects on the specified layermask
+    [SerializeField]
+    private LayerMask mousePlaneLayerMask;
+
+    private void Awake()
     {
         instance = this;
     }
@@ -16,7 +18,12 @@ public class MouseWorld : MonoBehaviour
     public static Vector3 GetPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());
-        Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, instance.mousePlaneLayerMask);
+        Physics.Raycast(
+            ray,
+            out RaycastHit raycastHit,
+            float.MaxValue,
+            instance.mousePlaneLayerMask
+        );
         return raycastHit.point;
     }
 }

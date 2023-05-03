@@ -5,14 +5,20 @@ using UnityEngine;
 
 public class GrenadeAction : BaseAction
 {
-    [SerializeField] private Transform grenadeProjectilePrefab;
-    [SerializeField] private AudioClip fireBallCharge;
+    [SerializeField]
+    private Transform grenadeProjectilePrefab;
+
+    [SerializeField]
+    private AudioClip fireBallChargeSFX;
 
     public event EventHandler OnGrenadeActionStarted;
     public event EventHandler OnGrenadeActionCompleted;
-    [SerializeField] private int maxThrowDistance;
 
-    [SerializeField] private float damageAmount = 40;
+    [SerializeField]
+    private int maxThrowDistance;
+
+    [SerializeField]
+    private float damageAmount = 40;
 
     private int minThrowDistance = 3;
     private State state;
@@ -37,13 +43,16 @@ public class GrenadeAction : BaseAction
         //Moves between the states at the speed of the stateTimer
         switch (state)
         {
-
             case State.Charging:
 
                 break;
             //Fires the shot
             case State.Throwing:
-                Transform grenadeProjectileTransform = Instantiate(grenadeProjectilePrefab, unit.GetWorldPosition(), Quaternion.identity);
+                Transform grenadeProjectileTransform = Instantiate(
+                    grenadeProjectilePrefab,
+                    unit.GetWorldPosition(),
+                    Quaternion.identity
+                );
                 //GrenadeProjectile grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
                 //grenadeProjectile.Setup(targetGridPosition, damageAmount, OnGrenadeBehaviourComplete);
                 break;
@@ -79,7 +88,6 @@ public class GrenadeAction : BaseAction
         }
     }
 
-
     public override string GetActionName()
     {
         return "Fireball";
@@ -87,11 +95,7 @@ public class GrenadeAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        return new EnemyAIAction
-        {
-            gridPosition = gridPosition,
-            actionValue = 0,
-        };
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0, };
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -133,11 +137,15 @@ public class GrenadeAction : BaseAction
         }
 
         return validGridPositionList;
-    } 
+    }
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        AudioSource.PlayClipAtPoint(fireBallCharge, Camera.main.transform.position, SoundManager.Instance.GetSoundEffectVolume());
+        AudioSource.PlayClipAtPoint(
+            fireBallChargeSFX,
+            Camera.main.transform.position,
+            SoundManager.Instance.GetSoundEffectVolume()
+        );
         OnGrenadeActionStarted?.Invoke(this, EventArgs.Empty);
         targetGridPosition = gridPosition;
         state = State.Charging;
@@ -162,5 +170,4 @@ public class GrenadeAction : BaseAction
         OnGrenadeActionCompleted?.Invoke(this, EventArgs.Empty);
         ActionComplete();
     }
-
 }

@@ -5,31 +5,40 @@ using UnityEngine;
 
 public class UnitSelectedVisual : MonoBehaviour
 {
-    [SerializeField] private Unit unit;
+    [SerializeField]
+    private Unit unit;
 
     //Logic for changing where the SelectedUnit visual is based on GetSelectedUnit and the OnSelectedUnitChanged event
     private MeshRenderer meshRenderer;
 
-    private void Awake() 
+    private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    private void Start() 
+    private void Start()
     {
-        UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;   
-        UpdateVisual(); 
+        UnitActionSystem.Instance.OnUnitActionFinished += UnitActionSystem_OnSelectedUnitChanged;
+        UpdateVisual();
     }
 
-    private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs empty)
+    private void OnDisable()
+    {
+        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnSelectedUnitChanged;
+    }
+
+    private void UnitActionSystem_OnSelectedUnitChanged()
     {
         UpdateVisual();
     }
 
     private void UpdateVisual()
     {
-        if (!meshRenderer) {return;}
-        
+        if (!meshRenderer)
+        {
+            return;
+        }
+
         if (unit == UnitActionSystem.Instance.GetSelectedUnit())
         {
             meshRenderer.enabled = true;
@@ -39,11 +48,9 @@ public class UnitSelectedVisual : MonoBehaviour
             meshRenderer.enabled = false;
         }
     }
-    
+
     private void OnDestroy()
     {
-        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
+        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnSelectedUnitChanged;
     }
-
-
 }

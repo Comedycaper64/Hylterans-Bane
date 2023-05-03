@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class UnitRagdoll : MonoBehaviour
 {
-    [SerializeField] private Transform ragdollRootBone;
+    [SerializeField]
+    private Transform ragdollRootBone;
 
     //Setup for ragdoll, called from the ragdoll spawner
     public void Setup(Transform originalRootBone)
@@ -32,7 +33,12 @@ public class UnitRagdoll : MonoBehaviour
     }
 
     //Same as above, but for an explosive force
-    private void ApplyExplosionToRagdoll(Transform root, float explosionForce, Vector3 explosionPosition, float explosionRange)
+    private void ApplyExplosionToRagdoll(
+        Transform root,
+        float explosionForce,
+        Vector3 explosionPosition,
+        float explosionRange
+    )
     {
         foreach (Transform child in root)
         {
@@ -44,5 +50,4 @@ public class UnitRagdoll : MonoBehaviour
             ApplyExplosionToRagdoll(child, explosionForce, explosionPosition, explosionRange);
         }
     }
-
 }

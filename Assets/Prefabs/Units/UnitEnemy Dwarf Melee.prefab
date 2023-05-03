@@ -82,22 +82,22 @@ PrefabInstance:
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 10.212003
       objectReference: {fileID: 0}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.014000654
       objectReference: {fileID: 0}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 3.1818945
       objectReference: {fileID: 0}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
@@ -107,17 +107,17 @@ PrefabInstance:
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 80
-  attackHit: {fileID: 8300000, guid: 4707b9c33f3013a4b956b549a4bb1455, type: 3}
+  attackHitSFX: {fileID: 8300000, guid: 4707b9c33f3013a4b956b549a4bb1455, type: 3}
 --- !u!114 &9221536415837037023
 MonoBehaviour:
   m_ObjectHideFlags: 0

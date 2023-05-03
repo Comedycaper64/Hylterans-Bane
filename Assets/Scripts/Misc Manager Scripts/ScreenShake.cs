@@ -5,9 +5,7 @@ using Cinemachine;
 
 public class ScreenShake : MonoBehaviour
 {
-
     public static ScreenShake Instance { get; private set; }
-
 
     private CinemachineImpulseSource cinemachineImpulseSource;
 
@@ -28,5 +26,4 @@ public class ScreenShake : MonoBehaviour
     {
         cinemachineImpulseSource.GenerateImpulse(intensity);
     }
-
 }

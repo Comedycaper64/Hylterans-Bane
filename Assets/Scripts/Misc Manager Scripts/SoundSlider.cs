@@ -6,11 +6,12 @@ using UnityEngine.UI;
 
 public class SoundSlider : MonoBehaviour
 {
-    [SerializeField] private SliderStruct.SliderType sliderType;
+    [SerializeField]
+    private SliderStruct.SliderType sliderType;
 
     public static event EventHandler<SliderStruct> OnAnySliderChanged;
 
-    private void Start() 
+    private void Start()
     {
         switch (sliderType)
         {
@@ -22,13 +23,15 @@ public class SoundSlider : MonoBehaviour
                 break;
             case SliderStruct.SliderType.SFX:
                 GetComponent<Slider>().value = SoundManager.Instance.GetJustSFXValue();
-                break;    
+                break;
         }
-
     }
 
     public void OnSliderChanged()
     {
-        OnAnySliderChanged?.Invoke(this, new SliderStruct(sliderType, GetComponent<Slider>().value));
+        OnAnySliderChanged?.Invoke(
+            this,
+            new SliderStruct(sliderType, GetComponent<Slider>().value)
+        );
     }
 }

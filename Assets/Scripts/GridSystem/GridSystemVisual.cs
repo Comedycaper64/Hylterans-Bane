@@ -8,9 +8,9 @@ public class GridSystemVisual : MonoBehaviour
     //Static, so that it can be referenced from any class
     public static GridSystemVisual Instance { get; private set; }
 
-    [SerializeField] private Transform gridSystemVisualSinglePrefab;
+    [SerializeField]
+    private Transform gridSystemVisualSinglePrefab;
     private GridSystemVisualSingle[,] gridSystemVisualSingleArray;
-
 
     //Struct for matching an enum type to a material
     [Serializable]
@@ -22,27 +22,29 @@ public class GridSystemVisual : MonoBehaviour
 
     public enum GridVisualType
     {
-        White,  //Movement
-        Blue,   //Taunt
-        Red,    //Attack Target
-        RedSoft,//Attack Range
+        White, //Movement
+        Blue, //Taunt
+        Red, //Attack Target
+        RedSoft, //Attack Range
         Yellow, //Fireball
-        Green,  //Switch Unit
+        Green, //Switch Unit
         Purple, //Fusion
-        Brown,  //Summon Skeleton
+        Brown, //Summon Skeleton
         SoftWhite, //Blocked Movement
         SoftBlue, //Taunt Range
     }
 
-    [SerializeField] private List<GridVisualTypeMaterial> gridVisualTypeMaterialList;
-
+    [SerializeField]
+    private List<GridVisualTypeMaterial> gridVisualTypeMaterialList;
 
     private void Awake()
     {
         //Singleton-ed and Instance-d
         if (Instance != null)
         {
-            Debug.LogError("There's more than one GridSystemVisual! " + transform + " - " + Instance);
+            Debug.LogError(
+                "There's more than one GridSystemVisual! " + transform + " - " + Instance
+            );
             Destroy(gameObject);
             return;
         }
@@ -63,26 +65,31 @@ public class GridSystemVisual : MonoBehaviour
             {
                 GridPosition gridPosition = new GridPosition(x, z);
 
-                Transform gridSystemVisualSingleTransform = 
-                    Instantiate(gridSystemVisualSinglePrefab, LevelGrid.Instance.GetWorldPosition(gridPosition), Quaternion.identity);
+                Transform gridSystemVisualSingleTransform = Instantiate(
+                    gridSystemVisualSinglePrefab,
+                    LevelGrid.Instance.GetWorldPosition(gridPosition),
+                    Quaternion.identity
+                );
 
-                gridSystemVisualSingleArray[x, z] = gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
+                gridSystemVisualSingleArray[x, z] =
+                    gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
             }
         }
 
         //Subscribes events
-        UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnSelectedActionChanged +=
+            UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitAction;
+        UnitActionSystem.Instance.OnUnitActionFinished += UnitActionSystem_OnUnitAction;
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
         Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
-        FuseButtonUI.OnAnySummonChosen += FuseButtonUI_OnAnySummonChosen;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
 
         //Changes visible tiles based on selected unit / selected action
         UpdateGridVisual();
     }
-
 
     //Meshenabled = false for all visual squares
     public void HideAllGridPosition()
@@ -91,13 +98,19 @@ public class GridSystemVisual : MonoBehaviour
         {
             for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
             {
-                gridSystemVisualSingleArray[x, z].Show(GetGridVisualTypeMaterial(GridVisualType.SoftWhite));
+                gridSystemVisualSingleArray[x, z].Show(
+                    GetGridVisualTypeMaterial(GridVisualType.SoftWhite)
+                );
             }
         }
     }
 
     //Generic method for showing all tiles based on central gridposition and range
-    private void ShowGridPositionRange(GridPosition gridPosition, int range, GridVisualType gridVisualType)
+    private void ShowGridPositionRange(
+        GridPosition gridPosition,
+        int range,
+        GridVisualType gridVisualType
+    )
     {
         List<GridPosition> gridPositionList = new List<GridPosition>();
 
@@ -126,7 +139,11 @@ public class GridSystemVisual : MonoBehaviour
         ShowGridPositionList(gridPositionList, gridVisualType);
     }
 
-    private void ShowGridPositionRangeSquare(GridPosition gridPosition, int range, GridVisualType gridVisualType)
+    private void ShowGridPositionRangeSquare(
+        GridPosition gridPosition,
+        int range,
+        GridVisualType gridVisualType
+    )
     {
         List<GridPosition> gridPositionList = new List<GridPosition>();
 
@@ -148,15 +165,17 @@ public class GridSystemVisual : MonoBehaviour
         ShowGridPositionList(gridPositionList, gridVisualType);
     }
 
-
     //Meshenabled = true for all visual squares that are in the input list, also applies a material based on the gridVisualType enum
-    public void ShowGridPositionList(List<GridPosition> gridPositionList, GridVisualType gridVisualType)
+    public void ShowGridPositionList(
+        List<GridPosition> gridPositionList,
+        GridVisualType gridVisualType
+    )
     {
         foreach (GridPosition gridPosition in gridPositionList)
         {
-            gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].
-                Show(GetGridVisualTypeMaterial(gridVisualType));
-
+            gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Show(
+                GetGridVisualTypeMaterial(gridVisualType)
+            );
         }
     }
 
@@ -170,48 +189,59 @@ public class GridSystemVisual : MonoBehaviour
     {
         HideAllGridPosition();
         Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
-        if (!selectedUnit)  {return;}
+        if (!selectedUnit)
+        {
+            return;
+        }
 
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-
-        //if (selectedAction.GetActionPointsCost() > selectedUnit.GetActionPoints()) {return;}
+        if (!selectedAction)
+        {
+            return;
+        }
 
         GridVisualType gridVisualType;
 
         switch (selectedAction)
         {
             default:
-            case UnitSwitchAction unitSwitchAction:
-                gridVisualType = GridVisualType.Green;
-                break;
-            case MoveAction moveAction:
-                gridVisualType = GridVisualType.White;
-                ShowGridPositionRange(selectedUnit.GetGridPosition(), moveAction.GetMaxMoveDistance(), GridVisualType.SoftWhite);
-                break;
-            // case TauntAction tauntAction:
-            //     gridVisualType = GridVisualType.Blue;
-            //     ShowGridPositionRange(selectedUnit.GetGridPosition(), tauntAction.GetMaxTauntDistance(), GridVisualType.SoftBlue);
-            //     break;
-            case ShootAction shootAction:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRange(selectedUnit.GetGridPosition(), shootAction.GetMaxShootDistance(), GridVisualType.RedSoft);
-                break;
             case GrenadeAction grenadeAction:
                 gridVisualType = GridVisualType.Yellow;
                 break;
+            case ShootAction shootAction:
+                gridVisualType = GridVisualType.Red;
+                ShowGridPositionRange(
+                    selectedUnit.GetGridPosition(),
+                    shootAction.GetMaxShootDistance(),
+                    GridVisualType.RedSoft
+                );
+                break;
+            case MoveAction moveAction:
+                gridVisualType = GridVisualType.White;
+                ShowGridPositionRange(
+                    selectedUnit.GetGridPosition(),
+                    moveAction.GetMaxMoveDistance(),
+                    GridVisualType.SoftWhite
+                );
+                break;
             case SwordAction swordAction:
                 gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), swordAction.GetMaxSwordDistance(), GridVisualType.RedSoft);
+                ShowGridPositionRangeSquare(
+                    selectedUnit.GetGridPosition(),
+                    swordAction.GetMaxSwordDistance(),
+                    GridVisualType.RedSoft
+                );
                 break;
             case WideSlashAction slashAction:
                 gridVisualType = GridVisualType.Red;
-                ShowGridPositionRange(selectedUnit.GetGridPosition(), slashAction.GetMaxSlashDistance(), GridVisualType.RedSoft);
+                ShowGridPositionRange(
+                    selectedUnit.GetGridPosition(),
+                    slashAction.GetMaxSlashDistance(),
+                    GridVisualType.RedSoft
+                );
                 break;
             case InteractAction interactAction:
                 gridVisualType = GridVisualType.Blue;
-                break;
-            case SummonSkeletonAction summonSkeleton:
-                gridVisualType = GridVisualType.Brown;
                 break;
         }
 
@@ -224,7 +254,12 @@ public class GridSystemVisual : MonoBehaviour
         UpdateGridVisual();
     }
 
-    private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+    private void UnitActionSystem_OnSelectedUnitChanged()
+    {
+        UpdateGridVisual();
+    }
+
+    private void UnitActionSystem_OnUnitAction()
     {
         UpdateGridVisual();
     }
@@ -248,25 +283,22 @@ public class GridSystemVisual : MonoBehaviour
         }
     }
 
-    private void FuseButtonUI_OnAnySummonChosen(object sender, FuseButtonUI.OnSummonChosenArgs e)
-    {
-        UpdateGridVisual();
-    }
-
     private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
     {
         UpdateGridVisual();
     }
 
-    private void OnDisable() 
+    private void OnDisable()
     {
-        UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnSelectedActionChanged -=
+            UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitAction;
+        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitAction;
         UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
         Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
-        FuseButtonUI.OnAnySummonChosen -= FuseButtonUI_OnAnySummonChosen;
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
-        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;    
+        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
     }
 
     //Gets the corresponding material of the gridVisualType enum
@@ -280,7 +312,9 @@ public class GridSystemVisual : MonoBehaviour
             }
         }
 
-        Debug.LogError("Could not find GridVisualTypeMaterial for GridVisualType " + gridVisualType);
+        Debug.LogError(
+            "Could not find GridVisualTypeMaterial for GridVisualType " + gridVisualType
+        );
         return null;
     }
 }

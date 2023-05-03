@@ -14,16 +14,18 @@ public class CameraController : MonoBehaviour
     private float zAxisCameraRange;
 
     private Transform defaultFollowTarget;
-    private Transform dwarfFollowTarget;
+    private Transform enemyTurnFollowTarget;
 
-    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+    [SerializeField]
+    private CinemachineVirtualCamera cinemachineVirtualCamera;
 
     private CinemachineTransposer cinemachineTransposer;
     private Vector3 targetFollowOffset;
 
     private void Start()
     {
-        cinemachineTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        cinemachineTransposer =
+            cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         defaultFollowTarget = cinemachineVirtualCamera.Follow;
         targetFollowOffset = cinemachineTransposer.m_FollowOffset;
         xAxisCameraRange = LevelGrid.Instance.GetWidth() * LevelGrid.Instance.GetCellSize();
@@ -32,11 +34,17 @@ public class CameraController : MonoBehaviour
         EnemyAI.Instance.OnEnemyTurnFinished += EnemyAI_OnEnemyTurnFinished;
     }
 
+    private void OnDisable()
+    {
+        EnemyAI.Instance.OnEnemyUnitBeginAction -= EnemyAI_OnEnemyUnitBeginAction;
+        EnemyAI.Instance.OnEnemyTurnFinished -= EnemyAI_OnEnemyTurnFinished;
+    }
+
     private void LateUpdate()
     {
         HandleZoom();
         HandleRotation();
-        if (!TurnSystem.Instance.IsPlayerTurn() && dwarfFollowTarget) 
+        if (!TurnSystem.Instance.IsPlayerTurn() && enemyTurnFollowTarget)
         {
             FollowEnemyUnit();
             return;
@@ -46,7 +54,7 @@ public class CameraController : MonoBehaviour
 
     private void FollowEnemyUnit()
     {
-        transform.position = dwarfFollowTarget.position;
+        transform.position = enemyTurnFollowTarget.position;
     }
 
     private void HandleMovement()
@@ -57,10 +65,11 @@ public class CameraController : MonoBehaviour
         Vector3 moveVector = transform.forward * inputMoveDir.y + transform.right * inputMoveDir.x;
         Vector3 movementThisFrame = moveVector * moveSpeed * Time.deltaTime;
         Vector3 newPosition = transform.position + movementThisFrame;
-        transform.position = new Vector3(Mathf.Clamp(newPosition.x, 0, xAxisCameraRange), transform.position.y, Mathf.Clamp(newPosition.z, 0, zAxisCameraRange));
-        //transform.position += Mathf.Clamp(movementThisFrame, new Vector3(0, 0, 0), new Vector3(xAxisCameraRange, 0, zAxisCameraRange)); 
-        //Mathf.Clamp(transform.position.x, 0, xAxisCameraRange);
-        //Mathf.Clamp(transform.position.z, 0, zAxisCameraRange);
+        transform.position = new Vector3(
+            Mathf.Clamp(newPosition.x, 0, xAxisCameraRange),
+            transform.position.y,
+            Mathf.Clamp(newPosition.z, 0, zAxisCameraRange)
+        );
     }
 
     private void HandleRotation()
@@ -75,27 +84,29 @@ public class CameraController : MonoBehaviour
     private void HandleZoom()
     {
         float zoomIncreaseAmount = 0.01f;
-        targetFollowOffset.y += InputManager.Instance.GetCameraZoomAmount() * zoomIncreaseAmount;   
+        targetFollowOffset.y += InputManager.Instance.GetCameraZoomAmount() * zoomIncreaseAmount;
 
-        targetFollowOffset.y = Mathf.Clamp(targetFollowOffset.y, MIN_FOLLOW_Y_OFFSET, MAX_FOLLOW_Y_OFFSET);
+        targetFollowOffset.y = Mathf.Clamp(
+            targetFollowOffset.y,
+            MIN_FOLLOW_Y_OFFSET,
+            MAX_FOLLOW_Y_OFFSET
+        );
 
         float zoomSpeed = 5f;
-        cinemachineTransposer.m_FollowOffset =
-            Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, Time.deltaTime * zoomSpeed);
+        cinemachineTransposer.m_FollowOffset = Vector3.Lerp(
+            cinemachineTransposer.m_FollowOffset,
+            targetFollowOffset,
+            Time.deltaTime * zoomSpeed
+        );
     }
 
     private void EnemyAI_OnEnemyUnitBeginAction(object sender, Unit e)
     {
-        dwarfFollowTarget = e.transform;
-        //cinemachineVirtualCamera.Follow = e.gameObject.transform;
-        //cinemachineVirtualCamera.LookAt = e.gameObject.transform;
+        enemyTurnFollowTarget = e.transform;
     }
 
     private void EnemyAI_OnEnemyTurnFinished(object sender, EventArgs e)
     {
-        dwarfFollowTarget = null;
-        //cinemachineVirtualCamera.Follow = defaultFollowTarget;
-        //cinemachineVirtualCamera.LookAt = defaultFollowTarget;
+        enemyTurnFollowTarget = null;
     }
-
 }

@@ -8,15 +8,15 @@ public class HealthSystem : MonoBehaviour
     //Contains logic for managing health, fires off events when taking damage or dying
     public event EventHandler OnDead;
     public event EventHandler<float> OnDamaged;
-    [SerializeField] private int health = 100;
-    private int healthMax;
 
+    [SerializeField]
+    private int health = 100;
+    private int healthMax;
 
     private void Awake()
     {
         healthMax = health;
     }
-
 
     public void Damage(int damageAmount)
     {
@@ -42,7 +42,7 @@ public class HealthSystem : MonoBehaviour
 
     public float GetHealth()
     {
-        return (float) health;
+        return (float)health;
     }
 
     public float GetAmountNormalised(float amount)
@@ -54,5 +54,4 @@ public class HealthSystem : MonoBehaviour
     {
         return (float)health / healthMax;
     }
-
 }

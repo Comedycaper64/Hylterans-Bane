@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
-
     public event EventHandler OnStartMoving;
     public event EventHandler OnStopMoving;
-    [SerializeField] private int maxMoveDistance = 4;
+
+    [SerializeField]
+    private int maxMoveDistance = 4;
 
     private List<Vector3> positionList;
     private int currentPositionIndex;
@@ -24,7 +25,11 @@ public class MoveAction : BaseAction
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
         float rotateSpeed = 10f;
-        transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+        transform.forward = Vector3.Lerp(
+            transform.forward,
+            moveDirection,
+            Time.deltaTime * rotateSpeed
+        );
 
         float stoppingDistance = .1f;
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
@@ -44,10 +49,13 @@ public class MoveAction : BaseAction
         }
     }
 
-
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
+        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(
+            unit.GetGridPosition(),
+            gridPosition,
+            out int pathLength
+        );
 
         currentPositionIndex = 0;
         positionList = new List<Vector3>();
@@ -79,13 +87,10 @@ public class MoveAction : BaseAction
                 {
                     continue;
                 }
-
-                if (unitGridPosition == testGridPosition)
-                {
-                    // Same Grid Position where the unit is already at
-                    continue;
-                }
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                if (
+                    LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)
+                    && LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition).IsEnemy()
+                )
                 {
                     // Grid Position already occupied with another Unit
                     continue;
@@ -99,7 +104,10 @@ public class MoveAction : BaseAction
                     continue;
                 }
                 int pathfindingDistanceMultiplier = 10;
-                if (Pathfinding.Instance.GetPathLength(unitGridPosition, testGridPosition) > maxMoveDistance * pathfindingDistanceMultiplier)
+                if (
+                    Pathfinding.Instance.GetPathLength(unitGridPosition, testGridPosition)
+                    > maxMoveDistance * pathfindingDistanceMultiplier
+                )
                 {
                     // Path length is too long
                     continue;
@@ -112,7 +120,6 @@ public class MoveAction : BaseAction
         return validGridPositionList;
     }
 
-
     public override string GetActionName()
     {
         return "Move";
@@ -123,22 +130,24 @@ public class MoveAction : BaseAction
         List<Unit> playerUnitList = UnitManager.Instance.GetFriendlyUnitList();
         Unit closestPlayerUnit = null;
         int closestPlayerDistance = 0;
-        foreach(Unit playerUnit in playerUnitList)
+        foreach (Unit playerUnit in playerUnitList)
         {
-            // if (unit.HasFocusTargetUnit())
-            // {
-            //     if (unit.GetFocusTargetUnit() != playerUnit)
-            //         continue;
-            // }
-
             if (closestPlayerUnit == null)
             {
                 closestPlayerUnit = playerUnit;
-                Pathfinding.Instance.FindPath(unit.GetGridPosition(), playerUnit.GetGridPosition(), out closestPlayerDistance);
+                Pathfinding.Instance.FindPath(
+                    unit.GetGridPosition(),
+                    playerUnit.GetGridPosition(),
+                    out closestPlayerDistance
+                );
                 continue;
             }
 
-            Pathfinding.Instance.FindPath(unit.GetGridPosition(), playerUnit.GetGridPosition(), out int distanceToUnit);
+            Pathfinding.Instance.FindPath(
+                unit.GetGridPosition(),
+                playerUnit.GetGridPosition(),
+                out int distanceToUnit
+            );
 
             if (distanceToUnit < closestPlayerDistance)
             {
@@ -147,18 +156,27 @@ public class MoveAction : BaseAction
             }
         }
 
-        if (closestPlayerUnit == null) {return 0;}
+        if (closestPlayerUnit == null)
+        {
+            return 0;
+        }
 
-        if (Pathfinding.Instance.FindPath(gridPosition, closestPlayerUnit.GetGridPosition(), out int distanceFromGridPosition) == null)
+        if (
+            Pathfinding.Instance.FindPath(
+                gridPosition,
+                closestPlayerUnit.GetGridPosition(),
+                out int distanceFromGridPosition
+            ) == null
+        )
         {
             return -1;
         }
-        
+
         int distanceMovedToClosestUnit = closestPlayerDistance - distanceFromGridPosition;
         if (distanceMovedToClosestUnit < 0)
         {
             distanceMovedToClosestUnit = 0;
-        }      
+        }
         return distanceMovedToClosestUnit;
     }
 
@@ -178,7 +196,8 @@ public class MoveAction : BaseAction
             }
             */
 
-            targetCountAtGridPosition = unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition);
+            targetCountAtGridPosition = unit.GetAction<ShootAction>()
+                .GetTargetCountAtPosition(gridPosition);
 
             if (targetCountAtGridPosition == 0)
             {
@@ -202,7 +221,8 @@ public class MoveAction : BaseAction
         }
         else if (unit.GetAction<SwordAction>())
         {
-            targetCountAtGridPosition = unit.GetAction<SwordAction>().GetTargetCountAtPosition(gridPosition);
+            targetCountAtGridPosition = unit.GetAction<SwordAction>()
+                .GetTargetCountAtPosition(gridPosition);
 
             if (targetCountAtGridPosition == 0)
             {
@@ -226,18 +246,12 @@ public class MoveAction : BaseAction
         }
         else
         {
-            return new EnemyAIAction
-            {
-                gridPosition = gridPosition,
-                actionValue = 0,
-            };
+            return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0, };
         }
-        
     }
 
     public int GetMaxMoveDistance()
     {
         return maxMoveDistance;
     }
-    
 }

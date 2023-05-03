@@ -388,7 +388,7 @@ MonoBehaviour:
   unitLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  selectAction: {fileID: 8300000, guid: 66c95df1cfed40640bd9f7ce21a9e359, type: 3}
+  selectActionSFX: {fileID: 8300000, guid: 66c95df1cfed40640bd9f7ce21a9e359, type: 3}
 --- !u!1 &5885856157798043930
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,4 +710,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6e021bb456453349af241e536cea463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnButtonPressed: {fileID: 8300000, guid: 27cc509cfe735bc4b915a959e4e8e68e, type: 3}
+  turnButtonPressedSFX: {fileID: 8300000, guid: 27cc509cfe735bc4b915a959e4e8e68e,
+    type: 3}

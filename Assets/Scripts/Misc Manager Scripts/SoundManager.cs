@@ -6,7 +6,8 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; private set; }
 
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField]
+    private AudioSource audioSource;
 
     private float masterVolume;
     private float musicVolume;
@@ -17,7 +18,6 @@ public class SoundManager : MonoBehaviour
         SetUpSingleton();
         if (Instance != null)
         {
-            //Debug.LogError("There's more than one SoundManager! " + transform + " - " + Instance);
             Destroy(gameObject);
             return;
         }
@@ -27,6 +27,11 @@ public class SoundManager : MonoBehaviour
         musicVolume = 0.25f;
         sfxVolume = 0.5f;
         SoundSlider.OnAnySliderChanged += SoundSlider_OnAnySliderChanged;
+    }
+
+    private void OnDisable()
+    {
+        SoundSlider.OnAnySliderChanged -= SoundSlider_OnAnySliderChanged;
     }
 
     private void SetUpSingleton()
@@ -97,8 +102,7 @@ public class SoundManager : MonoBehaviour
                 break;
             case SliderStruct.SliderType.SFX:
                 SetSoundEffectVolume(e.GetValue());
-                break;    
+                break;
         }
     }
-
 }

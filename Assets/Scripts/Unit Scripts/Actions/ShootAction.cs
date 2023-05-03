@@ -9,7 +9,8 @@ public class ShootAction : BaseAction
     public event EventHandler<OnShootEventArgs> OnShoot;
     public event EventHandler OnAim;
 
-    [SerializeField] private AudioClip shootCrossbow;
+    [SerializeField]
+    private AudioClip shootCrossbowSFX;
 
     //Custom eventArgs that include both shooter and target
     public class OnShootEventArgs : EventArgs
@@ -27,16 +28,18 @@ public class ShootAction : BaseAction
     }
 
     private State state;
-    [SerializeField] private int maxShootDistance = 7;
+
+    [SerializeField]
+    private int maxShootDistance = 7;
     private float stateTimer;
     private Unit targetUnit;
     private bool canShootBullet;
 
-    [SerializeField] private int damageAmount;
+    [SerializeField]
+    private int damageAmount;
 
-    [SerializeField] private LayerMask obstaclesLayerMask;
-
-
+    [SerializeField]
+    private LayerMask obstaclesLayerMask;
 
     private void Update()
     {
@@ -52,7 +55,7 @@ public class ShootAction : BaseAction
             //Looks at the target to shoot at
             case State.Aiming:
                 //Vector3 aimDir = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
-                
+
                 //float rotateSpeed = 10f;
                 //transform.forward = Vector3.Lerp(transform.forward, aimDir, Time.deltaTime * rotateSpeed);
                 break;
@@ -98,22 +101,24 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
-        AudioSource.PlayClipAtPoint(shootCrossbow, Camera.main.transform.position, SoundManager.Instance.GetSoundEffectVolume());
-        OnAnyShoot?.Invoke(this, new OnShootEventArgs
-        {
-            targetUnit = targetUnit,
-            shootingUnit = unit
-        });        
+        AudioSource.PlayClipAtPoint(
+            shootCrossbowSFX,
+            Camera.main.transform.position,
+            SoundManager.Instance.GetSoundEffectVolume()
+        );
+        OnAnyShoot?.Invoke(
+            this,
+            new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
+        );
 
         //Fires off OnShoot event and damages targetUnit
-        OnShoot?.Invoke(this, new OnShootEventArgs {
-            targetUnit = targetUnit,
-            shootingUnit = unit
-        });
+        OnShoot?.Invoke(
+            this,
+            new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
+        );
 
         targetUnit.Damage(damageAmount);
     }
-
 
     //For ActionButtonUI
     public override string GetActionName()
@@ -170,11 +175,14 @@ public class ShootAction : BaseAction
                 Vector3 shootDir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
 
                 float unitShoulderHeight = 1.7f;
-                if (Physics.Raycast(
+                if (
+                    Physics.Raycast(
                         unitWorldPosition + Vector3.up * unitShoulderHeight,
                         shootDir,
                         Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
-                        obstaclesLayerMask))
+                        obstaclesLayerMask
+                    )
+                )
                 {
                     // Blocked by an Obstacle
                     continue;
@@ -209,7 +217,7 @@ public class ShootAction : BaseAction
     {
         return damageAmount;
     }
-    
+
     public int GetMaxShootDistance()
     {
         return maxShootDistance;
@@ -228,7 +236,7 @@ public class ShootAction : BaseAction
         //             actionValue = 0,
         //         };
         // }
-        
+
         return new EnemyAIAction
         {
             gridPosition = gridPosition,
@@ -241,7 +249,4 @@ public class ShootAction : BaseAction
     {
         return GetValidActionGridPositionList(gridPosition).Count;
     }
-
-
-
 }

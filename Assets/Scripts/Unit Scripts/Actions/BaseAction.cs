@@ -14,7 +14,6 @@ public abstract class BaseAction : MonoBehaviour
     protected bool isActive;
     protected Action onActionComplete;
 
-
     protected virtual void Awake()
     {
         unit = GetComponent<Unit>();
@@ -39,7 +38,6 @@ public abstract class BaseAction : MonoBehaviour
     public virtual bool IsValidActionGridPosition(GridPosition gridPosition)
     {
         List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
-        //if (validGridPositionList == null) {return false;}
         return validGridPositionList.Contains(gridPosition);
     }
 
@@ -71,7 +69,7 @@ public abstract class BaseAction : MonoBehaviour
     {
         return unit;
     }
-    
+
     //Idk why it's in baseaction, but this finds the best action that an enemy unit can take and returns it
     public EnemyAIAction GetBestEnemyAIAction()
     {
@@ -88,18 +86,17 @@ public abstract class BaseAction : MonoBehaviour
         //If the enemy is capable of taking an action then it finds the action with the highest action value and returns it
         if (enemyAIActionList.Count > 0)
         {
-            enemyAIActionList.Sort((EnemyAIAction a, EnemyAIAction b) => b.actionValue - a.actionValue);
+            enemyAIActionList.Sort(
+                (EnemyAIAction a, EnemyAIAction b) => b.actionValue - a.actionValue
+            );
             return enemyAIActionList[0];
-        } else
+        }
+        else
         {
             // No possible Enemy AI Actions
             return null;
         }
-
     }
 
     public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
-
-
 }
-

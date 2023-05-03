@@ -9,11 +9,9 @@ public class Pathfinding : MonoBehaviour
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
 
-
     //[SerializeField] private Transform gridDebugObjectPrefab;
-    [SerializeField] private LayerMask obstaclesLayerMask;
-
-    
+    [SerializeField]
+    private LayerMask obstaclesLayerMask;
 
     private int width;
     private int height;
@@ -37,8 +35,12 @@ public class Pathfinding : MonoBehaviour
         this.height = height;
         this.cellSize = cellSize;
 
-        gridSystem = new GridSystem<PathNode>(width, height, cellSize,
-            (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
+        gridSystem = new GridSystem<PathNode>(
+            width,
+            height,
+            cellSize,
+            (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition)
+        );
 
         //gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
 
@@ -53,11 +55,14 @@ public class Pathfinding : MonoBehaviour
                 }
                 Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
                 float raycastOffsetDistance = 5f;
-                if (Physics.Raycast(
-                    worldPosition + Vector3.down * raycastOffsetDistance,
-                    Vector3.up,
-                    raycastOffsetDistance * 2,
-                    obstaclesLayerMask))
+                if (
+                    Physics.Raycast(
+                        worldPosition + Vector3.down * raycastOffsetDistance,
+                        Vector3.up,
+                        raycastOffsetDistance * 2,
+                        obstaclesLayerMask
+                    )
+                )
                 {
                     GetNode(x, z).SetIsWalkable(false);
                 }
@@ -65,8 +70,11 @@ public class Pathfinding : MonoBehaviour
         }
     }
 
-
-    public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition, out int pathLength)
+    public List<GridPosition> FindPath(
+        GridPosition startGridPosition,
+        GridPosition endGridPosition,
+        out int pathLength
+    )
     {
         List<PathNode> openList = new List<PathNode>();
         List<PathNode> closedList = new List<PathNode>();
@@ -120,14 +128,20 @@ public class Pathfinding : MonoBehaviour
                     continue;
                 }
 
-                int tentativeGCost = 
-                    currentNode.GetGCost() + CalculateDistance(currentNode.GetGridPosition(), neighbourNode.GetGridPosition());
+                int tentativeGCost =
+                    currentNode.GetGCost()
+                    + CalculateDistance(
+                        currentNode.GetGridPosition(),
+                        neighbourNode.GetGridPosition()
+                    );
 
                 if (tentativeGCost < neighbourNode.GetGCost())
                 {
                     neighbourNode.SetCameFromPathNode(currentNode);
                     neighbourNode.SetGCost(tentativeGCost);
-                    neighbourNode.SetHCost(CalculateDistance(neighbourNode.GetGridPosition(), endGridPosition));
+                    neighbourNode.SetHCost(
+                        CalculateDistance(neighbourNode.GetGridPosition(), endGridPosition)
+                    );
                     neighbourNode.CalculateFCost();
 
                     if (!openList.Contains(neighbourNode))
@@ -149,7 +163,8 @@ public class Pathfinding : MonoBehaviour
         int xDistance = Mathf.Abs(gridPositionDistance.x);
         int zDistance = Mathf.Abs(gridPositionDistance.z);
         int remaining = Mathf.Abs(xDistance - zDistance);
-        return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining;
+        return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance)
+            + MOVE_STRAIGHT_COST * remaining;
     }
 
     private PathNode GetLowestFCostPathNode(List<PathNode> pathNodeList)
@@ -249,7 +264,6 @@ public class Pathfinding : MonoBehaviour
     {
         gridSystem.GetGridObject(gridPosition).SetIsWalkable(isWalkable);
     }
-
 
     public bool IsWalkableGridPosition(GridPosition gridPosition)
     {

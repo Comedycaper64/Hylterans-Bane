@@ -9,8 +9,8 @@ public class SliderStruct
         Master,
         Music,
         SFX,
-    } 
-   
+    }
+
     private SliderType slider;
     private float value;
 
@@ -29,5 +29,4 @@ public class SliderStruct
     {
         return value;
     }
-
 }
