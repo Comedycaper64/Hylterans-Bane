@@ -25,9 +25,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError(
-                "There's more than one UnitActionSystem! " + transform + " - " + Instance
-            );
+            Debug.LogError("There's more than one EnemyAI! " + transform + " - " + Instance);
             Destroy(gameObject);
             return;
         }
@@ -116,31 +114,55 @@ public class EnemyAI : MonoBehaviour
         EnemyAIAction bestEnemyAIAction = null;
         BaseAction bestBaseAction = null;
 
-        foreach (BaseAction baseAction in enemyUnit.GetBaseActionArray())
-        {
-            // if (!enemyUnit.CanSpendActionPointsToTakeAction(baseAction))
-            // {
-            //     // Enemy cannot afford this action
-            //     continue;
-            // }
+        Debug.Log(
+            "Enemy Moved: "
+                + enemyUnit.GetMovementCompleted()
+                + ", Enemy Acted: "
+                + enemyUnit.GetActionCompleted()
+        );
 
-            if (bestEnemyAIAction == null)
+        if (enemyUnit.GetActionCompleted() && enemyUnit.GetMovementCompleted())
+        {
+            return false;
+        }
+
+        if (enemyUnit.GetMovementCompleted())
+        {
+            foreach (BaseAction baseAction in enemyUnit.GetBaseActionArray())
             {
-                bestEnemyAIAction = baseAction.GetBestEnemyAIAction();
-                bestBaseAction = baseAction;
-            }
-            else
-            {
-                EnemyAIAction testEnemyAIAction = baseAction.GetBestEnemyAIAction();
-                if (
-                    testEnemyAIAction != null
-                    && testEnemyAIAction.actionValue > bestEnemyAIAction.actionValue
-                )
+                if (baseAction == enemyUnit.GetAction<MoveAction>())
                 {
-                    bestEnemyAIAction = testEnemyAIAction;
+                    continue;
+                }
+
+                if (bestEnemyAIAction == null)
+                {
+                    bestEnemyAIAction = baseAction.GetBestEnemyAIAction();
                     bestBaseAction = baseAction;
                 }
+                else
+                {
+                    EnemyAIAction testEnemyAIAction = baseAction.GetBestEnemyAIAction();
+                    if (
+                        testEnemyAIAction != null
+                        && testEnemyAIAction.actionValue > bestEnemyAIAction.actionValue
+                    )
+                    {
+                        bestEnemyAIAction = testEnemyAIAction;
+                        bestBaseAction = baseAction;
+                    }
+                }
             }
+            enemyUnit.SetActionCompleted(true);
+        }
+        else
+        {
+            BaseAction actionToDo = enemyUnit.GetAction<MoveAction>();
+
+            bestEnemyAIAction = actionToDo.GetBestEnemyAIAction();
+            bestBaseAction = actionToDo;
+
+            enemyUnit.SetMovementCompleted(true);
         }
 
         if (bestEnemyAIAction != null)

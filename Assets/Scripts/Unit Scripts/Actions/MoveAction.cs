@@ -89,7 +89,7 @@ public class MoveAction : BaseAction
                 }
                 if (
                     LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)
-                    && LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition).IsEnemy()
+                    && (unitGridPosition != testGridPosition)
                 )
                 {
                     // Grid Position already occupied with another Unit

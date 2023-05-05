@@ -11,6 +11,7 @@ public class Unit : MonoBehaviour
     //Toggles unit to have enemyBehaviour
     [SerializeField]
     private bool isEnemy;
+    private bool turnMovementCompleted;
     private bool turnActionCompleted;
 
     private GridPosition gridPosition;
@@ -89,6 +90,16 @@ public class Unit : MonoBehaviour
         return turnActionCompleted;
     }
 
+    public void SetMovementCompleted(bool completed)
+    {
+        turnMovementCompleted = completed;
+    }
+
+    public bool GetMovementCompleted()
+    {
+        return turnMovementCompleted;
+    }
+
     public Vector3 GetWorldPosition()
     {
         return transform.position;
@@ -150,6 +161,7 @@ public class Unit : MonoBehaviour
         )
         {
             turnActionCompleted = false;
+            turnMovementCompleted = false;
         }
     }
 }

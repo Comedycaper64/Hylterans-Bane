@@ -70,7 +70,7 @@ public abstract class BaseAction : MonoBehaviour
         return unit;
     }
 
-    //Idk why it's in baseaction, but this finds the best action that an enemy unit can take and returns it
+    //finds the best action that an enemy unit can take and returns it
     public EnemyAIAction GetBestEnemyAIAction()
     {
         List<EnemyAIAction> enemyAIActionList = new List<EnemyAIAction>();

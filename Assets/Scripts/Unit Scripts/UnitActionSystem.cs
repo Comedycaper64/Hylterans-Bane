@@ -47,6 +47,16 @@ public class UnitActionSystem : MonoBehaviour
         currentState = ActionState.noSelectedUnit;
     }
 
+    private void Start()
+    {
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+    }
+
+    private void OnDisable()
+    {
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+    }
+
     private void Update()
     {
         if (isBusy)
@@ -104,12 +114,7 @@ public class UnitActionSystem : MonoBehaviour
         }
         else if (InputManager.Instance.IsRightClickDownThisFrame()) //Resets unit to starting position if player right clicks
         {
-            currentState = ActionState.noSelectedUnit;
-            BaseAction actionToHandle = selectedUnit.GetComponent<MoveAction>();
-            StartAction();
-            actionToHandle.TakeAction(unitStartPosition, FinishAction);
-            SetSelectedUnit(null);
-            OnUnitActionFinished?.Invoke();
+            CancelAction();
         }
     }
 
@@ -120,6 +125,16 @@ public class UnitActionSystem : MonoBehaviour
         isBusy = true;
         selectedAction = null;
         OnUnitActionStarted?.Invoke();
+    }
+
+    private void CancelAction()
+    {
+        currentState = ActionState.noSelectedUnit;
+        BaseAction actionToHandle = selectedUnit.GetComponent<MoveAction>();
+        StartAction();
+        actionToHandle.TakeAction(unitStartPosition, FinishAction);
+        SetSelectedUnit(null);
+        OnUnitActionFinished?.Invoke();
     }
 
     private void FinishAction()
@@ -200,5 +215,13 @@ public class UnitActionSystem : MonoBehaviour
     public BaseAction GetSelectedAction()
     {
         return selectedAction;
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        if (currentState != ActionState.noSelectedUnit)
+        {
+            CancelAction();
+        }
     }
 }
