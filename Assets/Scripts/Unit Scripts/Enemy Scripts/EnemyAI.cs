@@ -167,6 +167,7 @@ public class EnemyAI : MonoBehaviour
 
         if (bestEnemyAIAction != null)
         {
+            Debug.Log("Taking Action: " + bestBaseAction.GetActionName());
             bestBaseAction.TakeAction(bestEnemyAIAction.gridPosition, onEnemyAIActionComplete);
             return true;
         }
