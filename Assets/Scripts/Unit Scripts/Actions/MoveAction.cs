@@ -238,10 +238,17 @@ public class MoveAction : BaseAction
                 };
             }
 
+            // Debug.Log(
+            //     "Target At this Position: "
+            //         + gridPosition
+            //         + ", Action Value: "
+            //         + targetCountAtGridPosition * 10
+            // );
+
             return new EnemyAIAction
             {
                 gridPosition = gridPosition,
-                actionValue = targetCountAtGridPosition * 10,
+                actionValue = targetCountAtGridPosition * 15,
             };
         }
         else

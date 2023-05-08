@@ -89,6 +89,16 @@ public abstract class BaseAction : MonoBehaviour
             enemyAIActionList.Sort(
                 (EnemyAIAction a, EnemyAIAction b) => b.actionValue - a.actionValue
             );
+            // foreach (EnemyAIAction action in enemyAIActionList)
+            // {
+            //     Debug.Log(
+            //         "Enemy Action Position: "
+            //             + action.gridPosition
+            //             + ", Enemy Action Value: "
+            //             + action.actionValue
+            //     );
+            // }
+
             return enemyAIActionList[0];
         }
         else

@@ -83,7 +83,7 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         //Does a selected action if none of the above are true
-        if (selectedUnit)
+        if (selectedUnit && selectedAction)
         {
             HandleSelectedAction();
         }

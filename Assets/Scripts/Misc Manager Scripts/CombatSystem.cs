@@ -17,25 +17,27 @@ public class CombatSystem : MonoBehaviour
         Instance = this;
     }
 
-    public Queue<CombatInteraction> SimulateCombat(Unit attackingUnit, Unit defendingUnit)
-    {
-        CombatInteraction newInteraction = new CombatInteraction();
-        newInteraction.attackHit = TryAttack(attackingUnit, defendingUnit);
-        newInteraction.attackDamage = CalculateUnitDamage(attackingUnit);
-        //Check if defending unit is dead, then add interaction into queue
+    // public Queue<CombatInteraction> SimulateCombat(Unit attackingUnit, Unit defendingUnit)
+    // {
+    //     CombatInteraction newInteraction = new CombatInteraction();
+    //     newInteraction.attackHit = TryAttack(attackingUnit, defendingUnit);
+    //     newInteraction.attackDamage = CalculateUnitDamage(attackingUnit);
+    //     //Check if defending unit is dead, then add interaction into queue
 
-        return new Queue<CombatInteraction>();
-    }
+    //     return new Queue<CombatInteraction>();
+    // }
 
-    private bool TryAttack(Unit attackingUnit, Unit defendingUnit)
+    public bool TryAttack(Unit attackingUnit, Unit defendingUnit)
     {
         //Attack role = d20 role + attacking stat + proficiency
-        int attackingUnitAttackRole =
+        int attackingUnitAttackRoll =
             Random.Range(0, 21)
             + Mathf.FloorToInt((attackingUnit.GetUnitStats().GetStrength() - 10) / 2);
+        Debug.Log("Attack roll: " + attackingUnitAttackRoll);
         int defendingUnitAC =
             10 + Mathf.FloorToInt((defendingUnit.GetUnitStats().GetDexterity() - 10) / 2);
-        return (attackingUnitAttackRole >= defendingUnitAC);
+        Debug.Log("Defending Unit AC: " + defendingUnitAC);
+        return (attackingUnitAttackRoll >= defendingUnitAC);
     }
 
     private int CalculateUnitDamage(Unit attackingUnit)

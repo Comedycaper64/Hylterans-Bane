@@ -36,6 +36,7 @@ public class Unit : MonoBehaviour
 
         //Puts each component that extends the BaseAction into the array
         baseActionArray = GetComponents<BaseAction>();
+        Array.Reverse(baseActionArray);
     }
 
     //Subscribes to events, puts the Unit on the LevelGrid

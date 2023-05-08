@@ -9,10 +9,11 @@ public class SwordAction : BaseAction
     public event EventHandler OnSwordActionStarted;
     public event EventHandler OnSwordActionCompleted;
 
-    [SerializeField] private int damageAmount;
+    [SerializeField]
+    private int damageAmount;
 
-    [SerializeField] private AudioClip attackHitSFX;
-
+    [SerializeField]
+    private AudioClip attackHitSFX;
 
     private enum State
     {
@@ -24,7 +25,6 @@ public class SwordAction : BaseAction
     private State state;
     private float stateTimer;
     private Unit targetUnit;
-
 
     private void Update()
     {
@@ -38,10 +38,16 @@ public class SwordAction : BaseAction
         switch (state)
         {
             case State.SwingingSwordBeforeHit:
-                Vector3 aimDir = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
+                Vector3 aimDir = (
+                    targetUnit.GetWorldPosition() - unit.GetWorldPosition()
+                ).normalized;
 
                 float rotateSpeed = 10f;
-                transform.forward = Vector3.Lerp(transform.forward, aimDir, Time.deltaTime * rotateSpeed);
+                transform.forward = Vector3.Lerp(
+                    transform.forward,
+                    aimDir,
+                    Time.deltaTime * rotateSpeed
+                );
                 break;
             case State.SwingingSwordAfterHit:
                 break;
@@ -61,9 +67,26 @@ public class SwordAction : BaseAction
                 state = State.SwingingSwordAfterHit;
                 float afterHitStateTime = 0.5f;
                 stateTimer = afterHitStateTime;
-                targetUnit.Damage(damageAmount);
-                AudioSource.PlayClipAtPoint(attackHitSFX, Camera.main.transform.position, SoundManager.Instance.GetSoundEffectVolume());
-                OnAnySwordHit?.Invoke(this, EventArgs.Empty);
+                if (CombatSystem.Instance.TryAttack(unit, targetUnit))
+                {
+                    targetUnit.Damage(damageAmount);
+                    AudioSource.PlayClipAtPoint(
+                        attackHitSFX,
+                        Camera.main.transform.position,
+                        SoundManager.Instance.GetSoundEffectVolume()
+                    );
+                    OnAnySwordHit?.Invoke(this, EventArgs.Empty);
+                }
+                else
+                {
+                    //Play whiff sfx
+                    // AudioSource.PlayClipAtPoint(
+                    //     attackHitSFX,
+                    //     Camera.main.transform.position,
+                    //     SoundManager.Instance.GetSoundEffectVolume()
+                    // );
+                }
+
                 break;
             case State.SwingingSwordAfterHit:
                 OnSwordActionCompleted?.Invoke(this, EventArgs.Empty);
@@ -74,7 +97,7 @@ public class SwordAction : BaseAction
 
     public override string GetActionName()
     {
-        return "Strike";
+        return "Attack";
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -89,6 +112,43 @@ public class SwordAction : BaseAction
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+
+                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+                {
+                    continue;
+                }
+
+                if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    // Grid Position is empty, no Unit
+                    continue;
+                }
+
+                Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+
+                if (targetUnit.IsEnemy() == unit.IsEnemy())
+                {
+                    // Both Units on same 'team'
+                    continue;
+                }
+
+                validGridPositionList.Add(testGridPosition);
+            }
+        }
+
+        return validGridPositionList;
+    }
+
+    public List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
+    {
+        List<GridPosition> validGridPositionList = new List<GridPosition>();
+
+        for (int x = -maxSwordDistance; x <= maxSwordDistance; x++)
+        {
+            for (int z = -maxSwordDistance; z <= maxSwordDistance; z++)
+            {
+                GridPosition offsetGridPosition = new GridPosition(x, z);
+                GridPosition testGridPosition = gridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
                 {
@@ -132,34 +192,20 @@ public class SwordAction : BaseAction
     public override float GetDamage()
     {
         return damageAmount;
-    }    
+    }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        // if (unit.HasFocusTargetUnit())
-        // {
-        //     if (unit.GetFocusTargetUnit() != LevelGrid.Instance.GetUnitAtGridPosition(gridPosition))
-        //         return new EnemyAIAction
-        //         {
-        //             gridPosition = gridPosition,
-        //             actionValue = 0,
-        //         };
-        // }
-        return new EnemyAIAction
-        {
-            gridPosition = gridPosition,
-            actionValue = 200,
-        };
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 200, };
     }
 
     public int GetMaxSwordDistance()
     {
         return maxSwordDistance;
     }
-    
+
     public int GetTargetCountAtPosition(GridPosition gridPosition)
     {
-        return GetValidActionGridPositionList().Count;
+        return GetValidActionGridPositionList(gridPosition).Count;
     }
-
 }

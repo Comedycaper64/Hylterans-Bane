@@ -114,12 +114,12 @@ public class EnemyAI : MonoBehaviour
         EnemyAIAction bestEnemyAIAction = null;
         BaseAction bestBaseAction = null;
 
-        Debug.Log(
-            "Enemy Moved: "
-                + enemyUnit.GetMovementCompleted()
-                + ", Enemy Acted: "
-                + enemyUnit.GetActionCompleted()
-        );
+        // Debug.Log(
+        //     "Enemy Moved: "
+        //         + enemyUnit.GetMovementCompleted()
+        //         + ", Enemy Acted: "
+        //         + enemyUnit.GetActionCompleted()
+        // );
 
         if (enemyUnit.GetActionCompleted() && enemyUnit.GetMovementCompleted())
         {
@@ -167,7 +167,6 @@ public class EnemyAI : MonoBehaviour
 
         if (bestEnemyAIAction != null)
         {
-            Debug.Log("Taking Action: " + bestBaseAction.GetActionName());
             bestBaseAction.TakeAction(bestEnemyAIAction.gridPosition, onEnemyAIActionComplete);
             return true;
         }

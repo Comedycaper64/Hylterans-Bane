@@ -30,7 +30,7 @@ public class ShootAction : BaseAction
     private State state;
 
     [SerializeField]
-    private int maxShootDistance = 7;
+    private int maxShootDistance = 4;
     private float stateTimer;
     private Unit targetUnit;
     private bool canShootBullet;
@@ -117,7 +117,10 @@ public class ShootAction : BaseAction
             new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
         );
 
-        targetUnit.Damage(damageAmount);
+        if (CombatSystem.Instance.TryAttack(unit, targetUnit))
+        {
+            targetUnit.Damage(damageAmount);
+        }
     }
 
     //For ActionButtonUI
@@ -227,15 +230,6 @@ public class ShootAction : BaseAction
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-        // if (unit.HasFocusTargetUnit())
-        // {
-        //     if (unit.GetFocusTargetUnit() != targetUnit)
-        //         return new EnemyAIAction
-        //         {
-        //             gridPosition = gridPosition,
-        //             actionValue = 0,
-        //         };
-        // }
 
         return new EnemyAIAction
         {
