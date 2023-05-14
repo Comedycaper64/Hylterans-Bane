@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "UnitStats", menuName = "The Seventy Year War/UnitStats", order = 0)]
 public class UnitStats : ScriptableObject
 {
+    [Header("Main Stats")]
     [SerializeField]
     private int strength = 10;
 
@@ -22,6 +23,39 @@ public class UnitStats : ScriptableObject
 
     [SerializeField]
     private int charisma = 10;
+
+    [Header("Other")]
+    [SerializeField]
+    private int proficiencyBonus = 2;
+
+    [SerializeField]
+    private int weaponDamage = 5;
+
+    [SerializeField]
+    private int unitHealth = 10;
+
+    public int GetToHit()
+    {
+        int attackingStat = GetStrength();
+        return Mathf.FloorToInt((attackingStat - 10) / 2) + proficiencyBonus;
+    }
+
+    public int GetAttackRoll()
+    {
+        return Random.Range(1, 21) + GetToHit();
+    }
+
+    public int GetArmourClass()
+    {
+        int unitArmour = 0;
+        return 10 + Mathf.FloorToInt((GetDexterity() - 10) / 2) + unitArmour;
+    }
+
+    public int GetDamage()
+    {
+        int attackingStat = GetStrength();
+        return Mathf.FloorToInt((attackingStat - 10) / 2) + weaponDamage;
+    }
 
     public void SetStrength(int newStrength)
     {

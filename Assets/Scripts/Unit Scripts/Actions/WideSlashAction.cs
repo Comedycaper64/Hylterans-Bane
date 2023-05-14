@@ -189,9 +189,9 @@ public class WideSlashAction : BaseAction
         return true;
     }
 
-    public override float GetDamage()
+    public override bool ActionDealsDamage()
     {
-        return damageAmount;
+        return true;
     }
 
     public int GetMaxSlashDistance()

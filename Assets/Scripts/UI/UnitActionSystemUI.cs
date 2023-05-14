@@ -25,9 +25,19 @@ public class UnitActionSystemUI : MonoBehaviour
     {
         UnitActionSystem.Instance.OnUnitMoved += UnitActionSystem_OnUnitMoved;
         UnitActionSystem.Instance.OnUnitActionFinished += UnitActionSystem_OnUnitActionFinished;
+        UnitActionSystem.Instance.OnSelectedActionChanged +=
+            UnitActionSystem_OnSelectedActionChanged;
 
         CreateUnitActionButtons();
         UpdateSelectedVisuals();
+    }
+
+    private void OnDisable()
+    {
+        UnitActionSystem.Instance.OnUnitMoved -= UnitActionSystem_OnUnitMoved;
+        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitActionFinished;
+        UnitActionSystem.Instance.OnSelectedActionChanged -=
+            UnitActionSystem_OnSelectedActionChanged;
     }
 
     //Instantiates a button for each action a unit can do. They're stored in the actionButtonContainer and are automatically formatted there
@@ -102,9 +112,8 @@ public class UnitActionSystemUI : MonoBehaviour
         ClearUnitActionButtons();
     }
 
-    private void OnDisable()
+    private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction e)
     {
-        UnitActionSystem.Instance.OnUnitMoved -= UnitActionSystem_OnUnitMoved;
-        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitActionFinished;
+        UpdateSelectedVisuals();
     }
 }

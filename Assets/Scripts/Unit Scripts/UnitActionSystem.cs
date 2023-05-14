@@ -83,7 +83,7 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         //Does a selected action if none of the above are true
-        if (selectedUnit && selectedAction)
+        if (selectedUnit)
         {
             HandleSelectedAction();
         }
@@ -91,7 +91,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private void HandleSelectedAction()
     {
-        if (InputManager.Instance.IsLeftClickDownThisFrame())
+        if (InputManager.Instance.IsLeftClickDownThisFrame() && selectedAction)
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(
                 MouseWorld.GetPosition()

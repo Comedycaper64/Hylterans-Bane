@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b4cda4a5afd3c40b4a745dbd88d026, type: 3}
   m_Name: Test Stats
   m_EditorClassIdentifier: 
-  strength: 10
+  strength: 18
   dexterity: 10
   constitution: 10
   intelligence: 10

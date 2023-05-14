@@ -23,6 +23,9 @@ public class UnitWorldUI : MonoBehaviour
     private void Start()
     {
         healthSystem.OnDamaged += HealthSystem_OnDamaged;
+        UnitActionSystem.Instance.OnSelectedActionChanged +=
+            UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitActionStarted;
 
         UpdateHealthBar(0);
     }
@@ -30,31 +33,25 @@ public class UnitWorldUI : MonoBehaviour
     private void OnDisable()
     {
         healthSystem.OnDamaged -= HealthSystem_OnDamaged;
+        UnitActionSystem.Instance.OnSelectedActionChanged -=
+            UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitActionStarted;
     }
 
     private void ShowPredictedHealthLoss(float damage)
     {
-        if (!UnitActionSystem.Instance.GetSelectedAction())
-        {
-            return;
-        }
+        healthBarImage.fillAmount = healthSystem.GetAmountNormalised(
+            healthSystem.GetHealth() - (damage)
+        );
 
-        if (
-            healthBarImage
-            && (unit.IsEnemy() || UnitActionSystem.Instance.GetSelectedAction().GetIsAOE())
-        )
-        {
-            if (unit != UnitActionSystem.Instance.GetSelectedUnit())
-            {
-                healthBarImage.fillAmount = healthSystem.GetAmountNormalised(
-                    healthSystem.GetHealth() - (damage)
-                );
-            }
-        }
-        else if (healthBarImage)
-        {
-            healthBarImage.fillAmount = healthSystem.GetHealthNormalized();
-        }
+        // if (healthBarImage)
+        // {
+        //     if (unit != UnitActionSystem.Instance.GetSelectedUnit()) { }
+        // }
+        // else if (healthBarImage)
+        // {
+        //     healthBarImage.fillAmount = healthSystem.GetHealthNormalized();
+        // }
     }
 
     private void UpdateHealthBar(float damage)
@@ -74,11 +71,20 @@ public class UnitWorldUI : MonoBehaviour
         UpdateHealthBar(e);
     }
 
-    private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction e)
+    private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction baseAction)
     {
-        if (unit.IsEnemy())
-            ShowPredictedHealthLoss(e.GetDamage());
+        if (unit.IsEnemy() && baseAction.ActionDealsDamage())
+        {
+            ShowPredictedHealthLoss(baseAction.GetUnit().GetUnitStats().GetDamage());
+        }
         else
-            ShowPredictedHealthLoss(e.GetDamage() * 2);
+        {
+            UpdateHealthBar(0);
+        }
+    }
+
+    private void UnitActionSystem_OnUnitActionStarted()
+    {
+        UpdateHealthBar(0);
     }
 }

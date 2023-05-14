@@ -119,6 +119,7 @@ public class ShootAction : BaseAction
 
         if (CombatSystem.Instance.TryAttack(unit, targetUnit))
         {
+            int damageAmount = unit.GetUnitStats().GetDamage();
             targetUnit.Damage(damageAmount);
         }
     }
@@ -216,9 +217,9 @@ public class ShootAction : BaseAction
 
     // }
 
-    public override float GetDamage()
+    public override bool ActionDealsDamage()
     {
-        return damageAmount;
+        return true;
     }
 
     public int GetMaxShootDistance()

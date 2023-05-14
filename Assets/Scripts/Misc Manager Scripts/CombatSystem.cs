@@ -27,17 +27,32 @@ public class CombatSystem : MonoBehaviour
     //     return new Queue<CombatInteraction>();
     // }
 
+    public BattleForecast GetBattleForecast(Unit attackingUnit, Unit defendingUnit)
+    {
+        BattleForecast currentBattleForecast = new BattleForecast();
+        currentBattleForecast.attackingUnitChanceToHit = Mathf.RoundToInt(
+            100
+                * (
+                    1
+                    - (
+                        (
+                            defendingUnit.GetUnitStats().GetArmourClass()
+                            - attackingUnit.GetUnitStats().GetToHit()
+                        ) / 20f
+                    )
+                )
+        );
+        currentBattleForecast.attackingUnitDamage = attackingUnit.GetUnitStats().GetDamage();
+
+        return currentBattleForecast;
+    }
+
     public bool TryAttack(Unit attackingUnit, Unit defendingUnit)
     {
         //Attack role = d20 role + attacking stat + proficiency
-        int attackingUnitAttackRoll =
-            Random.Range(0, 21)
-            + Mathf.FloorToInt((attackingUnit.GetUnitStats().GetStrength() - 10) / 2);
+        int attackingUnitAttackRoll = attackingUnit.GetUnitStats().GetAttackRoll();
         Debug.Log("Attack roll: " + attackingUnitAttackRoll);
-        int defendingUnitAC =
-            10 + Mathf.FloorToInt((defendingUnit.GetUnitStats().GetDexterity() - 10) / 2);
-        Debug.Log("Defending Unit AC: " + defendingUnitAC);
-        return (attackingUnitAttackRoll >= defendingUnitAC);
+        return (attackingUnitAttackRoll >= defendingUnit.GetUnitStats().GetArmourClass());
     }
 
     private int CalculateUnitDamage(Unit attackingUnit)

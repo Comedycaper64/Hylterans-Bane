@@ -27,9 +27,9 @@ public abstract class BaseAction : MonoBehaviour
         return false;
     }
 
-    public virtual float GetDamage()
+    public virtual bool ActionDealsDamage()
     {
-        return 0;
+        return false;
     }
 
     public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);

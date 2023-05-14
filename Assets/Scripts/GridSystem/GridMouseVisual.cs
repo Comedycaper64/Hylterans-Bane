@@ -10,6 +10,7 @@ public class GridMouseVisual : MonoBehaviour
     private Transform mouseGridVisualPosition;
     private GridSystemVisualSingle mouseGridVisualScript;
     private float mouseGridVisualYOffset = 0.1f;
+    public static EventHandler<Unit> OnMouseOverEnemyUnit;
 
     private void Start()
     {
@@ -46,6 +47,7 @@ public class GridMouseVisual : MonoBehaviour
         GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(
             MouseWorld.GetPosition()
         );
+
         if (
             UnitActionSystem.Instance.GetSelectedAction()
             && UnitActionSystem.Instance
@@ -60,6 +62,14 @@ public class GridMouseVisual : MonoBehaviour
                 mouseGridVisualYOffset,
                 mouseGridPosition.z * cellSize
             );
+            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(mouseGridPosition))
+            {
+                Unit unitAtMouseGrid = LevelGrid.Instance.GetUnitAtGridPosition(mouseGridPosition);
+                if (unitAtMouseGrid.IsEnemy())
+                {
+                    OnMouseOverEnemyUnit?.Invoke(this, unitAtMouseGrid);
+                }
+            }
         }
         else
         {

@@ -160,9 +160,9 @@ public class GrenadeAction : BaseAction
         return true;
     }
 
-    public override float GetDamage()
+    public override bool ActionDealsDamage()
     {
-        return damageAmount;
+        return true;
     }
 
     private void OnGrenadeBehaviourComplete()

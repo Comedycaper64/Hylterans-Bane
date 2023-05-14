@@ -69,6 +69,7 @@ public class SwordAction : BaseAction
                 stateTimer = afterHitStateTime;
                 if (CombatSystem.Instance.TryAttack(unit, targetUnit))
                 {
+                    int damageAmount = unit.GetUnitStats().GetDamage();
                     targetUnit.Damage(damageAmount);
                     AudioSource.PlayClipAtPoint(
                         attackHitSFX,
@@ -189,9 +190,9 @@ public class SwordAction : BaseAction
         ActionStart(onActionComplete);
     }
 
-    public override float GetDamage()
+    public override bool ActionDealsDamage()
     {
-        return damageAmount;
+        return true;
     }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
