@@ -26,7 +26,7 @@ public class ScreenShakeActions : MonoBehaviour
 
     private void SwordAction_OnAnySwordHit(object sender, EventArgs e)
     {
-        ScreenShake.Instance.Shake(2f);
+        ScreenShake.Instance.Shake(4f);
     }
 
     private void GrenadeProjectile_OnAnyGrenadeExploded(object sender, EventArgs e)

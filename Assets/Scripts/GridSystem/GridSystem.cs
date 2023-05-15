@@ -6,12 +6,17 @@ using UnityEngine;
 public class GridSystem<TGridObject>
 {
     //**The Grid**
-    private int width;  //How wide it is
+    private int width; //How wide it is
     private int height; //How high it is
     private float cellSize; //How large each tile is
-    private TGridObject[,] gridObjectArray;  //All of the tiles on this grid, stored in a 2D array based on what their gridposition is
+    private TGridObject[,] gridObjectArray; //All of the tiles on this grid, stored in a 2D array based on what their gridposition is
 
-    public GridSystem(int width, int height, float cellSize, Func<GridSystem<TGridObject>, GridPosition, TGridObject> createGridObject)
+    public GridSystem(
+        int width,
+        int height,
+        float cellSize,
+        Func<GridSystem<TGridObject>, GridPosition, TGridObject> createGridObject
+    )
     //Constructor
     {
         this.width = width;
@@ -19,12 +24,12 @@ public class GridSystem<TGridObject>
         this.cellSize = cellSize;
 
         gridObjectArray = new TGridObject[width, height];
-        for(int x = 0; x < width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for(int z = 0; z < height; z++)
-            {     
+            for (int z = 0; z < height; z++)
+            {
                 GridPosition gridPosition = new GridPosition(x, z);
-                gridObjectArray[x, z] = createGridObject(this, gridPosition);    
+                gridObjectArray[x, z] = createGridObject(this, gridPosition);
             }
         }
     }
@@ -36,27 +41,37 @@ public class GridSystem<TGridObject>
 
     public GridPosition GetGridPosition(Vector3 worldPosition)
     {
+        // Debug.Log(worldPosition);
+        // Debug.Log(
+        //     new GridPosition(
+        //         Mathf.RoundToInt(worldPosition.x / cellSize),
+        //         Mathf.RoundToInt(worldPosition.z / cellSize)
+        //     )
+        // );
         return new GridPosition(
             Mathf.RoundToInt(worldPosition.x / cellSize),
             Mathf.RoundToInt(worldPosition.z / cellSize)
-        );  
+        );
     }
 
     //Makes all the GridDebugObjects to show the GridPosition + current units of all tiles
     public void CreateDebugObjects(Transform debugPrefab)
     {
-        for(int x = 0; x < width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for(int z = 0; z < height; z++)
+            for (int z = 0; z < height; z++)
             {
                 GridPosition gridPosition = new GridPosition(x, z);
 
-                Transform debugTransform = GameObject.Instantiate(debugPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
+                Transform debugTransform = GameObject.Instantiate(
+                    debugPrefab,
+                    GetWorldPosition(gridPosition),
+                    Quaternion.identity
+                );
                 GridDebugObject gridDebugObject = debugTransform.GetComponent<GridDebugObject>();
                 gridDebugObject.SetGridObject(GetGridObject(gridPosition));
             }
         }
-
     }
 
     //You can get a specific tile based on its GridPosition :ooo what a good 2D array that is
@@ -68,7 +83,10 @@ public class GridSystem<TGridObject>
     private bool CheckIfTileExists(GridPosition gridPosition)
     {
         float tileCheckRadius = .5f;
-        Collider[] colliderArray = Physics.OverlapSphere(new Vector3(gridPosition.x * cellSize, 0, gridPosition.z * cellSize), tileCheckRadius);
+        Collider[] colliderArray = Physics.OverlapSphere(
+            new Vector3(gridPosition.x * cellSize, 0, gridPosition.z * cellSize),
+            tileCheckRadius
+        );
         foreach (Collider collider in colliderArray)
         {
             if (collider.gameObject.layer == 6)
@@ -82,11 +100,11 @@ public class GridSystem<TGridObject>
     //Tests if the tile is within the Grid
     public bool IsValidGridPosition(GridPosition gridPosition)
     {
-        return  gridPosition.x >= 0 && 
-                gridPosition.z >= 0 && 
-                gridPosition.x < width && 
-                gridPosition.z < height &&
-                CheckIfTileExists(gridPosition);
+        return gridPosition.x >= 0
+            && gridPosition.z >= 0
+            && gridPosition.x < width
+            && gridPosition.z < height
+            && CheckIfTileExists(gridPosition);
     }
 
     public int GetWidth() //of the Grid
@@ -94,7 +112,7 @@ public class GridSystem<TGridObject>
         return width;
     }
 
-    public int GetHeight()//^
+    public int GetHeight() //^
     {
         return height;
     }
@@ -103,5 +121,4 @@ public class GridSystem<TGridObject>
     {
         return cellSize;
     }
-
 }

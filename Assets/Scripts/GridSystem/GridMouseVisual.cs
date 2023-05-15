@@ -7,9 +7,14 @@ public class GridMouseVisual : MonoBehaviour
 {
     [SerializeField]
     private GameObject mouseGridVisual;
+
+    [SerializeField]
+    private GameObject mouseGridArrowVisual;
     private Transform mouseGridVisualPosition;
+    private Transform mouseGridArrowVisualPosition;
     private GridSystemVisualSingle mouseGridVisualScript;
     private float mouseGridVisualYOffset = 0.1f;
+    private float mouseGridArrowVisualYOffset = 2f;
     public static EventHandler<Unit> OnMouseOverEnemyUnit;
 
     private void Start()
@@ -17,6 +22,11 @@ public class GridMouseVisual : MonoBehaviour
         mouseGridVisualPosition = Instantiate(
             mouseGridVisual,
             new Vector3(0, 0, 0),
+            Quaternion.identity
+        ).transform;
+        mouseGridArrowVisualPosition = Instantiate(
+            mouseGridArrowVisual,
+            new Vector3(0, 5f, 0),
             Quaternion.identity
         ).transform;
         mouseGridVisualScript = mouseGridVisualPosition.GetComponent<GridSystemVisualSingle>();
@@ -34,19 +44,39 @@ public class GridMouseVisual : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (
-            !TurnSystem.Instance.IsPlayerTurn()
-            || UnitManager.Instance.GetFriendlyUnitList().Count < 1
-            || !UnitActionSystem.Instance.GetSelectedUnit()
-        )
+        GridPosition mouseGridPosition;
+        if (MouseWorld.GetPosition() != Vector3.negativeInfinity)
+        {
+            mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+        }
+        else
         {
             mouseGridVisualPosition.gameObject.SetActive(false);
+            mouseGridArrowVisualPosition.gameObject.SetActive(false);
             return;
         }
 
-        GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(
-            MouseWorld.GetPosition()
-        );
+        float cellSize = LevelGrid.Instance.GetCellSize();
+        if (
+            !TurnSystem.Instance.IsPlayerTurn()
+            || UnitManager.Instance.GetFriendlyUnitList().Count < 1
+            || !LevelGrid.Instance.IsValidGridPosition(mouseGridPosition)
+        //|| !UnitActionSystem.Instance.GetSelectedUnit()
+        )
+        {
+            mouseGridVisualPosition.gameObject.SetActive(false);
+            mouseGridArrowVisualPosition.gameObject.SetActive(false);
+            return;
+        }
+        else
+        {
+            mouseGridArrowVisualPosition.gameObject.SetActive(true);
+            mouseGridArrowVisualPosition.position = new Vector3(
+                mouseGridPosition.x * cellSize,
+                mouseGridArrowVisualYOffset,
+                mouseGridPosition.z * cellSize
+            );
+        }
 
         if (
             UnitActionSystem.Instance.GetSelectedAction()
@@ -56,7 +86,7 @@ public class GridMouseVisual : MonoBehaviour
         )
         {
             mouseGridVisualPosition.gameObject.SetActive(true);
-            float cellSize = LevelGrid.Instance.GetCellSize();
+
             mouseGridVisualPosition.position = new Vector3(
                 mouseGridPosition.x * cellSize,
                 mouseGridVisualYOffset,
