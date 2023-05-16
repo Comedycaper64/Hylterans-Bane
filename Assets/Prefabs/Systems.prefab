@@ -339,9 +339,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aab5470db734a0340b86799110a46ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseGridVisual: {fileID: 5596813208268119624, guid: f56e58c9f764eb549b96d1267bc7e44e,
+  mouseGridVisualPrefab: {fileID: 5596813208268119624, guid: f56e58c9f764eb549b96d1267bc7e44e,
     type: 3}
-  mouseGridArrowVisual: {fileID: 2325772288690263329, guid: b7688d02f2a629c4ea21fd0782ff3053,
+  mouseGridArrowVisualPrefab: {fileID: 2325772288690263329, guid: b7688d02f2a629c4ea21fd0782ff3053,
     type: 3}
 --- !u!1 &5885856157590055174
 GameObject:

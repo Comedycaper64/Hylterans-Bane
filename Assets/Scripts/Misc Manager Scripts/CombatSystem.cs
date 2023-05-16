@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class CombatSystem : MonoBehaviour
 {
     public static CombatSystem Instance;
+
+    public event EventHandler<AttackInteraction> OnAttackRoll;
 
     private void Awake()
     {
@@ -51,8 +54,10 @@ public class CombatSystem : MonoBehaviour
     {
         //Attack role = d20 role + attacking stat + proficiency
         int attackingUnitAttackRoll = attackingUnit.GetUnitStats().GetAttackRoll();
-        Debug.Log("Attack roll: " + attackingUnitAttackRoll);
-        return (attackingUnitAttackRoll >= defendingUnit.GetUnitStats().GetArmourClass());
+        int defendingUnitAC = defendingUnit.GetUnitStats().GetArmourClass();
+        //Debug.Log("Attack roll: " + attackingUnitAttackRoll);
+        OnAttackRoll?.Invoke(this, new AttackInteraction(attackingUnitAttackRoll, defendingUnitAC));
+        return (attackingUnitAttackRoll >= defendingUnitAC);
     }
 
     private int CalculateUnitDamage(Unit attackingUnit)

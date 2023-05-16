@@ -9,6 +9,8 @@ public class ShootAction : BaseAction
     public event EventHandler<OnShootEventArgs> OnShoot;
     public event EventHandler OnAim;
 
+    private bool attackSucceeded;
+
     [SerializeField]
     private AudioClip shootCrossbowSFX;
 
@@ -117,7 +119,7 @@ public class ShootAction : BaseAction
             new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
         );
 
-        if (CombatSystem.Instance.TryAttack(unit, targetUnit))
+        if (attackSucceeded)
         {
             int damageAmount = unit.GetUnitStats().GetDamage();
             targetUnit.Damage(damageAmount);
@@ -201,7 +203,9 @@ public class ShootAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        attackSucceeded = false;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        attackSucceeded = CombatSystem.Instance.TryAttack(unit, targetUnit);
         OnAim.Invoke(this, EventArgs.Empty);
         state = State.Aiming;
         float aimingStateTime = 0.75f;

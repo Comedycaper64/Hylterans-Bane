@@ -9,8 +9,7 @@ public class SwordAction : BaseAction
     public event EventHandler OnSwordActionStarted;
     public event EventHandler OnSwordActionCompleted;
 
-    [SerializeField]
-    private int damageAmount;
+    private bool attackSucceeded;
 
     [SerializeField]
     private AudioClip attackHitSFX;
@@ -67,7 +66,7 @@ public class SwordAction : BaseAction
                 state = State.SwingingSwordAfterHit;
                 float afterHitStateTime = 0.5f;
                 stateTimer = afterHitStateTime;
-                if (CombatSystem.Instance.TryAttack(unit, targetUnit))
+                if (attackSucceeded)
                 {
                     int damageAmount = unit.GetUnitStats().GetDamage();
                     targetUnit.Damage(damageAmount);
@@ -179,7 +178,9 @@ public class SwordAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        attackSucceeded = false;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        attackSucceeded = CombatSystem.Instance.TryAttack(unit, targetUnit);
 
         state = State.SwingingSwordBeforeHit;
         float beforeHitStateTime = 0.75f;

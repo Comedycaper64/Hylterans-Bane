@@ -6,12 +6,13 @@ using UnityEngine;
 public class GridMouseVisual : MonoBehaviour
 {
     [SerializeField]
-    private GameObject mouseGridVisual;
+    private GameObject mouseGridVisualPrefab;
 
     [SerializeField]
-    private GameObject mouseGridArrowVisual;
-    private Transform mouseGridVisualPosition;
-    private Transform mouseGridArrowVisualPosition;
+    private GameObject mouseGridArrowVisualPrefab;
+
+    private Transform mouseGridVisual;
+    private Transform mouseGridArrowVisual;
     private GridSystemVisualSingle mouseGridVisualScript;
     private float mouseGridVisualYOffset = 0.1f;
     private float mouseGridArrowVisualYOffset = 2f;
@@ -19,17 +20,18 @@ public class GridMouseVisual : MonoBehaviour
 
     private void Start()
     {
-        mouseGridVisualPosition = Instantiate(
-            mouseGridVisual,
+        mouseGridVisual = Instantiate(
+            mouseGridVisualPrefab,
             new Vector3(0, 0, 0),
             Quaternion.identity
         ).transform;
-        mouseGridArrowVisualPosition = Instantiate(
-            mouseGridArrowVisual,
+        mouseGridArrowVisual = Instantiate(
+            mouseGridArrowVisualPrefab,
             new Vector3(0, 5f, 0),
             Quaternion.identity
         ).transform;
-        mouseGridVisualScript = mouseGridVisualPosition.GetComponent<GridSystemVisualSingle>();
+        mouseGridVisualScript = mouseGridVisual.GetComponent<GridSystemVisualSingle>();
+        mouseGridVisualScript.ToggleTransparencyOscillation(true);
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
         UpdateMouseVisual();
@@ -51,8 +53,8 @@ public class GridMouseVisual : MonoBehaviour
         }
         else
         {
-            mouseGridVisualPosition.gameObject.SetActive(false);
-            mouseGridArrowVisualPosition.gameObject.SetActive(false);
+            mouseGridVisual.gameObject.SetActive(false);
+            mouseGridArrowVisual.gameObject.SetActive(false);
             return;
         }
 
@@ -64,14 +66,14 @@ public class GridMouseVisual : MonoBehaviour
         //|| !UnitActionSystem.Instance.GetSelectedUnit()
         )
         {
-            mouseGridVisualPosition.gameObject.SetActive(false);
-            mouseGridArrowVisualPosition.gameObject.SetActive(false);
+            mouseGridVisual.gameObject.SetActive(false);
+            mouseGridArrowVisual.gameObject.SetActive(false);
             return;
         }
         else
         {
-            mouseGridArrowVisualPosition.gameObject.SetActive(true);
-            mouseGridArrowVisualPosition.position = new Vector3(
+            mouseGridArrowVisual.gameObject.SetActive(true);
+            mouseGridArrowVisual.position = new Vector3(
                 mouseGridPosition.x * cellSize,
                 mouseGridArrowVisualYOffset,
                 mouseGridPosition.z * cellSize
@@ -85,9 +87,9 @@ public class GridMouseVisual : MonoBehaviour
                 .IsValidActionGridPosition(mouseGridPosition)
         )
         {
-            mouseGridVisualPosition.gameObject.SetActive(true);
+            mouseGridVisual.gameObject.SetActive(true);
 
-            mouseGridVisualPosition.position = new Vector3(
+            mouseGridVisual.position = new Vector3(
                 mouseGridPosition.x * cellSize,
                 mouseGridVisualYOffset,
                 mouseGridPosition.z * cellSize
@@ -103,7 +105,7 @@ public class GridMouseVisual : MonoBehaviour
         }
         else
         {
-            mouseGridVisualPosition.gameObject.SetActive(false);
+            mouseGridVisual.gameObject.SetActive(false);
         }
     }
 
