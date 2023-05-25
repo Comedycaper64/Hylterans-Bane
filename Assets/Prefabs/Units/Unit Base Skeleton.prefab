@@ -122,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
@@ -284,20 +284,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6214119268599595781}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1435919318499699796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 593051697992768133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38994469c6e6ace479086fa0c99a9823, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageAmount: 50
-  attackHitSFX: {fileID: 8300000, guid: 4707b9c33f3013a4b956b549a4bb1455, type: 3}
 --- !u!114 &8613332449785233535
 MonoBehaviour:
   m_ObjectHideFlags: 0

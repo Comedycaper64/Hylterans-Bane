@@ -141,7 +141,7 @@ public class ShootAction : BaseAction
     }
 
     //Very similar logic to MoveAction
-    public List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
@@ -239,12 +239,12 @@ public class ShootAction : BaseAction
         return new EnemyAIAction
         {
             gridPosition = gridPosition,
-            actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthNormalized()) * 100f),
+            actionValue = 100 + Mathf.RoundToInt((1f / targetUnit.GetHealth()) * 100f),
         };
     }
 
     //Returns how many units could be shot from GridPosition
-    public int GetTargetCountAtPosition(GridPosition gridPosition)
+    public override int GetTargetCountAtPosition(GridPosition gridPosition)
     {
         return GetValidActionGridPositionList(gridPosition).Count;
     }

@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WideSlashAction : BaseAction
+public class CleaveAction : BaseAction
 {
-    public static event EventHandler OnAnySlashHit;
-    public event EventHandler OnSlashActionStarted;
-    public event EventHandler OnSlashActionCompleted;
+    public static event EventHandler OnAnyCleaveHit;
+    public event EventHandler OnCleaveActionStarted;
+    public event EventHandler OnCleaveActionCompleted;
+
+    // [SerializeField]
+    // private int damageAmount;
 
     [SerializeField]
-    private int damageAmount;
-
-    [SerializeField]
-    private AudioClip slashHitSFX;
+    private AudioClip cleaveHitSFX;
 
     private enum State
     {
@@ -63,20 +63,17 @@ public class WideSlashAction : BaseAction
                 stateTimer = afterHitStateTime;
                 foreach (Unit targetUnit in targetUnits)
                 {
-                    if (targetUnit.IsEnemy())
-                        targetUnit.Damage(damageAmount);
-                    else
-                        targetUnit.Damage(damageAmount * 2);
+                    targetUnit.Damage(unit.GetUnitStats().GetDamage());
                 }
                 AudioSource.PlayClipAtPoint(
-                    slashHitSFX,
+                    cleaveHitSFX,
                     Camera.main.transform.position,
                     SoundManager.Instance.GetSoundEffectVolume()
                 );
-                OnAnySlashHit?.Invoke(this, EventArgs.Empty);
+                OnAnyCleaveHit?.Invoke(this, EventArgs.Empty);
                 break;
             case State.SwingingSwordAfterHit:
-                OnSlashActionCompleted?.Invoke(this, EventArgs.Empty);
+                OnCleaveActionCompleted?.Invoke(this, EventArgs.Empty);
                 ActionComplete();
                 break;
         }
@@ -84,26 +81,24 @@ public class WideSlashAction : BaseAction
 
     public override string GetActionName()
     {
-        return "Slash";
-    }
-
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
-    {
-        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 200, };
+        return "Cleave";
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
     {
-        List<GridPosition> validGridPositionList = new List<GridPosition>();
+        return GetValidActionGridPositionList(unit.GetGridPosition());
+    }
 
-        GridPosition unitGridPosition = unit.GetGridPosition();
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
+    {
+        List<GridPosition> validGridPositionList = new List<GridPosition>();
 
         for (int x = -maxSlashDistance; x <= maxSlashDistance; x++)
         {
             for (int z = -maxSlashDistance; z <= maxSlashDistance; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+                GridPosition testGridPosition = gridPosition + offsetGridPosition;
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
                 if (testDistance > maxSlashDistance)
@@ -174,14 +169,42 @@ public class WideSlashAction : BaseAction
         float beforeHitStateTime = 1.75f;
         stateTimer = beforeHitStateTime;
 
-        OnSlashActionStarted?.Invoke(this, EventArgs.Empty);
+        OnCleaveActionStarted?.Invoke(this, EventArgs.Empty);
 
         ActionStart(onActionComplete);
     }
 
-    public override int GetActionPointsCost()
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        return 2;
+        int targetsInAOE = 0;
+        for (int x = gridPosition.x - 1; x <= gridPosition.x + 1; x++)
+        {
+            for (int z = gridPosition.z - 1; z <= gridPosition.z + 1; z++)
+            {
+                GridPosition testGridPosition = new GridPosition(x, z);
+                if (
+                    LevelGrid.Instance.IsValidGridPosition(testGridPosition)
+                    && LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)
+                )
+                {
+                    if (!LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition).IsEnemy())
+                    {
+                        targetsInAOE++;
+                        Debug.Log(
+                            "Current Grid Position is "
+                                + gridPosition.x
+                                + ", "
+                                + gridPosition.z
+                                + " Target found at "
+                                + testGridPosition.x
+                                + ", "
+                                + testGridPosition.z
+                        );
+                    }
+                }
+            }
+        }
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = targetsInAOE * 150, };
     }
 
     public override bool GetIsAOE()
@@ -199,8 +222,26 @@ public class WideSlashAction : BaseAction
         return maxSlashDistance;
     }
 
-    public int GetTargetCountAtPosition(GridPosition gridPosition)
+    public override int GetTargetCountAtPosition(GridPosition gridPosition)
     {
-        return GetValidActionGridPositionList().Count;
+        int targetsInAOE = 0;
+        for (int x = gridPosition.x - 2; x <= gridPosition.x + 2; x++)
+        {
+            for (int z = gridPosition.z - 2; z <= gridPosition.z + 2; z++)
+            {
+                GridPosition testGridPosition = new GridPosition(x, z);
+                if (
+                    LevelGrid.Instance.IsValidGridPosition(testGridPosition)
+                    && LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)
+                )
+                {
+                    if (!LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition).IsEnemy())
+                    {
+                        targetsInAOE++;
+                    }
+                }
+            }
+        }
+        return targetsInAOE;
     }
 }

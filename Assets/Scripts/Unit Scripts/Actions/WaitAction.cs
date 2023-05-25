@@ -32,6 +32,11 @@ public class WaitAction : BaseAction
         ActionStart(onActionComplete);
     }
 
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
+    {
+        return GetValidActionGridPositionList();
+    }
+
     public override List<GridPosition> GetValidActionGridPositionList()
     {
         GridPosition unitGridPosition = unit.GetGridPosition();

@@ -36,6 +36,11 @@ public class SpinAction : BaseAction
         return "Spin";
     }
 
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
+    {
+        return GetValidActionGridPositionList();
+    }
+
     public override List<GridPosition> GetValidActionGridPositionList()
     {
         GridPosition unitGridPosition = unit.GetGridPosition();

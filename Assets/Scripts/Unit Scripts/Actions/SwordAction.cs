@@ -139,7 +139,7 @@ public class SwordAction : BaseAction
         return validGridPositionList;
     }
 
-    public List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
@@ -198,7 +198,13 @@ public class SwordAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 200, };
+        Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = 200 + Mathf.RoundToInt((1f / targetUnit.GetHealth()) * 100f),
+            //+ Mathf.RoundToInt((1f - targetUnit.GetHealthNormalized()) * 10f),
+        };
     }
 
     public int GetMaxSwordDistance()
@@ -206,7 +212,7 @@ public class SwordAction : BaseAction
         return maxSwordDistance;
     }
 
-    public int GetTargetCountAtPosition(GridPosition gridPosition)
+    public override int GetTargetCountAtPosition(GridPosition gridPosition)
     {
         return GetValidActionGridPositionList(gridPosition).Count;
     }

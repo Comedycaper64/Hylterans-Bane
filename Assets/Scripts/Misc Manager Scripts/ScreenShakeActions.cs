@@ -9,14 +9,14 @@ public class ScreenShakeActions : MonoBehaviour
     {
         ShootAction.OnAnyShoot += ShootAction_OnAnyShoot;
         SwordAction.OnAnySwordHit += SwordAction_OnAnySwordHit;
-        WideSlashAction.OnAnySlashHit += SlashAction_OnAnySlashHit;
+        CleaveAction.OnAnyCleaveHit += SlashAction_OnAnySlashHit;
     }
 
     private void OnDisable()
     {
         ShootAction.OnAnyShoot -= ShootAction_OnAnyShoot;
         SwordAction.OnAnySwordHit -= SwordAction_OnAnySwordHit;
-        WideSlashAction.OnAnySlashHit -= SlashAction_OnAnySlashHit;
+        CleaveAction.OnAnyCleaveHit -= SlashAction_OnAnySlashHit;
     }
 
     private void SlashAction_OnAnySlashHit(object sender, EventArgs e)

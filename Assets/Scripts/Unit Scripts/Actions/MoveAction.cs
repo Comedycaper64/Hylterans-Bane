@@ -70,6 +70,11 @@ public class MoveAction : BaseAction
         ActionStart(onActionComplete);
     }
 
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
+    {
+        return GetValidActionGridPositionList();
+    }
+
     public override List<GridPosition> GetValidActionGridPositionList()
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
@@ -180,81 +185,66 @@ public class MoveAction : BaseAction
         return distanceMovedToClosestUnit;
     }
 
+    //Needs to enumerate through actions to get best enemy ai action before moving
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         int targetCountAtGridPosition;
+        BaseAction unitAction;
         if (unit.GetAction<ShootAction>())
         {
-            /*
-            if (!Pathfinding.Instance.HasPath(unit.GetGridPosition(), gridPosition))
-            {
-                return new EnemyAIAction
-                {
-                    gridPosition = gridPosition,
-                    actionValue = 50,
-                };
-            }
-            */
-
-            targetCountAtGridPosition = unit.GetAction<ShootAction>()
-                .GetTargetCountAtPosition(gridPosition);
-
-            if (targetCountAtGridPosition == 0)
-            {
-                int moveActionValue = GetMoveLocationValue(gridPosition);
-                if (moveActionValue == -1)
-                {
-                    gridPosition = unit.GetGridPosition();
-                }
-                return new EnemyAIAction
-                {
-                    gridPosition = gridPosition,
-                    actionValue = moveActionValue,
-                };
-            }
-
-            return new EnemyAIAction
-            {
-                gridPosition = gridPosition,
-                actionValue = targetCountAtGridPosition * 10,
-            };
+            unitAction = unit.GetAction<ShootAction>();
         }
         else if (unit.GetAction<SwordAction>())
         {
-            targetCountAtGridPosition = unit.GetAction<SwordAction>()
-                .GetTargetCountAtPosition(gridPosition);
-
-            if (targetCountAtGridPosition == 0)
-            {
-                int moveActionValue = GetMoveLocationValue(gridPosition);
-                if (moveActionValue == -1)
-                {
-                    gridPosition = unit.GetGridPosition();
-                }
-                return new EnemyAIAction
-                {
-                    gridPosition = gridPosition,
-                    actionValue = moveActionValue,
-                };
-            }
-
-            // Debug.Log(
-            //     "Target At this Position: "
-            //         + gridPosition
-            //         + ", Action Value: "
-            //         + targetCountAtGridPosition * 10
-            // );
-
-            return new EnemyAIAction
-            {
-                gridPosition = gridPosition,
-                actionValue = targetCountAtGridPosition * 15,
-            };
+            unitAction = unit.GetAction<SwordAction>();
+        }
+        else if (unit.GetAction<FireballAction>())
+        {
+            unitAction = unit.GetAction<FireballAction>();
+        }
+        else if (unit.GetAction<CleaveAction>())
+        {
+            unitAction = unit.GetAction<CleaveAction>();
         }
         else
         {
             return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0, };
         }
+
+        targetCountAtGridPosition = unitAction.GetTargetCountAtPosition(gridPosition);
+
+        if (targetCountAtGridPosition == 0)
+        {
+            int moveActionValue = GetMoveLocationValue(gridPosition);
+            if (moveActionValue == -1)
+            {
+                gridPosition = unit.GetGridPosition();
+            }
+            return new EnemyAIAction
+            {
+                gridPosition = gridPosition,
+                actionValue = moveActionValue,
+            };
+        }
+
+        GridPosition gridToTarget = gridPosition - unit.GetGridPosition();
+        int distanceToTarget = Mathf.Abs(gridToTarget.x) + Mathf.Abs(gridToTarget.z);
+        int distanceActionValueModifier = Mathf.RoundToInt((1f / distanceToTarget) * 100f);
+
+        List<GridPosition> targetPositions = unitAction.GetValidActionGridPositionList(
+            gridPosition
+        );
+        int targetActionValueTotal = 0;
+        foreach (GridPosition targetPosition in targetPositions)
+        {
+            targetActionValueTotal += unitAction.GetEnemyAIAction(targetPosition).actionValue;
+        }
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = targetActionValueTotal + distanceActionValueModifier,
+        };
     }
 
     public int GetMaxMoveDistance()

@@ -205,8 +205,16 @@ public class GridSystemVisual : MonoBehaviour
         switch (selectedAction)
         {
             default:
-            case GrenadeAction grenadeAction:
+            case InteractAction interactAction:
+                gridVisualType = GridVisualType.Blue;
+                break;
+            case FireballAction fireballAction:
                 gridVisualType = GridVisualType.Yellow;
+                ShowGridPositionRange(
+                    selectedUnit.GetGridPosition(),
+                    fireballAction.GetMaxThrowDistance(),
+                    GridVisualType.Yellow
+                );
                 break;
             case ShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
@@ -232,16 +240,13 @@ public class GridSystemVisual : MonoBehaviour
                     GridVisualType.RedSoft
                 );
                 break;
-            case WideSlashAction slashAction:
+            case CleaveAction slashAction:
                 gridVisualType = GridVisualType.Red;
                 ShowGridPositionRange(
                     selectedUnit.GetGridPosition(),
                     slashAction.GetMaxSlashDistance(),
                     GridVisualType.RedSoft
                 );
-                break;
-            case InteractAction interactAction:
-                gridVisualType = GridVisualType.Blue;
                 break;
         }
 

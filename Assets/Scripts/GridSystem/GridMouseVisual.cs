@@ -12,6 +12,7 @@ public class GridMouseVisual : MonoBehaviour
     private GameObject mouseGridArrowVisualPrefab;
 
     private Transform mouseGridVisual;
+    private List<Transform> mouseGridVisualAOE = new List<Transform>();
     private Transform mouseGridArrowVisual;
     private GridSystemVisualSingle mouseGridVisualScript;
     private float mouseGridVisualYOffset = 0.1f;
@@ -109,9 +110,51 @@ public class GridMouseVisual : MonoBehaviour
         }
     }
 
+    private void SetAOEVisual(bool enable, int range, GridSystemVisual.GridVisualType visualType)
+    {
+        if (enable)
+        {
+            range = (range - 1) / 2;
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(
+                mouseGridVisual.position
+            );
+            for (int x = mouseGridPosition.x - range; x <= mouseGridPosition.x + range; x++)
+            {
+                for (int z = mouseGridPosition.z - range; z <= mouseGridPosition.z + range; z++)
+                {
+                    Vector3 newMouseVisualSpawn =
+                        LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z))
+                        + new Vector3(0, mouseGridVisualYOffset, 0);
+                    Transform newMouseVisual = Instantiate(
+                        mouseGridVisualPrefab,
+                        newMouseVisualSpawn,
+                        Quaternion.identity
+                    ).transform;
+                    newMouseVisual
+                        .GetComponent<GridSystemVisualSingle>()
+                        .Show(GridSystemVisual.Instance.GetGridVisualTypeMaterial(visualType));
+                    newMouseVisual
+                        .GetComponent<GridSystemVisualSingle>()
+                        .ToggleTransparencyOscillation(true);
+                    mouseGridVisualAOE.Add(newMouseVisual);
+                    newMouseVisual.parent = mouseGridVisual;
+                }
+            }
+        }
+        else if (mouseGridVisualAOE.Count > 0)
+        {
+            foreach (Transform mouseVisual in mouseGridVisualAOE)
+            {
+                Destroy(mouseVisual.gameObject);
+            }
+            mouseGridVisualAOE.Clear();
+        }
+    }
+
     private void UpdateMouseVisual()
     {
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
+        SetAOEVisual(false, 0, GridSystemVisual.GridVisualType.White);
         if (!selectedAction)
         {
             mouseGridVisualScript.Hide();
@@ -128,14 +171,16 @@ public class GridMouseVisual : MonoBehaviour
             case ShootAction shootAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Red;
                 break;
-            case GrenadeAction grenadeAction:
+            case FireballAction grenadeAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Yellow;
+                SetAOEVisual(true, 3, gridVisualType);
                 break;
             case SwordAction swordAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Red;
                 break;
-            case WideSlashAction slashAction:
+            case CleaveAction slashAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Red;
+                SetAOEVisual(true, 3, gridVisualType);
                 break;
             case InteractAction interactAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Blue;

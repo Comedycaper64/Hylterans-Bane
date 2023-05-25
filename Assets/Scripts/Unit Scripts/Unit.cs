@@ -125,6 +125,11 @@ public class Unit : MonoBehaviour
         healthSystem.Damage(damageAmount);
     }
 
+    public float GetHealth()
+    {
+        return healthSystem.GetHealth();
+    }
+
     public float GetHealthNormalized()
     {
         return healthSystem.GetHealthNormalized();

@@ -31,16 +31,16 @@ public class UnitAnimator : MonoBehaviour
             swordAction.OnSwordActionCompleted += OnAttackEnded;
         }
 
-        if (TryGetComponent<WideSlashAction>(out WideSlashAction slashAction))
+        if (TryGetComponent<CleaveAction>(out CleaveAction slashAction))
         {
-            slashAction.OnSlashActionStarted += OnAttackStarted;
-            slashAction.OnSlashActionCompleted += OnAttackEnded;
+            slashAction.OnCleaveActionStarted += OnAttackStarted;
+            slashAction.OnCleaveActionCompleted += OnAttackEnded;
         }
 
-        if (TryGetComponent<GrenadeAction>(out GrenadeAction grenadeAction))
+        if (TryGetComponent<FireballAction>(out FireballAction grenadeAction))
         {
-            grenadeAction.OnGrenadeActionStarted += OnAttackStarted;
-            grenadeAction.OnGrenadeActionCompleted += OnAttackEnded;
+            grenadeAction.OnFireballActionStarted += OnAttackStarted;
+            grenadeAction.OnFireballActionCompleted += OnAttackEnded;
         }
 
         if (TryGetComponent<HealthSystem>(out HealthSystem healthSystem))
@@ -68,16 +68,16 @@ public class UnitAnimator : MonoBehaviour
             swordAction.OnSwordActionCompleted -= OnAttackEnded;
         }
 
-        if (TryGetComponent<WideSlashAction>(out WideSlashAction slashAction))
+        if (TryGetComponent<CleaveAction>(out CleaveAction slashAction))
         {
-            slashAction.OnSlashActionStarted -= OnAttackStarted;
-            slashAction.OnSlashActionCompleted -= OnAttackEnded;
+            slashAction.OnCleaveActionStarted -= OnAttackStarted;
+            slashAction.OnCleaveActionCompleted -= OnAttackEnded;
         }
 
-        if (TryGetComponent<GrenadeAction>(out GrenadeAction grenadeAction))
+        if (TryGetComponent<FireballAction>(out FireballAction grenadeAction))
         {
-            grenadeAction.OnGrenadeActionStarted -= OnAttackStarted;
-            grenadeAction.OnGrenadeActionCompleted -= OnAttackEnded;
+            grenadeAction.OnFireballActionStarted -= OnAttackStarted;
+            grenadeAction.OnFireballActionCompleted -= OnAttackEnded;
         }
 
         if (TryGetComponent<HealthSystem>(out HealthSystem healthSystem))

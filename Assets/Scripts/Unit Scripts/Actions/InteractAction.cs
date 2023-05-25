@@ -25,6 +25,11 @@ public class InteractAction : BaseAction
         return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0 };
     }
 
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
+    {
+        return GetValidActionGridPositionList();
+    }
+
     public override List<GridPosition> GetValidActionGridPositionList()
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();

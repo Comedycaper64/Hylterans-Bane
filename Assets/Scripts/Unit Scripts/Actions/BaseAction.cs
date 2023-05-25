@@ -43,6 +43,8 @@ public abstract class BaseAction : MonoBehaviour
 
     public abstract List<GridPosition> GetValidActionGridPositionList();
 
+    public abstract List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition);
+
     //Base method that can be overwritten to return a different value, like 2 or whatever
     public virtual int GetActionPointsCost()
     {
@@ -89,15 +91,15 @@ public abstract class BaseAction : MonoBehaviour
             enemyAIActionList.Sort(
                 (EnemyAIAction a, EnemyAIAction b) => b.actionValue - a.actionValue
             );
-            // foreach (EnemyAIAction action in enemyAIActionList)
-            // {
-            //     Debug.Log(
-            //         "Enemy Action Position: "
-            //             + action.gridPosition
-            //             + ", Enemy Action Value: "
-            //             + action.actionValue
-            //     );
-            // }
+            foreach (EnemyAIAction action in enemyAIActionList)
+            {
+                Debug.Log(
+                    "Enemy Action Position: "
+                        + action.gridPosition
+                        + ", Enemy Action Value: "
+                        + action.actionValue
+                );
+            }
 
             return enemyAIActionList[0];
         }
@@ -109,4 +111,9 @@ public abstract class BaseAction : MonoBehaviour
     }
 
     public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
+
+    public virtual int GetTargetCountAtPosition(GridPosition gridPosition)
+    {
+        return 0;
+    }
 }

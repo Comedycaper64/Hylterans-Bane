@@ -3,24 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrenadeAction : BaseAction
+public class FireballAction : BaseAction
 {
     [SerializeField]
-    private Transform grenadeProjectilePrefab;
+    private Transform fireballProjectilePrefab;
 
     [SerializeField]
-    private AudioClip fireBallChargeSFX;
+    private AudioClip fireballChargeSFX;
 
-    public event EventHandler OnGrenadeActionStarted;
-    public event EventHandler OnGrenadeActionCompleted;
+    public event EventHandler OnFireballActionStarted;
+    public event EventHandler OnFireballActionCompleted;
 
     [SerializeField]
     private int maxThrowDistance;
 
     [SerializeField]
-    private float damageAmount = 40;
+    private float actionDamageMultiplier;
 
-    private int minThrowDistance = 3;
+    [SerializeField]
+    private float damageRadius;
+
+    //private int minThrowDistance = 2;
     private State state;
     private float stateTimer;
     private GridPosition targetGridPosition;
@@ -48,13 +51,22 @@ public class GrenadeAction : BaseAction
                 break;
             //Fires the shot
             case State.Throwing:
-                Transform grenadeProjectileTransform = Instantiate(
-                    grenadeProjectilePrefab,
+                Transform fireballProjectileTransform = Instantiate(
+                    fireballProjectilePrefab,
                     unit.GetWorldPosition(),
                     Quaternion.identity
                 );
-                //GrenadeProjectile grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
-                //grenadeProjectile.Setup(targetGridPosition, damageAmount, OnGrenadeBehaviourComplete);
+                FireballProjectile fireballProjectile =
+                    fireballProjectileTransform.GetComponent<FireballProjectile>();
+                int damageAmount = Mathf.RoundToInt(
+                    unit.GetUnitStats().GetDamage() * actionDamageMultiplier
+                );
+                fireballProjectile.Setup(
+                    targetGridPosition,
+                    damageAmount,
+                    damageRadius,
+                    OnFireballBehaviourComplete
+                );
                 break;
             //Grace period before ending the action
             case State.Cooloff:
@@ -93,9 +105,9 @@ public class GrenadeAction : BaseAction
         return "Fireball";
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
     {
-        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0, };
+        return GetValidActionGridPositionList();
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -127,10 +139,10 @@ public class GrenadeAction : BaseAction
                 {
                     continue;
                 }
-                if (testDistance < minThrowDistance)
-                {
-                    continue;
-                }
+                // if (testDistance < minThrowDistance)
+                // {
+                //     continue;
+                // }
 
                 validGridPositionList.Add(testGridPosition);
             }
@@ -142,17 +154,45 @@ public class GrenadeAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         AudioSource.PlayClipAtPoint(
-            fireBallChargeSFX,
+            fireballChargeSFX,
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
-        OnGrenadeActionStarted?.Invoke(this, EventArgs.Empty);
+        OnFireballActionStarted?.Invoke(this, EventArgs.Empty);
         targetGridPosition = gridPosition;
         state = State.Charging;
         float aimingStateTime = 1f;
         stateTimer = aimingStateTime;
 
         ActionStart(onActionComplete);
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        int targetsInAOE = 0;
+        for (int x = gridPosition.x - 1; x <= gridPosition.x + 1; x++)
+        {
+            for (int z = gridPosition.z - 1; z <= gridPosition.z + 1; z++)
+            {
+                GridPosition testGridPosition = new GridPosition(x, z);
+                if (
+                    LevelGrid.Instance.IsValidGridPosition(testGridPosition)
+                    && LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)
+                )
+                {
+                    if (!LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition).IsEnemy())
+                    {
+                        targetsInAOE++;
+                    }
+                }
+            }
+        }
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = targetsInAOE * 100, };
+    }
+
+    public int GetMaxThrowDistance()
+    {
+        return maxThrowDistance;
     }
 
     public override bool GetIsAOE()
@@ -165,9 +205,9 @@ public class GrenadeAction : BaseAction
         return true;
     }
 
-    private void OnGrenadeBehaviourComplete()
+    private void OnFireballBehaviourComplete()
     {
-        OnGrenadeActionCompleted?.Invoke(this, EventArgs.Empty);
+        OnFireballActionCompleted?.Invoke(this, EventArgs.Empty);
         ActionComplete();
     }
 }
