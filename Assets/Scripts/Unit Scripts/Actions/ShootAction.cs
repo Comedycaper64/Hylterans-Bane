@@ -205,7 +205,10 @@ public class ShootAction : BaseAction
     {
         attackSucceeded = false;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-        attackSucceeded = CombatSystem.Instance.TryAttack(unit, targetUnit);
+        attackSucceeded = CombatSystem.Instance.TryAttack(
+            unit.GetUnitStats(),
+            targetUnit.GetUnitStats()
+        );
         OnAim.Invoke(this, EventArgs.Empty);
         state = State.Aiming;
         float aimingStateTime = 0.75f;

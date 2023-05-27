@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class CombatUI : MonoBehaviour
 {
@@ -18,11 +19,13 @@ public class CombatUI : MonoBehaviour
     {
         ToggleAttackUI(false);
         CombatSystem.Instance.OnAttackRoll += CombatSystem_OnAttackRoll;
+        CombatSystem.Instance.OnSpellSave += CombatSystem_OnSpellSave;
     }
 
     private void OnDisable()
     {
         CombatSystem.Instance.OnAttackRoll -= CombatSystem_OnAttackRoll;
+        CombatSystem.Instance.OnSpellSave -= CombatSystem_OnSpellSave;
     }
 
     private void ToggleAttackUI(bool toggle)
@@ -40,10 +43,26 @@ public class CombatUI : MonoBehaviour
         ToggleAttackUI(false);
     }
 
+    private IEnumerator TemporarilyDisplaySpellUI(int spellSave, int defendingSavingThrow)
+    {
+        attackRollText.text = "Spell Save DC: " + spellSave;
+        defendingACText.text = "Defender Saving Throw: " + defendingSavingThrow;
+        ToggleAttackUI(true);
+        yield return new WaitForSeconds(attackRollAppearanceTime);
+        ToggleAttackUI(false);
+    }
+
     private void CombatSystem_OnAttackRoll(object sender, AttackInteraction attackInteraction)
     {
         StartCoroutine(
             TemporarilyDisplayAttackUI(attackInteraction.attackRoll, attackInteraction.defendingAC)
+        );
+    }
+
+    private void CombatSystem_OnSpellSave(object sender, AttackInteraction attackInteraction)
+    {
+        StartCoroutine(
+            TemporarilyDisplaySpellUI(attackInteraction.attackRoll, attackInteraction.defendingAC)
         );
     }
 }

@@ -8,6 +8,7 @@ public class CombatSystem : MonoBehaviour
     public static CombatSystem Instance;
 
     public event EventHandler<AttackInteraction> OnAttackRoll;
+    public event EventHandler<AttackInteraction> OnSpellSave;
 
     private void Awake()
     {
@@ -50,14 +51,25 @@ public class CombatSystem : MonoBehaviour
         return currentBattleForecast;
     }
 
-    public bool TryAttack(Unit attackingUnit, Unit defendingUnit)
+    public bool TryAttack(UnitStats attackingUnit, UnitStats defendingUnit)
     {
         //Attack role = d20 role + attacking stat + proficiency
-        int attackingUnitAttackRoll = attackingUnit.GetUnitStats().GetAttackRoll();
-        int defendingUnitAC = defendingUnit.GetUnitStats().GetArmourClass();
+        int attackingUnitAttackRoll = attackingUnit.GetAttackRoll();
+        int defendingUnitAC = defendingUnit.GetArmourClass();
         //Debug.Log("Attack roll: " + attackingUnitAttackRoll);
         OnAttackRoll?.Invoke(this, new AttackInteraction(attackingUnitAttackRoll, defendingUnitAC));
         return (attackingUnitAttackRoll >= defendingUnitAC);
+    }
+
+    public bool TrySpell(UnitStats attackingUnit, UnitStats defendingUnit)
+    {
+        int attackingUnitSpellDC = attackingUnit.GetSpellDC();
+        int defendingUnitSavingThrow = defendingUnit.GetDexteritySavingThrow();
+        OnSpellSave?.Invoke(
+            this,
+            new AttackInteraction(attackingUnitSpellDC, defendingUnitSavingThrow)
+        );
+        return (attackingUnitSpellDC > defendingUnitSavingThrow);
     }
 
     private int CalculateUnitDamage(Unit attackingUnit)

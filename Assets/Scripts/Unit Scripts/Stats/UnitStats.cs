@@ -37,7 +37,7 @@ public class UnitStats : ScriptableObject
     public int GetToHit()
     {
         int attackingStat = GetStrength();
-        return Mathf.FloorToInt((attackingStat - 10) / 2) + proficiencyBonus;
+        return GetModifier(attackingStat) + proficiencyBonus;
     }
 
     public int GetAttackRoll()
@@ -48,13 +48,29 @@ public class UnitStats : ScriptableObject
     public int GetArmourClass()
     {
         int unitArmour = 0;
-        return 10 + Mathf.FloorToInt((GetDexterity() - 10) / 2) + unitArmour;
+        return 10 + GetModifier(GetDexterity()) + unitArmour;
     }
 
     public int GetDamage()
     {
         int attackingStat = GetStrength();
-        return Mathf.FloorToInt((attackingStat - 10) / 2) + weaponDamage;
+        return GetModifier(attackingStat) + weaponDamage;
+    }
+
+    public int GetDexteritySavingThrow()
+    {
+        return Random.Range(1, 21) + GetModifier(GetDexterity());
+    }
+
+    private int GetModifier(int score)
+    {
+        return Mathf.FloorToInt(score - 10) / 2;
+    }
+
+    //Currently only intelligence
+    public int GetSpellDC()
+    {
+        return 8 + proficiencyBonus + GetModifier(GetIntelligence());
     }
 
     public void SetStrength(int newStrength)
