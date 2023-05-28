@@ -55,14 +55,20 @@ public class CombatUI : MonoBehaviour
     private void CombatSystem_OnAttackRoll(object sender, AttackInteraction attackInteraction)
     {
         StartCoroutine(
-            TemporarilyDisplayAttackUI(attackInteraction.attackRoll, attackInteraction.defendingAC)
+            TemporarilyDisplayAttackUI(
+                attackInteraction.attackingValue,
+                attackInteraction.defendingValue
+            )
         );
     }
 
     private void CombatSystem_OnSpellSave(object sender, AttackInteraction attackInteraction)
     {
         StartCoroutine(
-            TemporarilyDisplaySpellUI(attackInteraction.attackRoll, attackInteraction.defendingAC)
+            TemporarilyDisplaySpellUI(
+                attackInteraction.attackingValue,
+                attackInteraction.defendingValue
+            )
         );
     }
 }

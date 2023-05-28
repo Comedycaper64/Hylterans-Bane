@@ -13,11 +13,6 @@ public class HealthSystem : MonoBehaviour
     private int health = 100;
     private int healthMax;
 
-    private void Awake()
-    {
-        healthMax = health;
-    }
-
     public void Damage(int damageAmount)
     {
         health -= damageAmount;
@@ -33,6 +28,12 @@ public class HealthSystem : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void SetHealth(int health)
+    {
+        healthMax = health;
+        this.health = healthMax;
     }
 
     private void Die()

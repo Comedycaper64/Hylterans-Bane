@@ -114,7 +114,7 @@ Transform:
   m_Children:
   - {fileID: 1051219097547968533}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1051219098645697481
 MonoBehaviour:
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireballExplodeVFXPrefab: {fileID: 0}
+  fireballVisual: {fileID: 1051219097547968533}
   arcYAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -164,4 +165,3 @@ MonoBehaviour:
     m_RotationOrder: 4
   fireballExplosionSFX: {fileID: 8300000, guid: 25f1eac4b2da5f64094c9b5f3352f4f1,
     type: 3}
-  damageRadius: 3

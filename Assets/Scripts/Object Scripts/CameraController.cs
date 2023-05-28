@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
     private float zAxisCameraRange;
 
     private Transform defaultFollowTarget;
-    private Transform enemyTurnFollowTarget;
+    private Transform focusFollowTarget;
 
     [SerializeField]
     private CinemachineVirtualCamera cinemachineVirtualCamera;
@@ -32,29 +32,35 @@ public class CameraController : MonoBehaviour
         zAxisCameraRange = LevelGrid.Instance.GetHeight() * LevelGrid.Instance.GetCellSize();
         EnemyAI.Instance.OnEnemyUnitBeginAction += EnemyAI_OnEnemyUnitBeginAction;
         EnemyAI.Instance.OnEnemyTurnFinished += EnemyAI_OnEnemyTurnFinished;
+        FireballProjectile.OnDamageUnit += FireballProjectile_OnDamageUnit;
+        FireballProjectile.OnFinishFireballExplosion +=
+            FireballProjectile_OnFinishFireballExplosion;
     }
 
     private void OnDisable()
     {
         EnemyAI.Instance.OnEnemyUnitBeginAction -= EnemyAI_OnEnemyUnitBeginAction;
         EnemyAI.Instance.OnEnemyTurnFinished -= EnemyAI_OnEnemyTurnFinished;
+        FireballProjectile.OnDamageUnit -= FireballProjectile_OnDamageUnit;
+        FireballProjectile.OnFinishFireballExplosion -=
+            FireballProjectile_OnFinishFireballExplosion;
     }
 
     private void LateUpdate()
     {
         HandleZoom();
         HandleRotation();
-        if (!TurnSystem.Instance.IsPlayerTurn() && enemyTurnFollowTarget)
+        if (focusFollowTarget)
         {
-            FollowEnemyUnit();
+            FollowFocusUnit();
             return;
         }
         HandleMovement();
     }
 
-    private void FollowEnemyUnit()
+    private void FollowFocusUnit()
     {
-        transform.position = enemyTurnFollowTarget.position;
+        transform.position = focusFollowTarget.position;
     }
 
     private void HandleMovement()
@@ -100,13 +106,23 @@ public class CameraController : MonoBehaviour
         );
     }
 
-    private void EnemyAI_OnEnemyUnitBeginAction(object sender, Unit e)
+    private void EnemyAI_OnEnemyUnitBeginAction(object sender, Unit focusUnit)
     {
-        enemyTurnFollowTarget = e.transform;
+        focusFollowTarget = focusUnit.transform;
     }
 
     private void EnemyAI_OnEnemyTurnFinished(object sender, EventArgs e)
     {
-        enemyTurnFollowTarget = null;
+        focusFollowTarget = null;
+    }
+
+    private void FireballProjectile_OnDamageUnit(object sender, Unit focusUnit)
+    {
+        focusFollowTarget = focusUnit.transform;
+    }
+
+    private void FireballProjectile_OnFinishFireballExplosion()
+    {
+        focusFollowTarget = null;
     }
 }

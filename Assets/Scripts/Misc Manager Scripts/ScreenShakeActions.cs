@@ -10,6 +10,7 @@ public class ScreenShakeActions : MonoBehaviour
         ShootAction.OnAnyShoot += ShootAction_OnAnyShoot;
         SwordAction.OnAnySwordHit += SwordAction_OnAnySwordHit;
         CleaveAction.OnAnyCleaveHit += SlashAction_OnAnySlashHit;
+        FireballProjectile.OnAnyFireballExploded += FireballProjectile_OnAnyFireballExploded;
     }
 
     private void OnDisable()
@@ -17,6 +18,7 @@ public class ScreenShakeActions : MonoBehaviour
         ShootAction.OnAnyShoot -= ShootAction_OnAnyShoot;
         SwordAction.OnAnySwordHit -= SwordAction_OnAnySwordHit;
         CleaveAction.OnAnyCleaveHit -= SlashAction_OnAnySlashHit;
+        FireballProjectile.OnAnyFireballExploded -= FireballProjectile_OnAnyFireballExploded;
     }
 
     private void SlashAction_OnAnySlashHit(object sender, EventArgs e)
@@ -29,7 +31,7 @@ public class ScreenShakeActions : MonoBehaviour
         ScreenShake.Instance.Shake(4f);
     }
 
-    private void GrenadeProjectile_OnAnyGrenadeExploded(object sender, EventArgs e)
+    private void FireballProjectile_OnAnyFireballExploded(object sender, EventArgs e)
     {
         ScreenShake.Instance.Shake(5f);
     }

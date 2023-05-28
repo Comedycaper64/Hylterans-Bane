@@ -32,7 +32,12 @@ public class UnitStats : ScriptableObject
     private int weaponDamage = 5;
 
     [SerializeField]
-    private int unitHealth = 10;
+    private int unitHealth = 15;
+
+    public int GetHealth()
+    {
+        return unitHealth;
+    }
 
     public int GetToHit()
     {

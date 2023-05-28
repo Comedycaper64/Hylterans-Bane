@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class AttackInteraction
 {
-    public AttackInteraction(int attack, int armourClass)
+    public AttackInteraction(int attack, int defense)
     {
-        attackRoll = attack;
-        defendingAC = armourClass;
+        attackingValue = attack;
+        defendingValue = defense;
     }
 
-    public int attackRoll;
-    public int defendingAC;
+    public int attackingValue;
+    public int defendingValue;
 }

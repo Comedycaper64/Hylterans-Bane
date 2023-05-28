@@ -65,6 +65,7 @@ public class FireballAction : BaseAction
                     targetGridPosition,
                     damageAmount,
                     damageRadius,
+                    unit.GetUnitStats(),
                     OnFireballBehaviourComplete
                 );
                 break;
