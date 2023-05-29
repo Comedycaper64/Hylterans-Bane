@@ -466,6 +466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6775118003609999743}
   - component: {fileID: 6775118003609999742}
+  - component: {fileID: -8258038942073706721}
   - component: {fileID: 2900312903705531943}
   - component: {fileID: 8648501993855247774}
   - component: {fileID: -7307284983861179806}
@@ -509,10 +510,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Unit
-  unitStats: {fileID: 11400000, guid: 9eb0f0e5a14881c4d97076d265ee797b, type: 2}
+  unitStats: {fileID: -8258038942073706721}
   isEnemy: 0
   backSpriteAttacking: {fileID: 5739928849570973307}
   backSpriteDead: {fileID: 2836485234648405039}
+--- !u!114 &-8258038942073706721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775118003609999744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104ad63b08a71074b881eae7100a2df7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStats: {fileID: 11400000, guid: 9eb0f0e5a14881c4d97076d265ee797b, type: 2}
+  attackingStat: 0
+  weaponDamage: 5
 --- !u!65 &2900312903705531943
 BoxCollider:
   m_ObjectHideFlags: 0

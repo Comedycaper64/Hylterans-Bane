@@ -2,47 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "UnitStats", menuName = "The Seventy Year War/UnitStats", order = 0)]
-public class UnitStats : ScriptableObject
+public class UnitStats : MonoBehaviour
 {
-    [Header("Main Stats")]
     [SerializeField]
-    private int strength = 10;
+    private BaseStats baseStats;
+    private Dictionary<StatType, int> statDictionary = new Dictionary<StatType, int>();
 
     [SerializeField]
-    private int dexterity = 10;
-
-    [SerializeField]
-    private int constitution = 10;
-
-    [SerializeField]
-    private int intelligence = 10;
-
-    [SerializeField]
-    private int wisdom = 10;
-
-    [SerializeField]
-    private int charisma = 10;
-
-    [Header("Other")]
-    [SerializeField]
-    private int proficiencyBonus = 2;
+    private StatType attackingStat;
 
     [SerializeField]
     private int weaponDamage = 5;
 
-    [SerializeField]
-    private int unitHealth = 15;
-
-    public int GetHealth()
+    private void Awake()
     {
-        return unitHealth;
+        SetupDictionary();
+    }
+
+    public void SetupDictionary()
+    {
+        statDictionary.Add(StatType.STR, baseStats.GetStrength());
+        statDictionary.Add(StatType.DEX, baseStats.GetDexterity());
+        statDictionary.Add(StatType.CON, baseStats.GetConstitution());
+        statDictionary.Add(StatType.INT, baseStats.GetIntelligence());
+        statDictionary.Add(StatType.WIS, baseStats.GetWisdom());
+        statDictionary.Add(StatType.CHA, baseStats.GetCharisma());
+    }
+
+    public int GetMaxHealth()
+    {
+        return baseStats.GetMaxHealth();
     }
 
     public int GetToHit()
     {
-        int attackingStat = GetStrength();
-        return GetModifier(attackingStat) + proficiencyBonus;
+        int toHitStat = statDictionary[attackingStat];
+        return GetModifier(toHitStat) + baseStats.GetProficiencyBonus();
     }
 
     public int GetAttackRoll()
@@ -53,18 +48,18 @@ public class UnitStats : ScriptableObject
     public int GetArmourClass()
     {
         int unitArmour = 0;
-        return 10 + GetModifier(GetDexterity()) + unitArmour;
+        return 10 + GetModifier(baseStats.GetDexterity()) + unitArmour;
     }
 
     public int GetDamage()
     {
-        int attackingStat = GetStrength();
-        return GetModifier(attackingStat) + weaponDamage;
+        int damageStat = statDictionary[attackingStat];
+        return GetModifier(damageStat) + weaponDamage;
     }
 
-    public int GetDexteritySavingThrow()
+    public int GetSavingThrow(StatType savingThrowType)
     {
-        return Random.Range(1, 21) + GetModifier(GetDexterity());
+        return Random.Range(1, 21) + GetModifier(statDictionary[savingThrowType]);
     }
 
     private int GetModifier(int score)
@@ -72,44 +67,8 @@ public class UnitStats : ScriptableObject
         return Mathf.FloorToInt(score - 10) / 2;
     }
 
-    //Currently only intelligence
     public int GetSpellDC()
     {
-        return 8 + proficiencyBonus + GetModifier(GetIntelligence());
-    }
-
-    public void SetStrength(int newStrength)
-    {
-        strength = newStrength;
-    }
-
-    public int GetStrength()
-    {
-        return strength;
-    }
-
-    public int GetDexterity()
-    {
-        return dexterity;
-    }
-
-    public int GetConstitution()
-    {
-        return constitution;
-    }
-
-    public int GetIntelligence()
-    {
-        return intelligence;
-    }
-
-    public int GetWisdom()
-    {
-        return wisdom;
-    }
-
-    public int GetCharisma()
-    {
-        return charisma;
+        return 8 + baseStats.GetProficiencyBonus() + GetModifier(statDictionary[attackingStat]);
     }
 }

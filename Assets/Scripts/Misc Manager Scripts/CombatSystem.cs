@@ -64,7 +64,7 @@ public class CombatSystem : MonoBehaviour
     public bool TrySpell(UnitStats attackingUnit, UnitStats defendingUnit)
     {
         int attackingUnitSpellDC = attackingUnit.GetSpellDC();
-        int defendingUnitSavingThrow = defendingUnit.GetDexteritySavingThrow();
+        int defendingUnitSavingThrow = defendingUnit.GetSavingThrow(StatType.DEX);
         OnSpellSave?.Invoke(
             this,
             new AttackInteraction(attackingUnitSpellDC, defendingUnitSavingThrow)

@@ -33,7 +33,6 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         healthSystem = GetComponent<HealthSystem>();
-
         //Puts each component that extends the BaseAction into the array
         baseActionArray = GetComponents<BaseAction>();
         Array.Reverse(baseActionArray);
@@ -46,7 +45,7 @@ public class Unit : MonoBehaviour
         transform.position = LevelGrid.Instance.GetWorldPosition(gridPosition);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-        healthSystem.SetHealth(unitStats.GetHealth());
+        healthSystem.SetHealth(unitStats.GetMaxHealth());
         healthSystem.OnDead += HealthSystem_OnDead;
 
         OnAnyUnitSpawned?.Invoke(this, gridPosition);

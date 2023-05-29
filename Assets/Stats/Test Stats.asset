@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Test Stats
   m_EditorClassIdentifier: 
   strength: 18
-  dexterity: 10
+  dexterity: 14
   constitution: 10
   intelligence: 10
   wisdom: 10
   charisma: 10
   proficiencyBonus: 2
   weaponDamage: 5
-  unitHealth: 15
+  unitMaxHealth: 15
+  attackingStat: 0
