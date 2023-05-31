@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class CleaveAction : BaseAction
 {
+    public static event EventHandler<Unit> OnDamageUnit;
     public static event EventHandler OnAnyCleaveHit;
+    public static event Action OnCleaveDamageFinished;
     public event EventHandler OnCleaveActionStarted;
     public event EventHandler OnCleaveActionCompleted;
 
@@ -61,20 +63,10 @@ public class CleaveAction : BaseAction
                 state = State.SwingingSwordAfterHit;
                 float afterHitStateTime = 2f;
                 stateTimer = afterHitStateTime;
-                foreach (Unit targetUnit in targetUnits)
-                {
-                    targetUnit.Damage(unit.GetUnitStats().GetDamage());
-                }
-                AudioSource.PlayClipAtPoint(
-                    cleaveHitSFX,
-                    Camera.main.transform.position,
-                    SoundManager.Instance.GetSoundEffectVolume()
-                );
-                OnAnyCleaveHit?.Invoke(this, EventArgs.Empty);
+                StartCoroutine(DealDamageToEachTarget(targetUnits));
                 break;
             case State.SwingingSwordAfterHit:
                 OnCleaveActionCompleted?.Invoke(this, EventArgs.Empty);
-                ActionComplete();
                 break;
         }
     }
@@ -174,6 +166,28 @@ public class CleaveAction : BaseAction
         ActionStart(onActionComplete);
     }
 
+    private IEnumerator DealDamageToEachTarget(List<Unit> targetUnits)
+    {
+        foreach (Unit targetUnit in targetUnits)
+        {
+            OnDamageUnit?.Invoke(this, targetUnit);
+            bool unitHit = CombatSystem.Instance.TryAttack(
+                unit.GetUnitStats(),
+                targetUnit.GetUnitStats()
+            );
+            yield return new WaitForSeconds(1f);
+            if (unitHit)
+            {
+                int damageAmount = unit.GetUnitStats().GetDamage();
+                targetUnit.gameObject.GetComponent<Unit>().Damage(damageAmount);
+                OnAnyCleaveHit?.Invoke(this, EventArgs.Empty);
+            }
+            yield return new WaitForSeconds(1f);
+        }
+        OnCleaveDamageFinished?.Invoke();
+        ActionComplete();
+    }
+
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         int targetsInAOE = 0;
@@ -190,16 +204,16 @@ public class CleaveAction : BaseAction
                     if (!LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition).IsEnemy())
                     {
                         targetsInAOE++;
-                        Debug.Log(
-                            "Current Grid Position is "
-                                + gridPosition.x
-                                + ", "
-                                + gridPosition.z
-                                + " Target found at "
-                                + testGridPosition.x
-                                + ", "
-                                + testGridPosition.z
-                        );
+                        // Debug.Log(
+                        //     "Current Grid Position is "
+                        //         + gridPosition.x
+                        //         + ", "
+                        //         + gridPosition.z
+                        //         + " Target found at "
+                        //         + testGridPosition.x
+                        //         + ", "
+                        //         + testGridPosition.z
+                        // );
                     }
                 }
             }

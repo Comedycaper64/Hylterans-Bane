@@ -96,7 +96,6 @@ public class FireballAction : BaseAction
                 stateTimer = coolOffStateTime;
                 break;
             case State.Cooloff:
-                ActionComplete();
                 break;
         }
     }

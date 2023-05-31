@@ -35,6 +35,8 @@ public class CameraController : MonoBehaviour
         FireballProjectile.OnDamageUnit += FireballProjectile_OnDamageUnit;
         FireballProjectile.OnFinishFireballExplosion +=
             FireballProjectile_OnFinishFireballExplosion;
+        CleaveAction.OnDamageUnit += CleaveAction_OnDamageUnit;
+        CleaveAction.OnCleaveDamageFinished += CleaveAction_OnCleaveDamageFinished;
     }
 
     private void OnDisable()
@@ -44,6 +46,8 @@ public class CameraController : MonoBehaviour
         FireballProjectile.OnDamageUnit -= FireballProjectile_OnDamageUnit;
         FireballProjectile.OnFinishFireballExplosion -=
             FireballProjectile_OnFinishFireballExplosion;
+        CleaveAction.OnDamageUnit -= CleaveAction_OnDamageUnit;
+        CleaveAction.OnCleaveDamageFinished -= CleaveAction_OnCleaveDamageFinished;
     }
 
     private void LateUpdate()
@@ -119,6 +123,16 @@ public class CameraController : MonoBehaviour
     private void FireballProjectile_OnDamageUnit(object sender, Unit focusUnit)
     {
         focusFollowTarget = focusUnit.transform;
+    }
+
+    private void CleaveAction_OnDamageUnit(object sender, Unit focusUnit)
+    {
+        focusFollowTarget = focusUnit.transform;
+    }
+
+    private void CleaveAction_OnCleaveDamageFinished()
+    {
+        focusFollowTarget = null;
     }
 
     private void FireballProjectile_OnFinishFireballExplosion()
