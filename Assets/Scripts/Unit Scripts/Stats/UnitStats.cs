@@ -11,8 +11,7 @@ public class UnitStats : MonoBehaviour
     [SerializeField]
     private StatType attackingStat;
 
-    [SerializeField]
-    private int weaponDamage = 5;
+    private int weaponDamage = 8;
 
     private void Awake()
     {

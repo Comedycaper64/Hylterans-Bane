@@ -20,6 +20,9 @@ public class SwordAction : BaseAction
         SwingingSwordAfterHit,
     }
 
+    [SerializeField]
+    private float actionDamageMultiplier = 1f;
+
     private int maxSwordDistance = 1;
     private State state;
     private float stateTimer;
@@ -197,6 +200,11 @@ public class SwordAction : BaseAction
     public override bool ActionDealsDamage()
     {
         return true;
+    }
+
+    public override int GetDamage()
+    {
+        return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
     }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)

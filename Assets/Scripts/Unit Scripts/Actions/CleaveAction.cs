@@ -11,8 +11,8 @@ public class CleaveAction : BaseAction
     public event EventHandler OnCleaveActionStarted;
     public event EventHandler OnCleaveActionCompleted;
 
-    // [SerializeField]
-    // private int damageAmount;
+    [SerializeField]
+    private float actionDamageMultiplier = 1.5f;
 
     [SerializeField]
     private AudioClip cleaveHitSFX;
@@ -229,6 +229,11 @@ public class CleaveAction : BaseAction
     public override bool ActionDealsDamage()
     {
         return true;
+    }
+
+    public override int GetDamage()
+    {
+        return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
     }
 
     public int GetMaxSlashDistance()

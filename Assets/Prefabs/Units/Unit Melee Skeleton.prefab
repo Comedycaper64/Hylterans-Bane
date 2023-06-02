@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc8c883282fe4d428c60e104a2dca47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 0
+  actionDamageMultiplier: 1.2
   cleaveHitSFX: {fileID: 8300000, guid: 8764ea24bdbae02438b1c1bd27a31c6f, type: 3}
 --- !u!114 &8956783870501644214
 MonoBehaviour:
@@ -104,3 +104,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackHitSFX: {fileID: 8300000, guid: 4707b9c33f3013a4b956b549a4bb1455, type: 3}
+  actionDamageMultiplier: 1

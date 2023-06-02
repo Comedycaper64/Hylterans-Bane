@@ -204,6 +204,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1126276845683939891}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5382509616398786958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5883771766290645939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38994469c6e6ace479086fa0c99a9823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackHitSFX: {fileID: 8300000, guid: 4707b9c33f3013a4b956b549a4bb1455, type: 3}
+  actionDamageMultiplier: 1
 --- !u!114 &9221536415837037023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxMoveDistance: 4
---- !u!114 &5382509616398786958
+--- !u!114 &-2104081562082715296
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,8 +240,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5883771766290645939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38994469c6e6ace479086fa0c99a9823, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cc8c883282fe4d428c60e104a2dca47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 80
-  attackHitSFX: {fileID: 8300000, guid: 4707b9c33f3013a4b956b549a4bb1455, type: 3}
+  actionDamageMultiplier: 1.5
+  cleaveHitSFX: {fileID: 8300000, guid: 8764ea24bdbae02438b1c1bd27a31c6f, type: 3}

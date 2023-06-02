@@ -8,6 +8,17 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
+      propertyPath: baseStats
+      value: 
+      objectReference: {fileID: 11400000, guid: c783788f73f4e6d48af6bc3799e5f0b9,
+        type: 2}
+    - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
+      propertyPath: attackingStat
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 145128783493667763, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -172,6 +183,24 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4353446818035543482}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-1701961680112297521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092185613756478522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a616c4b6c555b4eb09fda456d80596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flingFireboltSFX: {fileID: 8300000, guid: 1cc48027846611041a279bd609f88de2, type: 3}
+  maxShootDistance: 4
+  actionDamageMultiplier: 1
+  obstaclesLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &-538394781072065893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +217,7 @@ MonoBehaviour:
     type: 3}
   fireballChargeSFX: {fileID: 8300000, guid: 25f1eac4b2da5f64094c9b5f3352f4f1, type: 3}
   maxThrowDistance: 4
-  actionDamageMultiplier: 1
+  actionDamageMultiplier: 0.8
   damageRadius: 3
 --- !u!114 &9221536416312422903
 MonoBehaviour:

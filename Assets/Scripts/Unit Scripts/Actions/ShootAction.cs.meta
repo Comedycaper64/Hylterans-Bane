@@ -3,7 +3,8 @@ guid: de9e9fddf5a8793448677f2cd6f57405
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - shootCrossbowSFX: {fileID: 8300000, guid: ef62bf97e30810d41918043170c92db3, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

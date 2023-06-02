@@ -528,7 +528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 9eb0f0e5a14881c4d97076d265ee797b, type: 2}
   attackingStat: 0
-  weaponDamage: 5
+  weaponDamage: 10
 --- !u!65 &2900312903705531943
 BoxCollider:
   m_ObjectHideFlags: 0

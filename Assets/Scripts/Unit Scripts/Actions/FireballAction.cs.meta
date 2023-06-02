@@ -3,7 +3,10 @@ guid: 2170546dac9c16347aa9ad4b5c462080
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - fireballProjectilePrefab: {fileID: 1051219098645697480, guid: 9fad8872547ca624881a7381f6cdccab,
+      type: 3}
+  - fireballChargeSFX: {fileID: 8300000, guid: 1cc48027846611041a279bd609f88de2, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

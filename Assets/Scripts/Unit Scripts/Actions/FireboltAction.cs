@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootAction : BaseAction
+public class FireboltAction : BaseAction
 {
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
     public event EventHandler<OnShootEventArgs> OnShoot;
@@ -12,7 +12,7 @@ public class ShootAction : BaseAction
     private bool attackSucceeded;
 
     [SerializeField]
-    private AudioClip shootCrossbowSFX;
+    private AudioClip flingFireboltSFX;
 
     //Custom eventArgs that include both shooter and target
     public class OnShootEventArgs : EventArgs
@@ -104,7 +104,7 @@ public class ShootAction : BaseAction
     private void Shoot()
     {
         AudioSource.PlayClipAtPoint(
-            shootCrossbowSFX,
+            flingFireboltSFX,
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );

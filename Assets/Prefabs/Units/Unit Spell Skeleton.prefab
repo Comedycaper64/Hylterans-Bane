@@ -66,18 +66,18 @@ PrefabInstance:
     - target: {fileID: 593051697992768133, guid: f63e81d9c57fece4c9ddf7c2ee99b74c,
         type: 3}
       propertyPath: m_Name
-      value: Unit Ranged Skeleton
+      value: Unit Spell Skeleton
       objectReference: {fileID: 0}
     - target: {fileID: 6582417506136269850, guid: f63e81d9c57fece4c9ddf7c2ee99b74c,
         type: 3}
       propertyPath: baseStats
       value: 
-      objectReference: {fileID: 11400000, guid: 74cb149fa22117d4b9cc1c95c43e85a0,
+      objectReference: {fileID: 11400000, guid: c783788f73f4e6d48af6bc3799e5f0b9,
         type: 2}
     - target: {fileID: 6582417506136269850, guid: f63e81d9c57fece4c9ddf7c2ee99b74c,
         type: 3}
       propertyPath: attackingStat
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 288659310252011779}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &63611699
+--- !u!114 &-7328982715417928940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,12 +99,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 881429533266488198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de9e9fddf5a8793448677f2cd6f57405, type: 3}
+  m_Script: {fileID: 11500000, guid: 92a616c4b6c555b4eb09fda456d80596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootCrossbowSFX: {fileID: 8300000, guid: ef62bf97e30810d41918043170c92db3, type: 3}
+  flingFireboltSFX: {fileID: 8300000, guid: 1cc48027846611041a279bd609f88de2, type: 3}
   maxShootDistance: 4
   actionDamageMultiplier: 1
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &63611707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881429533266488198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2170546dac9c16347aa9ad4b5c462080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireballProjectilePrefab: {fileID: 1051219098645697480, guid: 9fad8872547ca624881a7381f6cdccab,
+    type: 3}
+  fireballChargeSFX: {fileID: 8300000, guid: 1cc48027846611041a279bd609f88de2, type: 3}
+  maxThrowDistance: 4
+  actionDamageMultiplier: 0.8
+  damageRadius: 3

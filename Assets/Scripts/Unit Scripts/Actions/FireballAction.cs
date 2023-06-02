@@ -15,13 +15,13 @@ public class FireballAction : BaseAction
     public event EventHandler OnFireballActionCompleted;
 
     [SerializeField]
-    private int maxThrowDistance;
+    private int maxThrowDistance = 4;
 
     [SerializeField]
-    private float actionDamageMultiplier;
+    private float actionDamageMultiplier = 0.8f;
 
     [SerializeField]
-    private float damageRadius;
+    private float damageRadius = 3f;
 
     //private int minThrowDistance = 2;
     private State state;
@@ -203,6 +203,11 @@ public class FireballAction : BaseAction
     public override bool ActionDealsDamage()
     {
         return true;
+    }
+
+    public override int GetDamage()
+    {
+        return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
     }
 
     private void OnFireballBehaviourComplete()

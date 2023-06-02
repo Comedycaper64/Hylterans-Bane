@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5cc8c883282fe4d428c60e104a2dca47
+guid: 92a616c4b6c555b4eb09fda456d80596
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - cleaveHitSFX: {fileID: 8300000, guid: 8764ea24bdbae02438b1c1bd27a31c6f, type: 3}
+  - shootCrossbowSFX: {fileID: 8300000, guid: ef62bf97e30810d41918043170c92db3, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
