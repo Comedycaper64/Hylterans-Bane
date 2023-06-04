@@ -23,7 +23,6 @@ public class SwordAction : BaseAction
     [SerializeField]
     private float actionDamageMultiplier = 1f;
 
-    private int maxSwordDistance = 1;
     private State state;
     private float stateTimer;
     private Unit targetUnit;
@@ -109,6 +108,8 @@ public class SwordAction : BaseAction
 
         GridPosition unitGridPosition = unit.GetGridPosition();
 
+        int maxSwordDistance = unit.GetUnitStats().GetAttackRange();
+
         for (int x = -maxSwordDistance; x <= maxSwordDistance; x++)
         {
             for (int z = -maxSwordDistance; z <= maxSwordDistance; z++)
@@ -145,6 +146,8 @@ public class SwordAction : BaseAction
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
+
+        int maxSwordDistance = unit.GetUnitStats().GetAttackRange();
 
         for (int x = -maxSwordDistance; x <= maxSwordDistance; x++)
         {
@@ -220,7 +223,7 @@ public class SwordAction : BaseAction
 
     public int GetMaxSwordDistance()
     {
-        return maxSwordDistance;
+        return unit.GetUnitStats().GetAttackRange();
     }
 
     public override int GetTargetCountAtPosition(GridPosition gridPosition)

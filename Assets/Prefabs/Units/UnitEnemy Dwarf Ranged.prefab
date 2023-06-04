@@ -16,6 +16,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
+      propertyPath: unitArmour
+      value: 
+      objectReference: {fileID: 11400000, guid: f18cd7253e42fa54ab285e6f1b586013,
+        type: 2}
+    - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
+      propertyPath: unitWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: f4f6823d204f24e41a54254b5d397b1a,
+        type: 2}
+    - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
       propertyPath: attackingStat
       value: 1
       objectReference: {fileID: 0}
@@ -196,7 +208,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootCrossbowSFX: {fileID: 8300000, guid: ef62bf97e30810d41918043170c92db3, type: 3}
-  maxShootDistance: 4
   actionDamageMultiplier: 1
   obstaclesLayerMask:
     serializedVersion: 2

@@ -224,6 +224,14 @@ public class GridSystemVisual : MonoBehaviour
                     GridVisualType.RedSoft
                 );
                 break;
+            case FireboltAction fireboltAction:
+                gridVisualType = GridVisualType.Red;
+                ShowGridPositionRange(
+                    selectedUnit.GetGridPosition(),
+                    fireboltAction.GetMaxShootDistance(),
+                    GridVisualType.RedSoft
+                );
+                break;
             case MoveAction moveAction:
                 gridVisualType = GridVisualType.White;
                 ShowGridPositionRange(

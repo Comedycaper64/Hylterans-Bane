@@ -25,6 +25,11 @@ public class UnitAnimator : MonoBehaviour
             shootAction.OnAim += OnAttackStarted;
         }
 
+        if (TryGetComponent<FireboltAction>(out FireboltAction fireboltAction))
+        {
+            fireboltAction.OnAim += OnAttackStarted;
+        }
+
         if (TryGetComponent<SwordAction>(out SwordAction swordAction))
         {
             swordAction.OnSwordActionStarted += OnAttackStarted;
@@ -60,6 +65,11 @@ public class UnitAnimator : MonoBehaviour
         if (TryGetComponent<ShootAction>(out ShootAction shootAction))
         {
             shootAction.OnAim -= OnAttackStarted;
+        }
+
+        if (TryGetComponent<FireboltAction>(out FireboltAction fireboltAction))
+        {
+            fireboltAction.OnAim -= OnAttackStarted;
         }
 
         if (TryGetComponent<SwordAction>(out SwordAction swordAction))

@@ -65,26 +65,38 @@ public class CombatSystem : MonoBehaviour
     public bool TryAttack(UnitStats attackingUnit, UnitStats defendingUnit)
     {
         //Attack role = d20 role + attacking stat + proficiency
-        int attackingUnitAttackRoll = attackingUnit.GetAttackRoll();
+        int attackingUnitAttackRoll = attackingUnit.GetRoll();
+        int attackingUnitAttackBonus = attackingUnit.GetToHit();
         int defendingUnitAC = defendingUnit.GetArmourClass();
         //Debug.Log("Attack roll: " + attackingUnitAttackRoll);
-        OnAttackRoll?.Invoke(this, new AttackInteraction(attackingUnitAttackRoll, defendingUnitAC));
-        return (attackingUnitAttackRoll >= defendingUnitAC);
+        OnAttackRoll?.Invoke(
+            this,
+            new AttackInteraction(
+                attackingUnitAttackRoll,
+                attackingUnitAttackBonus,
+                defendingUnitAC,
+                0
+            )
+        );
+        return ((attackingUnitAttackRoll + attackingUnitAttackBonus) >= defendingUnitAC);
     }
 
     public bool TrySpell(UnitStats attackingUnit, UnitStats defendingUnit)
     {
         int attackingUnitSpellDC = attackingUnit.GetSpellDC();
-        int defendingUnitSavingThrow = defendingUnit.GetSavingThrow(StatType.DEX);
+        int defendingUnitSavingThrowRoll = defendingUnit.GetRoll();
+        int defendingUnitSavingThrowBonus = defendingUnit.GetSavingThrow(StatType.DEX);
         OnSpellSave?.Invoke(
             this,
-            new AttackInteraction(attackingUnitSpellDC, defendingUnitSavingThrow)
+            new AttackInteraction(
+                attackingUnitSpellDC,
+                0,
+                defendingUnitSavingThrowRoll,
+                defendingUnitSavingThrowBonus
+            )
         );
-        return (attackingUnitSpellDC > defendingUnitSavingThrow);
-    }
-
-    private int CalculateUnitDamage(Unit attackingUnit)
-    {
-        throw new System.NotImplementedException();
+        return (
+            attackingUnitSpellDC > (defendingUnitSavingThrowRoll + defendingUnitSavingThrowBonus)
+        );
     }
 }

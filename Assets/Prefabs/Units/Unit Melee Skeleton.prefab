@@ -68,6 +68,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit Melee Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 6582417506136269850, guid: f63e81d9c57fece4c9ddf7c2ee99b74c,
+        type: 3}
+      propertyPath: unitArmour
+      value: 
+      objectReference: {fileID: 11400000, guid: b033be06d52bb554e92c7cb9ea239885,
+        type: 2}
+    - target: {fileID: 6582417506136269850, guid: f63e81d9c57fece4c9ddf7c2ee99b74c,
+        type: 3}
+      propertyPath: unitWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 34c23ac20deebad46b38ecc5bdf988cc,
+        type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: f63e81d9c57fece4c9ddf7c2ee99b74c, type: 3}

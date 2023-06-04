@@ -16,6 +16,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
+      propertyPath: unitArmour
+      value: 
+      objectReference: {fileID: 11400000, guid: f18cd7253e42fa54ab285e6f1b586013,
+        type: 2}
+    - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
+      propertyPath: unitWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 34c23ac20deebad46b38ecc5bdf988cc,
+        type: 2}
+    - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
       propertyPath: attackingStat
       value: 3
       objectReference: {fileID: 0}

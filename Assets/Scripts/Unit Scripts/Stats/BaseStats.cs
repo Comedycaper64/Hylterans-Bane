@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BaseStats", menuName = "The Seventy Year War/BaseStats", order = 0)]
+[CreateAssetMenu(fileName = "NewBaseStats", menuName = "The Seventy Year War/BaseStats", order = 0)]
 public class BaseStats : ScriptableObject
 {
     [Header("Main Stats")]

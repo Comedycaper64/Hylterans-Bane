@@ -31,8 +31,6 @@ public class ShootAction : BaseAction
 
     private State state;
 
-    [SerializeField]
-    private int maxShootDistance = 4;
     private float stateTimer;
     private Unit targetUnit;
     private bool canShoot;
@@ -144,6 +142,8 @@ public class ShootAction : BaseAction
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
+        int maxShootDistance = unit.GetUnitStats().GetAttackRange();
+
         for (int x = -maxShootDistance; x <= maxShootDistance; x++)
         {
             for (int z = -maxShootDistance; z <= maxShootDistance; z++)
@@ -235,7 +235,7 @@ public class ShootAction : BaseAction
 
     public int GetMaxShootDistance()
     {
-        return maxShootDistance;
+        return unit.GetUnitStats().GetAttackRange();
     }
 
     //Action value to shoot a player Unit is high, very likely to do it if possible

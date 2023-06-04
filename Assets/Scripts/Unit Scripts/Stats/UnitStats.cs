@@ -6,12 +6,17 @@ public class UnitStats : MonoBehaviour
 {
     [SerializeField]
     private BaseStats baseStats;
+
+    [SerializeField]
+    private Weapon unitWeapon;
+
+    [SerializeField]
+    private Armour unitArmour;
+
     private Dictionary<StatType, int> statDictionary = new Dictionary<StatType, int>();
 
     [SerializeField]
     private StatType attackingStat;
-
-    private int weaponDamage = 8;
 
     private void Awake()
     {
@@ -39,6 +44,11 @@ public class UnitStats : MonoBehaviour
         return GetModifier(toHitStat) + baseStats.GetProficiencyBonus();
     }
 
+    public int GetRoll()
+    {
+        return Random.Range(1, 21);
+    }
+
     public int GetAttackRoll()
     {
         return Random.Range(1, 21) + GetToHit();
@@ -46,19 +56,25 @@ public class UnitStats : MonoBehaviour
 
     public int GetArmourClass()
     {
-        int unitArmour = 0;
-        return 10 + GetModifier(baseStats.GetDexterity()) + unitArmour;
+        return 10
+            + Mathf.Min(GetModifier(baseStats.GetDexterity()), unitArmour.GetDexBonusLimit())
+            + unitArmour.GetArmourBonus();
     }
 
     public int GetDamage()
     {
         int damageStat = statDictionary[attackingStat];
-        return GetModifier(damageStat) + weaponDamage;
+        return GetModifier(damageStat) + unitWeapon.GetWeaponDamage();
+    }
+
+    public int GetAttackRange()
+    {
+        return unitWeapon.GetWeaponRange();
     }
 
     public int GetSavingThrow(StatType savingThrowType)
     {
-        return Random.Range(1, 21) + GetModifier(statDictionary[savingThrowType]);
+        return GetModifier(statDictionary[savingThrowType]);
     }
 
     private int GetModifier(int score)

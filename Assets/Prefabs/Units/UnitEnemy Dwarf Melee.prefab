@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
+      propertyPath: unitArmour
+      value: 
+      objectReference: {fileID: 11400000, guid: b033be06d52bb554e92c7cb9ea239885,
+        type: 2}
+    - target: {fileID: -8258038942073706721, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
+      propertyPath: unitWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 34c23ac20deebad46b38ecc5bdf988cc,
+        type: 2}
     - target: {fileID: 145128783493667763, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -204,6 +216,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1126276845683939891}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2104081562082715296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5883771766290645939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cc8c883282fe4d428c60e104a2dca47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionDamageMultiplier: 1.5
+  cleaveHitSFX: {fileID: 8300000, guid: 8764ea24bdbae02438b1c1bd27a31c6f, type: 3}
 --- !u!114 &5382509616398786958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,17 +257,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxMoveDistance: 4
---- !u!114 &-2104081562082715296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5883771766290645939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cc8c883282fe4d428c60e104a2dca47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionDamageMultiplier: 1.5
-  cleaveHitSFX: {fileID: 8300000, guid: 8764ea24bdbae02438b1c1bd27a31c6f, type: 3}

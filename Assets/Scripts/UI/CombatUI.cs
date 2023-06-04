@@ -34,19 +34,35 @@ public class CombatUI : MonoBehaviour
         defendingACText.enabled = toggle;
     }
 
-    private IEnumerator TemporarilyDisplayAttackUI(int attackRoll, int defendingAC)
+    private IEnumerator TemporarilyDisplayAttackUI(int attackRoll, int attackBonus, int defendingAC)
     {
-        attackRollText.text = "Attack Roll: " + attackRoll;
+        attackRollText.text =
+            "Attack Roll: ("
+            + attackRoll
+            + " + "
+            + attackBonus
+            + ") = "
+            + (attackRoll + attackBonus);
         defendingACText.text = "Defender AC: " + defendingAC;
         ToggleAttackUI(true);
         yield return new WaitForSeconds(attackRollAppearanceTime);
         ToggleAttackUI(false);
     }
 
-    private IEnumerator TemporarilyDisplaySpellUI(int spellSave, int defendingSavingThrow)
+    private IEnumerator TemporarilyDisplaySpellUI(
+        int spellSave,
+        int defendingUnitSavingThrowRoll,
+        int defendingUnitSavingThrowBonus
+    )
     {
         attackRollText.text = "Spell Save DC: " + spellSave;
-        defendingACText.text = "Defender Saving Throw: " + defendingSavingThrow;
+        defendingACText.text =
+            "Defender Saving Throw: ("
+            + defendingUnitSavingThrowRoll
+            + " + "
+            + defendingUnitSavingThrowBonus
+            + ") = "
+            + (defendingUnitSavingThrowRoll + defendingUnitSavingThrowBonus);
         ToggleAttackUI(true);
         yield return new WaitForSeconds(attackRollAppearanceTime);
         ToggleAttackUI(false);
@@ -56,8 +72,9 @@ public class CombatUI : MonoBehaviour
     {
         StartCoroutine(
             TemporarilyDisplayAttackUI(
-                attackInteraction.attackingValue,
-                attackInteraction.defendingValue
+                attackInteraction.attackRoll,
+                attackInteraction.attackBonus,
+                attackInteraction.defenseRoll
             )
         );
     }
@@ -66,8 +83,9 @@ public class CombatUI : MonoBehaviour
     {
         StartCoroutine(
             TemporarilyDisplaySpellUI(
-                attackInteraction.attackingValue,
-                attackInteraction.defendingValue
+                attackInteraction.attackRoll,
+                attackInteraction.defenseRoll,
+                attackInteraction.defenseBonus
             )
         );
     }
