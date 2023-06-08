@@ -210,6 +210,11 @@ public class SwordAction : BaseAction
         return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
     }
 
+    public override int GetUIPriority()
+    {
+        return 5;
+    }
+
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);

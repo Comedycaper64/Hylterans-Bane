@@ -27,6 +27,11 @@ public class WaitAction : BaseAction
         return "Wait";
     }
 
+    public override int GetUIPriority()
+    {
+        return -1;
+    }
+
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         ActionStart(onActionComplete);

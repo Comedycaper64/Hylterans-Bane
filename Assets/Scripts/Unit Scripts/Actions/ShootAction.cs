@@ -233,6 +233,11 @@ public class ShootAction : BaseAction
         return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
     }
 
+    public override int GetUIPriority()
+    {
+        return 5;
+    }
+
     public int GetMaxShootDistance()
     {
         return unit.GetUnitStats().GetAttackRange();

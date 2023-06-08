@@ -65,7 +65,7 @@ public class UnitActionSystemUI : MonoBehaviour
             return;
         }
 
-        foreach (BaseAction baseAction in selectedUnit.GetBaseActionArray())
+        foreach (BaseAction baseAction in selectedUnit.GetBaseActionList())
         {
             if (baseAction.GetActionName() == "Move")
             {

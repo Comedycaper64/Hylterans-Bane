@@ -233,6 +233,11 @@ public class FireboltAction : BaseAction
         return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
     }
 
+    public override int GetUIPriority()
+    {
+        return 5;
+    }
+
     public int GetMaxShootDistance()
     {
         return maxShootDistance;

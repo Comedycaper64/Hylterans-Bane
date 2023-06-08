@@ -19,7 +19,7 @@ public class Unit : MonoBehaviour
 
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
-    private BaseAction[] baseActionArray;
+    private List<BaseAction> baseActionList = new List<BaseAction>();
 
     [SerializeField]
     private GameObject backSpriteAttacking;
@@ -34,8 +34,12 @@ public class Unit : MonoBehaviour
     {
         healthSystem = GetComponent<HealthSystem>();
         //Puts each component that extends the BaseAction into the array
-        baseActionArray = GetComponents<BaseAction>();
-        Array.Reverse(baseActionArray);
+        BaseAction[] baseActionArray = GetComponents<BaseAction>();
+        foreach (BaseAction baseAction in baseActionArray)
+        {
+            baseActionList.Add(baseAction);
+        }
+        baseActionList.Sort((BaseAction a, BaseAction b) => b.GetUIPriority() - a.GetUIPriority());
     }
 
     //Subscribes to events, puts the Unit on the LevelGrid
@@ -74,7 +78,7 @@ public class Unit : MonoBehaviour
     public T GetAction<T>()
         where T : BaseAction
     {
-        foreach (BaseAction baseAction in baseActionArray)
+        foreach (BaseAction baseAction in baseActionList)
         {
             if (baseAction is T)
             {
@@ -110,9 +114,9 @@ public class Unit : MonoBehaviour
     }
 
     //Returns all actions on Unit
-    public BaseAction[] GetBaseActionArray()
+    public List<BaseAction> GetBaseActionList()
     {
-        return baseActionArray;
+        return baseActionList;
     }
 
     public GridPosition GetGridPosition()

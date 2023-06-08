@@ -128,7 +128,7 @@ public class EnemyAI : MonoBehaviour
 
         if (enemyUnit.GetMovementCompleted())
         {
-            foreach (BaseAction baseAction in enemyUnit.GetBaseActionArray())
+            foreach (BaseAction baseAction in enemyUnit.GetBaseActionList())
             {
                 if (baseAction == enemyUnit.GetAction<MoveAction>())
                 {
