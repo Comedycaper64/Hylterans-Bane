@@ -27,6 +27,15 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private GameObject backSpriteDead;
 
+    [SerializeField]
+    private MeshRenderer baseMesh;
+
+    [SerializeField]
+    private Material availableMaterial;
+
+    [SerializeField]
+    private Material usedMaterial;
+
     public static event EventHandler<GridPosition> OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
 
@@ -40,6 +49,9 @@ public class Unit : MonoBehaviour
             baseActionList.Add(baseAction);
         }
         baseActionList.Sort((BaseAction a, BaseAction b) => b.GetUIPriority() - a.GetUIPriority());
+
+        SetActionCompleted(true);
+        SetMovementCompleted(true);
     }
 
     //Subscribes to events, puts the Unit on the LevelGrid
@@ -48,7 +60,7 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         transform.position = LevelGrid.Instance.GetWorldPosition(gridPosition);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
-        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        //TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         healthSystem.SetHealth(unitStats.GetMaxHealth());
         healthSystem.OnDead += HealthSystem_OnDead;
 
@@ -57,7 +69,7 @@ public class Unit : MonoBehaviour
 
     private void OnDisable()
     {
-        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        //TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
         healthSystem.OnDead -= HealthSystem_OnDead;
     }
 
@@ -91,6 +103,14 @@ public class Unit : MonoBehaviour
     public void SetActionCompleted(bool completed)
     {
         turnActionCompleted = completed;
+        if (turnActionCompleted)
+        {
+            baseMesh.material = usedMaterial;
+        }
+        else
+        {
+            baseMesh.material = availableMaterial;
+        }
     }
 
     public bool GetActionCompleted()
@@ -171,15 +191,15 @@ public class Unit : MonoBehaviour
     }
 
     //Regens action points for Player units if player unit turn, for enemy units instead if enemy turn
-    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    {
-        if (
-            (IsEnemy() && !TurnSystem.Instance.IsPlayerTurn())
-            || (!IsEnemy() && TurnSystem.Instance.IsPlayerTurn())
-        )
-        {
-            turnActionCompleted = false;
-            turnMovementCompleted = false;
-        }
-    }
+    // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    // {
+    //     if (
+    //         (IsEnemy() && !TurnSystem.Instance.IsPlayerTurn())
+    //         || (!IsEnemy() && TurnSystem.Instance.IsPlayerTurn())
+    //     )
+    //     {
+    //         SetActionCompleted(false);
+    //         SetMovementCompleted(false);
+    //     }
+    // }
 }

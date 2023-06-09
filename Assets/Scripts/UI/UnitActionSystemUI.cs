@@ -24,7 +24,7 @@ public class UnitActionSystemUI : MonoBehaviour
     private void Start()
     {
         UnitActionSystem.Instance.OnUnitMoved += UnitActionSystem_OnUnitMoved;
-        UnitActionSystem.Instance.OnUnitActionFinished += UnitActionSystem_OnUnitActionFinished;
+        UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitActionStarted;
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
 
@@ -35,7 +35,7 @@ public class UnitActionSystemUI : MonoBehaviour
     private void OnDisable()
     {
         UnitActionSystem.Instance.OnUnitMoved -= UnitActionSystem_OnUnitMoved;
-        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitActionFinished;
+        UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitActionStarted;
         UnitActionSystem.Instance.OnSelectedActionChanged -=
             UnitActionSystem_OnSelectedActionChanged;
     }
@@ -44,6 +44,7 @@ public class UnitActionSystemUI : MonoBehaviour
     //This is done each time a new unit is selected
     private void CreateUnitActionButtons()
     {
+        ClearUnitActionButtons();
         if (!TurnSystem.Instance.IsPlayerTurn())
         {
             return;
@@ -52,8 +53,6 @@ public class UnitActionSystemUI : MonoBehaviour
         {
             return;
         }
-
-        ClearUnitActionButtons();
 
         Unit selectedUnit;
         if (UnitActionSystem.Instance.GetSelectedUnit())
@@ -107,7 +106,7 @@ public class UnitActionSystemUI : MonoBehaviour
         UpdateSelectedVisuals();
     }
 
-    private void UnitActionSystem_OnUnitActionFinished()
+    private void UnitActionSystem_OnUnitActionStarted()
     {
         ClearUnitActionButtons();
     }

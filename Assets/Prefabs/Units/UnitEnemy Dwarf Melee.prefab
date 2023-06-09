@@ -91,6 +91,11 @@ PrefabInstance:
       propertyPath: unitName
       value: Dwarf
       objectReference: {fileID: 0}
+    - target: {fileID: 6775118003609999742, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
+      propertyPath: availableMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: b0120b6d16a8f304e92c7a5dbaaa8009, type: 2}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_RootOrder

@@ -514,6 +514,9 @@ MonoBehaviour:
   isEnemy: 0
   backSpriteAttacking: {fileID: 5739928849570973307}
   backSpriteDead: {fileID: 2836485234648405039}
+  baseMesh: {fileID: 145128783493667763}
+  availableMaterial: {fileID: 2100000, guid: ffcc6949f9bf0bc4785da5511e349882, type: 2}
+  usedMaterial: {fileID: 2100000, guid: 7ce9d1b9ab044d64797ff3b633504901, type: 2}
 --- !u!114 &-8258038942073706721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,8 +530,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 9eb0f0e5a14881c4d97076d265ee797b, type: 2}
+  unitWeapon: {fileID: 0}
+  unitArmour: {fileID: 0}
   attackingStat: 0
-  weaponDamage: 10
 --- !u!65 &2900312903705531943
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1007,6 +1011,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4015600164726079474}
   m_SourcePrefab: {fileID: 100100000, guid: 71d82d2125de9ca40a64c4d9db6ad622, type: 3}
+--- !u!23 &145128783493667763 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3688063640244651543, guid: 71d82d2125de9ca40a64c4d9db6ad622,
+    type: 3}
+  m_PrefabInstance: {fileID: 3543553950584282532}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &145128783540407104 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3688063640325215972, guid: 71d82d2125de9ca40a64c4d9db6ad622,

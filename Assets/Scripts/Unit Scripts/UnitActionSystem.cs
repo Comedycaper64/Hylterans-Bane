@@ -23,6 +23,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private BaseAction selectedAction;
     private bool isBusy;
+    private bool unitTurnFinished = false;
     private ActionState currentState;
     private GridPosition unitStartPosition;
 
@@ -47,15 +48,15 @@ public class UnitActionSystem : MonoBehaviour
         currentState = ActionState.noSelectedUnit;
     }
 
-    private void Start()
-    {
-        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-    }
+    // private void Start()
+    // {
+    //     TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+    // }
 
-    private void OnDisable()
-    {
-        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
-    }
+    // private void OnDisable()
+    // {
+    //     TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+    // }
 
     private void Update()
     {
@@ -101,15 +102,16 @@ public class UnitActionSystem : MonoBehaviour
             {
                 BaseAction actionToHandle = selectedAction; //Set to this so that the SetBusy method doesn't cause a NullReference
                 StartAction();
-                actionToHandle.TakeAction(mouseGridPosition, FinishAction);
 
                 if (currentState == ActionState.selectingAction)
                 {
                     currentState = ActionState.noSelectedUnit;
                     selectedUnit.SetActionCompleted(true);
                     SetSelectedUnit(null);
-                    OnUnitActionFinished?.Invoke();
+                    unitTurnFinished = true;
                 }
+
+                actionToHandle.TakeAction(mouseGridPosition, FinishAction);
             }
         }
         else if (InputManager.Instance.IsRightClickDownThisFrame()) //Resets unit to starting position if player right clicks
@@ -134,16 +136,20 @@ public class UnitActionSystem : MonoBehaviour
         StartAction();
         actionToHandle.TakeAction(unitStartPosition, FinishAction);
         SetSelectedUnit(null);
-        OnUnitActionFinished?.Invoke();
     }
 
     private void FinishAction()
     {
         isBusy = false;
+        OnUnitActionFinished?.Invoke();
         if (currentState == ActionState.movingUnit)
         {
             currentState = ActionState.selectingAction;
             OnUnitMoved?.Invoke();
+        }
+        else if (unitTurnFinished)
+        {
+            TurnSystem.Instance.NextInitiative(); //Should be decoupled later
         }
     }
 
@@ -190,6 +196,7 @@ public class UnitActionSystem : MonoBehaviour
             return;
         }
         //Default selected action for new selected unit
+        unitTurnFinished = false;
         SetSelectedAction(unit.GetAction<MoveAction>());
         unitStartPosition = unit.GetGridPosition();
         currentState = ActionState.movingUnit;
@@ -217,11 +224,11 @@ public class UnitActionSystem : MonoBehaviour
         return selectedAction;
     }
 
-    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    {
-        if (currentState != ActionState.noSelectedUnit)
-        {
-            CancelAction();
-        }
-    }
+    // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    // {
+    //     if (currentState != ActionState.noSelectedUnit)
+    //     {
+    //         CancelAction();
+    //     }
+    // }
 }

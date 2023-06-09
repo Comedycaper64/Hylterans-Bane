@@ -64,6 +64,11 @@ PrefabInstance:
       propertyPath: unitName
       value: Dwarf
       objectReference: {fileID: 0}
+    - target: {fileID: 6775118003609999742, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
+      propertyPath: availableMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: b0120b6d16a8f304e92c7a5dbaaa8009, type: 2}
     - target: {fileID: 6775118003609999743, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
       propertyPath: m_RootOrder
@@ -196,8 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de9e9fddf5a8793448677f2cd6f57405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootCrossbow: {fileID: 0}
-  damageAmount: 0
+  shootCrossbowSFX: {fileID: 0}
+  actionDamageMultiplier: 1
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -213,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38994469c6e6ace479086fa0c99a9823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 0
-  attackHit: {fileID: 0}
+  attackHitSFX: {fileID: 0}
+  actionDamageMultiplier: 1
 --- !u!114 &9221536415837037023
 MonoBehaviour:
   m_ObjectHideFlags: 0

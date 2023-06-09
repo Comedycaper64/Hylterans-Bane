@@ -21,6 +21,7 @@ public class TurnSystemUI : MonoBehaviour
     {
         ButtonSetup();
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        TurnSystem.Instance.OnNewTurn += TurnSystem_OnNewTurn;
         UpdateTurnText();
         UpdateEnemyTurnVisual();
     }
@@ -28,6 +29,7 @@ public class TurnSystemUI : MonoBehaviour
     private void OnDisable()
     {
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        TurnSystem.Instance.OnNewTurn -= TurnSystem_OnNewTurn;
     }
 
     private void ButtonSetup()
@@ -42,9 +44,13 @@ public class TurnSystemUI : MonoBehaviour
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        UpdateTurnText();
         UpdateEnemyTurnVisual();
         UpdateEndTurnButtonVisibility();
+    }
+
+    private void TurnSystem_OnNewTurn()
+    {
+        UpdateTurnText();
     }
 
     private void UpdateTurnText()

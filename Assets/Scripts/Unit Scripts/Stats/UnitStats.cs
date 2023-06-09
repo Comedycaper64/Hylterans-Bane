@@ -72,6 +72,11 @@ public class UnitStats : MonoBehaviour
         return unitWeapon.GetWeaponRange();
     }
 
+    public int GetInitiative()
+    {
+        return GetRoll() + GetModifier(statDictionary[StatType.DEX]);
+    }
+
     public int GetSavingThrow(StatType savingThrowType)
     {
         return GetModifier(statDictionary[savingThrowType]);
