@@ -8,8 +8,8 @@ using TMPro;
 public class TurnSystemUI : MonoBehaviour
 {
     //Contains logic for the "Turn" text up top, for the EndTurn button, and for the "Enemy Turn" overlay
-    [SerializeField]
-    private Button endTurnBtn;
+    // [SerializeField]
+    // private Button endTurnBtn;
 
     [SerializeField]
     private TextMeshProUGUI turnNumberText;
@@ -17,11 +17,20 @@ public class TurnSystemUI : MonoBehaviour
     [SerializeField]
     private GameObject enemyTurnVisualGameObject;
 
+    [SerializeField]
+    private Transform initiativeContainer;
+
+    [SerializeField]
+    private GameObject initiativePrefab;
+
+    private Queue<GameObject> initiativeUIQueue = new Queue<GameObject>();
+
     private void Start()
     {
-        ButtonSetup();
+        //ButtonSetup();
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         TurnSystem.Instance.OnNewTurn += TurnSystem_OnNewTurn;
+        TurnSystem.Instance.OnNewInitiative += TurnSystem_OnNewInitiative;
         UpdateTurnText();
         UpdateEnemyTurnVisual();
     }
@@ -30,22 +39,23 @@ public class TurnSystemUI : MonoBehaviour
     {
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
         TurnSystem.Instance.OnNewTurn -= TurnSystem_OnNewTurn;
+        TurnSystem.Instance.OnNewInitiative -= TurnSystem_OnNewInitiative;
     }
 
-    private void ButtonSetup()
-    {
-        endTurnBtn.onClick.AddListener(() =>
-        {
-            TurnSystem.Instance.NextTurn();
-        });
+    // private void ButtonSetup()
+    // {
+    //     endTurnBtn.onClick.AddListener(() =>
+    //     {
+    //         TurnSystem.Instance.NextTurn();
+    //     });
 
-        UpdateTurnText();
-    }
+    //     UpdateTurnText();
+    // }
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         UpdateEnemyTurnVisual();
-        UpdateEndTurnButtonVisibility();
+        //UpdateEndTurnButtonVisibility();
     }
 
     private void TurnSystem_OnNewTurn()
@@ -65,9 +75,29 @@ public class TurnSystemUI : MonoBehaviour
             enemyTurnVisualGameObject.SetActive(!TurnSystem.Instance.IsPlayerTurn());
     }
 
-    private void UpdateEndTurnButtonVisibility()
+    private void ClearInitiativeUI()
     {
-        if (endTurnBtn)
-            endTurnBtn.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn());
+        foreach (Transform initiativeUI in initiativeContainer)
+        {
+            Destroy(initiativeUI.gameObject);
+        }
+        initiativeUIQueue.Clear();
     }
+
+    private void TurnSystem_OnNewInitiative(object sender, List<Initiative> initiatives)
+    {
+        ClearInitiativeUI();
+        foreach (Initiative initiative in initiatives)
+        {
+            GameObject newInitiativeUI = Instantiate(initiativePrefab, initiativeContainer);
+            newInitiativeUI.GetComponent<Image>().sprite = initiative.unit.GetInitiativeUI();
+            initiativeUIQueue.Enqueue(newInitiativeUI);
+        }
+    }
+
+    // private void UpdateEndTurnButtonVisibility()
+    // {
+    //     if (endTurnBtn)
+    //         endTurnBtn.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn());
+    // }
 }

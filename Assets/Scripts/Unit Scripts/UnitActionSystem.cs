@@ -191,6 +191,7 @@ public class UnitActionSystem : MonoBehaviour
     public void SetSelectedUnit(Unit unit)
     {
         selectedUnit = unit;
+        OnSelectedUnitChanged?.Invoke();
         if (!selectedUnit)
         {
             return;
@@ -200,7 +201,6 @@ public class UnitActionSystem : MonoBehaviour
         SetSelectedAction(unit.GetAction<MoveAction>());
         unitStartPosition = unit.GetGridPosition();
         currentState = ActionState.movingUnit;
-        OnSelectedUnitChanged?.Invoke();
     }
 
     public void SetSelectedAction(BaseAction baseAction)

@@ -36,6 +36,9 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private Material usedMaterial;
 
+    [SerializeField]
+    private Sprite unitInitiativeUI;
+
     public static event EventHandler<GridPosition> OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
 
@@ -172,6 +175,11 @@ public class Unit : MonoBehaviour
     public bool IsEnemy()
     {
         return isEnemy;
+    }
+
+    public Sprite GetInitiativeUI()
+    {
+        return unitInitiativeUI;
     }
 
     //Removes unit from Grid when dead, invoked UnitDead event

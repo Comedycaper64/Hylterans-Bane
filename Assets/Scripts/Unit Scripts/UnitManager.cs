@@ -32,8 +32,6 @@ public class UnitManager : MonoBehaviour
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
     }
 
-    private void Start() { }
-
     private void OnDisable()
     {
         Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;

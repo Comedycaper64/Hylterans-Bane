@@ -517,6 +517,7 @@ MonoBehaviour:
   baseMesh: {fileID: 145128783493667763}
   availableMaterial: {fileID: 2100000, guid: ffcc6949f9bf0bc4785da5511e349882, type: 2}
   usedMaterial: {fileID: 2100000, guid: 7ce9d1b9ab044d64797ff3b633504901, type: 2}
+  unitInitiativeUI: {fileID: 21300000, guid: dca608e6acc0b334981c8aa3f88d80ec, type: 3}
 --- !u!114 &-8258038942073706721
 MonoBehaviour:
   m_ObjectHideFlags: 0

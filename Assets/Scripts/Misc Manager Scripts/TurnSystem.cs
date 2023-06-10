@@ -15,6 +15,8 @@ public class TurnSystem : MonoBehaviour
 
     public event Action OnNewTurn;
 
+    public event EventHandler<List<Initiative>> OnNewInitiative;
+
     //Keeps track of what turn it is
     private int turnNumber = 1;
     private bool isPlayerTurn;
@@ -37,6 +39,7 @@ public class TurnSystem : MonoBehaviour
     private void Start()
     {
         EnemyAI.Instance.OnEnemyTurnFinished += EnemyAI_OnEnemyTurnFinished;
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
 
         GetNewInitiativeRound();
         OnNewTurn?.Invoke();
@@ -45,6 +48,7 @@ public class TurnSystem : MonoBehaviour
     private void OnDisable()
     {
         EnemyAI.Instance.OnEnemyTurnFinished -= EnemyAI_OnEnemyTurnFinished;
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
     }
 
     public void NextInitiative()
@@ -103,11 +107,46 @@ public class TurnSystem : MonoBehaviour
             initiativeOrder.Add(newInitiative);
         }
         initiativeOrder.Sort((Initiative a, Initiative b) => b.unitInitiative - a.unitInitiative);
+        OnNewInitiative?.Invoke(this, initiativeOrder);
         NextInitiative();
+    }
+
+    private void RemoveUnitFromInitiative(Unit deadUnit)
+    {
+        Initiative initiativeToRemove = initiativeOrder.Find((Initiative a) => a.unit == deadUnit);
+        if (initiativeToRemove != null)
+        {
+            if (
+                initiativeToRemove.unitInitiative
+                > initiativeOrder[initiativeTracker].unitInitiative
+            )
+            {
+                initiativeTracker--;
+            }
+
+            if (!initiativeOrder.Remove(initiativeToRemove))
+            {
+                Debug.Log("Unit not removed from initiative");
+            }
+            else
+            {
+                OnNewInitiative?.Invoke(this, initiativeOrder);
+            }
+        }
+        else
+        {
+            Debug.Log("Initiative not in list");
+        }
     }
 
     private void EnemyAI_OnEnemyTurnFinished(object sender, EventArgs e)
     {
         NextInitiative();
+    }
+
+    private void Unit_OnAnyUnitDead(object sender, EventArgs e)
+    {
+        Unit unit = sender as Unit;
+        RemoveUnitFromInitiative(unit);
     }
 }

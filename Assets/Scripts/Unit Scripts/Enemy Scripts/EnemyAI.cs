@@ -6,9 +6,10 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public static EnemyAI Instance { get; private set; }
-
     public event EventHandler<Unit> OnEnemyUnitBeginAction;
     public event EventHandler OnEnemyTurnFinished;
+
+    private Unit currentEnemyUnit;
 
     //Logic for doing the enemy's turn
     private enum State
@@ -85,7 +86,15 @@ public class EnemyAI : MonoBehaviour
 
     private void FinishEnemyTurn()
     {
-        OnEnemyTurnFinished?.Invoke(this, EventArgs.Empty);
+        if (!currentEnemyUnit.GetActionCompleted())
+        {
+            TryTakeEnemyAIAction(currentEnemyUnit, FinishEnemyTurn);
+        }
+        else
+        {
+            currentEnemyUnit = null;
+            OnEnemyTurnFinished?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     //Resets state machine when it's the enemy's turn
@@ -101,6 +110,7 @@ public class EnemyAI : MonoBehaviour
     public void TakeEnemyTurn(Unit enemyUnit)
     {
         OnEnemyUnitBeginAction?.Invoke(this, enemyUnit);
+        currentEnemyUnit = enemyUnit;
         TryTakeEnemyAIAction(enemyUnit, FinishEnemyTurn);
     }
 

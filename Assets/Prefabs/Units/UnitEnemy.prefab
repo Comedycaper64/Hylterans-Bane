@@ -66,6 +66,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6775118003609999742, guid: 17c5df1b2bc2abf4990274e237e38e07,
         type: 3}
+      propertyPath: unitInitiativeUI
+      value: 
+      objectReference: {fileID: 21300000, guid: a8b85181f65410349a14405bd74ca194,
+        type: 3}
+    - target: {fileID: 6775118003609999742, guid: 17c5df1b2bc2abf4990274e237e38e07,
+        type: 3}
       propertyPath: availableMaterial
       value: 
       objectReference: {fileID: 2100000, guid: b0120b6d16a8f304e92c7a5dbaaa8009, type: 2}
