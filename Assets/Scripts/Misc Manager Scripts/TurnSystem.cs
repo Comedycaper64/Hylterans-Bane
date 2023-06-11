@@ -12,17 +12,15 @@ public class TurnSystem : MonoBehaviour
     private AudioClip turnButtonPressedSFX;
 
     public event EventHandler OnTurnChanged;
-
-    public event Action OnNewTurn;
-
-    public event EventHandler<List<Initiative>> OnNewInitiative;
+    public event Action OnNextUnitInitiative;
+    public event EventHandler<Queue<Initiative>> OnNewInitiative;
 
     //Keeps track of what turn it is
     private int turnNumber = 1;
     private bool isPlayerTurn;
 
-    private int initiativeTracker;
-    private List<Initiative> initiativeOrder = new List<Initiative>();
+    //private Initiative initiativeUnit;
+    private Queue<Initiative> initiativeOrder = new Queue<Initiative>();
 
     //Singleton-ed
     private void Awake()
@@ -42,7 +40,6 @@ public class TurnSystem : MonoBehaviour
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
 
         GetNewInitiativeRound();
-        OnNewTurn?.Invoke();
     }
 
     private void OnDisable()
@@ -53,22 +50,44 @@ public class TurnSystem : MonoBehaviour
 
     public void NextInitiative()
     {
-        initiativeTracker++;
+        // if (initiativeUnit == null)
+        // {
+        //     NextTurn();
+        //     return;
+        // }
+        // else
+        // {
+        //     int initiativeIndex = initiativeOrder.IndexOf(initiativeUnit);
 
-        if (initiativeTracker >= initiativeOrder.Count)
+        //     if ((initiativeIndex + 1) >= initiativeOrder.Count)
+        //     {
+        //         NextTurn();
+        //         return;
+        //     }
+        //     else
+        //     {
+        //         initiativeUnit = initiativeOrder[initiativeIndex + 1];
+        //     }
+        // }
+
+        //Unit nextUnit = initiativeOrder[initiativeTracker].unit;
+
+        if (initiativeOrder.TryDequeue(out Initiative initiative))
+        {
+            Initiative initiativeUnit = initiative;
+            isPlayerTurn = !initiativeUnit.unit.IsEnemy();
+            OnTurnChanged?.Invoke(this, EventArgs.Empty);
+            initiativeUnit.unit.SetMovementCompleted(false);
+            initiativeUnit.unit.SetActionCompleted(false);
+            if (!isPlayerTurn)
+            {
+                EnemyAI.Instance.TakeEnemyTurn(initiativeUnit.unit);
+            }
+            OnNextUnitInitiative?.Invoke();
+        }
+        else
         {
             NextTurn();
-            return;
-        }
-
-        Unit nextUnit = initiativeOrder[initiativeTracker].unit;
-        isPlayerTurn = !nextUnit.IsEnemy();
-        OnTurnChanged?.Invoke(this, EventArgs.Empty);
-        nextUnit.SetMovementCompleted(false);
-        nextUnit.SetActionCompleted(false);
-        if (!isPlayerTurn)
-        {
-            EnemyAI.Instance.TakeEnemyTurn(nextUnit);
         }
     }
 
@@ -82,7 +101,6 @@ public class TurnSystem : MonoBehaviour
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
-        OnNewTurn?.Invoke();
         GetNewInitiativeRound();
     }
 
@@ -98,45 +116,55 @@ public class TurnSystem : MonoBehaviour
 
     private void GetNewInitiativeRound()
     {
-        initiativeTracker = -1;
+        //initiativeUnit = null;
         initiativeOrder.Clear();
         List<Unit> unitList = UnitManager.Instance.GetUnitList();
+        List<Initiative> tempInitiativeList = new List<Initiative>();
         foreach (Unit unit in unitList)
         {
             Initiative newInitiative = new Initiative(unit, unit.GetUnitStats().GetInitiative());
-            initiativeOrder.Add(newInitiative);
+            tempInitiativeList.Add(newInitiative);
         }
-        initiativeOrder.Sort((Initiative a, Initiative b) => b.unitInitiative - a.unitInitiative);
+        tempInitiativeList.Sort(
+            (Initiative a, Initiative b) => b.unitInitiative - a.unitInitiative
+        );
+
+        foreach (Initiative initiative in tempInitiativeList)
+        {
+            initiativeOrder.Enqueue(initiative);
+        }
+
         OnNewInitiative?.Invoke(this, initiativeOrder);
         NextInitiative();
     }
 
     private void RemoveUnitFromInitiative(Unit deadUnit)
     {
-        Initiative initiativeToRemove = initiativeOrder.Find((Initiative a) => a.unit == deadUnit);
+        List<Initiative> tempInitiativeList = new List<Initiative>();
+
+        for (int i = 0; i < initiativeOrder.Count; i++)
+        {
+            tempInitiativeList.Add(initiativeOrder.Dequeue());
+        }
+
+        Initiative initiativeToRemove = tempInitiativeList.Find(
+            (Initiative a) => a.unit == deadUnit
+        );
         if (initiativeToRemove != null)
         {
-            if (
-                initiativeToRemove.unitInitiative
-                > initiativeOrder[initiativeTracker].unitInitiative
-            )
-            {
-                initiativeTracker--;
-            }
-
-            if (!initiativeOrder.Remove(initiativeToRemove))
+            if (!tempInitiativeList.Remove(initiativeToRemove))
             {
                 Debug.Log("Unit not removed from initiative");
             }
-            else
-            {
-                OnNewInitiative?.Invoke(this, initiativeOrder);
-            }
         }
-        else
+
+        initiativeOrder.Clear();
+        foreach (Initiative initiative in tempInitiativeList)
         {
-            Debug.Log("Initiative not in list");
+            initiativeOrder.Enqueue(initiative);
         }
+
+        OnNewInitiative?.Invoke(this, initiativeOrder);
     }
 
     private void EnemyAI_OnEnemyTurnFinished(object sender, EventArgs e)

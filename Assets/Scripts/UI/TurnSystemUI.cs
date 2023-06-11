@@ -29,8 +29,8 @@ public class TurnSystemUI : MonoBehaviour
     {
         //ButtonSetup();
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-        TurnSystem.Instance.OnNewTurn += TurnSystem_OnNewTurn;
         TurnSystem.Instance.OnNewInitiative += TurnSystem_OnNewInitiative;
+        TurnSystem.Instance.OnNextUnitInitiative += TurnSystem_OnNextUnitInitiative;
         UpdateTurnText();
         UpdateEnemyTurnVisual();
     }
@@ -38,8 +38,8 @@ public class TurnSystemUI : MonoBehaviour
     private void OnDisable()
     {
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
-        TurnSystem.Instance.OnNewTurn -= TurnSystem_OnNewTurn;
         TurnSystem.Instance.OnNewInitiative -= TurnSystem_OnNewInitiative;
+        TurnSystem.Instance.OnNextUnitInitiative -= TurnSystem_OnNextUnitInitiative;
     }
 
     // private void ButtonSetup()
@@ -56,11 +56,6 @@ public class TurnSystemUI : MonoBehaviour
     {
         UpdateEnemyTurnVisual();
         //UpdateEndTurnButtonVisibility();
-    }
-
-    private void TurnSystem_OnNewTurn()
-    {
-        UpdateTurnText();
     }
 
     private void UpdateTurnText()
@@ -84,7 +79,7 @@ public class TurnSystemUI : MonoBehaviour
         initiativeUIQueue.Clear();
     }
 
-    private void TurnSystem_OnNewInitiative(object sender, List<Initiative> initiatives)
+    private void TurnSystem_OnNewInitiative(object sender, Queue<Initiative> initiatives)
     {
         ClearInitiativeUI();
         foreach (Initiative initiative in initiatives)
@@ -93,6 +88,13 @@ public class TurnSystemUI : MonoBehaviour
             newInitiativeUI.GetComponent<Image>().sprite = initiative.unit.GetInitiativeUI();
             initiativeUIQueue.Enqueue(newInitiativeUI);
         }
+        UpdateTurnText();
+    }
+
+    private void TurnSystem_OnNextUnitInitiative()
+    {
+        GameObject lastTurnUnit = initiativeUIQueue.Dequeue();
+        Destroy(lastTurnUnit);
     }
 
     // private void UpdateEndTurnButtonVisibility()

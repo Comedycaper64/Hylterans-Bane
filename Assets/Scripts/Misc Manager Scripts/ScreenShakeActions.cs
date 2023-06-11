@@ -11,6 +11,7 @@ public class ScreenShakeActions : MonoBehaviour
         SwordAction.OnAnySwordHit += SwordAction_OnAnySwordHit;
         CleaveAction.OnAnyCleaveHit += SlashAction_OnAnySlashHit;
         FireballProjectile.OnAnyFireballExploded += FireballProjectile_OnAnyFireballExploded;
+        FireboltAction.OnAnyShoot += FireboltAction_OnAnyShoot;
     }
 
     private void OnDisable()
@@ -19,6 +20,7 @@ public class ScreenShakeActions : MonoBehaviour
         SwordAction.OnAnySwordHit -= SwordAction_OnAnySwordHit;
         CleaveAction.OnAnyCleaveHit -= SlashAction_OnAnySlashHit;
         FireballProjectile.OnAnyFireballExploded -= FireballProjectile_OnAnyFireballExploded;
+        FireboltAction.OnAnyShoot -= FireboltAction_OnAnyShoot;
     }
 
     private void SlashAction_OnAnySlashHit(object sender, EventArgs e)
@@ -38,6 +40,11 @@ public class ScreenShakeActions : MonoBehaviour
 
     private void ShootAction_OnAnyShoot(object sender, ShootAction.OnShootEventArgs e)
     {
-        ScreenShake.Instance.Shake();
+        ScreenShake.Instance.Shake(2f);
+    }
+
+    private void FireboltAction_OnAnyShoot(object sender, FireboltAction.OnShootEventArgs e)
+    {
+        ScreenShake.Instance.Shake(2f);
     }
 }
