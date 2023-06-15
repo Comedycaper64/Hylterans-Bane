@@ -100,24 +100,29 @@ public class UnitActionSystem : MonoBehaviour
 
             if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
-                BaseAction actionToHandle = selectedAction; //Set to this so that the SetBusy method doesn't cause a NullReference
-                StartAction();
-
-                if (currentState == ActionState.selectingAction)
-                {
-                    currentState = ActionState.noSelectedUnit;
-                    selectedUnit.SetActionCompleted(true);
-                    SetSelectedUnit(null);
-                    unitTurnFinished = true;
-                }
-
-                actionToHandle.TakeAction(mouseGridPosition, FinishAction);
+                //BaseAction actionToHandle = selectedAction; //Set to this so that the SetBusy method doesn't cause a NullReference
+                PerformAction(selectedAction, mouseGridPosition);
             }
         }
         else if (InputManager.Instance.IsRightClickDownThisFrame()) //Resets unit to starting position if player right clicks
         {
             CancelAction();
         }
+    }
+
+    private void PerformAction(BaseAction actionToHandle, GridPosition gridPosition)
+    {
+        StartAction();
+
+        if (currentState == ActionState.selectingAction)
+        {
+            currentState = ActionState.noSelectedUnit;
+            selectedUnit.SetActionCompleted(true);
+            SetSelectedUnit(null);
+            unitTurnFinished = true;
+        }
+
+        actionToHandle.TakeAction(gridPosition, FinishAction);
     }
 
     //isBusy is changed and the event is invoked if an action is being done
@@ -196,11 +201,20 @@ public class UnitActionSystem : MonoBehaviour
         {
             return;
         }
-        //Default selected action for new selected unit
-        unitTurnFinished = false;
-        SetSelectedAction(unit.GetAction<MoveAction>());
         unitStartPosition = unit.GetGridPosition();
-        currentState = ActionState.movingUnit;
+        if (selectedUnit.GetHeldActions() < 0)
+        {
+            currentState = ActionState.selectingAction;
+            BaseAction waitAction = unit.GetAction<WaitAction>();
+            PerformAction(waitAction, unitStartPosition);
+        }
+        else
+        {
+            //Default selected action for new selected unit
+            unitTurnFinished = false;
+            SetSelectedAction(unit.GetAction<MoveAction>());
+            currentState = ActionState.movingUnit;
+        }
     }
 
     public void SetSelectedAction(BaseAction baseAction)

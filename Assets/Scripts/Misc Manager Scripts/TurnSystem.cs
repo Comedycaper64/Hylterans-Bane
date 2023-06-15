@@ -50,38 +50,20 @@ public class TurnSystem : MonoBehaviour
 
     public void NextInitiative()
     {
-        // if (initiativeUnit == null)
-        // {
-        //     NextTurn();
-        //     return;
-        // }
-        // else
-        // {
-        //     int initiativeIndex = initiativeOrder.IndexOf(initiativeUnit);
-
-        //     if ((initiativeIndex + 1) >= initiativeOrder.Count)
-        //     {
-        //         NextTurn();
-        //         return;
-        //     }
-        //     else
-        //     {
-        //         initiativeUnit = initiativeOrder[initiativeIndex + 1];
-        //     }
-        // }
-
-        //Unit nextUnit = initiativeOrder[initiativeTracker].unit;
-
         if (initiativeOrder.TryDequeue(out Initiative initiative))
         {
-            Initiative initiativeUnit = initiative;
-            isPlayerTurn = !initiativeUnit.unit.IsEnemy();
+            Initiative currentInitiative = initiative;
+            isPlayerTurn = !currentInitiative.unit.IsEnemy();
             OnTurnChanged?.Invoke(this, EventArgs.Empty);
-            initiativeUnit.unit.SetMovementCompleted(false);
-            initiativeUnit.unit.SetActionCompleted(false);
+            currentInitiative.unit.SetMovementCompleted(false);
+            currentInitiative.unit.SetActionCompleted(false);
             if (!isPlayerTurn)
             {
-                EnemyAI.Instance.TakeEnemyTurn(initiativeUnit.unit);
+                EnemyAI.Instance.TakeEnemyTurn(currentInitiative.unit);
+            }
+            else
+            {
+                UnitActionSystem.Instance.SetSelectedUnit(currentInitiative.unit);
             }
             OnNextUnitInitiative?.Invoke();
         }

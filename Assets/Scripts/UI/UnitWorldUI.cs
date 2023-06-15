@@ -7,8 +7,7 @@ using TMPro;
 
 public class UnitWorldUI : MonoBehaviour
 {
-    [SerializeField]
-    private Unit unit;
+    private Unit thisUnit;
 
     [SerializeField]
     private Image healthBarImage;
@@ -19,9 +18,14 @@ public class UnitWorldUI : MonoBehaviour
     [SerializeField]
     private HealthSystem healthSystem;
 
+    [SerializeField]
+    private TextMeshProUGUI heldActionText;
+
     //Logic for the healthbars and actionPoint trackers above a unit's head
     private void Start()
     {
+        thisUnit = GetComponentInParent<Unit>();
+        thisUnit.OnHeldActionsChanged += Unit_OnHeldActionsChanged;
         healthSystem.OnDamaged += HealthSystem_OnDamaged;
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
@@ -32,6 +36,7 @@ public class UnitWorldUI : MonoBehaviour
 
     private void OnDisable()
     {
+        thisUnit.OnHeldActionsChanged -= Unit_OnHeldActionsChanged;
         healthSystem.OnDamaged -= HealthSystem_OnDamaged;
         UnitActionSystem.Instance.OnSelectedActionChanged -=
             UnitActionSystem_OnSelectedActionChanged;
@@ -51,6 +56,16 @@ public class UnitWorldUI : MonoBehaviour
         healthBarPredictedImage.fillAmount = healthSystem.GetHealthNormalized();
     }
 
+    private void UpdateHeldActionsText(int newHeldActions)
+    {
+        heldActionText.text = newHeldActions.ToString();
+    }
+
+    private void Unit_OnHeldActionsChanged(object sender, int newHeldActions)
+    {
+        UpdateHeldActionsText(newHeldActions);
+    }
+
     private void HealthSystem_OnDamaged(object sender, float e)
     {
         UpdateHealthBar();
@@ -58,7 +73,7 @@ public class UnitWorldUI : MonoBehaviour
 
     private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction baseAction)
     {
-        if (unit.IsEnemy() && baseAction.ActionDealsDamage())
+        if (thisUnit.IsEnemy() && baseAction.ActionDealsDamage())
         {
             ShowPredictedHealthLoss(baseAction.GetDamage());
         }

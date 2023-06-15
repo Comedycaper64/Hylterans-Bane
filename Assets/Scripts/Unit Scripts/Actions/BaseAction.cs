@@ -42,6 +42,11 @@ public abstract class BaseAction : MonoBehaviour
         return 0;
     }
 
+    public virtual int GetRequiredHeldActions()
+    {
+        return 0;
+    }
+
     public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
 
     //Base method for each action to check if a GridPosition is in their own constructed GetValidActionGridPositionList()

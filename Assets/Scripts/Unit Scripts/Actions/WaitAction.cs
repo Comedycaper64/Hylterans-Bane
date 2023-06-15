@@ -34,6 +34,7 @@ public class WaitAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        unit.IncreaseHeldActions();
         ActionStart(onActionComplete);
     }
 

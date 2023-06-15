@@ -17,9 +17,13 @@ public class Unit : MonoBehaviour
     private bool turnMovementCompleted;
     private bool turnActionCompleted;
 
+    private int heldActions;
+
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
     private List<BaseAction> baseActionList = new List<BaseAction>();
+
+    //SERIALIZABLES
 
     [SerializeField]
     private GameObject backSpriteAttacking;
@@ -39,11 +43,14 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private Sprite unitInitiativeUI;
 
+    //EVENTS
+    public event EventHandler<int> OnHeldActionsChanged;
     public static event EventHandler<GridPosition> OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
 
     private void Awake()
     {
+        heldActions = 0;
         healthSystem = GetComponent<HealthSystem>();
         //Puts each component that extends the BaseAction into the array
         BaseAction[] baseActionArray = GetComponents<BaseAction>();
@@ -170,6 +177,23 @@ public class Unit : MonoBehaviour
     public UnitStats GetUnitStats()
     {
         return unitStats;
+    }
+
+    public int GetHeldActions()
+    {
+        return heldActions;
+    }
+
+    public void IncreaseHeldActions()
+    {
+        heldActions++;
+        OnHeldActionsChanged?.Invoke(this, heldActions);
+    }
+
+    public void UseHeldActions(int numberUsed)
+    {
+        heldActions -= numberUsed;
+        OnHeldActionsChanged?.Invoke(this, heldActions);
     }
 
     public bool IsEnemy()
