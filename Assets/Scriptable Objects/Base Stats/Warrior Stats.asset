@@ -19,4 +19,4 @@ MonoBehaviour:
   wisdom: 8
   charisma: 12
   proficiencyBonus: 2
-  unitMaxHealth: 18
+  hitDice: 2

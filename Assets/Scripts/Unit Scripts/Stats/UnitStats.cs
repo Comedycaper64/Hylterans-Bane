@@ -13,6 +13,15 @@ public class UnitStats : MonoBehaviour
     [SerializeField]
     private Armour unitArmour;
 
+    [Min(1)]
+    [SerializeField]
+    private int unitLevel = 1;
+
+    // [SerializeField]
+    // private HitDiceType unitHitDice;
+
+    private int totalRolledHealth;
+
     private Dictionary<StatType, int> statDictionary = new Dictionary<StatType, int>();
 
     [SerializeField]
@@ -35,7 +44,25 @@ public class UnitStats : MonoBehaviour
 
     public int GetMaxHealth()
     {
-        return baseStats.GetMaxHealth();
+        return GetHitDiceValue(baseStats.GetHitDiceType())
+            + totalRolledHealth
+            + (GetModifier(statDictionary[StatType.CON]) * unitLevel);
+    }
+
+    private int GetHitDiceValue(HitDiceType hitDice)
+    {
+        switch (hitDice)
+        {
+            default:
+            case HitDiceType.d6:
+                return 6;
+            case HitDiceType.d8:
+                return 8;
+            case HitDiceType.d10:
+                return 10;
+            case HitDiceType.d12:
+                return 12;
+        }
     }
 
     public int GetToHit()

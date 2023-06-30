@@ -29,7 +29,7 @@ public class BaseStats : ScriptableObject
     private int proficiencyBonus = 2;
 
     [SerializeField]
-    private int unitMaxHealth = 15;
+    private HitDiceType hitDice;
 
     public int GetStrength()
     {
@@ -66,9 +66,9 @@ public class BaseStats : ScriptableObject
         return proficiencyBonus;
     }
 
-    public int GetMaxHealth()
+    public HitDiceType GetHitDiceType()
     {
-        return unitMaxHealth;
+        return hitDice;
     }
 
     public void SetStrength(int newStrength)
