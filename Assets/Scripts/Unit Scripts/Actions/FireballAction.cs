@@ -190,7 +190,7 @@ public class FireballAction : BaseAction
         return new EnemyAIAction { gridPosition = gridPosition, actionValue = targetsInAOE * 100, };
     }
 
-    public int GetMaxThrowDistance()
+    public override int GetActionRange()
     {
         return maxThrowDistance;
     }

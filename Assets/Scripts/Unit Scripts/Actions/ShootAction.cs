@@ -119,7 +119,8 @@ public class ShootAction : BaseAction
 
         if (attackSucceeded)
         {
-            targetUnit.Damage(GetDamage());
+            int damageAmount = unit.GetUnitStats().GetDamage();
+            targetUnit.Damage(damageAmount);
         }
     }
 
@@ -238,7 +239,7 @@ public class ShootAction : BaseAction
         return 5;
     }
 
-    public int GetMaxShootDistance()
+    public override int GetActionRange()
     {
         return unit.GetUnitStats().GetAttackRange();
     }

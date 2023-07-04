@@ -98,6 +98,12 @@ public class UnitActionSystem : MonoBehaviour
                 MouseWorld.GetPosition()
             );
 
+            if (selectedAction.GetRequiredHeldActions() > selectedUnit.GetHeldActions())
+            {
+                Debug.Log("Not enough held actions");
+                return;
+            }
+
             if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
                 //BaseAction actionToHandle = selectedAction; //Set to this so that the SetBusy method doesn't cause a NullReference

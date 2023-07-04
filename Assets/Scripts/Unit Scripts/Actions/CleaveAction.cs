@@ -236,7 +236,7 @@ public class CleaveAction : BaseAction
         return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
     }
 
-    public int GetMaxSlashDistance()
+    public override int GetActionRange()
     {
         return maxSlashDistance;
     }

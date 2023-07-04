@@ -25,6 +25,11 @@ public class UnitAnimator : MonoBehaviour
             shootAction.OnAim += OnAttackStarted;
         }
 
+        if (TryGetComponent<DeadeyeAction>(out DeadeyeAction deadeyeAction))
+        {
+            deadeyeAction.OnAim += OnAttackStarted;
+        }
+
         if (TryGetComponent<FireboltAction>(out FireboltAction fireboltAction))
         {
             fireboltAction.OnAim += OnAttackStarted;
@@ -67,6 +72,10 @@ public class UnitAnimator : MonoBehaviour
             shootAction.OnAim -= OnAttackStarted;
         }
 
+        if (TryGetComponent<DeadeyeAction>(out DeadeyeAction deadeyeAction))
+        {
+            deadeyeAction.OnAim -= OnAttackStarted;
+        }
         if (TryGetComponent<FireboltAction>(out FireboltAction fireboltAction))
         {
             fireboltAction.OnAim -= OnAttackStarted;

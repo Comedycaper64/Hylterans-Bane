@@ -202,61 +202,101 @@ public class GridSystemVisual : MonoBehaviour
 
         GridVisualType gridVisualType;
 
-        switch (selectedAction)
+        if (selectedAction.GetDamage() == 0)
         {
-            default:
-            case InteractAction interactAction:
-                gridVisualType = GridVisualType.Blue;
-                break;
-            case FireballAction fireballAction:
-                gridVisualType = GridVisualType.Yellow;
-                ShowGridPositionRange(
-                    selectedUnit.GetGridPosition(),
-                    fireballAction.GetMaxThrowDistance(),
-                    GridVisualType.Yellow
-                );
-                break;
-            case ShootAction shootAction:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRange(
-                    selectedUnit.GetGridPosition(),
-                    shootAction.GetMaxShootDistance(),
-                    GridVisualType.RedSoft
-                );
-                break;
-            case FireboltAction fireboltAction:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRange(
-                    selectedUnit.GetGridPosition(),
-                    fireboltAction.GetMaxShootDistance(),
-                    GridVisualType.RedSoft
-                );
-                break;
-            case MoveAction moveAction:
+            if (selectedAction.GetActionName() == "Move")
+            {
                 gridVisualType = GridVisualType.White;
                 ShowGridPositionRange(
                     selectedUnit.GetGridPosition(),
-                    moveAction.GetMaxMoveDistance(),
+                    selectedAction.GetActionRange(),
                     GridVisualType.SoftWhite
                 );
-                break;
-            case SwordAction swordAction:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeSquare(
-                    selectedUnit.GetGridPosition(),
-                    swordAction.GetMaxSwordDistance(),
-                    GridVisualType.RedSoft
-                );
-                break;
-            case CleaveAction slashAction:
-                gridVisualType = GridVisualType.Red;
+            }
+            else
+            {
+                gridVisualType = GridVisualType.Blue;
                 ShowGridPositionRange(
                     selectedUnit.GetGridPosition(),
-                    slashAction.GetMaxSlashDistance(),
-                    GridVisualType.RedSoft
+                    selectedAction.GetActionRange(),
+                    GridVisualType.Blue
                 );
-                break;
+            }
         }
+        else if (selectedAction.GetIsAOE())
+        {
+            gridVisualType = GridVisualType.Yellow;
+            ShowGridPositionRange(
+                selectedUnit.GetGridPosition(),
+                selectedAction.GetActionRange(),
+                GridVisualType.Yellow
+            );
+        }
+        else
+        {
+            gridVisualType = GridVisualType.Red;
+            ShowGridPositionRange(
+                selectedUnit.GetGridPosition(),
+                selectedAction.GetActionRange(),
+                GridVisualType.RedSoft
+            );
+        }
+
+        // switch (selectedAction)
+        // {
+        //     default:
+        //     case InteractAction interactAction:
+        //         gridVisualType = GridVisualType.Blue;
+        //         break;
+        //     case FireballAction fireballAction:
+        //         gridVisualType = GridVisualType.Yellow;
+        //         ShowGridPositionRange(
+        //             selectedUnit.GetGridPosition(),
+        //             fireballAction.GetMaxThrowDistance(),
+        //             GridVisualType.Yellow
+        //         );
+        //         break;
+        //     case ShootAction shootAction:
+        //         gridVisualType = GridVisualType.Red;
+        //         ShowGridPositionRange(
+        //             selectedUnit.GetGridPosition(),
+        //             shootAction.GetMaxShootDistance(),
+        //             GridVisualType.RedSoft
+        //         );
+        //         break;
+        //     case FireboltAction fireboltAction:
+        //         gridVisualType = GridVisualType.Red;
+        //         ShowGridPositionRange(
+        //             selectedUnit.GetGridPosition(),
+        //             fireboltAction.GetMaxShootDistance(),
+        //             GridVisualType.RedSoft
+        //         );
+        //         break;
+        //     case MoveAction moveAction:
+        //         gridVisualType = GridVisualType.White;
+        //         ShowGridPositionRange(
+        //             selectedUnit.GetGridPosition(),
+        //             moveAction.GetMaxMoveDistance(),
+        //             GridVisualType.SoftWhite
+        //         );
+        //         break;
+        //     case SwordAction swordAction:
+        //         gridVisualType = GridVisualType.Red;
+        //         ShowGridPositionRangeSquare(
+        //             selectedUnit.GetGridPosition(),
+        //             swordAction.GetMaxSwordDistance(),
+        //             GridVisualType.RedSoft
+        //         );
+        //         break;
+        //     case CleaveAction slashAction:
+        //         gridVisualType = GridVisualType.Red;
+        //         ShowGridPositionRange(
+        //             selectedUnit.GetGridPosition(),
+        //             slashAction.GetMaxSlashDistance(),
+        //             GridVisualType.RedSoft
+        //         );
+        //         break;
+        // }
 
         ShowGridPositionList(selectedAction.GetValidActionGridPositionList(), gridVisualType);
     }

@@ -226,7 +226,7 @@ public class SwordAction : BaseAction
         };
     }
 
-    public int GetMaxSwordDistance()
+    public override int GetActionRange()
     {
         return unit.GetUnitStats().GetAttackRange();
     }

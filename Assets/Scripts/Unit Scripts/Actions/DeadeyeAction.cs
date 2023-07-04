@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireboltAction : BaseAction
+public class DeadeyeAction : BaseAction
 {
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
     public event EventHandler<OnShootEventArgs> OnShoot;
@@ -12,7 +12,7 @@ public class FireboltAction : BaseAction
     private bool attackSucceeded;
 
     [SerializeField]
-    private AudioClip flingFireboltSFX;
+    private AudioClip shootCrossbowSFX;
 
     //Custom eventArgs that include both shooter and target
     public class OnShootEventArgs : EventArgs
@@ -31,8 +31,6 @@ public class FireboltAction : BaseAction
 
     private State state;
 
-    [SerializeField]
-    private int maxShootDistance = 4;
     private float stateTimer;
     private Unit targetUnit;
     private bool canShoot;
@@ -104,7 +102,7 @@ public class FireboltAction : BaseAction
     private void Shoot()
     {
         AudioSource.PlayClipAtPoint(
-            flingFireboltSFX,
+            shootCrossbowSFX,
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
@@ -122,14 +120,19 @@ public class FireboltAction : BaseAction
         if (attackSucceeded)
         {
             int damageAmount = unit.GetUnitStats().GetDamage();
-            targetUnit.Damage(damageAmount);
+            targetUnit.Damage(damageAmount + 3);
         }
     }
 
     //For ActionButtonUI
     public override string GetActionName()
     {
-        return "Attack";
+        return "Deadeye Shot";
+    }
+
+    public override int GetRequiredHeldActions()
+    {
+        return 1;
     }
 
     //See MoveAction
@@ -144,6 +147,8 @@ public class FireboltAction : BaseAction
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
+
+        int maxShootDistance = unit.GetUnitStats().GetAttackRange();
 
         for (int x = -maxShootDistance; x <= maxShootDistance; x++)
         {
@@ -203,6 +208,8 @@ public class FireboltAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        unit.UseHeldActions(GetRequiredHeldActions());
+
         attackSucceeded = false;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
         attackSucceeded = CombatSystem.Instance.TryAttack(
@@ -241,7 +248,7 @@ public class FireboltAction : BaseAction
 
     public override int GetActionRange()
     {
-        return maxShootDistance;
+        return unit.GetUnitStats().GetAttackRange();
     }
 
     //Action value to shoot a player Unit is high, very likely to do it if possible

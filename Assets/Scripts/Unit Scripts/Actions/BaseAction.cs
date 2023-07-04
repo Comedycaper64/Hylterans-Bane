@@ -42,6 +42,11 @@ public abstract class BaseAction : MonoBehaviour
         return 0;
     }
 
+    public virtual int GetActionRange()
+    {
+        return 0;
+    }
+
     public virtual int GetRequiredHeldActions()
     {
         return 0;

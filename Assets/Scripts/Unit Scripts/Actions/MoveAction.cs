@@ -247,7 +247,7 @@ public class MoveAction : BaseAction
         };
     }
 
-    public int GetMaxMoveDistance()
+    public override int GetActionRange()
     {
         return maxMoveDistance;
     }
