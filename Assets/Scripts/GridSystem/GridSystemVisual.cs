@@ -85,7 +85,7 @@ public class GridSystemVisual : MonoBehaviour
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
         Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
+        //BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
 
         //Changes visible tiles based on selected unit / selected action
         UpdateGridVisual();
@@ -202,7 +202,7 @@ public class GridSystemVisual : MonoBehaviour
 
         GridVisualType gridVisualType;
 
-        if (selectedAction.GetDamage() == 0)
+        if (!selectedAction.ActionDealsDamage())
         {
             if (selectedAction.GetActionName() == "Move")
             {
@@ -336,10 +336,10 @@ public class GridSystemVisual : MonoBehaviour
         }
     }
 
-    private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
-    {
-        UpdateGridVisual();
-    }
+    // private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
+    // {
+    //     UpdateGridVisual();
+    // }
 
     private void OnDisable()
     {
@@ -351,7 +351,7 @@ public class GridSystemVisual : MonoBehaviour
         LevelGrid.Instance.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
         Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
-        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
+        //BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
     }
 
     //Gets the corresponding material of the gridVisualType enum

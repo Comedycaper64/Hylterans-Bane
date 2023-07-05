@@ -8,11 +8,12 @@ public class CleaveAction : BaseAction
     public static event EventHandler<Unit> OnDamageUnit;
     public static event EventHandler OnAnyCleaveHit;
     public static event Action OnCleaveDamageFinished;
-    public event EventHandler OnCleaveActionStarted;
-    public event EventHandler OnCleaveActionCompleted;
+
+    // public event EventHandler OnCleaveActionStarted;
+    // public event EventHandler OnCleaveActionCompleted;
 
     [SerializeField]
-    private float actionDamageMultiplier = 1.5f;
+    private int actionDamageBonus = 2;
 
     [SerializeField]
     private AudioClip cleaveHitSFX;
@@ -66,7 +67,7 @@ public class CleaveAction : BaseAction
                 StartCoroutine(DealDamageToEachTarget(targetUnits));
                 break;
             case State.SwingingSwordAfterHit:
-                OnCleaveActionCompleted?.Invoke(this, EventArgs.Empty);
+                //OnCleaveActionCompleted?.Invoke(this, EventArgs.Empty);
                 break;
         }
     }
@@ -161,7 +162,7 @@ public class CleaveAction : BaseAction
         float beforeHitStateTime = 1.75f;
         stateTimer = beforeHitStateTime;
 
-        OnCleaveActionStarted?.Invoke(this, EventArgs.Empty);
+        //OnCleaveActionStarted?.Invoke(this, EventArgs.Empty);
 
         ActionStart(onActionComplete);
     }
@@ -231,9 +232,9 @@ public class CleaveAction : BaseAction
         return true;
     }
 
-    public override int GetDamage()
+    public override int GetDamageBonus()
     {
-        return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
+        return actionDamageBonus;
     }
 
     public override int GetActionRange()

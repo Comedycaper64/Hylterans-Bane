@@ -13,6 +13,10 @@ public class UnitStats : MonoBehaviour
     [SerializeField]
     private Armour unitArmour;
 
+    public int toHitBonus = 0;
+    public int damageBonus = 0;
+    private int acBonus = 0;
+
     [Min(1)]
     [SerializeField]
     private int unitLevel = 1;
@@ -68,7 +72,7 @@ public class UnitStats : MonoBehaviour
     public int GetToHit()
     {
         int toHitStat = statDictionary[attackingStat];
-        return GetModifier(toHitStat) + baseStats.GetProficiencyBonus();
+        return GetModifier(toHitStat) + baseStats.GetProficiencyBonus() + toHitBonus;
     }
 
     public int GetRoll()
@@ -85,13 +89,14 @@ public class UnitStats : MonoBehaviour
     {
         return 10
             + Mathf.Min(GetModifier(baseStats.GetDexterity()), unitArmour.GetDexBonusLimit())
-            + unitArmour.GetArmourBonus();
+            + unitArmour.GetArmourBonus()
+            + acBonus;
     }
 
     public int GetDamage()
     {
         int damageStat = statDictionary[attackingStat];
-        return GetModifier(damageStat) + unitWeapon.GetWeaponDamage();
+        return GetModifier(damageStat) + unitWeapon.GetWeaponDamage() + damageBonus;
     }
 
     public int GetAttackRange()

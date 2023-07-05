@@ -6,8 +6,9 @@ using UnityEngine;
 public class FireboltAction : BaseAction
 {
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
-    public event EventHandler<OnShootEventArgs> OnShoot;
-    public event EventHandler OnAim;
+
+    // public event EventHandler<OnShootEventArgs> OnShoot;
+    // public event EventHandler OnAim;
 
     private bool attackSucceeded;
 
@@ -36,9 +37,6 @@ public class FireboltAction : BaseAction
     private float stateTimer;
     private Unit targetUnit;
     private bool canShoot;
-
-    [SerializeField]
-    private float actionDamageMultiplier = 1f;
 
     [SerializeField]
     private LayerMask obstaclesLayerMask;
@@ -114,10 +112,10 @@ public class FireboltAction : BaseAction
         );
 
         //Fires off OnShoot event and damages targetUnit
-        OnShoot?.Invoke(
-            this,
-            new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
-        );
+        // OnShoot?.Invoke(
+        //     this,
+        //     new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
+        // );
 
         if (attackSucceeded)
         {
@@ -209,7 +207,7 @@ public class FireboltAction : BaseAction
             unit.GetUnitStats(),
             targetUnit.GetUnitStats()
         );
-        OnAim.Invoke(this, EventArgs.Empty);
+        //OnAim.Invoke(this, EventArgs.Empty);
         state = State.Aiming;
         float aimingStateTime = 0.75f;
         stateTimer = aimingStateTime;
@@ -227,11 +225,6 @@ public class FireboltAction : BaseAction
     public override bool ActionDealsDamage()
     {
         return true;
-    }
-
-    public override int GetDamage()
-    {
-        return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
     }
 
     public override int GetUIPriority()

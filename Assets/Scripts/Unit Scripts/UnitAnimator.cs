@@ -8,49 +8,28 @@ public class UnitAnimator : MonoBehaviour
     public event EventHandler OnAttack;
     public event EventHandler OnAttackEnd;
 
+    private List<BaseAction> unitActionList = new List<BaseAction>();
+
     [SerializeField]
     private Animator animator;
 
-    //Setup for all the subscriptions, making sure the components are actually attached to unit
-    private void Awake()
+    private void Start()
     {
+        unitActionList = GetComponent<Unit>().GetBaseActionList();
+
         if (TryGetComponent<MoveAction>(out MoveAction moveAction))
         {
             moveAction.OnStartMoving += MoveAction_OnStartMoving;
             moveAction.OnStopMoving += MoveAction_OnStopMoving;
         }
 
-        if (TryGetComponent<ShootAction>(out ShootAction shootAction))
+        foreach (BaseAction action in unitActionList)
         {
-            shootAction.OnAim += OnAttackStarted;
-        }
-
-        if (TryGetComponent<DeadeyeAction>(out DeadeyeAction deadeyeAction))
-        {
-            deadeyeAction.OnAim += OnAttackStarted;
-        }
-
-        if (TryGetComponent<FireboltAction>(out FireboltAction fireboltAction))
-        {
-            fireboltAction.OnAim += OnAttackStarted;
-        }
-
-        if (TryGetComponent<SwordAction>(out SwordAction swordAction))
-        {
-            swordAction.OnSwordActionStarted += OnAttackStarted;
-            swordAction.OnSwordActionCompleted += OnAttackEnded;
-        }
-
-        if (TryGetComponent<CleaveAction>(out CleaveAction slashAction))
-        {
-            slashAction.OnCleaveActionStarted += OnAttackStarted;
-            slashAction.OnCleaveActionCompleted += OnAttackEnded;
-        }
-
-        if (TryGetComponent<FireballAction>(out FireballAction grenadeAction))
-        {
-            grenadeAction.OnFireballActionStarted += OnAttackStarted;
-            grenadeAction.OnFireballActionCompleted += OnAttackEnded;
+            if (action.ActionDealsDamage())
+            {
+                action.OnActionStarted += OnAttackStarted;
+                action.OnActionCompleted += OnAttackEnded;
+            }
         }
 
         if (TryGetComponent<HealthSystem>(out HealthSystem healthSystem))
@@ -67,36 +46,13 @@ public class UnitAnimator : MonoBehaviour
             moveAction.OnStopMoving -= MoveAction_OnStopMoving;
         }
 
-        if (TryGetComponent<ShootAction>(out ShootAction shootAction))
+        foreach (BaseAction action in unitActionList)
         {
-            shootAction.OnAim -= OnAttackStarted;
-        }
-
-        if (TryGetComponent<DeadeyeAction>(out DeadeyeAction deadeyeAction))
-        {
-            deadeyeAction.OnAim -= OnAttackStarted;
-        }
-        if (TryGetComponent<FireboltAction>(out FireboltAction fireboltAction))
-        {
-            fireboltAction.OnAim -= OnAttackStarted;
-        }
-
-        if (TryGetComponent<SwordAction>(out SwordAction swordAction))
-        {
-            swordAction.OnSwordActionStarted -= OnAttackStarted;
-            swordAction.OnSwordActionCompleted -= OnAttackEnded;
-        }
-
-        if (TryGetComponent<CleaveAction>(out CleaveAction slashAction))
-        {
-            slashAction.OnCleaveActionStarted -= OnAttackStarted;
-            slashAction.OnCleaveActionCompleted -= OnAttackEnded;
-        }
-
-        if (TryGetComponent<FireballAction>(out FireballAction grenadeAction))
-        {
-            grenadeAction.OnFireballActionStarted -= OnAttackStarted;
-            grenadeAction.OnFireballActionCompleted -= OnAttackEnded;
+            if (action.ActionDealsDamage())
+            {
+                action.OnActionStarted -= OnAttackStarted;
+                action.OnActionCompleted -= OnAttackEnded;
+            }
         }
 
         if (TryGetComponent<HealthSystem>(out HealthSystem healthSystem))
@@ -107,8 +63,7 @@ public class UnitAnimator : MonoBehaviour
 
     private void OnAttackStarted(object sender, EventArgs e)
     {
-        if (animator)
-            animator.SetTrigger("IsAttacking");
+        animator.SetTrigger("IsAttacking");
         OnAttack?.Invoke(this, EventArgs.Empty);
     }
 
@@ -120,19 +75,16 @@ public class UnitAnimator : MonoBehaviour
     //Sets the bool based on which event has fired
     private void MoveAction_OnStartMoving(object sender, EventArgs e)
     {
-        if (animator)
-            animator.SetBool("IsWalking", true);
+        animator.SetBool("IsWalking", true);
     }
 
     private void MoveAction_OnStopMoving(object sender, EventArgs e)
     {
-        if (animator)
-            animator.SetBool("IsWalking", false);
+        animator.SetBool("IsWalking", false);
     }
 
     private void HealthSystem_OnDead(object sender, EventArgs e)
     {
-        if (animator)
-            animator.SetTrigger("Die");
+        animator.SetTrigger("Die");
     }
 }

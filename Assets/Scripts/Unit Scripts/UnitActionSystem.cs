@@ -27,6 +27,9 @@ public class UnitActionSystem : MonoBehaviour
     private ActionState currentState;
     private GridPosition unitStartPosition;
 
+    private int actionHitBonus;
+    private int actionDamageBonus;
+
     public enum ActionState
     {
         noSelectedUnit,
@@ -208,6 +211,8 @@ public class UnitActionSystem : MonoBehaviour
             return;
         }
         unitStartPosition = unit.GetGridPosition();
+        actionHitBonus = 0;
+        actionDamageBonus = 0;
         if (selectedUnit.GetHeldActions() < 0)
         {
             currentState = ActionState.selectingAction;
@@ -225,13 +230,32 @@ public class UnitActionSystem : MonoBehaviour
 
     public void SetSelectedAction(BaseAction baseAction)
     {
+        RemoveStatBonuses(actionHitBonus, actionDamageBonus);
+
         selectedAction = baseAction;
+
+        actionHitBonus = selectedAction.GetToHitBonus();
+        actionDamageBonus = selectedAction.GetDamageBonus();
+        AddStatBonuses(actionHitBonus, actionDamageBonus);
+
         AudioSource.PlayClipAtPoint(
             selectActionSFX,
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
         OnSelectedActionChanged?.Invoke(this, baseAction);
+    }
+
+    private void AddStatBonuses(int toHitBonus, int damageBonus)
+    {
+        selectedUnit.GetUnitStats().toHitBonus += toHitBonus;
+        selectedUnit.GetUnitStats().damageBonus += damageBonus;
+    }
+
+    private void RemoveStatBonuses(int toHitBonus, int damageBonus)
+    {
+        selectedUnit.GetUnitStats().toHitBonus -= toHitBonus;
+        selectedUnit.GetUnitStats().damageBonus -= damageBonus;
     }
 
     public Unit GetSelectedUnit()

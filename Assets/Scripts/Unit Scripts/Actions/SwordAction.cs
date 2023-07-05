@@ -6,8 +6,9 @@ using UnityEngine;
 public class SwordAction : BaseAction
 {
     public static event EventHandler OnAnySwordHit;
-    public event EventHandler OnSwordActionStarted;
-    public event EventHandler OnSwordActionCompleted;
+
+    // public event EventHandler OnSwordActionStarted;
+    // public event EventHandler OnSwordActionCompleted;
 
     private bool attackSucceeded;
 
@@ -19,9 +20,6 @@ public class SwordAction : BaseAction
         SwingingSwordBeforeHit,
         SwingingSwordAfterHit,
     }
-
-    [SerializeField]
-    private float actionDamageMultiplier = 1f;
 
     private State state;
     private float stateTimer;
@@ -91,7 +89,7 @@ public class SwordAction : BaseAction
 
                 break;
             case State.SwingingSwordAfterHit:
-                OnSwordActionCompleted?.Invoke(this, EventArgs.Empty);
+                //OnSwordActionCompleted?.Invoke(this, EventArgs.Empty);
                 ActionComplete();
                 break;
         }
@@ -195,7 +193,7 @@ public class SwordAction : BaseAction
         float beforeHitStateTime = 0.75f;
         stateTimer = beforeHitStateTime;
 
-        OnSwordActionStarted?.Invoke(this, EventArgs.Empty);
+        //OnSwordActionStarted?.Invoke(this, EventArgs.Empty);
 
         ActionStart(onActionComplete);
     }
@@ -203,11 +201,6 @@ public class SwordAction : BaseAction
     public override bool ActionDealsDamage()
     {
         return true;
-    }
-
-    public override int GetDamage()
-    {
-        return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
     }
 
     public override int GetUIPriority()

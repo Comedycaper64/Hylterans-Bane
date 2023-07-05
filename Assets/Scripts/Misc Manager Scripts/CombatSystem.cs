@@ -50,9 +50,7 @@ public class CombatSystem : MonoBehaviour
         //Gets damage from currently selected action of unit
         if (UnitActionSystem.Instance.GetSelectedAction())
         {
-            currentBattleForecast.attackingUnitDamage = UnitActionSystem.Instance
-                .GetSelectedAction()
-                .GetDamage();
+            currentBattleForecast.attackingUnitDamage = attackingUnit.GetUnitStats().GetDamage();
         }
         else
         {

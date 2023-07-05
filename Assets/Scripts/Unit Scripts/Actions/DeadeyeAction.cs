@@ -6,8 +6,9 @@ using UnityEngine;
 public class DeadeyeAction : BaseAction
 {
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
-    public event EventHandler<OnShootEventArgs> OnShoot;
-    public event EventHandler OnAim;
+
+    // public event EventHandler<OnShootEventArgs> OnShoot;
+    // public event EventHandler OnAim;
 
     private bool attackSucceeded;
 
@@ -36,7 +37,10 @@ public class DeadeyeAction : BaseAction
     private bool canShoot;
 
     [SerializeField]
-    private float actionDamageMultiplier = 1f;
+    private int actionToHitBonus = 3;
+
+    [SerializeField]
+    private int actionDamageBonus = 3;
 
     [SerializeField]
     private LayerMask obstaclesLayerMask;
@@ -112,10 +116,10 @@ public class DeadeyeAction : BaseAction
         );
 
         //Fires off OnShoot event and damages targetUnit
-        OnShoot?.Invoke(
-            this,
-            new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
-        );
+        // OnShoot?.Invoke(
+        //     this,
+        //     new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
+        // );
 
         if (attackSucceeded)
         {
@@ -216,7 +220,7 @@ public class DeadeyeAction : BaseAction
             unit.GetUnitStats(),
             targetUnit.GetUnitStats()
         );
-        OnAim.Invoke(this, EventArgs.Empty);
+        //OnAim.Invoke(this, EventArgs.Empty);
         state = State.Aiming;
         float aimingStateTime = 0.75f;
         stateTimer = aimingStateTime;
@@ -236,9 +240,14 @@ public class DeadeyeAction : BaseAction
         return true;
     }
 
-    public override int GetDamage()
+    public override int GetToHitBonus()
     {
-        return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
+        return actionToHitBonus;
+    }
+
+    public override int GetDamageBonus()
+    {
+        return actionDamageBonus;
     }
 
     public override int GetUIPriority()

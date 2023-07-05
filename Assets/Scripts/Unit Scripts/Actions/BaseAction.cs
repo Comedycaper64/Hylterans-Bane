@@ -6,8 +6,8 @@ using UnityEngine;
 //An abstract class can't go directly on an object, it needs to have an extension of it do so instead
 public abstract class BaseAction : MonoBehaviour
 {
-    public static event EventHandler OnAnyActionStarted;
-    public static event EventHandler OnAnyActionCompleted;
+    public event EventHandler OnActionStarted;
+    public event EventHandler OnActionCompleted;
 
     // Scripts that extend BaseAction (the other actions) can access the protected fields
     protected Unit unit;
@@ -32,7 +32,12 @@ public abstract class BaseAction : MonoBehaviour
         return false;
     }
 
-    public virtual int GetDamage()
+    public virtual int GetToHitBonus()
+    {
+        return 0;
+    }
+
+    public virtual int GetDamageBonus()
     {
         return 0;
     }
@@ -76,7 +81,7 @@ public abstract class BaseAction : MonoBehaviour
     {
         isActive = true;
         this.onActionComplete = onActionComplete;
-        OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
+        OnActionStarted?.Invoke(this, EventArgs.Empty);
     }
 
     protected void ActionComplete()
@@ -84,7 +89,7 @@ public abstract class BaseAction : MonoBehaviour
         isActive = false;
         if (onActionComplete != null)
             onActionComplete();
-        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
+        OnActionCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     public Unit GetUnit()

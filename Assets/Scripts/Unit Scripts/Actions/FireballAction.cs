@@ -11,14 +11,14 @@ public class FireballAction : BaseAction
     [SerializeField]
     private AudioClip fireballChargeSFX;
 
-    public event EventHandler OnFireballActionStarted;
-    public event EventHandler OnFireballActionCompleted;
+    // public event EventHandler OnFireballActionStarted;
+    // public event EventHandler OnFireballActionCompleted;
 
     [SerializeField]
     private int maxThrowDistance = 4;
 
     [SerializeField]
-    private float actionDamageMultiplier = 0.8f;
+    private int actionDamageBonus = -2;
 
     [SerializeField]
     private float damageRadius = 3f;
@@ -58,9 +58,7 @@ public class FireballAction : BaseAction
                 );
                 FireballProjectile fireballProjectile =
                     fireballProjectileTransform.GetComponent<FireballProjectile>();
-                int damageAmount = Mathf.RoundToInt(
-                    unit.GetUnitStats().GetDamage() * actionDamageMultiplier
-                );
+                int damageAmount = Mathf.RoundToInt(unit.GetUnitStats().GetDamage());
                 fireballProjectile.Setup(
                     targetGridPosition,
                     damageAmount,
@@ -158,7 +156,7 @@ public class FireballAction : BaseAction
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
-        OnFireballActionStarted?.Invoke(this, EventArgs.Empty);
+        //OnFireballActionStarted?.Invoke(this, EventArgs.Empty);
         targetGridPosition = gridPosition;
         state = State.Charging;
         float aimingStateTime = 1f;
@@ -205,14 +203,14 @@ public class FireballAction : BaseAction
         return true;
     }
 
-    public override int GetDamage()
+    public override int GetDamageBonus()
     {
-        return Mathf.RoundToInt(unit.GetUnitStats().GetDamage() * actionDamageMultiplier);
+        return actionDamageBonus;
     }
 
     private void OnFireballBehaviourComplete()
     {
-        OnFireballActionCompleted?.Invoke(this, EventArgs.Empty);
+        //OnFireballActionCompleted?.Invoke(this, EventArgs.Empty);
         ActionComplete();
     }
 }

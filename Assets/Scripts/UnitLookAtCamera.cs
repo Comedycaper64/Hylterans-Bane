@@ -18,7 +18,7 @@ public class UnitLookAtCamera : MonoBehaviour
         if (TryGetComponent<UnitAnimator>(out UnitAnimator animator))
         {
             animator.OnAttack += UnitAnimator_OnAttack;
-            animator.OnAttack += UnitAnimator_OnAttackEnd;
+            animator.OnAttackEnd += UnitAnimator_OnAttackEnd;
         }
     }
 
@@ -27,7 +27,7 @@ public class UnitLookAtCamera : MonoBehaviour
         if (TryGetComponent<UnitAnimator>(out UnitAnimator animator))
         {
             animator.OnAttack -= UnitAnimator_OnAttack;
-            animator.OnAttack -= UnitAnimator_OnAttackEnd;
+            animator.OnAttackEnd -= UnitAnimator_OnAttackEnd;
         }
     }
 
