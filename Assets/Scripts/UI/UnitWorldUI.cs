@@ -75,7 +75,7 @@ public class UnitWorldUI : MonoBehaviour
     {
         if (thisUnit.IsEnemy() && baseAction.ActionDealsDamage())
         {
-            ShowPredictedHealthLoss(thisUnit.GetUnitStats().GetDamage());
+            ShowPredictedHealthLoss(baseAction.GetUnit().GetUnitStats().GetDamage());
         }
         else
         {

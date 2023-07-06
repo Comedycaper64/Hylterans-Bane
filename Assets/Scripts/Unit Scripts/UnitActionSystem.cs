@@ -101,11 +101,11 @@ public class UnitActionSystem : MonoBehaviour
                 MouseWorld.GetPosition()
             );
 
-            if (selectedAction.GetRequiredHeldActions() > selectedUnit.GetHeldActions())
-            {
-                Debug.Log("Not enough held actions");
-                return;
-            }
+            // if (selectedAction.GetRequiredHeldActions() > selectedUnit.GetHeldActions())
+            // {
+            //     Debug.Log("Not enough held actions");
+            //     return;
+            // }
 
             if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
@@ -147,6 +147,7 @@ public class UnitActionSystem : MonoBehaviour
     {
         currentState = ActionState.noSelectedUnit;
         BaseAction actionToHandle = selectedUnit.GetComponent<MoveAction>();
+        SetSelectedAction(actionToHandle);
         StartAction();
         actionToHandle.TakeAction(unitStartPosition, FinishAction);
         SetSelectedUnit(null);

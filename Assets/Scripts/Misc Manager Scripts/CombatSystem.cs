@@ -34,17 +34,20 @@ public class CombatSystem : MonoBehaviour
     public BattleForecast GetBattleForecast(Unit attackingUnit, Unit defendingUnit)
     {
         BattleForecast currentBattleForecast = new BattleForecast();
-        currentBattleForecast.attackingUnitChanceToHit = Mathf.RoundToInt(
-            100
-                * (
-                    1
-                    - (
-                        (
-                            defendingUnit.GetUnitStats().GetArmourClass()
-                            - attackingUnit.GetUnitStats().GetToHit()
-                        ) / 20f
+        currentBattleForecast.attackingUnitChanceToHit = Mathf.Min(
+            100,
+            Mathf.RoundToInt(
+                100
+                    * (
+                        1
+                        - (
+                            (
+                                defendingUnit.GetUnitStats().GetArmourClass()
+                                - attackingUnit.GetUnitStats().GetToHit()
+                            ) / 20f
+                        )
                     )
-                )
+            )
         );
 
         //Gets damage from currently selected action of unit

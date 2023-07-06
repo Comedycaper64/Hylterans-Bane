@@ -124,7 +124,7 @@ public class DeadeyeAction : BaseAction
         if (attackSucceeded)
         {
             int damageAmount = unit.GetUnitStats().GetDamage();
-            targetUnit.Damage(damageAmount + 3);
+            targetUnit.Damage(damageAmount);
         }
     }
 

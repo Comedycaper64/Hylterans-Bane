@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Shortsword
   m_EditorClassIdentifier: 
   weaponName: Shortsword
-  weaponDamage: 6
+  weaponDamage: 3
   weaponRange: 1
