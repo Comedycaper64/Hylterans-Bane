@@ -22,6 +22,8 @@ public abstract class BaseAction : MonoBehaviour
     //Abstract methods must be implemented by extenders
     public abstract string GetActionName();
 
+    public abstract string GetActionDescription();
+
     public virtual bool GetIsAOE()
     {
         return false;

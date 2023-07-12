@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class FireballAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription =
+        "An area of effect spell that deals fire damage to any unit caught in it";
+
     [SerializeField]
     private Transform fireballProjectilePrefab;
 
@@ -101,6 +105,11 @@ public class FireballAction : BaseAction
     public override string GetActionName()
     {
         return "Fireball";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class FireboltAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription = "A ranged attack that shoots a firebolt";
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
 
     // public event EventHandler<OnShootEventArgs> OnShoot;
@@ -128,6 +130,11 @@ public class FireboltAction : BaseAction
     public override string GetActionName()
     {
         return "Attack";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     //See MoveAction

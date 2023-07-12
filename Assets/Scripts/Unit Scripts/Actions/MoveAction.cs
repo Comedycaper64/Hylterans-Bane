@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription;
     public event EventHandler OnStartMoving;
     public event EventHandler OnStopMoving;
 
@@ -128,6 +130,11 @@ public class MoveAction : BaseAction
     public override string GetActionName()
     {
         return "Move";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     private int GetMoveLocationValue(GridPosition gridPosition)

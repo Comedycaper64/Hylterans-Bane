@@ -13,6 +13,12 @@ public class UnitActionSystemUI : MonoBehaviour
     [SerializeField]
     private Transform actionButtonContainerTransform;
 
+    [SerializeField]
+    private GameObject actionDescription;
+
+    [SerializeField]
+    private TextMeshProUGUI actionDescriptionText;
+
     private List<ActionButtonUI> actionButtonUIList;
 
     //Creates list for actionbuttons
@@ -29,7 +35,7 @@ public class UnitActionSystemUI : MonoBehaviour
             UnitActionSystem_OnSelectedActionChanged;
 
         CreateUnitActionButtons();
-        UpdateSelectedVisuals();
+        UpdateSelectedVisuals(null);
     }
 
     private void OnDisable()
@@ -92,18 +98,28 @@ public class UnitActionSystemUI : MonoBehaviour
     }
 
     //Puts a green outline around the action that was selected
-    private void UpdateSelectedVisuals()
+    private void UpdateSelectedVisuals(BaseAction selectedBaseAction)
     {
         foreach (ActionButtonUI actionButton in actionButtonUIList)
         {
             actionButton.UpdateSelectedVisual();
+        }
+
+        if (selectedBaseAction && (selectedBaseAction.GetActionDescription() != null))
+        {
+            actionDescription.SetActive(true);
+            actionDescriptionText.text = selectedBaseAction.GetActionDescription();
+        }
+        else
+        {
+            actionDescription.SetActive(false);
         }
     }
 
     private void UnitActionSystem_OnUnitMoved()
     {
         CreateUnitActionButtons();
-        UpdateSelectedVisuals();
+        UpdateSelectedVisuals(null);
     }
 
     private void UnitActionSystem_OnUnitActionStarted()
@@ -111,8 +127,11 @@ public class UnitActionSystemUI : MonoBehaviour
         ClearUnitActionButtons();
     }
 
-    private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction e)
+    private void UnitActionSystem_OnSelectedActionChanged(
+        object sender,
+        BaseAction selectedBaseAction
+    )
     {
-        UpdateSelectedVisuals();
+        UpdateSelectedVisuals(selectedBaseAction);
     }
 }

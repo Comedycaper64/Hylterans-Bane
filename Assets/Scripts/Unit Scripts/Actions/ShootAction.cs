@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription = "A basic ranged attack";
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
 
     // public event EventHandler<OnShootEventArgs> OnShoot;
@@ -126,6 +128,11 @@ public class ShootAction : BaseAction
     public override string GetActionName()
     {
         return "Attack";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     //See MoveAction

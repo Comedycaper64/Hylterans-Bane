@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class InteractAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription;
     private int maxInteractDistance = 1;
 
     private void Update()
@@ -18,6 +20,11 @@ public class InteractAction : BaseAction
     public override string GetActionName()
     {
         return "Interact";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)

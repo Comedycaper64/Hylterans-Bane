@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DeadeyeAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription = "A more precise ranged attack. Required 1 Held Action";
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
 
     // public event EventHandler<OnShootEventArgs> OnShoot;
@@ -132,6 +134,11 @@ public class DeadeyeAction : BaseAction
     public override string GetActionName()
     {
         return "Deadeye Shot";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     public override int GetRequiredHeldActions()

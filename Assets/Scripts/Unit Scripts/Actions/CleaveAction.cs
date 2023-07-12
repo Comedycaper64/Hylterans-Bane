@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class CleaveAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription = "A sweeping blow that hits enemies around the unit.";
+
     public static event EventHandler<Unit> OnDamageUnit;
     public static event EventHandler OnAnyCleaveHit;
     public static event Action OnCleaveDamageFinished;
@@ -75,6 +78,11 @@ public class CleaveAction : BaseAction
     public override string GetActionName()
     {
         return "Cleave";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()

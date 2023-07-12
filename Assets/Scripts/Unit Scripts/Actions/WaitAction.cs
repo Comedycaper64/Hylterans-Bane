@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class WaitAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription = "Ends the unit's turn. Gain 1 Held Action";
     float waitTimer = 1f;
 
     private void Update()
@@ -25,6 +27,11 @@ public class WaitAction : BaseAction
     public override string GetActionName()
     {
         return "Wait";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     public override int GetUIPriority()

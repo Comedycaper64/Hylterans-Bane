@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class SpinAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription = "A spin";
+
     //Debug spin Action
     private float totalSpinAmount;
 
@@ -34,6 +37,11 @@ public class SpinAction : BaseAction
     public override string GetActionName()
     {
         return "Spin";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)

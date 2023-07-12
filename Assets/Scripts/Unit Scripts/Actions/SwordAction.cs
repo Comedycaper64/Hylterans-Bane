@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class SwordAction : BaseAction
 {
+    //[SerializeField]
+    private string actionDescription = "A basic melee attack";
     public static event EventHandler OnAnySwordHit;
 
     // public event EventHandler OnSwordActionStarted;
@@ -98,6 +100,11 @@ public class SwordAction : BaseAction
     public override string GetActionName()
     {
         return "Attack";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
