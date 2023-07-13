@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 12
   dexterity: 18
-  constitution: 14
+  constitution: 24
   intelligence: 10
   wisdom: 14
   charisma: 6
   proficiencyBonus: 3
-  hitDice: 1
+  hitDice: 2

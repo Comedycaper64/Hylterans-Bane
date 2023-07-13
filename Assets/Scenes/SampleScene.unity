@@ -136,6 +136,11 @@ PrefabInstance:
       propertyPath: flingFireboltSFX
       value: 
       objectReference: {fileID: 8300000, guid: 1cc48027846611041a279bd609f88de2, type: 3}
+    - target: {fileID: -538394781072065893, guid: 6a3c33a4616cbaa4bb91f9a71a7e222c,
+        type: 3}
+      propertyPath: actionDamageBonus
+      value: -5
+      objectReference: {fileID: 0}
     - target: {fileID: 7092185613756478522, guid: 6a3c33a4616cbaa4bb91f9a71a7e222c,
         type: 3}
       propertyPath: m_Name
@@ -213,6 +218,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 636931805}
     m_Modifications:
+    - target: {fileID: 3535045903482784421, guid: 9687d6447a936ae4da2ab644b201bc28,
+        type: 3}
+      propertyPath: damageBonus
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 7092185613756478522, guid: 9687d6447a936ae4da2ab644b201bc28,
         type: 3}
       propertyPath: m_Name
@@ -573,6 +583,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit Melee Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 1985327756810489936, guid: db36fe94a5b83174ea5093a8e06cc7ec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1985327756810490031, guid: db36fe94a5b83174ea5093a8e06cc7ec,
         type: 3}
       propertyPath: m_RootOrder
@@ -748,6 +763,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit Spell Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 6870513660259636505, guid: ef24bcd62b1a60340b44780e6b659134,
+        type: 3}
+      propertyPath: unitLevel
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870513660259636505, guid: ef24bcd62b1a60340b44780e6b659134,
+        type: 3}
+      propertyPath: toHitBonus
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ef24bcd62b1a60340b44780e6b659134, type: 3}
@@ -878,6 +903,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit Ranged Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 881429533266488198, guid: 70c3ca970d4eb8147b16f1d59b1eabe3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 70c3ca970d4eb8147b16f1d59b1eabe3, type: 3}
@@ -919,6 +949,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 636931805}
     m_Modifications:
+    - target: {fileID: 199525657014156588, guid: 5f26b63ef706d2a499d893b15cd10173,
+        type: 3}
+      propertyPath: damageBonus
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 5883771766290645836, guid: 5f26b63ef706d2a499d893b15cd10173,
         type: 3}
       propertyPath: m_RootOrder
@@ -1886,22 +1921,22 @@ PrefabInstance:
     - target: {fileID: 5506785588543384634, guid: 7e0fea82dbcf1024fa8fb00c4122fa31,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000000187227
+      value: -0.0000000187227
       objectReference: {fileID: 0}
     - target: {fileID: 5506785588543384634, guid: 7e0fea82dbcf1024fa8fb00c4122fa31,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000044198294
+      value: 0.0000000044198294
       objectReference: {fileID: 0}
     - target: {fileID: 6852894991311491045, guid: 7e0fea82dbcf1024fa8fb00c4122fa31,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000000187227
+      value: -0.0000000187227
       objectReference: {fileID: 0}
     - target: {fileID: 6852894991311491045, guid: 7e0fea82dbcf1024fa8fb00c4122fa31,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000044198294
+      value: 0.0000000044198294
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

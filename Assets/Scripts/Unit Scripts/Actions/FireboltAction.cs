@@ -123,6 +123,7 @@ public class FireboltAction : BaseAction
         {
             int damageAmount = unit.GetUnitStats().GetDamage();
             targetUnit.Damage(damageAmount);
+            targetUnit.gameObject.AddComponent<BlazeEffect>();
         }
     }
 

@@ -47,6 +47,7 @@ public class Unit : MonoBehaviour
     public event EventHandler<int> OnHeldActionsChanged;
     public static event EventHandler<GridPosition> OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
+    public Action OnUnitTurnStart;
 
     private void Awake()
     {
@@ -120,6 +121,7 @@ public class Unit : MonoBehaviour
         else
         {
             baseMesh.material = availableMaterial;
+            OnUnitTurnStart?.Invoke();
         }
     }
 
