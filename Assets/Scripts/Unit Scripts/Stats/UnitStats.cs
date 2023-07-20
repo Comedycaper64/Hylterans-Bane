@@ -80,10 +80,10 @@ public class UnitStats : MonoBehaviour
         return Random.Range(1, 21);
     }
 
-    public int GetAttackRoll()
-    {
-        return Random.Range(1, 21) + GetToHit();
-    }
+    // public int GetAttackRoll()
+    // {
+    //     return Random.Range(1, 21) + GetToHit();
+    // }
 
     public int GetArmourClass()
     {
