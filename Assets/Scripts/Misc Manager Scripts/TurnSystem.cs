@@ -120,6 +120,24 @@ public class TurnSystem : MonoBehaviour
         NextInitiative();
     }
 
+    public void AddUnitToInitiative(Unit unitToAdd)
+    {
+        List<Initiative> tempInitiativeList = new List<Initiative>();
+        tempInitiativeList.Add(new Initiative(unitToAdd, 0));
+        for (int i = 0; i < initiativeOrder.Count; i++)
+        {
+            tempInitiativeList.Add(initiativeOrder.Dequeue());
+        }
+
+        initiativeOrder.Clear();
+        foreach (Initiative initiative in tempInitiativeList)
+        {
+            initiativeOrder.Enqueue(initiative);
+        }
+
+        OnNewInitiative?.Invoke(this, initiativeOrder);
+    }
+
     private void RemoveUnitFromInitiative(Unit deadUnit)
     {
         List<Initiative> tempInitiativeList = new List<Initiative>();

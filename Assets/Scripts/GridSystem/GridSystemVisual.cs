@@ -216,7 +216,7 @@ public class GridSystemVisual : MonoBehaviour
             else
             {
                 gridVisualType = GridVisualType.Blue;
-                ShowGridPositionRange(
+                ShowGridPositionRangeSquare(
                     selectedUnit.GetGridPosition(),
                     selectedAction.GetActionRange(),
                     GridVisualType.Blue

@@ -5,13 +5,13 @@ using UnityEngine;
 public class GridObject
 {
     //Each tile on the Grid is a GridObject
-    private List<Unit> gridUnitList;    //All units currently on the tile
+    private List<Unit> gridUnitList; //All units currently on the tile
     private GridSystem<GridObject> gridSystem;
 
-    private GridPosition gridPosition;  //Position of this tile
+    private GridPosition gridPosition; //Position of this tile
     private IInteractable interactable;
 
-   public GridObject(GridSystem<GridObject> gridSystem, GridPosition gridPosition)  //Constructor
+    public GridObject(GridSystem<GridObject> gridSystem, GridPosition gridPosition) //Constructor
     {
         this.gridPosition = gridPosition;
         this.gridSystem = gridSystem;
@@ -59,7 +59,8 @@ public class GridObject
         if (HasAnyUnit())
         {
             return gridUnitList[0];
-        } else
+        }
+        else
         {
             return null;
         }
@@ -68,13 +69,10 @@ public class GridObject
     public IInteractable GetInteractable()
     {
         return interactable;
-
     }
 
     public void SetInteractable(IInteractable interactable)
     {
         this.interactable = interactable;
     }
-
-
 }
