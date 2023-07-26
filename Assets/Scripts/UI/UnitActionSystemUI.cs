@@ -125,6 +125,7 @@ public class UnitActionSystemUI : MonoBehaviour
     private void UnitActionSystem_OnUnitActionStarted()
     {
         ClearUnitActionButtons();
+        UpdateSelectedVisuals(null);
     }
 
     private void UnitActionSystem_OnSelectedActionChanged(

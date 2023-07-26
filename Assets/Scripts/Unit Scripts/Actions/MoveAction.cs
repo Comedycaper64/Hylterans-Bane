@@ -9,6 +9,7 @@ public class MoveAction : BaseAction
     private string actionDescription;
     public event EventHandler OnStartMoving;
     public event EventHandler OnStopMoving;
+    public static event EventHandler<GridPosition> OnAnyUnitMoved;
 
     [SerializeField]
     private int maxMoveDistance = 4;
@@ -68,6 +69,12 @@ public class MoveAction : BaseAction
         }
 
         OnStartMoving?.Invoke(this, EventArgs.Empty);
+
+        GridPosition oldUnitGridPosition = unit.GetGridPosition();
+        unit.SetGridPosition(gridPosition);
+        LevelGrid.Instance.UnitMovedGridPosition(unit, oldUnitGridPosition, gridPosition);
+
+        OnAnyUnitMoved?.Invoke(this, gridPosition);
 
         ActionStart(onActionComplete);
     }
@@ -197,6 +204,9 @@ public class MoveAction : BaseAction
     {
         int targetCountAtGridPosition;
         BaseAction unitAction;
+
+        // NEEDS IMPROVING ---------------------------------------------------------------------------------------------------
+
         if (unit.GetAction<ShootAction>())
         {
             unitAction = unit.GetAction<ShootAction>();

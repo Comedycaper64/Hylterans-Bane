@@ -84,17 +84,23 @@ public class Unit : MonoBehaviour
         healthSystem.OnDead -= HealthSystem_OnDead;
     }
 
-    private void Update()
+    // private void Update()
+    // {
+    //     //Tracks to see if the Unit is changing position on the Grid
+
+    //     GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+    //     if (newGridPosition != gridPosition)
+    //     {
+    //         //Unit changed grid position
+    //         GridPosition oldGridPosition = gridPosition;
+    //         gridPosition = newGridPosition;
+    //         LevelGrid.Instance.UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
+    //     }
+    // }
+
+    public void SetGridPosition(GridPosition gridPosition)
     {
-        //Tracks to see if the Unit is changing position on the Grid
-        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        if (newGridPosition != gridPosition)
-        {
-            //Unit changed grid position
-            GridPosition oldGridPosition = gridPosition;
-            gridPosition = newGridPosition;
-            LevelGrid.Instance.UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
-        }
+        this.gridPosition = gridPosition;
     }
 
     //Return for each script attatched to Unit

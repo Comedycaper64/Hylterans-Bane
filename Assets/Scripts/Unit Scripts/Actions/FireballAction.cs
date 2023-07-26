@@ -7,7 +7,7 @@ public class FireballAction : BaseAction
 {
     //[SerializeField]
     private string actionDescription =
-        "An area of effect spell that deals fire damage to any unit caught in it";
+        "An area of effect spell that deals fire damage to any unit caught in it.";
 
     [SerializeField]
     private Transform fireballProjectilePrefab;
