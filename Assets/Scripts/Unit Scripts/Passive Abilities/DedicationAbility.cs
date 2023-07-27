@@ -25,13 +25,23 @@ public class DedicationAbility : PassiveAbility
     private IEnumerator InitialBuff()
     {
         yield return null;
+        UpdateBuff();
+    }
+
+    private void UpdateBuff()
+    {
         List<Unit> friendlyUnits = UnitManager.Instance.GetFriendlyUnitList();
         foreach (Unit friendlyUnit in friendlyUnits)
         {
             GridPosition unitDistance = friendlyUnit.GetGridPosition() - unit.GetGridPosition();
             int distanceInt = Mathf.Abs(unitDistance.x) + Mathf.Abs(unitDistance.z);
             bool unitOutOfRange = distanceInt > abilityRange ? true : false;
-            if (!unitOutOfRange)
+
+            if (buffedUnits.Contains(friendlyUnit) && unitOutOfRange)
+            {
+                DebuffUnit(friendlyUnit);
+            }
+            else if (!buffedUnits.Contains(friendlyUnit) && !unitOutOfRange)
             {
                 BuffUnit(friendlyUnit);
             }
@@ -61,10 +71,14 @@ public class DedicationAbility : PassiveAbility
         MoveAction sendingAction = (MoveAction)sender;
         Unit sendingUnit = sendingAction.GetUnit();
 
-        Debug.Log("Ayaya");
-
         if (!sendingUnit.IsEnemy())
         {
+            if (sendingUnit == unit)
+            {
+                UpdateBuff();
+                return;
+            }
+
             GridPosition sendingUnitDistance = newPosition - unit.GetGridPosition();
             int distanceInt = Mathf.Abs(sendingUnitDistance.x) + Mathf.Abs(sendingUnitDistance.z);
             bool unitOutOfRange = distanceInt > abilityRange ? true : false;

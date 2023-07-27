@@ -269,6 +269,11 @@ public class UnitActionSystem : MonoBehaviour
         return selectedAction;
     }
 
+    public bool GetIsBusy()
+    {
+        return isBusy;
+    }
+
     // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     // {
     //     if (currentState != ActionState.noSelectedUnit)
