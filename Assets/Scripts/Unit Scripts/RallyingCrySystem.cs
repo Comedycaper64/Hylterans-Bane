@@ -10,22 +10,23 @@ public class RallyingCrySystem : MonoBehaviour
     private void Awake()
     {
         unitActionSystem = GetComponent<UnitActionSystem>();
-    }
-
-    private void Start()
-    {
-        InputManager.Instance.OnRallyingCryEvent += InputManage_OnRallyingCry;
+        RallyingCryButtonUI.OnChooseRallyingCry += RallyingCryButtonUI_OnChooseRallyingCry;
     }
 
     private void OnDisable()
     {
-        InputManager.Instance.OnRallyingCryEvent -= InputManage_OnRallyingCry;
+        RallyingCryButtonUI.OnChooseRallyingCry -= RallyingCryButtonUI_OnChooseRallyingCry;
     }
 
-    private void InputManage_OnRallyingCry()
+    private void PerformRallyingCry(RallyingCry rallyingCry)
     {
-        //Pause game (or not?)
-        //Open rallying cry UI with a callback EventHandler event containing a rallying cry
+        if (unitActionSystem.GetIsBusy()) { }
+        else { }
+    }
+
+    private void RallyingCryButtonUI_OnChooseRallyingCry(object sender, RallyingCry rallyingCry)
+    {
+        PerformRallyingCry(rallyingCry);
     }
 
     //callback event runs a script that sees if the callback is empty (if so do nothing), then sees if the action system is busy.

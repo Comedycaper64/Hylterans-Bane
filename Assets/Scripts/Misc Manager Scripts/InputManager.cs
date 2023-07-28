@@ -25,7 +25,8 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
         Instance = this;
 
         controls = new Controls();
-        controls.Enable();
+        controls.Player.SetCallbacks(this);
+        controls.Player.Enable();
     }
 
     public Vector2 GetMouseScreenPosition()
