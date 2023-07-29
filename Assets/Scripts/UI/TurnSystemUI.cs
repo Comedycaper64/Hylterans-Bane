@@ -85,7 +85,16 @@ public class TurnSystemUI : MonoBehaviour
         foreach (Initiative initiative in initiatives)
         {
             GameObject newInitiativeUI = Instantiate(initiativePrefab, initiativeContainer);
-            newInitiativeUI.GetComponent<Image>().sprite = initiative.unit.GetInitiativeUI();
+            if (initiative.unit)
+            {
+                newInitiativeUI.GetComponent<Image>().sprite = initiative.unit.GetInitiativeUI();
+            }
+            else
+            {
+                newInitiativeUI.GetComponent<Image>().sprite = initiative.rallyingCry
+                    .GetUnit()
+                    .GetInitiativeUI();
+            }
             initiativeUIQueue.Enqueue(newInitiativeUI);
         }
         UpdateTurnText();

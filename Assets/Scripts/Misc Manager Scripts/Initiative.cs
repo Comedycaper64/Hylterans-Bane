@@ -10,6 +10,12 @@ public class Initiative
         this.unitInitiative = unitInitiative;
     }
 
+    public Initiative(RallyingCry rallyingCry)
+    {
+        this.rallyingCry = rallyingCry;
+    }
+
     public int unitInitiative;
     public Unit unit;
+    public RallyingCry rallyingCry;
 }

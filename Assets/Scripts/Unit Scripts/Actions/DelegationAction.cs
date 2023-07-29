@@ -101,7 +101,7 @@ public class DelegationAction : BaseAction
         //Makes unit go next
         unit.UseHeldActions(GetRequiredHeldActions());
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-        TurnSystem.Instance.AddUnitToInitiative(targetUnit);
+        TurnSystem.Instance.AddInitiativeToOrder(new Initiative(targetUnit, 0));
         ActionStart(onActionComplete);
     }
 }

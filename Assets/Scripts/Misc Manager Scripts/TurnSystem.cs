@@ -53,6 +53,13 @@ public class TurnSystem : MonoBehaviour
         if (initiativeOrder.TryDequeue(out Initiative initiative))
         {
             Initiative currentInitiative = initiative;
+            if (!currentInitiative.unit)
+            {
+                currentInitiative.rallyingCry.PerformAbility(NextInitiative);
+                //NextInitiative();
+                return;
+            }
+
             isPlayerTurn = !currentInitiative.unit.IsEnemy();
             OnTurnChanged?.Invoke(this, EventArgs.Empty);
             currentInitiative.unit.SetMovementCompleted(false);
@@ -120,10 +127,10 @@ public class TurnSystem : MonoBehaviour
         NextInitiative();
     }
 
-    public void AddUnitToInitiative(Unit unitToAdd)
+    public void AddInitiativeToOrder(Initiative initiativeToAdd)
     {
         List<Initiative> tempInitiativeList = new List<Initiative>();
-        tempInitiativeList.Add(new Initiative(unitToAdd, 0));
+        tempInitiativeList.Add(initiativeToAdd);
         for (int i = 0; i < initiativeOrder.Count; i++)
         {
             tempInitiativeList.Add(initiativeOrder.Dequeue());

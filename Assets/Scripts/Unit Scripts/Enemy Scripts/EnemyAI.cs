@@ -35,6 +35,11 @@ public class EnemyAI : MonoBehaviour
         //state = State.WaitingForEnemyTurn;
     }
 
+    public bool IsEnemyAIActive()
+    {
+        return (currentEnemyUnit != null);
+    }
+
     // private void Start()
     // {
     //     TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;

@@ -136,24 +136,27 @@ public class UnitActionSystem : MonoBehaviour
 
     //isBusy is changed and the event is invoked if an action is being done
     //Other actions cannot be peformed while the actionsystem is busy
-    private void StartAction()
+    public void StartAction()
     {
         isBusy = true;
         selectedAction = null;
         OnUnitActionStarted?.Invoke();
     }
 
-    private void CancelAction()
+    public void CancelAction()
     {
         currentState = ActionState.noSelectedUnit;
-        BaseAction actionToHandle = selectedUnit.GetComponent<MoveAction>();
-        SetSelectedAction(actionToHandle);
-        StartAction();
-        actionToHandle.TakeAction(unitStartPosition, FinishAction);
+        if (!selectedUnit.GetMovementCompleted())
+        {
+            BaseAction actionToHandle = selectedUnit.GetComponent<MoveAction>();
+            SetSelectedAction(actionToHandle);
+            StartAction();
+            actionToHandle.TakeAction(unitStartPosition, FinishAction);
+        }
         SetSelectedUnit(null);
     }
 
-    private void FinishAction()
+    public void FinishAction()
     {
         isBusy = false;
         OnUnitActionFinished?.Invoke();
@@ -224,8 +227,16 @@ public class UnitActionSystem : MonoBehaviour
         {
             //Default selected action for new selected unit
             unitTurnFinished = false;
-            SetSelectedAction(unit.GetAction<MoveAction>());
-            currentState = ActionState.movingUnit;
+            if (unit.GetMovementCompleted())
+            {
+                currentState = ActionState.selectingAction;
+                OnUnitMoved?.Invoke();
+            }
+            else
+            {
+                SetSelectedAction(unit.GetAction<MoveAction>());
+                currentState = ActionState.movingUnit;
+            }
         }
     }
 
@@ -267,6 +278,11 @@ public class UnitActionSystem : MonoBehaviour
     public BaseAction GetSelectedAction()
     {
         return selectedAction;
+    }
+
+    public ActionState GetCurrentState()
+    {
+        return currentState;
     }
 
     public bool GetIsBusy()

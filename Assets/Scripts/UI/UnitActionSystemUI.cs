@@ -33,6 +33,7 @@ public class UnitActionSystemUI : MonoBehaviour
         UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitActionStarted;
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
 
         CreateUnitActionButtons();
         UpdateSelectedVisuals(null);
@@ -44,6 +45,7 @@ public class UnitActionSystemUI : MonoBehaviour
         UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitActionStarted;
         UnitActionSystem.Instance.OnSelectedActionChanged -=
             UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
     }
 
     //Instantiates a button for each action a unit can do. They're stored in the actionButtonContainer and are automatically formatted there
@@ -134,5 +136,10 @@ public class UnitActionSystemUI : MonoBehaviour
     )
     {
         UpdateSelectedVisuals(selectedBaseAction);
+    }
+
+    private void UnitActionSystem_OnSelectedUnitChanged()
+    {
+        ClearUnitActionButtons();
     }
 }

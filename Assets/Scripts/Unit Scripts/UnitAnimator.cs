@@ -32,6 +32,12 @@ public class UnitAnimator : MonoBehaviour
             }
         }
 
+        if (TryGetComponent<RallyingCry>(out RallyingCry rallyingCry))
+        {
+            rallyingCry.OnAbilityStarted += OnAttackStarted;
+            rallyingCry.OnAbilityCompleted += OnAttackEnded;
+        }
+
         if (TryGetComponent<HealthSystem>(out HealthSystem healthSystem))
         {
             healthSystem.OnDead += HealthSystem_OnDead;
@@ -53,6 +59,12 @@ public class UnitAnimator : MonoBehaviour
                 action.OnActionStarted -= OnAttackStarted;
                 action.OnActionCompleted -= OnAttackEnded;
             }
+        }
+
+        if (TryGetComponent<RallyingCry>(out RallyingCry rallyingCry))
+        {
+            rallyingCry.OnAbilityStarted -= OnAttackStarted;
+            rallyingCry.OnAbilityCompleted -= OnAttackEnded;
         }
 
         if (TryGetComponent<HealthSystem>(out HealthSystem healthSystem))

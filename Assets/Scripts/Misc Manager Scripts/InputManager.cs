@@ -10,8 +10,8 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
 
     private Controls controls;
 
-    private bool leftClickHeld;
-    private bool rightClickHeld;
+    //private bool leftClickHeld;
+    //private bool rightClickHeld;
     public Action OnRallyingCryEvent;
 
     private void Awake()
@@ -36,12 +36,12 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
 
     public bool IsLeftClickDownThisFrame()
     {
-        return leftClickHeld;
+        return controls.Player.LeftClick.WasPressedThisFrame();
     }
 
     public bool IsRightClickDownThisFrame()
     {
-        return rightClickHeld;
+        return controls.Player.RightClick.WasPressedThisFrame();
     }
 
     public Vector2 GetCameraMoveVector()
@@ -76,26 +76,26 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
 
     public void OnLeftClick(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            leftClickHeld = true;
-        }
-        else if (context.canceled)
-        {
-            leftClickHeld = false;
-        }
+        // if (context.performed)
+        // {
+        //     leftClickHeld = true;
+        // }
+        // else if (context.canceled)
+        // {
+        //     leftClickHeld = false;
+        // }
     }
 
     public void OnRightClick(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            rightClickHeld = true;
-        }
-        else if (context.canceled)
-        {
-            rightClickHeld = false;
-        }
+        // if (context.performed)
+        // {
+        //     rightClickHeld = true;
+        // }
+        // else if (context.canceled)
+        // {
+        //     rightClickHeld = false;
+        // }
     }
 
     public void OnRallyingCry(InputAction.CallbackContext context)

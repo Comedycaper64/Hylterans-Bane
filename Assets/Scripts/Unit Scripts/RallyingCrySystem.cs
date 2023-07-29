@@ -20,8 +20,21 @@ public class RallyingCrySystem : MonoBehaviour
 
     private void PerformRallyingCry(RallyingCry rallyingCry)
     {
-        if (unitActionSystem.GetIsBusy()) { }
-        else { }
+        if (unitActionSystem.GetIsBusy() || EnemyAI.Instance.IsEnemyAIActive())
+        {
+            TurnSystem.Instance.AddInitiativeToOrder(new Initiative(rallyingCry));
+        }
+        else
+        {
+            if (unitActionSystem.GetCurrentState() == UnitActionSystem.ActionState.selectingAction)
+            {
+                unitActionSystem.GetSelectedUnit().SetMovementCompleted(true);
+                unitActionSystem.CancelAction();
+            }
+
+            unitActionSystem.StartAction();
+            rallyingCry.PerformAbility(unitActionSystem.FinishAction);
+        }
     }
 
     private void RallyingCryButtonUI_OnChooseRallyingCry(object sender, RallyingCry rallyingCry)
