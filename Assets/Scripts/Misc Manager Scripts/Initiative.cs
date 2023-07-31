@@ -10,6 +10,9 @@ public class Initiative
         this.unitInitiative = unitInitiative;
     }
 
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //(make rallying cry initiative a subclass)
+
     public Initiative(RallyingCry rallyingCry)
     {
         this.rallyingCry = rallyingCry;

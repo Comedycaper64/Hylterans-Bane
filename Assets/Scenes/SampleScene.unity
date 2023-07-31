@@ -146,6 +146,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnitEnemy Dwarf Grenadier
       objectReference: {fileID: 0}
+    - target: {fileID: 7092185613756478660, guid: 6a3c33a4616cbaa4bb91f9a71a7e222c,
+        type: 3}
+      propertyPath: unitName
+      value: Grenade Dwarf
+      objectReference: {fileID: 0}
     - target: {fileID: 7092185613756478661, guid: 6a3c33a4616cbaa4bb91f9a71a7e222c,
         type: 3}
       propertyPath: m_RootOrder
@@ -227,6 +232,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UnitEnemy Dwarf Ranged
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092185613756478660, guid: 9687d6447a936ae4da2ab644b201bc28,
+        type: 3}
+      propertyPath: unitName
+      value: Ranged Dwarf
       objectReference: {fileID: 0}
     - target: {fileID: 7092185613756478661, guid: 9687d6447a936ae4da2ab644b201bc28,
         type: 3}
@@ -1080,6 +1090,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5883771766290645837, guid: 5f26b63ef706d2a499d893b15cd10173,
+        type: 3}
+      propertyPath: unitName
+      value: Melee Dwarf
       objectReference: {fileID: 0}
     - target: {fileID: 5883771766290645939, guid: 5f26b63ef706d2a499d893b15cd10173,
         type: 3}
@@ -2232,22 +2247,22 @@ PrefabInstance:
     - target: {fileID: 5506785588543384634, guid: 7e0fea82dbcf1024fa8fb00c4122fa31,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000000187227
+      value: -0.0000000187227
       objectReference: {fileID: 0}
     - target: {fileID: 5506785588543384634, guid: 7e0fea82dbcf1024fa8fb00c4122fa31,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000044198294
+      value: 0.0000000044198294
       objectReference: {fileID: 0}
     - target: {fileID: 6852894991311491045, guid: 7e0fea82dbcf1024fa8fb00c4122fa31,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000000187227
+      value: -0.0000000187227
       objectReference: {fileID: 0}
     - target: {fileID: 6852894991311491045, guid: 7e0fea82dbcf1024fa8fb00c4122fa31,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000044198294
+      value: 0.0000000044198294
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

@@ -35,7 +35,7 @@ public class RallyingCryUI : MonoBehaviour
         //Pause game (or not?)
         //Open rallying cry UI with a callback EventHandler event containing a rallying cry
 
-        Debug.Log("Open UI");
+        //Debug.Log("Open UI");
 
         if (rallyButtonContainerTransform.gameObject.activeInHierarchy)
         {

@@ -66,6 +66,8 @@ public class GridObject
         }
     }
 
+    //Use similar method of setting Terrain effects \/
+
     public IInteractable GetInteractable()
     {
         return interactable;

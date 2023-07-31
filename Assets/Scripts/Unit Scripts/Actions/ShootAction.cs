@@ -7,7 +7,8 @@ public class ShootAction : BaseAction
 {
     //[SerializeField]
     private string actionDescription = "A basic ranged attack";
-    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
+
+    //public static event EventHandler<OnShootEventArgs> OnAnyShoot;
 
     // public event EventHandler<OnShootEventArgs> OnShoot;
     // public event EventHandler OnAim;
@@ -18,11 +19,11 @@ public class ShootAction : BaseAction
     private AudioClip shootCrossbowSFX;
 
     //Custom eventArgs that include both shooter and target
-    public class OnShootEventArgs : EventArgs
-    {
-        public Unit targetUnit;
-        public Unit shootingUnit;
-    }
+    // public class OnShootEventArgs : EventArgs
+    // {
+    //     public Unit targetUnit;
+    //     public Unit shootingUnit;
+    // }
 
     //State machine for the ShootingAction
     private enum State
@@ -106,10 +107,6 @@ public class ShootAction : BaseAction
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
-        OnAnyShoot?.Invoke(
-            this,
-            new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
-        );
 
         //Fires off OnShoot event and damages targetUnit
         // OnShoot?.Invoke(
@@ -121,6 +118,7 @@ public class ShootAction : BaseAction
         {
             int damageAmount = unit.GetUnitStats().GetDamage();
             targetUnit.Damage(damageAmount);
+            AttackHit(damageAmount);
         }
     }
 

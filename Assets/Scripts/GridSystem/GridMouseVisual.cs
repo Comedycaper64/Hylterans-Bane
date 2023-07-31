@@ -35,6 +35,7 @@ public class GridMouseVisual : MonoBehaviour
         mouseGridVisualScript.ToggleTransparencyOscillation(true);
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitActionStarted;
         UpdateMouseVisual();
     }
 
@@ -42,9 +43,11 @@ public class GridMouseVisual : MonoBehaviour
     {
         UnitActionSystem.Instance.OnSelectedActionChanged -=
             UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitActionStarted;
     }
 
     // Update is called once per frame
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     void Update()
     {
         GridPosition mouseGridPosition;
@@ -151,6 +154,7 @@ public class GridMouseVisual : MonoBehaviour
         }
     }
 
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     private void UpdateMouseVisual()
     {
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
@@ -192,6 +196,11 @@ public class GridMouseVisual : MonoBehaviour
     }
 
     private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction e)
+    {
+        UpdateMouseVisual();
+    }
+
+    private void UnitActionSystem_OnUnitActionStarted()
     {
         UpdateMouseVisual();
     }

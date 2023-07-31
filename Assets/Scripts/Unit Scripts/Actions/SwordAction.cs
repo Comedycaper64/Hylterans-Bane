@@ -7,7 +7,8 @@ public class SwordAction : BaseAction
 {
     //[SerializeField]
     private string actionDescription = "A basic melee attack";
-    public static event EventHandler OnAnySwordHit;
+
+    //public static event EventHandler OnAnySwordHit;
 
     // public event EventHandler OnSwordActionStarted;
     // public event EventHandler OnSwordActionCompleted;
@@ -77,7 +78,7 @@ public class SwordAction : BaseAction
                         Camera.main.transform.position,
                         SoundManager.Instance.GetSoundEffectVolume()
                     );
-                    OnAnySwordHit?.Invoke(this, EventArgs.Empty);
+                    AttackHit(damageAmount);
                 }
                 else
                 {

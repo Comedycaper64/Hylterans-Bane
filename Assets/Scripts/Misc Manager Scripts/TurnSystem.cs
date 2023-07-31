@@ -8,8 +8,8 @@ public class TurnSystem : MonoBehaviour
     //Instanced because there should only be one
     public static TurnSystem Instance { get; private set; }
 
-    [SerializeField]
-    private AudioClip turnButtonPressedSFX;
+    // [SerializeField]
+    // private AudioClip turnButtonPressedSFX;
 
     public event EventHandler OnTurnChanged;
     public event Action OnNextUnitInitiative;
@@ -50,8 +50,10 @@ public class TurnSystem : MonoBehaviour
 
     public void NextInitiative()
     {
+        //Debug.Log("Next Initiative");
         if (initiativeOrder.TryDequeue(out Initiative initiative))
         {
+            OnNextUnitInitiative?.Invoke();
             Initiative currentInitiative = initiative;
             if (!currentInitiative.unit)
             {
@@ -64,6 +66,7 @@ public class TurnSystem : MonoBehaviour
             OnTurnChanged?.Invoke(this, EventArgs.Empty);
             currentInitiative.unit.SetMovementCompleted(false);
             currentInitiative.unit.SetActionCompleted(false);
+
             if (!isPlayerTurn)
             {
                 EnemyAI.Instance.TakeEnemyTurn(currentInitiative.unit);
@@ -72,7 +75,6 @@ public class TurnSystem : MonoBehaviour
             {
                 UnitActionSystem.Instance.SetSelectedUnit(currentInitiative.unit);
             }
-            OnNextUnitInitiative?.Invoke();
         }
         else
         {
@@ -85,11 +87,11 @@ public class TurnSystem : MonoBehaviour
     {
         turnNumber++;
 
-        AudioSource.PlayClipAtPoint(
-            turnButtonPressedSFX,
-            Camera.main.transform.position,
-            SoundManager.Instance.GetSoundEffectVolume()
-        );
+        // AudioSource.PlayClipAtPoint(
+        //     turnButtonPressedSFX,
+        //     Camera.main.transform.position,
+        //     SoundManager.Instance.GetSoundEffectVolume()
+        // );
         GetNewInitiativeRound();
     }
 
@@ -131,9 +133,11 @@ public class TurnSystem : MonoBehaviour
     {
         List<Initiative> tempInitiativeList = new List<Initiative>();
         tempInitiativeList.Add(initiativeToAdd);
-        for (int i = 0; i < initiativeOrder.Count; i++)
+        Debug.Log("Old Initiative Count: " + initiativeOrder.Count);
+
+        while (initiativeOrder.TryDequeue(out Initiative currentInitiative))
         {
-            tempInitiativeList.Add(initiativeOrder.Dequeue());
+            tempInitiativeList.Add(currentInitiative);
         }
 
         initiativeOrder.Clear();
@@ -141,6 +145,8 @@ public class TurnSystem : MonoBehaviour
         {
             initiativeOrder.Enqueue(initiative);
         }
+
+        Debug.Log("New Initiative Count: " + initiativeOrder.Count);
 
         OnNewInitiative?.Invoke(this, initiativeOrder);
     }

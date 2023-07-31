@@ -7,7 +7,8 @@ public class DeadeyeAction : BaseAction
 {
     //[SerializeField]
     private string actionDescription = "A more precise ranged attack. Required 1 Held Action";
-    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
+
+    //public static event EventHandler<OnShootEventArgs> OnAnyShoot;
 
     // public event EventHandler<OnShootEventArgs> OnShoot;
     // public event EventHandler OnAim;
@@ -18,11 +19,11 @@ public class DeadeyeAction : BaseAction
     private AudioClip shootCrossbowSFX;
 
     //Custom eventArgs that include both shooter and target
-    public class OnShootEventArgs : EventArgs
-    {
-        public Unit targetUnit;
-        public Unit shootingUnit;
-    }
+    // public class OnShootEventArgs : EventArgs
+    // {
+    //     public Unit targetUnit;
+    //     public Unit shootingUnit;
+    // }
 
     //State machine for the ShootingAction
     private enum State
@@ -112,10 +113,10 @@ public class DeadeyeAction : BaseAction
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
-        OnAnyShoot?.Invoke(
-            this,
-            new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
-        );
+        // OnAnyShoot?.Invoke(
+        //     this,
+        //     new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
+        // );
 
         //Fires off OnShoot event and damages targetUnit
         // OnShoot?.Invoke(
@@ -127,6 +128,7 @@ public class DeadeyeAction : BaseAction
         {
             int damageAmount = unit.GetUnitStats().GetDamage();
             targetUnit.Damage(damageAmount);
+            AttackHit(damageAmount);
         }
     }
 

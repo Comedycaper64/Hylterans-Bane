@@ -153,6 +153,13 @@ public class UnitActionSystem : MonoBehaviour
             StartAction();
             actionToHandle.TakeAction(unitStartPosition, FinishAction);
         }
+        else
+        {
+            //SetSelectedAction(null);
+            selectedAction = null;
+            OnUnitActionStarted?.Invoke();
+            //OnUnitActionFinished?.Invoke();
+        }
         SetSelectedUnit(null);
     }
 

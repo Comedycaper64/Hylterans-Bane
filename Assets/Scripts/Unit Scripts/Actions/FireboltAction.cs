@@ -7,7 +7,8 @@ public class FireboltAction : BaseAction
 {
     //[SerializeField]
     private string actionDescription = "A ranged attack that shoots a firebolt";
-    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
+
+    //public static event EventHandler<OnShootEventArgs> OnAnyShoot;
 
     // public event EventHandler<OnShootEventArgs> OnShoot;
     // public event EventHandler OnAim;
@@ -18,11 +19,11 @@ public class FireboltAction : BaseAction
     private AudioClip flingFireboltSFX;
 
     //Custom eventArgs that include both shooter and target
-    public class OnShootEventArgs : EventArgs
-    {
-        public Unit targetUnit;
-        public Unit shootingUnit;
-    }
+    // public class OnShootEventArgs : EventArgs
+    // {
+    //     public Unit targetUnit;
+    //     public Unit shootingUnit;
+    // }
 
     //State machine for the ShootingAction
     private enum State
@@ -108,10 +109,10 @@ public class FireboltAction : BaseAction
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
-        OnAnyShoot?.Invoke(
-            this,
-            new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
-        );
+        // OnAnyShoot?.Invoke(
+        //     this,
+        //     new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
+        // );
 
         //Fires off OnShoot event and damages targetUnit
         // OnShoot?.Invoke(
@@ -124,6 +125,7 @@ public class FireboltAction : BaseAction
             int damageAmount = unit.GetUnitStats().GetDamage();
             targetUnit.Damage(damageAmount);
             targetUnit.gameObject.AddComponent<BlazeEffect>();
+            AttackHit(damageAmount);
         }
     }
 

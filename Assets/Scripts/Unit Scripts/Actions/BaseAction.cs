@@ -8,6 +8,7 @@ public abstract class BaseAction : MonoBehaviour
 {
     public event EventHandler OnActionStarted;
     public event EventHandler OnActionCompleted;
+    public static event EventHandler<float> OnAnyAttackHit;
 
     // Scripts that extend BaseAction (the other actions) can access the protected fields
     protected Unit unit;
@@ -92,6 +93,11 @@ public abstract class BaseAction : MonoBehaviour
         if (onActionComplete != null)
             onActionComplete();
         OnActionCompleted?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected void AttackHit(float damageDealt)
+    {
+        OnAnyAttackHit?.Invoke(this, damageDealt);
     }
 
     public Unit GetUnit()

@@ -76,6 +76,7 @@ public class GridSystemVisual : MonoBehaviour
             }
         }
 
+        //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //Subscribes events
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
@@ -89,6 +90,19 @@ public class GridSystemVisual : MonoBehaviour
 
         //Changes visible tiles based on selected unit / selected action
         UpdateGridVisual();
+    }
+
+    private void OnDisable()
+    {
+        UnitActionSystem.Instance.OnSelectedActionChanged -=
+            UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitAction;
+        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitAction;
+        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
+        LevelGrid.Instance.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
+        Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        //BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
     }
 
     //Meshenabled = false for all visual squares
@@ -340,19 +354,6 @@ public class GridSystemVisual : MonoBehaviour
     // {
     //     UpdateGridVisual();
     // }
-
-    private void OnDisable()
-    {
-        UnitActionSystem.Instance.OnSelectedActionChanged -=
-            UnitActionSystem_OnSelectedActionChanged;
-        UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitAction;
-        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitAction;
-        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
-        LevelGrid.Instance.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
-        Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
-        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
-        //BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
-    }
 
     //Gets the corresponding material of the gridVisualType enum
     public Material GetGridVisualTypeMaterial(GridVisualType gridVisualType)

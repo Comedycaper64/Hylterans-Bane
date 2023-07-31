@@ -9,7 +9,8 @@ public class CleaveAction : BaseAction
     private string actionDescription = "A sweeping blow that hits enemies around the unit.";
 
     public static event EventHandler<Unit> OnDamageUnit;
-    public static event EventHandler OnAnyCleaveHit;
+
+    //public static event EventHandler OnAnyCleaveHit;
     public static event Action OnCleaveDamageFinished;
 
     // public event EventHandler OnCleaveActionStarted;
@@ -189,7 +190,7 @@ public class CleaveAction : BaseAction
             {
                 int damageAmount = unit.GetUnitStats().GetDamage();
                 targetUnit.gameObject.GetComponent<Unit>().Damage(damageAmount);
-                OnAnyCleaveHit?.Invoke(this, EventArgs.Empty);
+                AttackHit(damageAmount);
             }
             yield return new WaitForSeconds(1f);
         }
