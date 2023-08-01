@@ -35,15 +35,20 @@ public abstract class BaseAction : MonoBehaviour
         return false;
     }
 
-    public virtual int GetToHitBonus()
+    public virtual StatBonus GetStatBonus()
     {
-        return 0;
+        return new StatBonus();
     }
 
-    public virtual int GetDamageBonus()
-    {
-        return 0;
-    }
+    // public virtual int GetToHitBonus()
+    // {
+    //     return 0;
+    // }
+
+    // public virtual int GetDamageBonus()
+    // {
+    //     return 0;
+    // }
 
     public virtual int GetUIPriority()
     {

@@ -13,9 +13,11 @@ public class UnitStats : MonoBehaviour
     [SerializeField]
     private Armour unitArmour;
 
-    public int toHitBonus = 0;
-    public int damageBonus = 0;
-    private int acBonus = 0;
+    public StatBonus currentStatBonus;
+
+    // public int toHitBonus = 0;
+    // public int damageBonus = 0;
+    // private int acBonus = 0;
 
     [Min(1)]
     [SerializeField]
@@ -72,7 +74,9 @@ public class UnitStats : MonoBehaviour
     public int GetToHit()
     {
         int toHitStat = statDictionary[attackingStat];
-        return GetModifier(toHitStat) + baseStats.GetProficiencyBonus() + toHitBonus;
+        return GetModifier(toHitStat)
+            + baseStats.GetProficiencyBonus()
+            + currentStatBonus.toHitBonus;
     }
 
     public int GetRoll()
@@ -89,19 +93,21 @@ public class UnitStats : MonoBehaviour
     {
         return 10
             + Mathf.Min(GetModifier(baseStats.GetDexterity()), unitArmour.GetDexBonusLimit())
-            + unitArmour.GetArmourBonus()
-            + acBonus;
+            + unitArmour.GetArmourBonus();
+        //+ acBonus;
     }
 
     public int GetDamage()
     {
         int damageStat = statDictionary[attackingStat];
-        return GetModifier(damageStat) + unitWeapon.GetWeaponDamage() + damageBonus;
+        return GetModifier(damageStat)
+            + unitWeapon.GetWeaponDamage()
+            + currentStatBonus.damageBonus;
     }
 
     public int GetAttackRange()
     {
-        return unitWeapon.GetWeaponRange();
+        return unitWeapon.GetWeaponRange() + currentStatBonus.rangeBonus;
     }
 
     public int GetInitiative()
@@ -123,4 +129,34 @@ public class UnitStats : MonoBehaviour
     {
         return 8 + baseStats.GetProficiencyBonus() + GetModifier(statDictionary[attackingStat]);
     }
+
+    // public int GetTotalToHitBonus()
+    // {
+    //     int total = 0;
+    //     foreach (StatBonus bonus in currentStatBonus)
+    //     {
+    //         total += bonus.toHitBonus;
+    //     }
+    //     return total;
+    // }
+
+    // public int GetTotalDamageBonus()
+    // {
+    //     int total = 0;
+    //     foreach (StatBonus bonus in currentStatBonus)
+    //     {
+    //         total += bonus.damageBonus;
+    //     }
+    //     return total;
+    // }
+
+    // public int GetTotalRangeBonus()
+    // {
+    //     int total = 0;
+    //     foreach (StatBonus bonus in currentStatBonus)
+    //     {
+    //         total += bonus.rangeBonus;
+    //     }
+    //     return total;
+    // }
 }

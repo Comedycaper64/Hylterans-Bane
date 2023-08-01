@@ -52,8 +52,8 @@ public class DedicationAbility : PassiveAbility
     {
         //Add effect to Unit World UI
         UnitStats unitStats = allyUnit.GetUnitStats();
-        unitStats.toHitBonus += toHitBuff;
-        unitStats.damageBonus += damageBuff;
+        unitStats.currentStatBonus.toHitBonus += toHitBuff;
+        unitStats.currentStatBonus.damageBonus += damageBuff;
         buffedUnits.Add(allyUnit);
     }
 
@@ -61,8 +61,8 @@ public class DedicationAbility : PassiveAbility
     {
         //Remove effect from Unit World UI
         UnitStats unitStats = allyUnit.GetUnitStats();
-        unitStats.toHitBonus -= toHitBuff;
-        unitStats.damageBonus -= damageBuff;
+        unitStats.currentStatBonus.toHitBonus -= toHitBuff;
+        unitStats.currentStatBonus.damageBonus -= damageBuff;
         buffedUnits.Remove(allyUnit);
     }
 

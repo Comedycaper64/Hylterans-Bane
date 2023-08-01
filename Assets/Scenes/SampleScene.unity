@@ -206,7 +206,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1155082154330060284, guid: 6a3c33a4616cbaa4bb91f9a71a7e222c, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a3c33a4616cbaa4bb91f9a71a7e222c, type: 3}
 --- !u!4 &130681710 stripped
@@ -293,7 +294,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8897196108912262530, guid: 9687d6447a936ae4da2ab644b201bc28, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 9687d6447a936ae4da2ab644b201bc28, type: 3}
 --- !u!4 &218647804 stripped
@@ -653,7 +655,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8956783870501644214, guid: db36fe94a5b83174ea5093a8e06cc7ec, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: db36fe94a5b83174ea5093a8e06cc7ec, type: 3}
 --- !u!4 &448337180 stripped
@@ -802,7 +805,8 @@ PrefabInstance:
       propertyPath: toHitBonus
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9101875287859685952, guid: ef24bcd62b1a60340b44780e6b659134, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ef24bcd62b1a60340b44780e6b659134, type: 3}
 --- !u!4 &752250827 stripped
@@ -990,7 +994,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 63611699, guid: 70c3ca970d4eb8147b16f1d59b1eabe3, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 70c3ca970d4eb8147b16f1d59b1eabe3, type: 3}
 --- !u!4 &936201258 stripped
@@ -1018,8 +1023,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootCrossbowSFX: {fileID: 8300000, guid: ef62bf97e30810d41918043170c92db3, type: 3}
-  actionToHitBonus: 3
-  actionDamageBonus: 3
+  actionStatBonus:
+    toHitBonus: 3
+    damageBonus: 2
+    rangeBonus: 2
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -1101,7 +1108,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnitEnemy Dwarf Melee
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5382509616398786958, guid: 5f26b63ef706d2a499d893b15cd10173, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f26b63ef706d2a499d893b15cd10173, type: 3}
 --- !u!4 &977726261 stripped
@@ -1606,6 +1614,7 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 6677289029773741451, guid: db36fe94a5b83174ea5093a8e06cc7ec, type: 3}
+    - {fileID: 8956783870501644214, guid: db36fe94a5b83174ea5093a8e06cc7ec, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: db36fe94a5b83174ea5093a8e06cc7ec, type: 3}
 --- !u!4 &1275831743 stripped

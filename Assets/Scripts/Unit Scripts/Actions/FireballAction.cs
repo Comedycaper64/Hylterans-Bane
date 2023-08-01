@@ -22,7 +22,7 @@ public class FireballAction : BaseAction
     private int maxThrowDistance = 4;
 
     [SerializeField]
-    private int actionDamageBonus = -2;
+    private StatBonus actionStatBonus = new StatBonus(0, -2, 0);
 
     [SerializeField]
     private float damageRadius = 3f;
@@ -212,9 +212,9 @@ public class FireballAction : BaseAction
         return true;
     }
 
-    public override int GetDamageBonus()
+    public override StatBonus GetStatBonus()
     {
-        return actionDamageBonus;
+        return actionStatBonus;
     }
 
     private void OnFireballBehaviourComplete()

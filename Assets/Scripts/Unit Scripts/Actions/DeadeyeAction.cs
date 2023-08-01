@@ -40,10 +40,7 @@ public class DeadeyeAction : BaseAction
     private bool canShoot;
 
     [SerializeField]
-    private int actionToHitBonus = 3;
-
-    [SerializeField]
-    private int actionDamageBonus = 3;
+    private StatBonus actionStatBonus = new StatBonus(3, 2, 2);
 
     [SerializeField]
     private LayerMask obstaclesLayerMask;
@@ -249,14 +246,9 @@ public class DeadeyeAction : BaseAction
         return true;
     }
 
-    public override int GetToHitBonus()
+    public override StatBonus GetStatBonus()
     {
-        return actionToHitBonus;
-    }
-
-    public override int GetDamageBonus()
-    {
-        return actionDamageBonus;
+        return actionStatBonus;
     }
 
     public override int GetUIPriority()

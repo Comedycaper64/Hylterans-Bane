@@ -607,6 +607,7 @@ GameObject:
   - component: {fileID: -7307284983861179806}
   - component: {fileID: 9056677200530661937}
   - component: {fileID: 3674757838072208689}
+  - component: {fileID: -6022119976487593914}
   m_Layer: 8
   m_Name: Unit
   m_TagString: FriendlyUnit
@@ -668,6 +669,11 @@ MonoBehaviour:
   baseStats: {fileID: 11400000, guid: 9eb0f0e5a14881c4d97076d265ee797b, type: 2}
   unitWeapon: {fileID: 0}
   unitArmour: {fileID: 0}
+  currentStatBonus:
+    toHitBonus: 0
+    damageBonus: 0
+    rangeBonus: 0
+  unitLevel: 1
   attackingStat: 0
 --- !u!65 &2900312903705531943
 BoxCollider:
@@ -733,6 +739,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848160c8a20883746a00f1808a5341f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6022119976487593914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775118003609999744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2c849eabbfac2544b9de7eb51cb7008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackHitSFX: {fileID: 8300000, guid: 4707b9c33f3013a4b956b549a4bb1455, type: 3}
+  obstaclesLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &7126486932315368940
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,7 +948,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb36d2f8cdab1a49b769b8a94520c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 6775118003609999742}
   healthBarImage: {fileID: 97980576800918007}
   healthBarPredictedImage: {fileID: 3201488033939549005}
   healthSystem: {fileID: -7307284983861179806}

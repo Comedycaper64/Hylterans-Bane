@@ -27,8 +27,9 @@ public class UnitActionSystem : MonoBehaviour
     private ActionState currentState;
     private GridPosition unitStartPosition;
 
-    private int actionHitBonus;
-    private int actionDamageBonus;
+    // private int actionHitBonus;
+    // private int actionDamageBonus;
+    private StatBonus actionStatBonus;
 
     public enum ActionState
     {
@@ -221,9 +222,10 @@ public class UnitActionSystem : MonoBehaviour
         {
             return;
         }
+
         unitStartPosition = unit.GetGridPosition();
-        actionHitBonus = 0;
-        actionDamageBonus = 0;
+        actionStatBonus = new StatBonus();
+
         if (selectedUnit.GetHeldActions() < 0)
         {
             currentState = ActionState.selectingAction;
@@ -249,13 +251,10 @@ public class UnitActionSystem : MonoBehaviour
 
     public void SetSelectedAction(BaseAction baseAction)
     {
-        RemoveStatBonuses(actionHitBonus, actionDamageBonus);
-
+        RemoveStatBonuses(actionStatBonus);
         selectedAction = baseAction;
-
-        actionHitBonus = selectedAction.GetToHitBonus();
-        actionDamageBonus = selectedAction.GetDamageBonus();
-        AddStatBonuses(actionHitBonus, actionDamageBonus);
+        actionStatBonus = selectedAction.GetStatBonus();
+        AddStatBonuses(actionStatBonus);
 
         AudioSource.PlayClipAtPoint(
             selectActionSFX,
@@ -265,16 +264,18 @@ public class UnitActionSystem : MonoBehaviour
         OnSelectedActionChanged?.Invoke(this, baseAction);
     }
 
-    private void AddStatBonuses(int toHitBonus, int damageBonus)
+    private void AddStatBonuses(StatBonus statBonus)
     {
-        selectedUnit.GetUnitStats().toHitBonus += toHitBonus;
-        selectedUnit.GetUnitStats().damageBonus += damageBonus;
+        selectedUnit.GetUnitStats().currentStatBonus += statBonus;
+        // selectedUnit.GetUnitStats().currentStatBonus.toHitBonus += statBonus.toHitBonus;
+        // selectedUnit.GetUnitStats().damageBonus += statBonus.damageBonus;
     }
 
-    private void RemoveStatBonuses(int toHitBonus, int damageBonus)
+    private void RemoveStatBonuses(StatBonus statBonus)
     {
-        selectedUnit.GetUnitStats().toHitBonus -= toHitBonus;
-        selectedUnit.GetUnitStats().damageBonus -= damageBonus;
+        selectedUnit.GetUnitStats().currentStatBonus -= statBonus;
+        // selectedUnit.GetUnitStats().toHitBonus -= toHitBonus;
+        // selectedUnit.GetUnitStats().damageBonus -= damageBonus;
     }
 
     public Unit GetSelectedUnit()

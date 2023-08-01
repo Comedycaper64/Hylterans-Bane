@@ -17,7 +17,7 @@ public class CleaveAction : BaseAction
     // public event EventHandler OnCleaveActionCompleted;
 
     [SerializeField]
-    private int actionDamageBonus = 2;
+    private StatBonus actionStatBonus = new StatBonus(0, -2, 0);
 
     [SerializeField]
     private AudioClip cleaveHitSFX;
@@ -241,9 +241,9 @@ public class CleaveAction : BaseAction
         return true;
     }
 
-    public override int GetDamageBonus()
+    public override StatBonus GetStatBonus()
     {
-        return actionDamageBonus;
+        return actionStatBonus;
     }
 
     public override int GetActionRange()
