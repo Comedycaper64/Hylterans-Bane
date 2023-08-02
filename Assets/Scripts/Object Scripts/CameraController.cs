@@ -32,22 +32,22 @@ public class CameraController : MonoBehaviour
         zAxisCameraRange = LevelGrid.Instance.GetHeight() * LevelGrid.Instance.GetCellSize();
         EnemyAI.Instance.OnEnemyUnitBeginAction += EnemyAI_OnEnemyUnitBeginAction;
         EnemyAI.Instance.OnEnemyTurnFinished += EnemyAI_OnEnemyTurnFinished;
-        FireballProjectile.OnDamageUnit += FireballProjectile_OnDamageUnit;
-        FireballProjectile.OnFinishFireballExplosion +=
-            FireballProjectile_OnFinishFireballExplosion;
-        CleaveAction.OnDamageUnit += CleaveAction_OnDamageUnit;
-        CleaveAction.OnCleaveDamageFinished += CleaveAction_OnCleaveDamageFinished;
+        //FireballProjectile.OnDamageUnit += FireballProjectile_OnDamageUnit;
+        //FireballProjectile.OnFinishFireballExplosion +=
+        //   FireballProjectile_OnFinishFireballExplosion;
+        //CleaveAction.OnDamageUnit += CleaveAction_OnDamageUnit;
+        //CleaveAction.OnCleaveDamageFinished += CleaveAction_OnCleaveDamageFinished;
     }
 
     private void OnDisable()
     {
         EnemyAI.Instance.OnEnemyUnitBeginAction -= EnemyAI_OnEnemyUnitBeginAction;
         EnemyAI.Instance.OnEnemyTurnFinished -= EnemyAI_OnEnemyTurnFinished;
-        FireballProjectile.OnDamageUnit -= FireballProjectile_OnDamageUnit;
-        FireballProjectile.OnFinishFireballExplosion -=
-            FireballProjectile_OnFinishFireballExplosion;
-        CleaveAction.OnDamageUnit -= CleaveAction_OnDamageUnit;
-        CleaveAction.OnCleaveDamageFinished -= CleaveAction_OnCleaveDamageFinished;
+        //FireballProjectile.OnDamageUnit -= FireballProjectile_OnDamageUnit;
+        //FireballProjectile.OnFinishFireballExplosion -=
+        //   FireballProjectile_OnFinishFireballExplosion;
+        //CleaveAction.OnDamageUnit -= CleaveAction_OnDamageUnit;
+        //CleaveAction.OnCleaveDamageFinished -= CleaveAction_OnCleaveDamageFinished;
     }
 
     private void LateUpdate()
@@ -120,23 +120,23 @@ public class CameraController : MonoBehaviour
         focusFollowTarget = null;
     }
 
-    private void FireballProjectile_OnDamageUnit(object sender, Unit focusUnit)
-    {
-        focusFollowTarget = focusUnit.transform;
-    }
+    // private void FireballProjectile_OnDamageUnit(object sender, Unit focusUnit)
+    // {
+    //     focusFollowTarget = focusUnit.transform;
+    // }
 
-    private void CleaveAction_OnDamageUnit(object sender, Unit focusUnit)
-    {
-        focusFollowTarget = focusUnit.transform;
-    }
+    // private void CleaveAction_OnDamageUnit(object sender, Unit focusUnit)
+    // {
+    //     focusFollowTarget = focusUnit.transform;
+    // }
 
-    private void CleaveAction_OnCleaveDamageFinished()
-    {
-        focusFollowTarget = null;
-    }
+    // private void CleaveAction_OnCleaveDamageFinished()
+    // {
+    //     focusFollowTarget = null;
+    // }
 
-    private void FireballProjectile_OnFinishFireballExplosion()
-    {
-        focusFollowTarget = null;
-    }
+    // private void FireballProjectile_OnFinishFireballExplosion()
+    // {
+    //     focusFollowTarget = null;
+    // }
 }

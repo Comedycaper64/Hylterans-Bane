@@ -76,9 +76,32 @@ public class CombatSystem : MonoBehaviour
                 attackingUnitAttackRoll,
                 attackingUnitAttackBonus,
                 defendingUnitAC,
-                0
+                0,
+                false
             )
         );
+        return ((attackingUnitAttackRoll + attackingUnitAttackBonus) >= defendingUnitAC);
+    }
+
+    public bool TryAttack(
+        UnitStats attackingUnit,
+        UnitStats defendingUnit,
+        out AttackInteraction attackInteraction
+    )
+    {
+        //Attack role = d20 role + attacking stat + proficiency
+        int attackingUnitAttackRoll = attackingUnit.GetRoll();
+        int attackingUnitAttackBonus = attackingUnit.GetToHit();
+        int defendingUnitAC = defendingUnit.GetArmourClass();
+        //Debug.Log("Attack roll: " + attackingUnitAttackRoll);
+        attackInteraction = new AttackInteraction(
+            attackingUnitAttackRoll,
+            attackingUnitAttackBonus,
+            defendingUnitAC,
+            0,
+            false
+        );
+        //OnAttackRoll?.Invoke(this, attackInteraction);
         return ((attackingUnitAttackRoll + attackingUnitAttackBonus) >= defendingUnitAC);
     }
 
@@ -87,15 +110,39 @@ public class CombatSystem : MonoBehaviour
         int attackingUnitSpellDC = attackingUnit.GetSpellDC();
         int defendingUnitSavingThrowRoll = defendingUnit.GetRoll();
         int defendingUnitSavingThrowBonus = defendingUnit.GetSavingThrow(StatType.DEX);
+
         OnSpellSave?.Invoke(
             this,
             new AttackInteraction(
                 attackingUnitSpellDC,
                 0,
                 defendingUnitSavingThrowRoll,
-                defendingUnitSavingThrowBonus
+                defendingUnitSavingThrowBonus,
+                true
             )
         );
+        return (
+            attackingUnitSpellDC > (defendingUnitSavingThrowRoll + defendingUnitSavingThrowBonus)
+        );
+    }
+
+    public bool TrySpell(
+        UnitStats attackingUnit,
+        UnitStats defendingUnit,
+        out AttackInteraction attackInteraction
+    )
+    {
+        int attackingUnitSpellDC = attackingUnit.GetSpellDC();
+        int defendingUnitSavingThrowRoll = defendingUnit.GetRoll();
+        int defendingUnitSavingThrowBonus = defendingUnit.GetSavingThrow(StatType.DEX);
+        attackInteraction = new AttackInteraction(
+            attackingUnitSpellDC,
+            0,
+            defendingUnitSavingThrowRoll,
+            defendingUnitSavingThrowBonus,
+            true
+        );
+        //OnSpellSave?.Invoke(this, attackInteraction);
         return (
             attackingUnitSpellDC > (defendingUnitSavingThrowRoll + defendingUnitSavingThrowBonus)
         );

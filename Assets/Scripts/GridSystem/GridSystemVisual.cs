@@ -84,7 +84,7 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnUnitActionFinished += UnitActionSystem_OnUnitAction;
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
-        Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
+        //Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         //BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
 
@@ -100,7 +100,7 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitAction;
         UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
-        Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
+        //Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
         //BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
     }
@@ -315,6 +315,8 @@ public class GridSystemVisual : MonoBehaviour
         ShowGridPositionList(selectedAction.GetValidActionGridPositionList(), gridVisualType);
     }
 
+    //Too many grid visual updates. Prune down --------------------------------------------------------------------------------------------------------------
+
     //When the selected action is changed in UnitActionSystem, UpdateGridVisual
     private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction e)
     {
@@ -337,10 +339,10 @@ public class GridSystemVisual : MonoBehaviour
         UpdateGridVisual();
     }
 
-    private void Unit_OnAnyUnitSpawned(object sender, GridPosition e)
-    {
-        UpdateGridVisual();
-    }
+    // private void Unit_OnAnyUnitSpawned(object sender, GridPosition e)
+    // {
+    //     UpdateGridVisual();
+    // }
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {

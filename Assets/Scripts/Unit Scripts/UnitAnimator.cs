@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class UnitAnimator : MonoBehaviour
 {
-    public event EventHandler OnAttack;
-    public event EventHandler OnAttackEnd;
+    //public event EventHandler OnAttack;
+    //public event EventHandler OnAttackEnd;
 
     private List<BaseAction> unitActionList = new List<BaseAction>();
 
@@ -28,14 +28,14 @@ public class UnitAnimator : MonoBehaviour
             if (action.ActionDealsDamage())
             {
                 action.OnActionStarted += OnAttackStarted;
-                action.OnActionCompleted += OnAttackEnded;
+                //action.OnActionCompleted += OnAttackEnded;
             }
         }
 
         if (TryGetComponent<RallyingCry>(out RallyingCry rallyingCry))
         {
             rallyingCry.OnAbilityStarted += OnAttackStarted;
-            rallyingCry.OnAbilityCompleted += OnAttackEnded;
+            //rallyingCry.OnAbilityCompleted += OnAttackEnded;
         }
 
         if (TryGetComponent<HealthSystem>(out HealthSystem healthSystem))
@@ -57,14 +57,14 @@ public class UnitAnimator : MonoBehaviour
             if (action.ActionDealsDamage())
             {
                 action.OnActionStarted -= OnAttackStarted;
-                action.OnActionCompleted -= OnAttackEnded;
+                //action.OnActionCompleted -= OnAttackEnded;
             }
         }
 
         if (TryGetComponent<RallyingCry>(out RallyingCry rallyingCry))
         {
             rallyingCry.OnAbilityStarted -= OnAttackStarted;
-            rallyingCry.OnAbilityCompleted -= OnAttackEnded;
+            //rallyingCry.OnAbilityCompleted -= OnAttackEnded;
         }
 
         if (TryGetComponent<HealthSystem>(out HealthSystem healthSystem))
@@ -76,13 +76,13 @@ public class UnitAnimator : MonoBehaviour
     private void OnAttackStarted(object sender, EventArgs e)
     {
         animator.SetTrigger("IsAttacking");
-        OnAttack?.Invoke(this, EventArgs.Empty);
+        //OnAttack?.Invoke(this, EventArgs.Empty);
     }
 
-    private void OnAttackEnded(object sender, EventArgs e)
-    {
-        OnAttackEnd?.Invoke(this, EventArgs.Empty);
-    }
+    // private void OnAttackEnded(object sender, EventArgs e)
+    // {
+    //     OnAttackEnd?.Invoke(this, EventArgs.Empty);
+    // }
 
     //Sets the bool based on which event has fired
     private void MoveAction_OnStartMoving(object sender, EventArgs e)

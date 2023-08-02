@@ -6,8 +6,9 @@ using UnityEngine;
 public class FireballProjectile : MonoBehaviour
 {
     public static event EventHandler OnAnyFireballExploded;
-    public static event EventHandler<Unit> OnDamageUnit;
-    public static Action OnFinishFireballExplosion;
+
+    //public static event EventHandler<Unit> OnDamageUnit;
+    //public static Action OnFinishFireballExplosion;
 
     [SerializeField]
     private Transform fireballExplodeVFXPrefab;
@@ -90,27 +91,57 @@ public class FireballProjectile : MonoBehaviour
 
     private IEnumerator DealDamageToEachTarget(List<Unit> targetUnits)
     {
-        foreach (Unit unit in targetUnits)
+        List<Unit> hitUnits = new List<Unit>();
+        foreach (Unit targetUnit in targetUnits)
         {
-            OnDamageUnit?.Invoke(this, unit);
-            bool unitHit = CombatSystem.Instance.TrySpell(attackingUnit, unit.GetUnitStats());
-            yield return new WaitForSeconds(1f);
+            //OnDamageUnit?.Invoke(this, targetUnit);
+            AttackInteraction targetUnitAttackInteraction;
+            bool unitHit = CombatSystem.Instance.TrySpell(
+                attackingUnit,
+                targetUnit.GetUnitStats(),
+                out targetUnitAttackInteraction
+            );
+            targetUnit.PerformAOEAttack(targetUnitAttackInteraction);
             if (unitHit)
             {
-                int damageAmount = attackingUnit.GetDamage();
-                unit.gameObject.GetComponent<Unit>().Damage(damageAmount);
-                AudioSource.PlayClipAtPoint(
-                    fireballExplosionSFX,
-                    Camera.main.transform.position,
-                    SoundManager.Instance.GetSoundEffectVolume()
-                );
-                OnAnyFireballExploded?.Invoke(this, EventArgs.Empty);
+                hitUnits.Add(targetUnit);
             }
-            yield return new WaitForSeconds(1f);
         }
-        OnFinishFireballExplosion?.Invoke();
+        yield return new WaitForSeconds(1f);
+        foreach (Unit hitUnit in hitUnits)
+        {
+            int damageAmount = attackingUnit.GetDamage();
+            hitUnit.gameObject.GetComponent<Unit>().Damage(damageAmount);
+            OnAnyFireballExploded?.Invoke(this, EventArgs.Empty);
+        }
+        yield return new WaitForSeconds(1f);
+        //OnCleaveDamageFinished?.Invoke();
         onGrenadeBehaviourComplete();
     }
+
+    // private IEnumerator DealDamageToEachTarget(List<Unit> targetUnits)
+    // {
+    //     foreach (Unit unit in targetUnits)
+    //     {
+    //         OnDamageUnit?.Invoke(this, unit);
+    //         bool unitHit = CombatSystem.Instance.TrySpell(attackingUnit, unit.GetUnitStats());
+    //         yield return new WaitForSeconds(1f);
+    //         if (unitHit)
+    //         {
+    //             int damageAmount = attackingUnit.GetDamage();
+    //             unit.gameObject.GetComponent<Unit>().Damage(damageAmount);
+    //             AudioSource.PlayClipAtPoint(
+    //                 fireballExplosionSFX,
+    //                 Camera.main.transform.position,
+    //                 SoundManager.Instance.GetSoundEffectVolume()
+    //             );
+    //             OnAnyFireballExploded?.Invoke(this, EventArgs.Empty);
+    //         }
+    //         yield return new WaitForSeconds(1f);
+    //     }
+    //     OnFinishFireballExplosion?.Invoke();
+    //     onGrenadeBehaviourComplete();
+    // }
 
     public void Setup(
         GridPosition targetGridPosition,

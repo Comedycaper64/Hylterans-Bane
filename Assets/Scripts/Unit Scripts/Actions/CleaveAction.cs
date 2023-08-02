@@ -8,10 +8,10 @@ public class CleaveAction : BaseAction
     //[SerializeField]
     private string actionDescription = "A sweeping blow that hits enemies around the unit.";
 
-    public static event EventHandler<Unit> OnDamageUnit;
+    //public static event EventHandler<Unit> OnDamageUnit;
 
     //public static event EventHandler OnAnyCleaveHit;
-    public static event Action OnCleaveDamageFinished;
+    //public static event Action OnCleaveDamageFinished;
 
     // public event EventHandler OnCleaveActionStarted;
     // public event EventHandler OnCleaveActionCompleted;
@@ -178,23 +178,31 @@ public class CleaveAction : BaseAction
 
     private IEnumerator DealDamageToEachTarget(List<Unit> targetUnits)
     {
+        List<Unit> hitUnits = new List<Unit>();
         foreach (Unit targetUnit in targetUnits)
         {
-            OnDamageUnit?.Invoke(this, targetUnit);
+            //OnDamageUnit?.Invoke(this, targetUnit);
+            AttackInteraction targetUnitAttackInteraction;
             bool unitHit = CombatSystem.Instance.TryAttack(
                 unit.GetUnitStats(),
-                targetUnit.GetUnitStats()
+                targetUnit.GetUnitStats(),
+                out targetUnitAttackInteraction
             );
-            yield return new WaitForSeconds(1f);
+            targetUnit.PerformAOEAttack(targetUnitAttackInteraction);
             if (unitHit)
             {
-                int damageAmount = unit.GetUnitStats().GetDamage();
-                targetUnit.gameObject.GetComponent<Unit>().Damage(damageAmount);
-                AttackHit(damageAmount);
+                hitUnits.Add(targetUnit);
             }
-            yield return new WaitForSeconds(1f);
         }
-        OnCleaveDamageFinished?.Invoke();
+        yield return new WaitForSeconds(1f);
+        foreach (Unit hitUnit in hitUnits)
+        {
+            int damageAmount = unit.GetUnitStats().GetDamage();
+            hitUnit.gameObject.GetComponent<Unit>().Damage(damageAmount);
+            AttackHit(damageAmount);
+        }
+        yield return new WaitForSeconds(1f);
+        //OnCleaveDamageFinished?.Invoke();
         ActionComplete();
     }
 

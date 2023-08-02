@@ -7,7 +7,8 @@ using UnityEngine;
 public abstract class BaseAction : MonoBehaviour
 {
     public event EventHandler OnActionStarted;
-    public event EventHandler OnActionCompleted;
+
+    //public event EventHandler OnActionCompleted;
     public static event EventHandler<float> OnAnyAttackHit;
 
     // Scripts that extend BaseAction (the other actions) can access the protected fields
@@ -97,7 +98,7 @@ public abstract class BaseAction : MonoBehaviour
         isActive = false;
         if (onActionComplete != null)
             onActionComplete();
-        OnActionCompleted?.Invoke(this, EventArgs.Empty);
+        //OnActionCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     protected void AttackHit(float damageDealt)

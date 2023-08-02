@@ -45,6 +45,7 @@ public class Unit : MonoBehaviour
 
     //EVENTS
     public event EventHandler<int> OnHeldActionsChanged;
+    public event EventHandler<AttackInteraction> OnAOEAttack;
     public static event EventHandler<GridPosition> OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
     public Action OnUnitTurnStart;
@@ -202,6 +203,11 @@ public class Unit : MonoBehaviour
     {
         heldActions -= numberUsed;
         OnHeldActionsChanged?.Invoke(this, heldActions);
+    }
+
+    public void PerformAOEAttack(AttackInteraction attackInteraction)
+    {
+        OnAOEAttack?.Invoke(this, attackInteraction);
     }
 
     public bool IsEnemy()
