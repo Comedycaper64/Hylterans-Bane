@@ -7,10 +7,6 @@ using TMPro;
 
 public class TurnSystemUI : MonoBehaviour
 {
-    //Contains logic for the "Turn" text up top, for the EndTurn button, and for the "Enemy Turn" overlay
-    // [SerializeField]
-    // private Button endTurnBtn;
-
     [SerializeField]
     private TextMeshProUGUI turnNumberText;
 
@@ -27,7 +23,6 @@ public class TurnSystemUI : MonoBehaviour
 
     private void Start()
     {
-        //ButtonSetup();
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         TurnSystem.Instance.OnNewInitiative += TurnSystem_OnNewInitiative;
         TurnSystem.Instance.OnNextUnitInitiative += TurnSystem_OnNextUnitInitiative;
@@ -42,20 +37,9 @@ public class TurnSystemUI : MonoBehaviour
         TurnSystem.Instance.OnNextUnitInitiative -= TurnSystem_OnNextUnitInitiative;
     }
 
-    // private void ButtonSetup()
-    // {
-    //     endTurnBtn.onClick.AddListener(() =>
-    //     {
-    //         TurnSystem.Instance.NextTurn();
-    //     });
-
-    //     UpdateTurnText();
-    // }
-
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         UpdateEnemyTurnVisual();
-        //UpdateEndTurnButtonVisibility();
     }
 
     private void UpdateTurnText()
@@ -105,10 +89,4 @@ public class TurnSystemUI : MonoBehaviour
         GameObject lastTurnUnit = initiativeUIQueue.Dequeue();
         Destroy(lastTurnUnit);
     }
-
-    // private void UpdateEndTurnButtonVisibility()
-    // {
-    //     if (endTurnBtn)
-    //         endTurnBtn.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn());
-    // }
 }

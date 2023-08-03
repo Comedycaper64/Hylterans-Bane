@@ -3,12 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//An abstract class can't go directly on an object, it needs to have an extension of it do so instead
 public abstract class BaseAction : MonoBehaviour
 {
     public event EventHandler OnActionStarted;
-
-    //public event EventHandler OnActionCompleted;
     public static event EventHandler<float> OnAnyAttackHit;
 
     // Scripts that extend BaseAction (the other actions) can access the protected fields
@@ -21,7 +18,6 @@ public abstract class BaseAction : MonoBehaviour
         unit = GetComponent<Unit>();
     }
 
-    //Abstract methods must be implemented by extenders
     public abstract string GetActionName();
 
     public abstract string GetActionDescription();
@@ -41,16 +37,6 @@ public abstract class BaseAction : MonoBehaviour
         return new StatBonus();
     }
 
-    // public virtual int GetToHitBonus()
-    // {
-    //     return 0;
-    // }
-
-    // public virtual int GetDamageBonus()
-    // {
-    //     return 0;
-    // }
-
     public virtual int GetUIPriority()
     {
         return 0;
@@ -68,7 +54,6 @@ public abstract class BaseAction : MonoBehaviour
 
     public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
 
-    //Base method for each action to check if a GridPosition is in their own constructed GetValidActionGridPositionList()
     public virtual bool IsValidActionGridPosition(GridPosition gridPosition)
     {
         List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
@@ -79,13 +64,11 @@ public abstract class BaseAction : MonoBehaviour
 
     public abstract List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition);
 
-    //Base method that can be overwritten to return a different value, like 2 or whatever
     public virtual int GetActionPointsCost()
     {
         return 1;
     }
 
-    //Steps that each action has to do, so they're collated here into methods
     protected void ActionStart(Action onActionComplete)
     {
         isActive = true;
@@ -97,8 +80,9 @@ public abstract class BaseAction : MonoBehaviour
     {
         isActive = false;
         if (onActionComplete != null)
+        {
             onActionComplete();
-        //OnActionCompleted?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     protected void AttackHit(float damageDealt)

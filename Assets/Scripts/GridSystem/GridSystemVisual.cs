@@ -256,62 +256,6 @@ public class GridSystemVisual : MonoBehaviour
             );
         }
 
-        // switch (selectedAction)
-        // {
-        //     default:
-        //     case InteractAction interactAction:
-        //         gridVisualType = GridVisualType.Blue;
-        //         break;
-        //     case FireballAction fireballAction:
-        //         gridVisualType = GridVisualType.Yellow;
-        //         ShowGridPositionRange(
-        //             selectedUnit.GetGridPosition(),
-        //             fireballAction.GetMaxThrowDistance(),
-        //             GridVisualType.Yellow
-        //         );
-        //         break;
-        //     case ShootAction shootAction:
-        //         gridVisualType = GridVisualType.Red;
-        //         ShowGridPositionRange(
-        //             selectedUnit.GetGridPosition(),
-        //             shootAction.GetMaxShootDistance(),
-        //             GridVisualType.RedSoft
-        //         );
-        //         break;
-        //     case FireboltAction fireboltAction:
-        //         gridVisualType = GridVisualType.Red;
-        //         ShowGridPositionRange(
-        //             selectedUnit.GetGridPosition(),
-        //             fireboltAction.GetMaxShootDistance(),
-        //             GridVisualType.RedSoft
-        //         );
-        //         break;
-        //     case MoveAction moveAction:
-        //         gridVisualType = GridVisualType.White;
-        //         ShowGridPositionRange(
-        //             selectedUnit.GetGridPosition(),
-        //             moveAction.GetMaxMoveDistance(),
-        //             GridVisualType.SoftWhite
-        //         );
-        //         break;
-        //     case SwordAction swordAction:
-        //         gridVisualType = GridVisualType.Red;
-        //         ShowGridPositionRangeSquare(
-        //             selectedUnit.GetGridPosition(),
-        //             swordAction.GetMaxSwordDistance(),
-        //             GridVisualType.RedSoft
-        //         );
-        //         break;
-        //     case CleaveAction slashAction:
-        //         gridVisualType = GridVisualType.Red;
-        //         ShowGridPositionRange(
-        //             selectedUnit.GetGridPosition(),
-        //             slashAction.GetMaxSlashDistance(),
-        //             GridVisualType.RedSoft
-        //         );
-        //         break;
-        // }
-
         ShowGridPositionList(selectedAction.GetValidActionGridPositionList(), gridVisualType);
     }
 

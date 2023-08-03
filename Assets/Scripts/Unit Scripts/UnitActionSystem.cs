@@ -27,8 +27,6 @@ public class UnitActionSystem : MonoBehaviour
     private ActionState currentState;
     private GridPosition unitStartPosition;
 
-    // private int actionHitBonus;
-    // private int actionDamageBonus;
     private StatBonus actionStatBonus;
 
     public enum ActionState
@@ -51,16 +49,6 @@ public class UnitActionSystem : MonoBehaviour
         Instance = this;
         currentState = ActionState.noSelectedUnit;
     }
-
-    // private void Start()
-    // {
-    //     TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-    // }
-
-    // private void OnDisable()
-    // {
-    //     TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
-    // }
 
     private void Update()
     {
@@ -102,15 +90,8 @@ public class UnitActionSystem : MonoBehaviour
                 MouseWorld.GetPosition()
             );
 
-            // if (selectedAction.GetRequiredHeldActions() > selectedUnit.GetHeldActions())
-            // {
-            //     Debug.Log("Not enough held actions");
-            //     return;
-            // }
-
             if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
-                //BaseAction actionToHandle = selectedAction; //Set to this so that the SetBusy method doesn't cause a NullReference
                 PerformAction(selectedAction, mouseGridPosition);
             }
         }
@@ -156,10 +137,8 @@ public class UnitActionSystem : MonoBehaviour
         }
         else
         {
-            //SetSelectedAction(null);
             selectedAction = null;
             OnUnitActionStarted?.Invoke();
-            //OnUnitActionFinished?.Invoke();
         }
         SetSelectedUnit(null);
     }
@@ -267,15 +246,11 @@ public class UnitActionSystem : MonoBehaviour
     private void AddStatBonuses(StatBonus statBonus)
     {
         selectedUnit.GetUnitStats().currentStatBonus += statBonus;
-        // selectedUnit.GetUnitStats().currentStatBonus.toHitBonus += statBonus.toHitBonus;
-        // selectedUnit.GetUnitStats().damageBonus += statBonus.damageBonus;
     }
 
     private void RemoveStatBonuses(StatBonus statBonus)
     {
         selectedUnit.GetUnitStats().currentStatBonus -= statBonus;
-        // selectedUnit.GetUnitStats().toHitBonus -= toHitBonus;
-        // selectedUnit.GetUnitStats().damageBonus -= damageBonus;
     }
 
     public Unit GetSelectedUnit()
@@ -297,12 +272,4 @@ public class UnitActionSystem : MonoBehaviour
     {
         return isBusy;
     }
-
-    // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    // {
-    //     if (currentState != ActionState.noSelectedUnit)
-    //     {
-    //         CancelAction();
-    //     }
-    // }
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class FireballAction : BaseAction
 {
-    //[SerializeField]
     private string actionDescription =
         "An area of effect spell that deals fire damage to any unit caught in it.";
 
@@ -14,9 +13,6 @@ public class FireballAction : BaseAction
 
     [SerializeField]
     private AudioClip fireballChargeSFX;
-
-    // public event EventHandler OnFireballActionStarted;
-    // public event EventHandler OnFireballActionCompleted;
 
     [SerializeField]
     private int maxThrowDistance = 4;
@@ -27,7 +23,6 @@ public class FireballAction : BaseAction
     [SerializeField]
     private float damageRadius = 3f;
 
-    //private int minThrowDistance = 2;
     private State state;
     private float stateTimer;
     private GridPosition targetGridPosition;
@@ -146,10 +141,6 @@ public class FireballAction : BaseAction
                 {
                     continue;
                 }
-                // if (testDistance < minThrowDistance)
-                // {
-                //     continue;
-                // }
 
                 validGridPositionList.Add(testGridPosition);
             }
@@ -165,7 +156,6 @@ public class FireballAction : BaseAction
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
-        //OnFireballActionStarted?.Invoke(this, EventArgs.Empty);
         targetGridPosition = gridPosition;
         state = State.Charging;
         float aimingStateTime = 1f;
@@ -219,7 +209,6 @@ public class FireballAction : BaseAction
 
     private void OnFireballBehaviourComplete()
     {
-        //OnFireballActionCompleted?.Invoke(this, EventArgs.Empty);
         ActionComplete();
     }
 }

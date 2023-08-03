@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class TurnSystem : MonoBehaviour
 {
-    //Instanced because there should only be one
     public static TurnSystem Instance { get; private set; }
-
-    // [SerializeField]
-    // private AudioClip turnButtonPressedSFX;
 
     public event EventHandler OnTurnChanged;
     public event Action OnNextUnitInitiative;
@@ -19,7 +15,6 @@ public class TurnSystem : MonoBehaviour
     private int turnNumber = 1;
     private bool isPlayerTurn;
 
-    //private Initiative initiativeUnit;
     private Queue<Initiative> initiativeOrder = new Queue<Initiative>();
 
     //Singleton-ed
@@ -50,7 +45,6 @@ public class TurnSystem : MonoBehaviour
 
     public void NextInitiative()
     {
-        //Debug.Log("Next Initiative");
         if (initiativeOrder.TryDequeue(out Initiative initiative))
         {
             OnNextUnitInitiative?.Invoke();
@@ -58,7 +52,6 @@ public class TurnSystem : MonoBehaviour
             if (!currentInitiative.unit)
             {
                 currentInitiative.rallyingCry.PerformAbility(NextInitiative);
-                //NextInitiative();
                 return;
             }
 
@@ -86,12 +79,6 @@ public class TurnSystem : MonoBehaviour
     public void NextTurn()
     {
         turnNumber++;
-
-        // AudioSource.PlayClipAtPoint(
-        //     turnButtonPressedSFX,
-        //     Camera.main.transform.position,
-        //     SoundManager.Instance.GetSoundEffectVolume()
-        // );
         GetNewInitiativeRound();
     }
 
@@ -107,7 +94,6 @@ public class TurnSystem : MonoBehaviour
 
     private void GetNewInitiativeRound()
     {
-        //initiativeUnit = null;
         initiativeOrder.Clear();
         List<Unit> unitList = UnitManager.Instance.GetUnitList();
         List<Initiative> tempInitiativeList = new List<Initiative>();

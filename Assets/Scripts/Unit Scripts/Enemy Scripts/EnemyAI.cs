@@ -11,17 +11,12 @@ public class EnemyAI : MonoBehaviour
 
     private Unit currentEnemyUnit;
 
-    //Logic for doing the enemy's turn
     private enum State
     {
         WaitingForEnemyTurn,
         TakingTurn,
         Busy,
     }
-
-    //private State state;
-
-    //private float timer;
 
     private void Awake()
     {
@@ -32,62 +27,12 @@ public class EnemyAI : MonoBehaviour
             return;
         }
         Instance = this;
-        //state = State.WaitingForEnemyTurn;
     }
 
     public bool IsEnemyAIActive()
     {
         return (currentEnemyUnit != null);
     }
-
-    // private void Start()
-    // {
-    //     TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-    // }
-
-    // private void OnDisable()
-    // {
-    //     TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
-    // }
-
-    //Goes through state machine in similar manner to Shootaction
-    // private void Update()
-    // {
-    //     if (TurnSystem.Instance.IsPlayerTurn())
-    //     {
-    //         return;
-    //     }
-
-    //     switch (state)
-    //     {
-    //         case State.WaitingForEnemyTurn:
-    //             break;
-    //         case State.TakingTurn:
-    //             timer -= Time.deltaTime;
-    //             if (timer <= 0f)
-    //             {
-    //                 if (TryTakeEnemyAIAction(SetStateTakingTurn))
-    //                 {
-    //                     state = State.Busy;
-    //                 }
-    //                 else
-    //                 {
-    //                     // No more enemies have actions they can take, end enemy turn
-    //                     OnEnemyTurnFinished?.Invoke(this, EventArgs.Empty);
-    //                     TurnSystem.Instance.NextTurn();
-    //                 }
-    //             }
-    //             break;
-    //         case State.Busy:
-    //             break;
-    //     }
-    // }
-
-    // private void SetStateTakingTurn()
-    // {
-    //     timer = 0.25f;
-    //     state = State.TakingTurn;
-    // }
 
     private void FinishEnemyTurn()
     {
@@ -101,16 +46,6 @@ public class EnemyAI : MonoBehaviour
             OnEnemyTurnFinished?.Invoke(this, EventArgs.Empty);
         }
     }
-
-    //Resets state machine when it's the enemy's turn
-    // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    // {
-    //     if (!TurnSystem.Instance.IsPlayerTurn())
-    //     {
-    //         state = State.TakingTurn;
-    //         timer = 1f;
-    //     }
-    // }
 
     public void TakeEnemyTurn(Unit enemyUnit)
     {
@@ -140,13 +75,6 @@ public class EnemyAI : MonoBehaviour
     {
         EnemyAIAction bestEnemyAIAction = null;
         BaseAction bestBaseAction = null;
-
-        // Debug.Log(
-        //     "Enemy Moved: "
-        //         + enemyUnit.GetMovementCompleted()
-        //         + ", Enemy Acted: "
-        //         + enemyUnit.GetActionCompleted()
-        // );
 
         if (enemyUnit.GetActionCompleted() && enemyUnit.GetMovementCompleted())
         {

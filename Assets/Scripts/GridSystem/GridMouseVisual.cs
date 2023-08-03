@@ -172,15 +172,9 @@ public class GridMouseVisual : MonoBehaviour
             case MoveAction moveAction:
                 gridVisualType = GridSystemVisual.GridVisualType.White;
                 break;
-            case ShootAction shootAction:
-                gridVisualType = GridSystemVisual.GridVisualType.Red;
-                break;
             case FireballAction grenadeAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Yellow;
                 SetAOEVisual(true, 3, gridVisualType);
-                break;
-            case SwordAction swordAction:
-                gridVisualType = GridSystemVisual.GridVisualType.Red;
                 break;
             case CleaveAction slashAction:
                 gridVisualType = GridSystemVisual.GridVisualType.Red;

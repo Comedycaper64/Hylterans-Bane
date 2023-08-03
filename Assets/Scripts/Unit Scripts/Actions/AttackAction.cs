@@ -90,7 +90,6 @@ public class AttackAction : BaseAction
 
                 break;
             case State.SwingingSwordAfterHit:
-                //OnSwordActionCompleted?.Invoke(this, EventArgs.Empty);
                 ActionComplete();
                 break;
         }
@@ -186,8 +185,6 @@ public class AttackAction : BaseAction
         float beforeHitStateTime = 0.75f;
         stateTimer = beforeHitStateTime;
 
-        //OnSwordActionStarted?.Invoke(this, EventArgs.Empty);
-
         ActionStart(onActionComplete);
     }
 
@@ -208,7 +205,6 @@ public class AttackAction : BaseAction
         {
             gridPosition = gridPosition,
             actionValue = 100 + Mathf.RoundToInt((1f / targetUnit.GetHealth()) * 100f),
-            //+ Mathf.RoundToInt((1f - targetUnit.GetHealthNormalized()) * 10f),
         };
     }
 

@@ -207,13 +207,9 @@ public class MoveAction : BaseAction
 
         // NEEDS IMPROVING ---------------------------------------------------------------------------------------------------
 
-        if (unit.GetAction<ShootAction>())
+        if (unit.GetAction<AttackAction>())
         {
-            unitAction = unit.GetAction<ShootAction>();
-        }
-        else if (unit.GetAction<SwordAction>())
-        {
-            unitAction = unit.GetAction<SwordAction>();
+            unitAction = unit.GetAction<AttackAction>();
         }
         else if (unit.GetAction<FireballAction>())
         {

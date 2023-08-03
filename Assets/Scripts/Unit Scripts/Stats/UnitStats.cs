@@ -129,34 +129,4 @@ public class UnitStats : MonoBehaviour
     {
         return 8 + baseStats.GetProficiencyBonus() + GetModifier(statDictionary[attackingStat]);
     }
-
-    // public int GetTotalToHitBonus()
-    // {
-    //     int total = 0;
-    //     foreach (StatBonus bonus in currentStatBonus)
-    //     {
-    //         total += bonus.toHitBonus;
-    //     }
-    //     return total;
-    // }
-
-    // public int GetTotalDamageBonus()
-    // {
-    //     int total = 0;
-    //     foreach (StatBonus bonus in currentStatBonus)
-    //     {
-    //         total += bonus.damageBonus;
-    //     }
-    //     return total;
-    // }
-
-    // public int GetTotalRangeBonus()
-    // {
-    //     int total = 0;
-    //     foreach (StatBonus bonus in currentStatBonus)
-    //     {
-    //         total += bonus.rangeBonus;
-    //     }
-    //     return total;
-    // }
 }

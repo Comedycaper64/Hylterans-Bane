@@ -72,7 +72,6 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         transform.position = LevelGrid.Instance.GetWorldPosition(gridPosition);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
-        //TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         healthSystem.SetHealth(unitStats.GetMaxHealth());
         healthSystem.OnDead += HealthSystem_OnDead;
 
@@ -81,23 +80,8 @@ public class Unit : MonoBehaviour
 
     private void OnDisable()
     {
-        //TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
         healthSystem.OnDead -= HealthSystem_OnDead;
     }
-
-    // private void Update()
-    // {
-    //     //Tracks to see if the Unit is changing position on the Grid
-
-    //     GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-    //     if (newGridPosition != gridPosition)
-    //     {
-    //         //Unit changed grid position
-    //         GridPosition oldGridPosition = gridPosition;
-    //         gridPosition = newGridPosition;
-    //         LevelGrid.Instance.UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
-    //     }
-    // }
 
     public void SetGridPosition(GridPosition gridPosition)
     {
@@ -235,17 +219,4 @@ public class Unit : MonoBehaviour
             Destroy(gameObject, deathDelayTimer);
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
-
-    //Regens action points for Player units if player unit turn, for enemy units instead if enemy turn
-    // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    // {
-    //     if (
-    //         (IsEnemy() && !TurnSystem.Instance.IsPlayerTurn())
-    //         || (!IsEnemy() && TurnSystem.Instance.IsPlayerTurn())
-    //     )
-    //     {
-    //         SetActionCompleted(false);
-    //         SetMovementCompleted(false);
-    //     }
-    // }
 }

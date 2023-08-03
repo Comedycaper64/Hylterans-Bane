@@ -5,27 +5,13 @@ using UnityEngine;
 
 public class FireboltAction : BaseAction
 {
-    //[SerializeField]
     private string actionDescription = "A ranged attack that shoots a firebolt";
-
-    //public static event EventHandler<OnShootEventArgs> OnAnyShoot;
-
-    // public event EventHandler<OnShootEventArgs> OnShoot;
-    // public event EventHandler OnAim;
 
     private bool attackSucceeded;
 
     [SerializeField]
     private AudioClip flingFireboltSFX;
 
-    //Custom eventArgs that include both shooter and target
-    // public class OnShootEventArgs : EventArgs
-    // {
-    //     public Unit targetUnit;
-    //     public Unit shootingUnit;
-    // }
-
-    //State machine for the ShootingAction
     private enum State
     {
         Aiming,
@@ -109,16 +95,6 @@ public class FireboltAction : BaseAction
             Camera.main.transform.position,
             SoundManager.Instance.GetSoundEffectVolume()
         );
-        // OnAnyShoot?.Invoke(
-        //     this,
-        //     new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
-        // );
-
-        //Fires off OnShoot event and damages targetUnit
-        // OnShoot?.Invoke(
-        //     this,
-        //     new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }
-        // );
 
         if (attackSucceeded)
         {
@@ -217,7 +193,7 @@ public class FireboltAction : BaseAction
             unit.GetUnitStats(),
             targetUnit.GetUnitStats()
         );
-        //OnAim.Invoke(this, EventArgs.Empty);
+
         state = State.Aiming;
         float aimingStateTime = 0.75f;
         stateTimer = aimingStateTime;
@@ -225,12 +201,6 @@ public class FireboltAction : BaseAction
         canShoot = true;
         ActionStart(onActionComplete);
     }
-
-    // public Unit GetTargetUnit()
-    // {
-    //     return targetUnit;
-
-    // }
 
     public override bool ActionDealsDamage()
     {
