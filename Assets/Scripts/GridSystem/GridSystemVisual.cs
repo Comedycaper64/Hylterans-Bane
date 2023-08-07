@@ -81,12 +81,10 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitAction;
-        UnitActionSystem.Instance.OnUnitActionFinished += UnitActionSystem_OnUnitAction;
+        //UnitActionSystem.Instance.OnUnitActionFinished += UnitActionSystem_OnUnitAction;
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
-        //Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-        //BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
 
         //Changes visible tiles based on selected unit / selected action
         UpdateGridVisual();
@@ -97,12 +95,10 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedActionChanged -=
             UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitAction;
-        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitAction;
+        //UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitAction;
         UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
-        //Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
-        //BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
     }
 
     //Meshenabled = false for all visual squares
@@ -259,8 +255,6 @@ public class GridSystemVisual : MonoBehaviour
         ShowGridPositionList(selectedAction.GetValidActionGridPositionList(), gridVisualType);
     }
 
-    //Too many grid visual updates. Prune down --------------------------------------------------------------------------------------------------------------
-
     //When the selected action is changed in UnitActionSystem, UpdateGridVisual
     private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction e)
     {
@@ -283,11 +277,6 @@ public class GridSystemVisual : MonoBehaviour
         UpdateGridVisual();
     }
 
-    // private void Unit_OnAnyUnitSpawned(object sender, GridPosition e)
-    // {
-    //     UpdateGridVisual();
-    // }
-
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         if (!TurnSystem.Instance.IsPlayerTurn())
@@ -295,11 +284,6 @@ public class GridSystemVisual : MonoBehaviour
             HideAllGridPosition();
         }
     }
-
-    // private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
-    // {
-    //     UpdateGridVisual();
-    // }
 
     //Gets the corresponding material of the gridVisualType enum
     public Material GetGridVisualTypeMaterial(GridVisualType gridVisualType)
