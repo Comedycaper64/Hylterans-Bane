@@ -76,6 +76,18 @@ public class MoveAction : BaseAction
 
         OnAnyUnitMoved?.Invoke(this, gridPosition);
 
+        //Remove Terrain effect from previous gridobject
+        ITerrainEffect oldTerrainEffect = LevelGrid.Instance.GetTerrainEffectAtGridPosition(
+            oldUnitGridPosition
+        );
+        oldTerrainEffect?.RemoveEffect(unit);
+
+        //Apply terrain effect from new gridobject
+        ITerrainEffect newTerrainEffect = LevelGrid.Instance.GetTerrainEffectAtGridPosition(
+            gridPosition
+        );
+        newTerrainEffect?.ApplyEffect(unit);
+
         ActionStart(onActionComplete);
     }
 

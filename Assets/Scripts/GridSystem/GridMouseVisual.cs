@@ -17,7 +17,8 @@ public class GridMouseVisual : MonoBehaviour
     private GridSystemVisualSingle mouseGridVisualScript;
     private float mouseGridVisualYOffset = 0.1f;
     private float mouseGridArrowVisualYOffset = 2f;
-    public static EventHandler<Unit> OnMouseOverEnemyUnit;
+
+    //public static EventHandler<Unit> OnMouseOverEnemyUnit;
     private GridPosition currentMousePosition;
 
     private void Start()
@@ -38,6 +39,7 @@ public class GridMouseVisual : MonoBehaviour
             UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitActionStarted;
         UpdateMouseVisual();
+        ToggleMouseVisibility(true);
     }
 
     private void OnDisable()
@@ -47,8 +49,6 @@ public class GridMouseVisual : MonoBehaviour
         UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitActionStarted;
     }
 
-    // Update is called once per frame
-    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     void Update()
     {
         GridPosition mouseGridPosition;
@@ -64,59 +64,35 @@ public class GridMouseVisual : MonoBehaviour
                     mouseGridArrowVisualYOffset,
                     mouseGridPosition.z * cellSize
                 );
+
+                ToggleMouseVisibility(true);
+
+                if (
+                    UnitActionSystem.Instance.GetSelectedAction()
+                    && UnitActionSystem.Instance
+                        .GetSelectedAction()
+                        .IsValidActionGridPosition(mouseGridPosition)
+                )
+                {
+                    mouseGridVisual.gameObject.SetActive(true);
+
+                    mouseGridVisual.position = new Vector3(
+                        mouseGridPosition.x * cellSize,
+                        mouseGridVisualYOffset,
+                        mouseGridPosition.z * cellSize
+                    );
+                }
+                else
+                {
+                    mouseGridVisual.gameObject.SetActive(false);
+                }
             }
         }
         else
         {
-            mouseGridVisual.gameObject.SetActive(false);
-            mouseGridArrowVisual.gameObject.SetActive(false);
+            ToggleMouseVisibility(false);
             return;
         }
-
-        //float cellSize = LevelGrid.Instance.GetCellSize();
-        if (
-            !TurnSystem.Instance.IsPlayerTurn()
-            || UnitManager.Instance.GetFriendlyUnitList().Count < 1
-            || !LevelGrid.Instance.IsValidGridPosition(mouseGridPosition)
-        //|| !UnitActionSystem.Instance.GetSelectedUnit()
-        )
-        {
-            mouseGridVisual.gameObject.SetActive(false);
-            mouseGridArrowVisual.gameObject.SetActive(false);
-            return;
-        }
-        else
-        {
-            mouseGridArrowVisual.gameObject.SetActive(true);
-        }
-
-        // if (
-        //     UnitActionSystem.Instance.GetSelectedAction()
-        //     && UnitActionSystem.Instance
-        //         .GetSelectedAction()
-        //         .IsValidActionGridPosition(mouseGridPosition)
-        // )
-        // {
-        //     mouseGridVisual.gameObject.SetActive(true);
-
-        //     mouseGridVisual.position = new Vector3(
-        //         mouseGridPosition.x * cellSize,
-        //         mouseGridVisualYOffset,
-        //         mouseGridPosition.z * cellSize
-        //     );
-        //     if (LevelGrid.Instance.HasAnyUnitOnGridPosition(mouseGridPosition))
-        //     {
-        //         Unit unitAtMouseGrid = LevelGrid.Instance.GetUnitAtGridPosition(mouseGridPosition);
-        //         if (unitAtMouseGrid.IsEnemy())
-        //         {
-        //             OnMouseOverEnemyUnit?.Invoke(this, unitAtMouseGrid);
-        //         }
-        //     }
-        // }
-        // else
-        // {
-        //     mouseGridVisual.gameObject.SetActive(false);
-        // }
     }
 
     private void SetAOEVisual(bool enable, int range, GridSystemVisual.GridVisualType visualType)
@@ -160,7 +136,6 @@ public class GridMouseVisual : MonoBehaviour
         }
     }
 
-    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     private void UpdateMouseVisual()
     {
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
@@ -171,27 +146,39 @@ public class GridMouseVisual : MonoBehaviour
             return;
         }
 
-        GridSystemVisual.GridVisualType gridVisualType;
-        switch (selectedAction)
+        //GridSystemVisual.GridVisualType gridVisualType ;
+        if (selectedAction.GetIsAOE())
         {
-            default:
-            case MoveAction:
-                gridVisualType = GridSystemVisual.GridVisualType.White;
-                break;
-            case FireballAction:
-                gridVisualType = GridSystemVisual.GridVisualType.Yellow;
-                SetAOEVisual(true, 3, gridVisualType);
-                break;
-            case CleaveAction:
-                gridVisualType = GridSystemVisual.GridVisualType.Red;
-                SetAOEVisual(true, 3, gridVisualType);
-                break;
-            case InteractAction:
-                gridVisualType = GridSystemVisual.GridVisualType.Blue;
-                break;
+            SetAOEVisual(
+                true,
+                selectedAction.GetDamageRadius(),
+                GridSystemVisual.GridVisualType.White
+            );
         }
+
+        // switch (selectedAction)
+        // {
+        //     default:
+        //     case MoveAction:
+        //         gridVisualType = GridSystemVisual.GridVisualType.White;
+        //         break;
+        //     case FireballAction:
+        //         gridVisualType = GridSystemVisual.GridVisualType.Yellow;
+        //         SetAOEVisual(true, 3, gridVisualType);
+        //         break;
+        //     case CleaveAction:
+        //         gridVisualType = GridSystemVisual.GridVisualType.Red;
+        //         SetAOEVisual(true, 3, gridVisualType);
+        //         break;
+        //     case InteractAction:
+        //         gridVisualType = GridSystemVisual.GridVisualType.Blue;
+        //         break;
+        // }
+
         mouseGridVisualScript.Show(
-            GridSystemVisual.Instance.GetGridVisualTypeMaterial(gridVisualType)
+            GridSystemVisual.Instance.GetGridVisualTypeMaterial(
+                GridSystemVisual.GridVisualType.White
+            )
         );
     }
 

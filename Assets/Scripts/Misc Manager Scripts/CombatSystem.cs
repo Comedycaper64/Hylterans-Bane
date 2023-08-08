@@ -31,34 +31,48 @@ public class CombatSystem : MonoBehaviour
     //     return new Queue<CombatInteraction>();
     // }
 
-    public BattleForecast GetBattleForecast(Unit attackingUnit, Unit defendingUnit)
+    public BattleForecast GetBattleForecast(
+        Unit attackingUnit,
+        Unit defendingUnit,
+        BaseAction currentAction
+    )
     {
         BattleForecast currentBattleForecast = new BattleForecast();
-        currentBattleForecast.attackingUnitChanceToHit = Mathf.Min(
-            100,
-            Mathf.RoundToInt(
-                100
-                    * (
-                        1
-                        - (
+        if (currentAction.IsSpell())
+        {
+            currentBattleForecast.attackingUnitChanceToHit = Mathf.Min(
+                100,
+                Mathf.RoundToInt(
+                    100
+                        * (
                             (
-                                defendingUnit.GetUnitStats().GetArmourClass()
-                                - attackingUnit.GetUnitStats().GetToHit()
+                                attackingUnit.GetUnitStats().GetSpellDC()
+                                - defendingUnit.GetUnitStats().GetSavingThrow(StatType.DEX)
                             ) / 20f
                         )
-                    )
-            )
-        );
-
-        //Gets damage from currently selected action of unit
-        if (UnitActionSystem.Instance.GetSelectedAction())
-        {
-            currentBattleForecast.attackingUnitDamage = attackingUnit.GetUnitStats().GetDamage();
+                )
+            );
         }
         else
         {
-            currentBattleForecast.attackingUnitDamage = 0;
+            currentBattleForecast.attackingUnitChanceToHit = Mathf.Min(
+                100,
+                Mathf.RoundToInt(
+                    100
+                        * (
+                            1
+                            - (
+                                (
+                                    defendingUnit.GetUnitStats().GetArmourClass()
+                                    - attackingUnit.GetUnitStats().GetToHit()
+                                ) / 20f
+                            )
+                        )
+                )
+            );
         }
+
+        currentBattleForecast.attackingUnitDamage = attackingUnit.GetUnitStats().GetDamage();
 
         return currentBattleForecast;
     }

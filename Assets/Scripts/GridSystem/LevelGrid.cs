@@ -120,7 +120,20 @@ public class LevelGrid : MonoBehaviour
         return gridObject.GetUnit();
     }
 
-    //Terrain system ref |?
+    public ITerrainEffect GetTerrainEffectAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.GetTerrainEffect();
+    }
+
+    public void SetTerrainEffectAtGridPosition(
+        GridPosition gridPosition,
+        ITerrainEffect terrainEffect
+    )
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        gridObject.SetTerrainEffect(terrainEffect);
+    }
 
     public IInteractable GetInteractableAtGridPosition(GridPosition gridPosition)
     {

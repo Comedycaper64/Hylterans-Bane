@@ -116,6 +116,11 @@ public class UnitWorldUI : MonoBehaviour
         }
     }
 
+    private void ShowChanceToHit(string chanceToHit)
+    {
+        aoeDamageText.text = "Chance to hit: " + chanceToHit + "%";
+    }
+
     private void Unit_OnHeldActionsChanged(object sender, int newHeldActions)
     {
         UpdateHeldActionsText(newHeldActions);
@@ -136,15 +141,23 @@ public class UnitWorldUI : MonoBehaviour
         if (thisUnit.IsEnemy() && baseAction.ActionDealsDamage())
         {
             ShowPredictedHealthLoss(baseAction.GetUnit().GetUnitStats().GetDamage());
+            BattleForecast unitBattleForecast = CombatSystem.Instance.GetBattleForecast(
+                baseAction.GetUnit(),
+                thisUnit,
+                baseAction
+            );
+            ShowChanceToHit(unitBattleForecast.attackingUnitChanceToHit.ToString());
         }
         else
         {
             UpdateHealthBar();
+            aoeDamageText.text = "";
         }
     }
 
     private void UnitActionSystem_OnUnitActionStarted()
     {
         UpdateHealthBar();
+        aoeDamageText.text = "";
     }
 }

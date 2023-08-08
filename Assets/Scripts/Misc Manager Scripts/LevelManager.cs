@@ -31,13 +31,11 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        //Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
         UnitManager.Instance.OnEnemyDied += UnitManager_OnEnemyDied;
     }
 
     private void OnDisable()
     {
-        //Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
         UnitManager.Instance.OnEnemyDied -= UnitManager_OnEnemyDied;
     }
 
@@ -65,17 +63,6 @@ public class LevelManager : MonoBehaviour
             turnsTakenText.text = "Turns Taken: " + TurnSystem.Instance.GetTurnNumber();
         }
     }
-
-    // private void Unit_OnAnyUnitDead(object sender, EventArgs e)
-    // {
-    //     Unit unit = sender as Unit;
-
-    //     if (unit.GetUnitName() == "Queen")
-    //     {
-    //         if (levelLostUI)
-    //             levelLostUI.SetActive(true);
-    //     }
-    // }
 
     private void UnitManager_OnEnemyDied(object sender, EventArgs e)
     {

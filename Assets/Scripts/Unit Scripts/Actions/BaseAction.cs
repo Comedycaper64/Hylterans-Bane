@@ -27,6 +27,16 @@ public abstract class BaseAction : MonoBehaviour
         return false;
     }
 
+    public virtual bool IsSpell()
+    {
+        return false;
+    }
+
+    public virtual int GetDamageRadius()
+    {
+        return 1;
+    }
+
     public virtual bool ActionDealsDamage()
     {
         return false;

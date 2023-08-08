@@ -20,8 +20,8 @@ public class FireballAction : BaseAction
     [SerializeField]
     private StatBonus actionStatBonus = new StatBonus(0, -2, 0);
 
-    [SerializeField]
-    private float damageRadius = 3f;
+    // [SerializeField]
+    // private float damageRadius = 3f;
 
     private State state;
     private float stateTimer;
@@ -61,7 +61,7 @@ public class FireballAction : BaseAction
                 fireballProjectile.Setup(
                     targetGridPosition,
                     damageAmount,
-                    damageRadius,
+                    GetDamageRadius(),
                     unit.GetUnitStats(),
                     OnFireballBehaviourComplete
                 );
@@ -105,6 +105,16 @@ public class FireballAction : BaseAction
     public override string GetActionDescription()
     {
         return actionDescription;
+    }
+
+    public override int GetDamageRadius()
+    {
+        return 3;
+    }
+
+    public override bool IsSpell()
+    {
+        return true;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)

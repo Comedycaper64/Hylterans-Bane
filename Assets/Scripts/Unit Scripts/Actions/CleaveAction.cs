@@ -65,6 +65,11 @@ public class CleaveAction : BaseAction
         return actionDescription;
     }
 
+    public override int GetDamageRadius()
+    {
+        return 3;
+    }
+
     public override List<GridPosition> GetValidActionGridPositionList()
     {
         return GetValidActionGridPositionList(unit.GetGridPosition());
@@ -129,10 +134,10 @@ public class CleaveAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         targetUnits = new List<Unit>();
-        float damageRadius = 3f;
+        //float damageRadius = 3f;
         Collider[] colliderArray = Physics.OverlapSphere(
             LevelGrid.Instance.GetWorldPosition(gridPosition),
-            damageRadius
+            GetDamageRadius()
         );
         foreach (Collider collider in colliderArray)
         {

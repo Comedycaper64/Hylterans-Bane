@@ -6,15 +6,15 @@ using System;
 
 public class BattleForecastUI : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI chanceToHitText;
+    // [SerializeField]
+    // private TextMeshProUGUI chanceToHitText;
 
     [SerializeField]
     private TextMeshProUGUI damageText;
 
-    private bool forecastEnabled;
+    //private bool forecastEnabled;
 
-    private Unit activeUnit;
+    //private Unit activeUnit;
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class BattleForecastUI : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitActionStarted;
-        GridMouseVisual.OnMouseOverEnemyUnit += GridMouseVisual_OnMouseOverEnemyUnit;
+        //GridMouseVisual.OnMouseOverEnemyUnit += GridMouseVisual_OnMouseOverEnemyUnit;
     }
 
     private void OnDisable()
@@ -34,20 +34,20 @@ public class BattleForecastUI : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedActionChanged -=
             UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitActionStarted;
-        GridMouseVisual.OnMouseOverEnemyUnit -= GridMouseVisual_OnMouseOverEnemyUnit;
+        //GridMouseVisual.OnMouseOverEnemyUnit -= GridMouseVisual_OnMouseOverEnemyUnit;
     }
 
     public void ToggleForecastText(bool enable)
     {
-        chanceToHitText.enabled = enable;
+        //chanceToHitText.enabled = enable;
         damageText.enabled = enable;
-        forecastEnabled = enable;
+        //forecastEnabled = enable;
     }
 
-    public void SetHitText(int hitValue)
-    {
-        chanceToHitText.text = "Chance to hit: " + hitValue + "%";
-    }
+    // public void SetHitText(int hitValue)
+    // {
+    //     chanceToHitText.text = "Chance to hit: " + hitValue + "%";
+    // }
 
     public void SetDamageText(int damageValue)
     {
@@ -58,10 +58,10 @@ public class BattleForecastUI : MonoBehaviour
     {
         if (baseAction.ActionDealsDamage())
         {
-            SetHitText(0);
-            SetDamageText(0);
+            //SetHitText(0);
+            SetDamageText(baseAction.GetUnit().GetUnitStats().GetDamage());
             ToggleForecastText(true);
-            activeUnit = baseAction.GetUnit();
+            //activeUnit = baseAction.GetUnit();
         }
         else
         {
@@ -74,16 +74,16 @@ public class BattleForecastUI : MonoBehaviour
         ToggleForecastText(false);
     }
 
-    private void GridMouseVisual_OnMouseOverEnemyUnit(object sender, Unit enemyUnit)
-    {
-        if (forecastEnabled)
-        {
-            BattleForecast currentBattleForecast = CombatSystem.Instance.GetBattleForecast(
-                activeUnit,
-                enemyUnit
-            );
-            SetHitText(currentBattleForecast.attackingUnitChanceToHit);
-            SetDamageText(currentBattleForecast.attackingUnitDamage);
-        }
-    }
+    // private void GridMouseVisual_OnMouseOverEnemyUnit(object sender, Unit enemyUnit)
+    // {
+    //     if (forecastEnabled)
+    //     {
+    //         BattleForecast currentBattleForecast = CombatSystem.Instance.GetBattleForecast(
+    //             activeUnit,
+    //             enemyUnit
+    //         );
+    //         SetHitText(currentBattleForecast.attackingUnitChanceToHit);
+    //         SetDamageText(currentBattleForecast.attackingUnitDamage);w
+    //     }
+    // }
 }

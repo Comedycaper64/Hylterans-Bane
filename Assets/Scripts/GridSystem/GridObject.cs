@@ -10,6 +10,7 @@ public class GridObject
 
     private GridPosition gridPosition; //Position of this tile
     private IInteractable interactable;
+    private ITerrainEffect terrainEffect;
 
     public GridObject(GridSystem<GridObject> gridSystem, GridPosition gridPosition) //Constructor
     {
@@ -66,7 +67,15 @@ public class GridObject
         }
     }
 
-    //Use similar method of setting Terrain effects \/
+    public ITerrainEffect GetTerrainEffect()
+    {
+        return terrainEffect;
+    }
+
+    public void SetTerrainEffect(ITerrainEffect terrainEffect)
+    {
+        this.terrainEffect = terrainEffect;
+    }
 
     public IInteractable GetInteractable()
     {
