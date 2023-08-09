@@ -7,4 +7,6 @@ public interface ITerrainEffect
     void ApplyEffect(Unit unit);
 
     void RemoveEffect(Unit unit);
+
+    bool GetIsDifficultTerrain();
 }

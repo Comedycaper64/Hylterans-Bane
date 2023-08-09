@@ -120,6 +120,21 @@ public class LevelGrid : MonoBehaviour
         return gridObject.GetUnit();
     }
 
+    public bool TryGetUnitAtGridPosition(GridPosition gridPosition, out Unit unit)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        if (gridObject.HasAnyUnit())
+        {
+            unit = gridObject.GetUnit();
+            return true;
+        }
+        else
+        {
+            unit = null;
+            return false;
+        }
+    }
+
     public ITerrainEffect GetTerrainEffectAtGridPosition(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);

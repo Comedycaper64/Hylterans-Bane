@@ -32,9 +32,9 @@ public abstract class BaseAction : MonoBehaviour
         return false;
     }
 
-    public virtual int GetDamageRadius()
+    public virtual (int, int) GetDamageArea()
     {
-        return 1;
+        return (1 , 1);
     }
 
     public virtual bool ActionDealsDamage()

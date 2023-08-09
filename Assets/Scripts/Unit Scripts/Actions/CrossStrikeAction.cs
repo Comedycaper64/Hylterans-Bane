@@ -3,15 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CleaveAction : BaseAction
+public class CrossStrikeAction : BaseAction
 {
-    private string actionDescription = "A sweeping blow that hits enemies around the unit.";
+    private readonly string actionDescription =
+        "Utilising both blades, swipe across enemies near you.";
 
     [SerializeField]
-    private StatBonus actionStatBonus = new StatBonus(0, -2, 0);
+    private readonly StatBonus actionStatBonus = new(0, 2, 0);
 
-    [SerializeField]
-    private AudioClip cleaveHitSFX;
+    // [SerializeField]
+    // private AudioClip strikeHitSFX;
 
     private enum State
     {
@@ -19,7 +20,7 @@ public class CleaveAction : BaseAction
         SwingingSwordAfterHit,
     }
 
-    private int maxSlashDistance = 1;
+    private int maxStrikeDistance = 1;
     private State state;
     private float stateTimer;
     private List<Unit> targetUnits = new List<Unit>();
@@ -57,7 +58,7 @@ public class CleaveAction : BaseAction
 
     public override string GetActionName()
     {
-        return "Cleave";
+        return "Cross Strike";
     }
 
     public override string GetActionDescription()
@@ -67,7 +68,7 @@ public class CleaveAction : BaseAction
 
     public override (int, int) GetDamageArea()
     {
-        return (3, 3);
+        return (1, 3);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -79,15 +80,15 @@ public class CleaveAction : BaseAction
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        for (int x = -maxSlashDistance; x <= maxSlashDistance; x++)
+        for (int x = -maxStrikeDistance; x <= maxStrikeDistance; x++)
         {
-            for (int z = -maxSlashDistance; z <= maxSlashDistance; z++)
+            for (int z = -maxStrikeDistance; z <= maxStrikeDistance; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = gridPosition + offsetGridPosition;
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > maxSlashDistance)
+                if (testDistance > maxStrikeDistance)
                 {
                     continue;
                 }
@@ -102,27 +103,26 @@ public class CleaveAction : BaseAction
                     continue;
                 }
 
-                float damageRadius = 3f;
-                List<Unit> tempUnitList = new List<Unit>();
-                Collider[] colliderArray = Physics.OverlapSphere(
-                    LevelGrid.Instance.GetWorldPosition(testGridPosition),
-                    damageRadius
-                );
-                foreach (Collider collider in colliderArray)
-                {
-                    if (collider.TryGetComponent<Unit>(out Unit tempUnit))
-                    {
-                        if (tempUnit != unit)
-                        {
-                            tempUnitList.Add(tempUnit);
-                        }
-                    }
-                }
+                // List<Unit> tempUnitList = new List<Unit>();
+                // Collider[] colliderArray = Physics.OverlapSphere(
+                //     LevelGrid.Instance.GetWorldPosition(testGridPosition),
+                //     GetDamageArea()
+                // );
+                // foreach (Collider collider in colliderArray)
+                // {
+                //     if (collider.TryGetComponent<Unit>(out Unit tempUnit))
+                //     {
+                //         if (tempUnit != unit)
+                //         {
+                //             tempUnitList.Add(tempUnit);
+                //         }
+                //     }
+                // }
 
-                if (tempUnitList.Count < 1)
-                {
-                    continue;
-                }
+                // if (tempUnitList.Count < 1)
+                // {
+                //     continue;
+                // }
 
                 validGridPositionList.Add(testGridPosition);
             }
@@ -134,19 +134,45 @@ public class CleaveAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         targetUnits = new List<Unit>();
-        //float damageRadius = 3f;
-        Collider[] colliderArray = Physics.OverlapSphere(
-            LevelGrid.Instance.GetWorldPosition(gridPosition),
-            GetDamageArea().Item1
-        );
-        foreach (Collider collider in colliderArray)
+        // Collider[] colliderArray = Physics.OverlapSphere(
+        //     LevelGrid.Instance.GetWorldPosition(gridPosition),
+        //     GetDamageArea()
+        // );
+        // foreach (Collider collider in colliderArray)
+        // {
+        //     if (collider.TryGetComponent<Unit>(out Unit targetUnit))
+        //     {
+        //         if (targetUnit != unit)
+        //         {
+        //             targetUnits.Add(targetUnit);
+        //         }
+        //     }
+        // }
+        if(LevelGrid.Instance.TryGetUnitAtGridPosition(gridPosition, out Unit unit))
         {
-            if (collider.TryGetComponent<Unit>(out Unit targetUnit))
+            targetUnits.Add(unit);
+        }
+        GridPosition distanceFromAttacker = gridPosition - this.unit.GetGridPosition();
+        if (distanceFromAttacker.x == 0)
+        {
+            if(LevelGrid.Instance.TryGetUnitAtGridPosition(gridPosition + new GridPosition(1, 0), out Unit unit1))
             {
-                if (targetUnit != unit)
-                {
-                    targetUnits.Add(targetUnit);
-                }
+                targetUnits.Add(unit1);
+            }
+            if(LevelGrid.Instance.TryGetUnitAtGridPosition(gridPosition + new GridPosition(-1, 0), out Unit unit2))
+            {
+                targetUnits.Add(unit2);
+            }
+        }
+        else
+        {
+            if(LevelGrid.Instance.TryGetUnitAtGridPosition(gridPosition + new GridPosition(0, 1), out Unit unit1))
+            {
+                targetUnits.Add(unit1);
+            }
+            if(LevelGrid.Instance.TryGetUnitAtGridPosition(gridPosition + new GridPosition(0, -1), out Unit unit2))
+            {
+                targetUnits.Add(unit2);
             }
         }
 
@@ -225,7 +251,7 @@ public class CleaveAction : BaseAction
 
     public override int GetActionRange()
     {
-        return maxSlashDistance;
+        return maxStrikeDistance;
     }
 
     public override int GetTargetCountAtPosition(GridPosition gridPosition)

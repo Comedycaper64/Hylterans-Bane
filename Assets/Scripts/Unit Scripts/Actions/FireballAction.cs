@@ -61,7 +61,7 @@ public class FireballAction : BaseAction
                 fireballProjectile.Setup(
                     targetGridPosition,
                     damageAmount,
-                    GetDamageRadius(),
+                    GetDamageArea().Item1,
                     unit.GetUnitStats(),
                     OnFireballBehaviourComplete
                 );
@@ -107,9 +107,9 @@ public class FireballAction : BaseAction
         return actionDescription;
     }
 
-    public override int GetDamageRadius()
+    public override (int, int) GetDamageArea()
     {
-        return 3;
+        return (3, 3);
     }
 
     public override bool IsSpell()

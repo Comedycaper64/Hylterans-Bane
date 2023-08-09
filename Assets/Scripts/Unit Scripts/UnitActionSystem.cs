@@ -64,6 +64,7 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         //If pointer is over a GameObject (like the BusyUI)
+        //Problematic as cancels/moves get caught on world UI. annoying --------------------------------------------------------------------------------------------------------------
         if (EventSystem.current.IsPointerOverGameObject())
         {
             return;

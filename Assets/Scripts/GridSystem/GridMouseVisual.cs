@@ -17,6 +17,9 @@ public class GridMouseVisual : MonoBehaviour
     private GridSystemVisualSingle mouseGridVisualScript;
     private float mouseGridVisualYOffset = 0.1f;
     private float mouseGridArrowVisualYOffset = 2f;
+    private bool aoeEnabled;
+    private (int, int) currentRange;
+    private GridSystemVisual.GridVisualType currentVisualType;
 
     //public static EventHandler<Unit> OnMouseOverEnemyUnit;
     private GridPosition currentMousePosition;
@@ -54,6 +57,8 @@ public class GridMouseVisual : MonoBehaviour
         GridPosition mouseGridPosition;
         if (MouseWorld.GetPosition() != Vector3.negativeInfinity)
         {
+            //ToggleMouseVisibility(true);
+            mouseGridArrowVisual.gameObject.SetActive(true);
             mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
             if (mouseGridPosition != currentMousePosition)
             {
@@ -64,8 +69,6 @@ public class GridMouseVisual : MonoBehaviour
                     mouseGridArrowVisualYOffset,
                     mouseGridPosition.z * cellSize
                 );
-
-                ToggleMouseVisibility(true);
 
                 if (
                     UnitActionSystem.Instance.GetSelectedAction()
@@ -86,6 +89,12 @@ public class GridMouseVisual : MonoBehaviour
                 {
                     mouseGridVisual.gameObject.SetActive(false);
                 }
+
+                if (aoeEnabled)
+                {
+                    SetAOEVisual(false, (0, 0), GridSystemVisual.GridVisualType.White);
+                    SetAOEVisual(true, currentRange, currentVisualType);
+                }
             }
         }
         else
@@ -95,17 +104,32 @@ public class GridMouseVisual : MonoBehaviour
         }
     }
 
-    private void SetAOEVisual(bool enable, int range, GridSystemVisual.GridVisualType visualType)
+    private void SetAOEVisual(bool enable, (int, int) range, GridSystemVisual.GridVisualType visualType)
     {
+        aoeEnabled = enable;
         if (enable)
         {
-            range = (range - 1) / 2;
+            currentRange = range;
+            currentVisualType = visualType;
+
+            range = ((range.Item1 - 1) / 2, (range.Item2 - 1) / 2);
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(
                 mouseGridVisual.position
             );
-            for (int x = mouseGridPosition.x - range; x <= mouseGridPosition.x + range; x++)
+
+            if (range.Item1 != range.Item2)
             {
-                for (int z = mouseGridPosition.z - range; z <= mouseGridPosition.z + range; z++)
+                GridPosition mouseOffset = mouseGridPosition - UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition();
+                //Debug.Log(mouseOffset);
+                if (Mathf.Abs(mouseOffset.x) < Mathf.Abs(mouseOffset.z))
+                {
+                    (range.Item2, range.Item1) = (range.Item1, range.Item2);
+                }
+            }
+
+            for (int x = mouseGridPosition.x - range.Item1; x <= mouseGridPosition.x + range.Item1; x++)
+            {
+                for (int z = mouseGridPosition.z - range.Item2; z <= mouseGridPosition.z + range.Item2; z++)
                 {
                     Vector3 newMouseVisualSpawn =
                         LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z))
@@ -139,7 +163,7 @@ public class GridMouseVisual : MonoBehaviour
     private void UpdateMouseVisual()
     {
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-        SetAOEVisual(false, 0, GridSystemVisual.GridVisualType.White);
+        SetAOEVisual(false, (0, 0), GridSystemVisual.GridVisualType.White);
         if (!selectedAction)
         {
             mouseGridVisualScript.Hide();
@@ -151,29 +175,10 @@ public class GridMouseVisual : MonoBehaviour
         {
             SetAOEVisual(
                 true,
-                selectedAction.GetDamageRadius(),
+                selectedAction.GetDamageArea(),
                 GridSystemVisual.GridVisualType.White
             );
         }
-
-        // switch (selectedAction)
-        // {
-        //     default:
-        //     case MoveAction:
-        //         gridVisualType = GridSystemVisual.GridVisualType.White;
-        //         break;
-        //     case FireballAction:
-        //         gridVisualType = GridSystemVisual.GridVisualType.Yellow;
-        //         SetAOEVisual(true, 3, gridVisualType);
-        //         break;
-        //     case CleaveAction:
-        //         gridVisualType = GridSystemVisual.GridVisualType.Red;
-        //         SetAOEVisual(true, 3, gridVisualType);
-        //         break;
-        //     case InteractAction:
-        //         gridVisualType = GridSystemVisual.GridVisualType.Blue;
-        //         break;
-        // }
 
         mouseGridVisualScript.Show(
             GridSystemVisual.Instance.GetGridVisualTypeMaterial(

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Queen Merdenhart Stats
   m_EditorClassIdentifier: 
   strength: 16
-  dexterity: 18
+  dexterity: 24
   constitution: 18
   intelligence: 16
   wisdom: 14

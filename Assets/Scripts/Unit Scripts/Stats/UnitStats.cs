@@ -15,10 +15,6 @@ public class UnitStats : MonoBehaviour
 
     public StatBonus currentStatBonus;
 
-    // public int toHitBonus = 0;
-    // public int damageBonus = 0;
-    // private int acBonus = 0;
-
     [Min(1)]
     [SerializeField]
     private int unitLevel = 1;
@@ -93,8 +89,8 @@ public class UnitStats : MonoBehaviour
     {
         return 10
             + Mathf.Min(GetModifier(baseStats.GetDexterity()), unitArmour.GetDexBonusLimit())
-            + unitArmour.GetArmourBonus();
-        //+ acBonus;
+            + unitArmour.GetArmourBonus()
+            + currentStatBonus.acBonus;
     }
 
     public int GetDamage()

@@ -807,6 +807,7 @@ MonoBehaviour:
     toHitBonus: 0
     damageBonus: 0
     rangeBonus: 0
+    acBonus: 0
   unitLevel: 1
   attackingStat: 0
 --- !u!65 &2900312903705531943
@@ -1057,7 +1058,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &5272631744609169333
 MonoBehaviour:
   m_ObjectHideFlags: 0
