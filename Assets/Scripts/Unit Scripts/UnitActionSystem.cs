@@ -106,6 +106,8 @@ public class UnitActionSystem : MonoBehaviour
     {
         StartAction();
 
+        selectedUnit.UseHeldActions(actionToHandle.GetRequiredHeldActions());
+
         if (currentState == ActionState.selectingAction)
         {
             currentState = ActionState.noSelectedUnit;

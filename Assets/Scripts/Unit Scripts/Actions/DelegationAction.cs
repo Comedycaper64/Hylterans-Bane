@@ -99,7 +99,7 @@ public class DelegationAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         //Makes unit go next
-        unit.UseHeldActions(GetRequiredHeldActions());
+        //unit.UseHeldActions(GetRequiredHeldActions());
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
         TurnSystem.Instance.AddInitiativeToOrder(new Initiative(targetUnit, 0));
         ActionStart(onActionComplete);

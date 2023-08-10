@@ -194,7 +194,7 @@ public class DeadeyeAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        unit.UseHeldActions(GetRequiredHeldActions());
+        //unit.UseHeldActions(GetRequiredHeldActions());
 
         attackSucceeded = false;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);

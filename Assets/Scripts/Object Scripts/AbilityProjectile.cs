@@ -3,25 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireballProjectile : MonoBehaviour
+public class AbilityProjectile : MonoBehaviour
 {
     public static event EventHandler OnAnyFireballExploded;
 
     [SerializeField]
-    private Transform fireballExplodeVFXPrefab;
+    private Transform explodeVFXPrefab;
 
     [SerializeField]
-    private Transform fireballVisual;
+    private Transform projectileVisualVisual;
 
     [SerializeField]
     private AnimationCurve arcYAnimationCurve;
 
-    [SerializeField]
-    private AudioClip fireballExplosionSFX;
+    // [SerializeField]
+    // private AudioClip explosionSFX;
 
     private float damageAmount = 0f;
 
     private float damageRadius = 0f;
+
+    private bool isSpell;
 
     private UnitStats attackingUnit;
 
@@ -64,22 +66,22 @@ public class FireballProjectile : MonoBehaviour
                 }
             }
 
-            AudioSource.PlayClipAtPoint(
-                fireballExplosionSFX,
-                Camera.main.transform.position,
-                SoundManager.Instance.GetSoundEffectVolume()
-            );
+            // AudioSource.PlayClipAtPoint(
+            //     explosionSFX,
+            //     Camera.main.transform.position,
+            //     SoundManager.Instance.GetSoundEffectVolume()
+            // );
 
             OnAnyFireballExploded?.Invoke(this, EventArgs.Empty);
 
-            if (fireballExplodeVFXPrefab)
+            if (explodeVFXPrefab)
                 Instantiate(
-                    fireballExplodeVFXPrefab,
+                    explodeVFXPrefab,
                     targetPosition + Vector3.up * 1f,
                     Quaternion.identity
                 );
 
-            Destroy(fireballVisual.gameObject);
+            Destroy(projectileVisualVisual.gameObject);
             destinationReached = true;
             StartCoroutine(DealDamageToEachTarget(hitUnits));
         }
@@ -91,11 +93,23 @@ public class FireballProjectile : MonoBehaviour
         foreach (Unit targetUnit in targetUnits)
         {
             AttackInteraction targetUnitAttackInteraction;
-            bool unitHit = CombatSystem.Instance.TrySpell(
-                attackingUnit,
-                targetUnit.GetUnitStats(),
-                out targetUnitAttackInteraction
-            );
+            bool unitHit;
+            if (isSpell)
+            {
+                unitHit = CombatSystem.Instance.TrySpell(
+                    attackingUnit,
+                    targetUnit.GetUnitStats(),
+                    out targetUnitAttackInteraction
+                );
+            }
+            else
+            {
+                unitHit = CombatSystem.Instance.TryAttack(
+                    attackingUnit,
+                    targetUnit.GetUnitStats(),
+                    out targetUnitAttackInteraction
+                );
+            }
             targetUnit.PerformAOEAttack(targetUnitAttackInteraction);
             if (unitHit)
             {
@@ -117,6 +131,7 @@ public class FireballProjectile : MonoBehaviour
         GridPosition targetGridPosition,
         float damageAmount,
         float damageRadius,
+        bool isSpell,
         UnitStats attackingUnit,
         Action onGrenadeBehaviourComplete
     )
@@ -125,6 +140,7 @@ public class FireballProjectile : MonoBehaviour
         targetPosition = LevelGrid.Instance.GetWorldPosition(targetGridPosition);
         this.damageAmount = damageAmount;
         this.damageRadius = damageRadius;
+        this.isSpell = isSpell;
         this.attackingUnit = attackingUnit;
         positionXZ = transform.position;
         positionXZ.y = 0;

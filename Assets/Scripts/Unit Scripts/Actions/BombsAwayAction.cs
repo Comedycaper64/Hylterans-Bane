@@ -3,22 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireballAction : BaseAction
+public class BombsAwayAction : BaseAction
 {
-    private string actionDescription =
-        "An area of effect spell that deals fire damage to any unit caught in it.";
+    private string actionDescription = "An explosive shell launched at high velocity";
 
     [SerializeField]
-    private Transform fireballProjectilePrefab;
+    private Transform bombProjectilePrefab;
+
+    // [SerializeField]
+    // private AudioClip fireballChargeSFX;
+
+    private int minThrowDistance = 4;
+    private int maxThrowDistance = 8;
 
     [SerializeField]
-    private AudioClip fireballChargeSFX;
-
-    [SerializeField]
-    private int maxThrowDistance = 4;
-
-    [SerializeField]
-    private StatBonus actionStatBonus = new StatBonus(0, -2, 0);
+    private StatBonus actionStatBonus = new StatBonus(0, 2, 0);
 
     // [SerializeField]
     // private float damageRadius = 3f;
@@ -51,7 +50,7 @@ public class FireballAction : BaseAction
             //Fires the shot
             case State.Throwing:
                 Transform fireballProjectileTransform = Instantiate(
-                    fireballProjectilePrefab,
+                    bombProjectilePrefab,
                     unit.GetWorldPosition(),
                     Quaternion.identity
                 );
@@ -62,7 +61,7 @@ public class FireballAction : BaseAction
                     targetGridPosition,
                     damageAmount,
                     GetDamageArea().Item1,
-                    true,
+                    false,
                     unit.GetUnitStats(),
                     OnFireballBehaviourComplete
                 );
@@ -100,7 +99,7 @@ public class FireballAction : BaseAction
 
     public override string GetActionName()
     {
-        return "Fireball";
+        return "Bombs Away!";
     }
 
     public override string GetActionDescription()
@@ -113,10 +112,15 @@ public class FireballAction : BaseAction
         return (3, 3);
     }
 
-    public override bool IsSpell()
+    public override int GetRequiredHeldActions()
     {
-        return true;
+        return 3;
     }
+
+    // public override bool IsSpell()
+    // {
+    //     return true;
+    // }
 
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
     {
@@ -148,7 +152,7 @@ public class FireballAction : BaseAction
                 }
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > maxThrowDistance)
+                if ((testDistance > maxThrowDistance) || (testDistance < minThrowDistance))
                 {
                     continue;
                 }
@@ -162,11 +166,11 @@ public class FireballAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        AudioSource.PlayClipAtPoint(
-            fireballChargeSFX,
-            Camera.main.transform.position,
-            SoundManager.Instance.GetSoundEffectVolume()
-        );
+        // AudioSource.PlayClipAtPoint(
+        //     fireballChargeSFX,
+        //     Camera.main.transform.position,
+        //     SoundManager.Instance.GetSoundEffectVolume()
+        // );
         targetGridPosition = gridPosition;
         state = State.Charging;
         float aimingStateTime = 1f;

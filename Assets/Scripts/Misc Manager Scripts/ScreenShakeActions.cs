@@ -10,13 +10,13 @@ public class ScreenShakeActions : MonoBehaviour
     private void Start()
     {
         BaseAction.OnAnyAttackHit += BaseAction_OnAnyAttackHit;
-        FireballProjectile.OnAnyFireballExploded += FireballProjectile_OnAnyFireballExploded;
+        AbilityProjectile.OnAnyFireballExploded += FireballProjectile_OnAnyFireballExploded;
     }
 
     private void OnDisable()
     {
         BaseAction.OnAnyAttackHit -= BaseAction_OnAnyAttackHit;
-        FireballProjectile.OnAnyFireballExploded -= FireballProjectile_OnAnyFireballExploded;
+        AbilityProjectile.OnAnyFireballExploded -= FireballProjectile_OnAnyFireballExploded;
     }
 
     private void BaseAction_OnAnyAttackHit(object sender, float damageAmount)

@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba7f33e9ecdb2448902242a7ce730f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireballExplodeVFXPrefab: {fileID: 0}
-  fireballVisual: {fileID: 1051219097547968533}
+  explodeVFXPrefab: {fileID: 0}
+  projectileVisualVisual: {fileID: 1051219097547968533}
   arcYAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -163,5 +163,3 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fireballExplosionSFX: {fileID: 8300000, guid: 25f1eac4b2da5f64094c9b5f3352f4f1,
-    type: 3}
