@@ -72,7 +72,7 @@ public class UnitAnimator : MonoBehaviour
     }
 
     //Sets the bool based on which event has fired
-    private void MoveAction_OnStartMoving(object sender, EventArgs e)
+    private void MoveAction_OnStartMoving(object sender, int e)
     {
         animator.SetBool("IsWalking", true);
     }

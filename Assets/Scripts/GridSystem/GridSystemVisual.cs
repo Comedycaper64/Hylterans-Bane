@@ -229,18 +229,18 @@ public class GridSystemVisual : MonoBehaviour
                 ShowGridPositionRangeSquare(
                     selectedUnit.GetGridPosition(),
                     selectedAction.GetActionRange(),
-                    GridVisualType.Blue
+                    GridVisualType.SoftBlue
                 );
             }
         }
         else if (selectedAction.GetIsAOE())
         {
-            gridVisualType = GridVisualType.Yellow;
-            ShowGridPositionRange(
-                selectedUnit.GetGridPosition(),
-                selectedAction.GetActionRange(),
-                GridVisualType.Yellow
-            );
+            gridVisualType = GridVisualType.Red;
+            // ShowGridPositionRange(
+            //     selectedUnit.GetGridPosition(),
+            //     selectedAction.GetActionRange(),
+            //     GridVisualType.Yellow
+            // );
         }
         else
         {

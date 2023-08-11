@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrossStrikeAction : BaseAction
+public class ArtilleryFireAction : BaseAction
 {
-    private readonly string actionDescription =
-        "Utilising both blades, swipe across enemies near you.";
+    private readonly string actionDescription = "A powerful cannon blast forwards.";
 
     [SerializeField]
     private readonly StatBonus actionStatBonus = new(0, 2, 0);
@@ -20,7 +19,7 @@ public class CrossStrikeAction : BaseAction
         SwingingSwordAfterHit,
     }
 
-    private int maxStrikeDistance = 1;
+    private int fireDistance = 5;
     private State state;
     private float stateTimer;
     private List<Unit> targetUnits = new List<Unit>();
@@ -58,7 +57,7 @@ public class CrossStrikeAction : BaseAction
 
     public override string GetActionName()
     {
-        return "Cross Strike";
+        return "Fire!";
     }
 
     public override string GetActionDescription()
@@ -68,7 +67,7 @@ public class CrossStrikeAction : BaseAction
 
     public override (int, int) GetDamageArea()
     {
-        return (3, 1);
+        return (3, 10);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -80,15 +79,20 @@ public class CrossStrikeAction : BaseAction
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        for (int x = -maxStrikeDistance; x <= maxStrikeDistance; x++)
+        for (int x = -fireDistance; x <= fireDistance; x++)
         {
-            for (int z = -maxStrikeDistance; z <= maxStrikeDistance; z++)
+            for (int z = -fireDistance; z <= fireDistance; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = gridPosition + offsetGridPosition;
-
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > maxStrikeDistance)
+
+                if (testDistance != 5)
+                {
+                    continue;
+                }
+
+                if (!((Mathf.Abs(x) == 5) ^ (Mathf.Abs(z) == 5)))
                 {
                     continue;
                 }
@@ -98,10 +102,10 @@ public class CrossStrikeAction : BaseAction
                     continue;
                 }
 
-                if (LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition) == unit)
-                {
-                    continue;
-                }
+                // if (LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition) == unit)
+                // {
+                //     continue;
+                // }
 
                 // List<Unit> tempUnitList = new List<Unit>();
                 // Collider[] colliderArray = Physics.OverlapSphere(
@@ -148,51 +152,36 @@ public class CrossStrikeAction : BaseAction
         //         }
         //     }
         // }
-        if (LevelGrid.Instance.TryGetUnitAtGridPosition(gridPosition, out Unit unit))
+
+        GridPosition distanceFromAttacker = gridPosition - unit.GetGridPosition();
+
+        var damageRange = GetDamageArea();
+        if (distanceFromAttacker.z == 0)
         {
-            targetUnits.Add(unit);
+            (damageRange.Item1, damageRange.Item2) = (damageRange.Item2, damageRange.Item1);
         }
-        GridPosition distanceFromAttacker = gridPosition - this.unit.GetGridPosition();
-        if (distanceFromAttacker.x == 0)
+
+        (damageRange.Item1, damageRange.Item2) = (
+            Mathf.RoundToInt(damageRange.Item1 - 1) / 2,
+            Mathf.RoundToInt(damageRange.Item2 - 1) / 2
+        );
+
+        for (int x = -damageRange.Item1; x <= damageRange.Item1; x++)
         {
-            if (
-                LevelGrid.Instance.TryGetUnitAtGridPosition(
-                    gridPosition + new GridPosition(1, 0),
-                    out Unit unit1
-                )
-            )
+            for (int z = -damageRange.Item2; z <= damageRange.Item2; z++)
             {
-                targetUnits.Add(unit1);
-            }
-            if (
-                LevelGrid.Instance.TryGetUnitAtGridPosition(
-                    gridPosition + new GridPosition(-1, 0),
-                    out Unit unit2
+                GridPosition offsetGridPosition = new GridPosition(x, z);
+                GridPosition testGridPosition = gridPosition + offsetGridPosition;
+
+                if (
+                    LevelGrid.Instance.TryGetUnitAtGridPosition(
+                        testGridPosition,
+                        out Unit targetUnit
+                    )
                 )
-            )
-            {
-                targetUnits.Add(unit2);
-            }
-        }
-        else
-        {
-            if (
-                LevelGrid.Instance.TryGetUnitAtGridPosition(
-                    gridPosition + new GridPosition(0, 1),
-                    out Unit unit1
-                )
-            )
-            {
-                targetUnits.Add(unit1);
-            }
-            if (
-                LevelGrid.Instance.TryGetUnitAtGridPosition(
-                    gridPosition + new GridPosition(0, -1),
-                    out Unit unit2
-                )
-            )
-            {
-                targetUnits.Add(unit2);
+                {
+                    targetUnits.Add(targetUnit);
+                }
             }
         }
 
@@ -264,6 +253,11 @@ public class CrossStrikeAction : BaseAction
         return true;
     }
 
+    public override int GetRequiredHeldActions()
+    {
+        return 3;
+    }
+
     public override StatBonus GetStatBonus()
     {
         return actionStatBonus;
@@ -271,7 +265,7 @@ public class CrossStrikeAction : BaseAction
 
     public override int GetActionRange()
     {
-        return maxStrikeDistance;
+        return fireDistance;
     }
 
     public override int GetTargetCountAtPosition(GridPosition gridPosition)

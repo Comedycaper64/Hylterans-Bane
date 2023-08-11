@@ -112,6 +112,7 @@ public class UnitActionSystem : MonoBehaviour
         {
             currentState = ActionState.noSelectedUnit;
             selectedUnit.SetActionCompleted(true);
+            SetSelectedAction(selectedUnit.GetAction<WaitAction>());
             SetSelectedUnit(null);
             unitTurnFinished = true;
         }

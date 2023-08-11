@@ -7,7 +7,7 @@ public class MoveAction : BaseAction
 {
     //[SerializeField]
     private string actionDescription;
-    public event EventHandler OnStartMoving;
+    public event EventHandler<int> OnStartMoving;
     public event EventHandler OnStopMoving;
     public static event EventHandler<GridPosition> OnAnyUnitMoved;
 
@@ -68,7 +68,7 @@ public class MoveAction : BaseAction
             positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
         }
 
-        OnStartMoving?.Invoke(this, EventArgs.Empty);
+        OnStartMoving?.Invoke(this, positionList.Count);
 
         GridPosition oldUnitGridPosition = unit.GetGridPosition();
         unit.SetGridPosition(gridPosition);

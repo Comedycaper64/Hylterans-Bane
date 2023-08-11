@@ -104,7 +104,11 @@ public class GridMouseVisual : MonoBehaviour
         }
     }
 
-    private void SetAOEVisual(bool enable, (int, int) range, GridSystemVisual.GridVisualType visualType)
+    private void SetAOEVisual(
+        bool enable,
+        (int, int) range,
+        GridSystemVisual.GridVisualType visualType
+    )
     {
         aoeEnabled = enable;
         if (enable)
@@ -112,24 +116,37 @@ public class GridMouseVisual : MonoBehaviour
             currentRange = range;
             currentVisualType = visualType;
 
-            range = ((range.Item1 - 1) / 2, (range.Item2 - 1) / 2);
+            range = (
+                Mathf.RoundToInt((range.Item1 - 1) / 2),
+                Mathf.RoundToInt((range.Item2 - 1) / 2)
+            );
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(
                 mouseGridVisual.position
             );
 
             if (range.Item1 != range.Item2)
             {
-                GridPosition mouseOffset = mouseGridPosition - UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition();
+                GridPosition mouseOffset =
+                    mouseGridPosition
+                    - UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition();
                 //Debug.Log(mouseOffset);
-                if (Mathf.Abs(mouseOffset.x) < Mathf.Abs(mouseOffset.z))
+                if (Mathf.Abs(mouseOffset.x) > Mathf.Abs(mouseOffset.z))
                 {
                     (range.Item2, range.Item1) = (range.Item1, range.Item2);
                 }
             }
 
-            for (int x = mouseGridPosition.x - range.Item1; x <= mouseGridPosition.x + range.Item1; x++)
+            for (
+                int x = mouseGridPosition.x - range.Item1;
+                x <= mouseGridPosition.x + range.Item1;
+                x++
+            )
             {
-                for (int z = mouseGridPosition.z - range.Item2; z <= mouseGridPosition.z + range.Item2; z++)
+                for (
+                    int z = mouseGridPosition.z - range.Item2;
+                    z <= mouseGridPosition.z + range.Item2;
+                    z++
+                )
                 {
                     Vector3 newMouseVisualSpawn =
                         LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z))

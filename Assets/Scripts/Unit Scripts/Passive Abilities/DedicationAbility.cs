@@ -22,6 +22,7 @@ public class DedicationAbility : PassiveAbility
         MoveAction.OnAnyUnitMoved -= MoveAction_OnAnyUnitMoved;
     }
 
+    //To circumvent script execution issues
     private IEnumerator InitialBuff()
     {
         yield return null;
