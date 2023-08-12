@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ForestTerrain : MonoBehaviour, ITerrainEffect
 {
-    private readonly StatBonus forestStatBonus = new(0, 0, 0, -2);
+    private readonly StatBonus forestStatBonus = new(0, 0, 0, 2);
 
     private void Start()
     {

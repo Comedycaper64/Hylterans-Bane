@@ -9,6 +9,8 @@ public class Pathfinding : MonoBehaviour
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
 
+    //private const int MOVE_DIFFICULT_TERRAIN_MODIFIER = 2;
+
     //[SerializeField] private Transform gridDebugObjectPrefab;
     [SerializeField]
     private LayerMask obstaclesLayerMask;
@@ -54,6 +56,9 @@ public class Pathfinding : MonoBehaviour
                     continue;
                 }
                 Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                ITerrainEffect terrainEffect = LevelGrid.Instance.GetTerrainEffectAtGridPosition(
+                    gridPosition
+                );
                 float raycastOffsetDistance = 5f;
                 if (
                     Physics.Raycast(
@@ -65,6 +70,10 @@ public class Pathfinding : MonoBehaviour
                 )
                 {
                     GetNode(x, z).SetIsWalkable(false);
+                }
+                else if ((terrainEffect != null) && terrainEffect.GetIsDifficultTerrain())
+                {
+                    GetNode(x, z).SetIsDifficultTerrain(true);
                 }
             }
         }

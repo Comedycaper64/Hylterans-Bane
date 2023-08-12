@@ -15,8 +15,8 @@ public class GridMouseVisual : MonoBehaviour
     private List<Transform> mouseGridVisualAOE = new List<Transform>();
     private Transform mouseGridArrowVisual;
     private GridSystemVisualSingle mouseGridVisualScript;
-    private float mouseGridVisualYOffset = 0.1f;
-    private float mouseGridArrowVisualYOffset = 2f;
+    private readonly float mouseGridVisualYOffset = 0.1f;
+    private readonly float mouseGridArrowVisualYOffset = 2f;
     private bool aoeEnabled;
     private (int, int) currentRange;
     private GridSystemVisual.GridVisualType currentVisualType;
@@ -57,10 +57,12 @@ public class GridMouseVisual : MonoBehaviour
         GridPosition mouseGridPosition;
         if (MouseWorld.GetPosition() != Vector3.negativeInfinity)
         {
-            //ToggleMouseVisibility(true);
             mouseGridArrowVisual.gameObject.SetActive(true);
             mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-            if (mouseGridPosition != currentMousePosition)
+            if (
+                (mouseGridPosition != currentMousePosition)
+                && LevelGrid.Instance.IsValidGridPosition(mouseGridPosition)
+            )
             {
                 currentMousePosition = mouseGridPosition;
                 float cellSize = LevelGrid.Instance.GetCellSize();

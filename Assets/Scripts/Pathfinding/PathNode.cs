@@ -10,6 +10,7 @@ public class PathNode
     private int fCost;
     private PathNode cameFromPathNode;
     private bool isWalkable = true;
+    private bool isDifficultTerrain = false;
 
     public PathNode(GridPosition gridPosition)
     {
@@ -79,5 +80,15 @@ public class PathNode
     public void SetIsWalkable(bool isWalkable)
     {
         this.isWalkable = isWalkable;
+    }
+
+    public bool IsDifficultTerrain()
+    {
+        return isDifficultTerrain;
+    }
+
+    public void SetIsDifficultTerrain(bool isDifficultTerrain)
+    {
+        this.isDifficultTerrain = isDifficultTerrain;
     }
 }

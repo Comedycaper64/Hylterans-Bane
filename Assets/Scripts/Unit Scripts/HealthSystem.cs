@@ -12,9 +12,15 @@ public class HealthSystem : MonoBehaviour
     [SerializeField]
     private int health = 100;
     private int healthMax;
+    private bool invincible;
 
     public void Damage(int damageAmount)
     {
+        if (invincible)
+        {
+            damageAmount = 0;
+        }
+
         health -= damageAmount;
 
         if (health < 0)
@@ -41,6 +47,11 @@ public class HealthSystem : MonoBehaviour
         OnDead?.Invoke(this, EventArgs.Empty);
     }
 
+    public float GetMaxHealth()
+    {
+        return (float)healthMax;
+    }
+
     public float GetHealth()
     {
         return (float)health;
@@ -54,5 +65,10 @@ public class HealthSystem : MonoBehaviour
     public float GetHealthNormalized()
     {
         return (float)health / healthMax;
+    }
+
+    public void SetInvincible(bool enable)
+    {
+        invincible = enable;
     }
 }

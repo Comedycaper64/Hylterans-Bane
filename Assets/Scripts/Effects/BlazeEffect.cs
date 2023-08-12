@@ -23,7 +23,7 @@ public class BlazeEffect : MonoBehaviour
 
     private void DealDamage()
     {
-        unitHealthSystem.Damage(1);
+        unitHealthSystem.Damage(Mathf.RoundToInt(unitHealthSystem.GetMaxHealth() / 10));
         effectDuration--;
         if (effectDuration <= 0)
         {

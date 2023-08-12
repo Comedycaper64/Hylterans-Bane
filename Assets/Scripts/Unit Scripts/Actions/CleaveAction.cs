@@ -134,7 +134,6 @@ public class CleaveAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         targetUnits = new List<Unit>();
-        //float damageRadius = 3f;
         Collider[] colliderArray = Physics.OverlapSphere(
             LevelGrid.Instance.GetWorldPosition(gridPosition),
             GetDamageArea().Item1

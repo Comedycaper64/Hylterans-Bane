@@ -18,10 +18,6 @@ public abstract class BaseAction : MonoBehaviour
         unit = GetComponent<Unit>();
     }
 
-    public abstract string GetActionName();
-
-    public abstract string GetActionDescription();
-
     public virtual bool GetIsAOE()
     {
         return false;
@@ -34,7 +30,7 @@ public abstract class BaseAction : MonoBehaviour
 
     public virtual (int, int) GetDamageArea()
     {
-        return (1 , 1);
+        return (1, 1);
     }
 
     public virtual bool ActionDealsDamage()
@@ -62,6 +58,15 @@ public abstract class BaseAction : MonoBehaviour
         return 0;
     }
 
+    public virtual int GetTargetCountAtPosition(GridPosition gridPosition)
+    {
+        return 0;
+    }
+
+    public abstract string GetActionName();
+
+    public abstract string GetActionDescription();
+
     public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
 
     public virtual bool IsValidActionGridPosition(GridPosition gridPosition)
@@ -73,11 +78,6 @@ public abstract class BaseAction : MonoBehaviour
     public abstract List<GridPosition> GetValidActionGridPositionList();
 
     public abstract List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition);
-
-    public virtual int GetActionPointsCost()
-    {
-        return 1;
-    }
 
     protected void ActionStart(Action onActionComplete)
     {
@@ -144,9 +144,4 @@ public abstract class BaseAction : MonoBehaviour
     }
 
     public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
-
-    public virtual int GetTargetCountAtPosition(GridPosition gridPosition)
-    {
-        return 0;
-    }
 }

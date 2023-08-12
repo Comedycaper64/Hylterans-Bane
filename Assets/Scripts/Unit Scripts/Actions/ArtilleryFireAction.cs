@@ -102,32 +102,6 @@ public class ArtilleryFireAction : BaseAction
                     continue;
                 }
 
-                // if (LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition) == unit)
-                // {
-                //     continue;
-                // }
-
-                // List<Unit> tempUnitList = new List<Unit>();
-                // Collider[] colliderArray = Physics.OverlapSphere(
-                //     LevelGrid.Instance.GetWorldPosition(testGridPosition),
-                //     GetDamageArea()
-                // );
-                // foreach (Collider collider in colliderArray)
-                // {
-                //     if (collider.TryGetComponent<Unit>(out Unit tempUnit))
-                //     {
-                //         if (tempUnit != unit)
-                //         {
-                //             tempUnitList.Add(tempUnit);
-                //         }
-                //     }
-                // }
-
-                // if (tempUnitList.Count < 1)
-                // {
-                //     continue;
-                // }
-
                 validGridPositionList.Add(testGridPosition);
             }
         }
@@ -138,20 +112,6 @@ public class ArtilleryFireAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         targetUnits = new List<Unit>();
-        // Collider[] colliderArray = Physics.OverlapSphere(
-        //     LevelGrid.Instance.GetWorldPosition(gridPosition),
-        //     GetDamageArea()
-        // );
-        // foreach (Collider collider in colliderArray)
-        // {
-        //     if (collider.TryGetComponent<Unit>(out Unit targetUnit))
-        //     {
-        //         if (targetUnit != unit)
-        //         {
-        //             targetUnits.Add(targetUnit);
-        //         }
-        //     }
-        // }
 
         GridPosition distanceFromAttacker = gridPosition - unit.GetGridPosition();
 
