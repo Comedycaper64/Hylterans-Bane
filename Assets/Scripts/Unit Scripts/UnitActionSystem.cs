@@ -134,8 +134,8 @@ public class UnitActionSystem : MonoBehaviour
         currentState = ActionState.noSelectedUnit;
         if (!selectedUnit.GetMovementCompleted())
         {
-            BaseAction actionToHandle = selectedUnit.GetComponent<MoveAction>();
-            SetSelectedAction(actionToHandle);
+            BaseAction actionToHandle = selectedUnit.GetAction<MoveAction>();
+            SetSelectedAction(selectedUnit.GetAction<WaitAction>());
             StartAction();
             actionToHandle.TakeAction(unitStartPosition, FinishAction);
         }

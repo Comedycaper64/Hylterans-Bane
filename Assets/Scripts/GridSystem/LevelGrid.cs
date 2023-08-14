@@ -47,6 +47,12 @@ public class LevelGrid : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(SetupPathfinding());
+    }
+
+    private IEnumerator SetupPathfinding()
+    {
+        yield return null;
         Pathfinding.Instance.Setup(width, height, cellSize);
     }
 

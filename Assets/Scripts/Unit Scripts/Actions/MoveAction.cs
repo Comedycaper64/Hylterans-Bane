@@ -54,6 +54,8 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        //Debug.Log("Going from " + unit.GetGridPosition() + " to " + gridPosition);
+
         List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(
             unit.GetGridPosition(),
             gridPosition,
@@ -62,6 +64,8 @@ public class MoveAction : BaseAction
 
         currentPositionIndex = 0;
         positionList = new List<Vector3>();
+
+        //Debug.Log(pathGridPositionList);
 
         foreach (GridPosition pathGridPosition in pathGridPositionList)
         {

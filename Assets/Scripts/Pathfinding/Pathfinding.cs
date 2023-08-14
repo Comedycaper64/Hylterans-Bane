@@ -9,8 +9,6 @@ public class Pathfinding : MonoBehaviour
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
 
-    //private const int MOVE_DIFFICULT_TERRAIN_MODIFIER = 2;
-
     //[SerializeField] private Transform gridDebugObjectPrefab;
     [SerializeField]
     private LayerMask obstaclesLayerMask;
@@ -69,6 +67,7 @@ public class Pathfinding : MonoBehaviour
                     )
                 )
                 {
+                    Debug.Log("Unwalkable tile: " + new GridPosition(x, z));
                     GetNode(x, z).SetIsWalkable(false);
                 }
                 else if ((terrainEffect != null) && terrainEffect.GetIsDifficultTerrain())
@@ -85,6 +84,8 @@ public class Pathfinding : MonoBehaviour
         out int pathLength
     )
     {
+        //Creates Open list and Closed list. Open list contains nodes queued up for searching,
+        //and the the closed list contains the nodes that have been searched
         List<PathNode> openList = new List<PathNode>();
         List<PathNode> closedList = new List<PathNode>();
 
@@ -133,15 +134,29 @@ public class Pathfinding : MonoBehaviour
 
                 if (!neighbourNode.IsWalkable())
                 {
+                    // if (neighbourNode == endNode)
+                    // {
+                    //     Debug.Log("ayaya");
+                    // }
                     closedList.Add(neighbourNode);
                     continue;
                 }
 
+                int difficultTerrainMultiplier = 1;
+                if (neighbourNode.IsDifficultTerrain())
+                {
+                    //Debug.Log("Ayaya");
+                    difficultTerrainMultiplier = 2;
+                }
+
+                //Multiplies the distance by two if the neighbour node is difficult terrain
                 int tentativeGCost =
                     currentNode.GetGCost()
-                    + CalculateDistance(
-                        currentNode.GetGridPosition(),
-                        neighbourNode.GetGridPosition()
+                    + (
+                        CalculateDistance(
+                            currentNode.GetGridPosition(),
+                            neighbourNode.GetGridPosition()
+                        ) * difficultTerrainMultiplier
                     );
 
                 if (tentativeGCost < neighbourNode.GetGCost())
@@ -162,6 +177,7 @@ public class Pathfinding : MonoBehaviour
         }
 
         // No path found
+        //Debug.Log("No path found");
         pathLength = 0;
         return null;
     }
@@ -196,6 +212,7 @@ public class Pathfinding : MonoBehaviour
 
     private List<PathNode> GetNeighbourList(PathNode currentNode)
     {
+        //Refactor to avoid the validity checking. Make a nested for loop that checks validity
         List<PathNode> neighbourList = new List<PathNode>();
 
         GridPosition gridPosition = currentNode.GetGridPosition();

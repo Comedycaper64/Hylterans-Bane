@@ -34,13 +34,19 @@ public class TurnSystem : MonoBehaviour
         EnemyAI.Instance.OnEnemyTurnFinished += EnemyAI_OnEnemyTurnFinished;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
 
-        GetNewInitiativeRound();
+        StartCoroutine(BeginCombat());
     }
 
     private void OnDisable()
     {
         EnemyAI.Instance.OnEnemyTurnFinished -= EnemyAI_OnEnemyTurnFinished;
         Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+    }
+
+    private IEnumerator BeginCombat()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GetNewInitiativeRound();
     }
 
     public void NextInitiative()
