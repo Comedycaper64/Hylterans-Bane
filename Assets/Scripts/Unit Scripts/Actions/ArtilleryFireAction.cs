@@ -24,6 +24,46 @@ public class ArtilleryFireAction : BaseAction
     private float stateTimer;
     private List<Unit> targetUnits = new List<Unit>();
 
+    public override string GetActionName()
+    {
+        return "Fire!";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
+    }
+
+    public override (int, int) GetDamageArea()
+    {
+        return (3, 10);
+    }
+
+    public override bool GetIsAOE()
+    {
+        return true;
+    }
+
+    public override bool ActionDealsDamage()
+    {
+        return true;
+    }
+
+    public override int GetRequiredHeldActions()
+    {
+        return 3;
+    }
+
+    public override StatBonus GetStatBonus()
+    {
+        return actionStatBonus;
+    }
+
+    public override int GetActionRange()
+    {
+        return fireDistance;
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -53,21 +93,6 @@ public class ArtilleryFireAction : BaseAction
 
                 break;
         }
-    }
-
-    public override string GetActionName()
-    {
-        return "Fire!";
-    }
-
-    public override string GetActionDescription()
-    {
-        return actionDescription;
-    }
-
-    public override (int, int) GetDamageArea()
-    {
-        return (3, 10);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -201,31 +226,6 @@ public class ArtilleryFireAction : BaseAction
             }
         }
         return new EnemyAIAction { gridPosition = gridPosition, actionValue = targetsInAOE * 150, };
-    }
-
-    public override bool GetIsAOE()
-    {
-        return true;
-    }
-
-    public override bool ActionDealsDamage()
-    {
-        return true;
-    }
-
-    public override int GetRequiredHeldActions()
-    {
-        return 3;
-    }
-
-    public override StatBonus GetStatBonus()
-    {
-        return actionStatBonus;
-    }
-
-    public override int GetActionRange()
-    {
-        return fireDistance;
     }
 
     public override int GetTargetCountAtPosition(GridPosition gridPosition)

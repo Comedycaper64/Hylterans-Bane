@@ -54,11 +54,6 @@ public class MagicalAegisAction : BaseAction
         return true;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
-    {
-        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0 };
-    }
-
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
     {
         return GetValidActionGridPositionList();
@@ -149,5 +144,10 @@ public class MagicalAegisAction : BaseAction
         }
 
         ActionStart(onActionComplete);
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0 };
     }
 }

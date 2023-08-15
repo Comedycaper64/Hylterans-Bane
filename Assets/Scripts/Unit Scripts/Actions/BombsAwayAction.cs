@@ -33,6 +33,46 @@ public class BombsAwayAction : BaseAction
         Cooloff,
     }
 
+    public override string GetActionName()
+    {
+        return "Bombs Away!";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
+    }
+
+    public override (int, int) GetDamageArea()
+    {
+        return (3, 3);
+    }
+
+    public override int GetRequiredHeldActions()
+    {
+        return 3;
+    }
+
+    public override int GetActionRange()
+    {
+        return maxThrowDistance;
+    }
+
+    public override bool GetIsAOE()
+    {
+        return true;
+    }
+
+    public override bool ActionDealsDamage()
+    {
+        return true;
+    }
+
+    public override StatBonus GetStatBonus()
+    {
+        return actionStatBonus;
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -62,6 +102,7 @@ public class BombsAwayAction : BaseAction
                     damageAmount,
                     GetDamageArea().Item1,
                     false,
+                    SpellSave(),
                     unit.GetUnitStats(),
                     OnFireballBehaviourComplete
                 );
@@ -96,31 +137,6 @@ public class BombsAwayAction : BaseAction
                 break;
         }
     }
-
-    public override string GetActionName()
-    {
-        return "Bombs Away!";
-    }
-
-    public override string GetActionDescription()
-    {
-        return actionDescription;
-    }
-
-    public override (int, int) GetDamageArea()
-    {
-        return (3, 3);
-    }
-
-    public override int GetRequiredHeldActions()
-    {
-        return 3;
-    }
-
-    // public override bool IsSpell()
-    // {
-    //     return true;
-    // }
 
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
     {
@@ -200,26 +216,6 @@ public class BombsAwayAction : BaseAction
             }
         }
         return new EnemyAIAction { gridPosition = gridPosition, actionValue = targetsInAOE * 100, };
-    }
-
-    public override int GetActionRange()
-    {
-        return maxThrowDistance;
-    }
-
-    public override bool GetIsAOE()
-    {
-        return true;
-    }
-
-    public override bool ActionDealsDamage()
-    {
-        return true;
-    }
-
-    public override StatBonus GetStatBonus()
-    {
-        return actionStatBonus;
     }
 
     private void OnFireballBehaviourComplete()

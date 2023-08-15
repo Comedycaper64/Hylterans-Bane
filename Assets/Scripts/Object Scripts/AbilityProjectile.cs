@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AbilityProjectile : MonoBehaviour
 {
-    public static event EventHandler OnAnyFireballExploded;
+    public static event EventHandler OnAnyProjectileExploded;
 
     [SerializeField]
     private Transform explodeVFXPrefab;
@@ -24,6 +24,7 @@ public class AbilityProjectile : MonoBehaviour
     private float damageRadius = 0f;
 
     private bool isSpell;
+    private StatType spellSave;
 
     private UnitStats attackingUnit;
 
@@ -72,7 +73,7 @@ public class AbilityProjectile : MonoBehaviour
             //     SoundManager.Instance.GetSoundEffectVolume()
             // );
 
-            OnAnyFireballExploded?.Invoke(this, EventArgs.Empty);
+            OnAnyProjectileExploded?.Invoke(this, EventArgs.Empty);
 
             if (explodeVFXPrefab)
                 Instantiate(
@@ -99,6 +100,7 @@ public class AbilityProjectile : MonoBehaviour
                 unitHit = CombatSystem.Instance.TrySpell(
                     attackingUnit,
                     targetUnit.GetUnitStats(),
+                    spellSave,
                     out targetUnitAttackInteraction
                 );
             }
@@ -121,7 +123,7 @@ public class AbilityProjectile : MonoBehaviour
         {
             int damageAmount = attackingUnit.GetDamage();
             hitUnit.gameObject.GetComponent<Unit>().Damage(damageAmount);
-            OnAnyFireballExploded?.Invoke(this, EventArgs.Empty);
+            OnAnyProjectileExploded?.Invoke(this, EventArgs.Empty);
         }
         yield return new WaitForSeconds(1f);
         onGrenadeBehaviourComplete();
@@ -132,6 +134,7 @@ public class AbilityProjectile : MonoBehaviour
         float damageAmount,
         float damageRadius,
         bool isSpell,
+        StatType spellSave,
         UnitStats attackingUnit,
         Action onGrenadeBehaviourComplete
     )
@@ -141,6 +144,7 @@ public class AbilityProjectile : MonoBehaviour
         this.damageAmount = damageAmount;
         this.damageRadius = damageRadius;
         this.isSpell = isSpell;
+        this.spellSave = spellSave;
         this.attackingUnit = attackingUnit;
         positionXZ = transform.position;
         positionXZ.y = 0;

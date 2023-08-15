@@ -30,6 +30,31 @@ public class FireboltAction : BaseAction
     [SerializeField]
     private LayerMask obstaclesLayerMask;
 
+    public override string GetActionName()
+    {
+        return "Attack";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
+    }
+
+    public override bool ActionDealsDamage()
+    {
+        return true;
+    }
+
+    public override int GetUIPriority()
+    {
+        return 5;
+    }
+
+    public override int GetActionRange()
+    {
+        return maxShootDistance;
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -103,17 +128,6 @@ public class FireboltAction : BaseAction
             targetUnit.gameObject.AddComponent<BlazeEffect>();
             AttackHit(damageAmount);
         }
-    }
-
-    //For ActionButtonUI
-    public override string GetActionName()
-    {
-        return "Attack";
-    }
-
-    public override string GetActionDescription()
-    {
-        return actionDescription;
     }
 
     //See MoveAction
@@ -200,21 +214,6 @@ public class FireboltAction : BaseAction
 
         canShoot = true;
         ActionStart(onActionComplete);
-    }
-
-    public override bool ActionDealsDamage()
-    {
-        return true;
-    }
-
-    public override int GetUIPriority()
-    {
-        return 5;
-    }
-
-    public override int GetActionRange()
-    {
-        return maxShootDistance;
     }
 
     //Action value to shoot a player Unit is high, very likely to do it if possible

@@ -9,21 +9,6 @@ public class WaitAction : BaseAction
     private string actionDescription = "Ends the unit's turn. Gain 1 Held Action";
     float waitTimer = 1f;
 
-    private void Update()
-    {
-        if (!isActive)
-        {
-            return;
-        }
-
-        waitTimer -= Time.deltaTime;
-        if (waitTimer < 0f)
-        {
-            waitTimer = 1f;
-            ActionComplete();
-        }
-    }
-
     public override string GetActionName()
     {
         return "Wait";
@@ -37,6 +22,21 @@ public class WaitAction : BaseAction
     public override int GetUIPriority()
     {
         return -1;
+    }
+
+    private void Update()
+    {
+        if (!isActive)
+        {
+            return;
+        }
+
+        waitTimer -= Time.deltaTime;
+        if (waitTimer < 0f)
+        {
+            waitTimer = 1f;
+            ActionComplete();
+        }
     }
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)

@@ -24,6 +24,41 @@ public class CleaveAction : BaseAction
     private float stateTimer;
     private List<Unit> targetUnits = new List<Unit>();
 
+    public override string GetActionName()
+    {
+        return "Cleave";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
+    }
+
+    public override (int, int) GetDamageArea()
+    {
+        return (3, 3);
+    }
+
+    public override bool GetIsAOE()
+    {
+        return true;
+    }
+
+    public override bool ActionDealsDamage()
+    {
+        return true;
+    }
+
+    public override StatBonus GetStatBonus()
+    {
+        return actionStatBonus;
+    }
+
+    public override int GetActionRange()
+    {
+        return maxSlashDistance;
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -53,21 +88,6 @@ public class CleaveAction : BaseAction
 
                 break;
         }
-    }
-
-    public override string GetActionName()
-    {
-        return "Cleave";
-    }
-
-    public override string GetActionDescription()
-    {
-        return actionDescription;
-    }
-
-    public override (int, int) GetDamageArea()
-    {
-        return (3, 3);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -205,26 +225,6 @@ public class CleaveAction : BaseAction
             }
         }
         return new EnemyAIAction { gridPosition = gridPosition, actionValue = targetsInAOE * 150, };
-    }
-
-    public override bool GetIsAOE()
-    {
-        return true;
-    }
-
-    public override bool ActionDealsDamage()
-    {
-        return true;
-    }
-
-    public override StatBonus GetStatBonus()
-    {
-        return actionStatBonus;
-    }
-
-    public override int GetActionRange()
-    {
-        return maxSlashDistance;
     }
 
     public override int GetTargetCountAtPosition(GridPosition gridPosition)

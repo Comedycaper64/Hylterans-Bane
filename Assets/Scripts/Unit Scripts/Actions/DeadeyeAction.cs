@@ -31,6 +31,41 @@ public class DeadeyeAction : BaseAction
     [SerializeField]
     private LayerMask obstaclesLayerMask;
 
+    public override string GetActionName()
+    {
+        return "Deadeye Shot";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
+    }
+
+    public override int GetRequiredHeldActions()
+    {
+        return 1;
+    }
+
+    public override bool ActionDealsDamage()
+    {
+        return true;
+    }
+
+    public override StatBonus GetStatBonus()
+    {
+        return actionStatBonus;
+    }
+
+    public override int GetUIPriority()
+    {
+        return 5;
+    }
+
+    public override int GetActionRange()
+    {
+        return unit.GetUnitStats().GetAttackRange();
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -103,22 +138,6 @@ public class DeadeyeAction : BaseAction
             targetUnit.Damage(damageAmount);
             AttackHit(damageAmount);
         }
-    }
-
-    //For ActionButtonUI
-    public override string GetActionName()
-    {
-        return "Deadeye Shot";
-    }
-
-    public override string GetActionDescription()
-    {
-        return actionDescription;
-    }
-
-    public override int GetRequiredHeldActions()
-    {
-        return 1;
     }
 
     //See MoveAction
@@ -208,26 +227,6 @@ public class DeadeyeAction : BaseAction
 
         canShoot = true;
         ActionStart(onActionComplete);
-    }
-
-    public override bool ActionDealsDamage()
-    {
-        return true;
-    }
-
-    public override StatBonus GetStatBonus()
-    {
-        return actionStatBonus;
-    }
-
-    public override int GetUIPriority()
-    {
-        return 5;
-    }
-
-    public override int GetActionRange()
-    {
-        return unit.GetUnitStats().GetAttackRange();
     }
 
     //Action value to shoot a player Unit is high, very likely to do it if possible

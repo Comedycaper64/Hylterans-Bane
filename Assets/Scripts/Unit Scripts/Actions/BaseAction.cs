@@ -28,6 +28,11 @@ public abstract class BaseAction : MonoBehaviour
         return false;
     }
 
+    public virtual StatType SpellSave()
+    {
+        return new StatType();
+    }
+
     public virtual (int, int) GetDamageArea()
     {
         return (1, 1);

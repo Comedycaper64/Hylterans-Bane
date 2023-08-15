@@ -47,7 +47,9 @@ public class CombatSystem : MonoBehaviour
                         * (
                             (
                                 attackingUnit.GetUnitStats().GetSpellDC()
-                                - defendingUnit.GetUnitStats().GetSavingThrow(StatType.DEX)
+                                - defendingUnit
+                                    .GetUnitStats()
+                                    .GetSavingThrow(currentAction.SpellSave())
                             ) / 20f
                         )
                 )
@@ -119,11 +121,11 @@ public class CombatSystem : MonoBehaviour
         return ((attackingUnitAttackRoll + attackingUnitAttackBonus) >= defendingUnitAC);
     }
 
-    public bool TrySpell(UnitStats attackingUnit, UnitStats defendingUnit)
+    public bool TrySpell(UnitStats attackingUnit, UnitStats defendingUnit, StatType spellSave)
     {
         int attackingUnitSpellDC = attackingUnit.GetSpellDC();
         int defendingUnitSavingThrowRoll = defendingUnit.GetRoll();
-        int defendingUnitSavingThrowBonus = defendingUnit.GetSavingThrow(StatType.DEX);
+        int defendingUnitSavingThrowBonus = defendingUnit.GetSavingThrow(spellSave);
 
         OnSpellSave?.Invoke(
             this,
@@ -143,12 +145,13 @@ public class CombatSystem : MonoBehaviour
     public bool TrySpell(
         UnitStats attackingUnit,
         UnitStats defendingUnit,
+        StatType spellSave,
         out AttackInteraction attackInteraction
     )
     {
         int attackingUnitSpellDC = attackingUnit.GetSpellDC();
         int defendingUnitSavingThrowRoll = defendingUnit.GetRoll();
-        int defendingUnitSavingThrowBonus = defendingUnit.GetSavingThrow(StatType.DEX);
+        int defendingUnitSavingThrowBonus = defendingUnit.GetSavingThrow(spellSave);
         attackInteraction = new AttackInteraction(
             attackingUnitSpellDC,
             0,

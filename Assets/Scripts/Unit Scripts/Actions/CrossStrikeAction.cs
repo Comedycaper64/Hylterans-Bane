@@ -25,6 +25,41 @@ public class CrossStrikeAction : BaseAction
     private float stateTimer;
     private List<Unit> targetUnits = new List<Unit>();
 
+    public override string GetActionName()
+    {
+        return "Cross Strike";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
+    }
+
+    public override (int, int) GetDamageArea()
+    {
+        return (3, 1);
+    }
+
+    public override bool GetIsAOE()
+    {
+        return true;
+    }
+
+    public override bool ActionDealsDamage()
+    {
+        return true;
+    }
+
+    public override StatBonus GetStatBonus()
+    {
+        return actionStatBonus;
+    }
+
+    public override int GetActionRange()
+    {
+        return maxStrikeDistance;
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -54,21 +89,6 @@ public class CrossStrikeAction : BaseAction
 
                 break;
         }
-    }
-
-    public override string GetActionName()
-    {
-        return "Cross Strike";
-    }
-
-    public override string GetActionDescription()
-    {
-        return actionDescription;
-    }
-
-    public override (int, int) GetDamageArea()
-    {
-        return (3, 1);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -103,27 +123,6 @@ public class CrossStrikeAction : BaseAction
                     continue;
                 }
 
-                // List<Unit> tempUnitList = new List<Unit>();
-                // Collider[] colliderArray = Physics.OverlapSphere(
-                //     LevelGrid.Instance.GetWorldPosition(testGridPosition),
-                //     GetDamageArea()
-                // );
-                // foreach (Collider collider in colliderArray)
-                // {
-                //     if (collider.TryGetComponent<Unit>(out Unit tempUnit))
-                //     {
-                //         if (tempUnit != unit)
-                //         {
-                //             tempUnitList.Add(tempUnit);
-                //         }
-                //     }
-                // }
-
-                // if (tempUnitList.Count < 1)
-                // {
-                //     continue;
-                // }
-
                 validGridPositionList.Add(testGridPosition);
             }
         }
@@ -134,20 +133,7 @@ public class CrossStrikeAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         targetUnits = new List<Unit>();
-        // Collider[] colliderArray = Physics.OverlapSphere(
-        //     LevelGrid.Instance.GetWorldPosition(gridPosition),
-        //     GetDamageArea()
-        // );
-        // foreach (Collider collider in colliderArray)
-        // {
-        //     if (collider.TryGetComponent<Unit>(out Unit targetUnit))
-        //     {
-        //         if (targetUnit != unit)
-        //         {
-        //             targetUnits.Add(targetUnit);
-        //         }
-        //     }
-        // }
+
         if (LevelGrid.Instance.TryGetUnitAtGridPosition(gridPosition, out Unit unit))
         {
             targetUnits.Add(unit);
@@ -252,26 +238,6 @@ public class CrossStrikeAction : BaseAction
             }
         }
         return new EnemyAIAction { gridPosition = gridPosition, actionValue = targetsInAOE * 150, };
-    }
-
-    public override bool GetIsAOE()
-    {
-        return true;
-    }
-
-    public override bool ActionDealsDamage()
-    {
-        return true;
-    }
-
-    public override StatBonus GetStatBonus()
-    {
-        return actionStatBonus;
-    }
-
-    public override int GetActionRange()
-    {
-        return maxStrikeDistance;
     }
 
     public override int GetTargetCountAtPosition(GridPosition gridPosition)

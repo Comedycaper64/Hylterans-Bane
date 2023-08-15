@@ -27,11 +27,6 @@ public class InteractAction : BaseAction
         return actionDescription;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
-    {
-        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0 };
-    }
-
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
     {
         return GetValidActionGridPositionList();
@@ -84,5 +79,10 @@ public class InteractAction : BaseAction
     private void OnInteractComplete()
     {
         ActionComplete();
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0 };
     }
 }

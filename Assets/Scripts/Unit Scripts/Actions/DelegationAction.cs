@@ -37,9 +37,9 @@ public class DelegationAction : BaseAction
         return 1;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    public override int GetActionRange()
     {
-        return new EnemyAIAction { gridPosition = gridPosition, actionValue = -1, };
+        return 1;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -91,11 +91,6 @@ public class DelegationAction : BaseAction
         return validGridPositionList;
     }
 
-    public override int GetActionRange()
-    {
-        return 1;
-    }
-
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         //Makes unit go next
@@ -103,5 +98,10 @@ public class DelegationAction : BaseAction
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
         TurnSystem.Instance.AddInitiativeToOrder(new Initiative(targetUnit, 0));
         ActionStart(onActionComplete);
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        return new EnemyAIAction { gridPosition = gridPosition, actionValue = -1, };
     }
 }

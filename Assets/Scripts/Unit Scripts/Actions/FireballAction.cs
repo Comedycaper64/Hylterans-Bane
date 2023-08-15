@@ -20,9 +20,6 @@ public class FireballAction : BaseAction
     [SerializeField]
     private StatBonus actionStatBonus = new StatBonus(0, -2, 0);
 
-    // [SerializeField]
-    // private float damageRadius = 3f;
-
     private State state;
     private float stateTimer;
     private GridPosition targetGridPosition;
@@ -32,6 +29,51 @@ public class FireballAction : BaseAction
         Charging,
         Throwing,
         Cooloff,
+    }
+
+    public override string GetActionName()
+    {
+        return "Fireball";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
+    }
+
+    public override (int, int) GetDamageArea()
+    {
+        return (3, 3);
+    }
+
+    public override bool IsSpell()
+    {
+        return true;
+    }
+
+    public override StatType SpellSave()
+    {
+        return StatType.DEX;
+    }
+
+    public override int GetActionRange()
+    {
+        return maxThrowDistance;
+    }
+
+    public override bool GetIsAOE()
+    {
+        return true;
+    }
+
+    public override bool ActionDealsDamage()
+    {
+        return true;
+    }
+
+    public override StatBonus GetStatBonus()
+    {
+        return actionStatBonus;
     }
 
     private void Update()
@@ -63,6 +105,7 @@ public class FireballAction : BaseAction
                     damageAmount,
                     GetDamageArea().Item1,
                     true,
+                    SpellSave(),
                     unit.GetUnitStats(),
                     OnFireballBehaviourComplete
                 );
@@ -96,26 +139,6 @@ public class FireballAction : BaseAction
             case State.Cooloff:
                 break;
         }
-    }
-
-    public override string GetActionName()
-    {
-        return "Fireball";
-    }
-
-    public override string GetActionDescription()
-    {
-        return actionDescription;
-    }
-
-    public override (int, int) GetDamageArea()
-    {
-        return (3, 3);
-    }
-
-    public override bool IsSpell()
-    {
-        return true;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
@@ -196,26 +219,6 @@ public class FireballAction : BaseAction
             }
         }
         return new EnemyAIAction { gridPosition = gridPosition, actionValue = targetsInAOE * 100, };
-    }
-
-    public override int GetActionRange()
-    {
-        return maxThrowDistance;
-    }
-
-    public override bool GetIsAOE()
-    {
-        return true;
-    }
-
-    public override bool ActionDealsDamage()
-    {
-        return true;
-    }
-
-    public override StatBonus GetStatBonus()
-    {
-        return actionStatBonus;
     }
 
     private void OnFireballBehaviourComplete()

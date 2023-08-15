@@ -17,6 +17,16 @@ public class MoveAction : BaseAction
     private List<Vector3> positionList;
     private int currentPositionIndex;
 
+    public override string GetActionName()
+    {
+        return "Move";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -148,16 +158,6 @@ public class MoveAction : BaseAction
         }
 
         return validGridPositionList;
-    }
-
-    public override string GetActionName()
-    {
-        return "Move";
-    }
-
-    public override string GetActionDescription()
-    {
-        return actionDescription;
     }
 
     private int GetMoveLocationValue(GridPosition gridPosition)

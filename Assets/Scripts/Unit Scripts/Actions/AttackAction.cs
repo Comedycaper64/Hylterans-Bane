@@ -26,6 +26,26 @@ public class AttackAction : BaseAction
     private float stateTimer;
     private Unit targetUnit;
 
+    public override string GetActionName()
+    {
+        return "Attack";
+    }
+
+    public override string GetActionDescription()
+    {
+        return actionDescription;
+    }
+
+    public override bool ActionDealsDamage()
+    {
+        return true;
+    }
+
+    public override int GetUIPriority()
+    {
+        return 5;
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -93,16 +113,6 @@ public class AttackAction : BaseAction
                 ActionComplete();
                 break;
         }
-    }
-
-    public override string GetActionName()
-    {
-        return "Attack";
-    }
-
-    public override string GetActionDescription()
-    {
-        return actionDescription;
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -186,16 +196,6 @@ public class AttackAction : BaseAction
         stateTimer = beforeHitStateTime;
 
         ActionStart(onActionComplete);
-    }
-
-    public override bool ActionDealsDamage()
-    {
-        return true;
-    }
-
-    public override int GetUIPriority()
-    {
-        return 5;
     }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
