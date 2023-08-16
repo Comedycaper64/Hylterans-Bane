@@ -128,6 +128,12 @@ public class LevelGrid : MonoBehaviour
 
     public bool TryGetUnitAtGridPosition(GridPosition gridPosition, out Unit unit)
     {
+        unit = null;
+        if (!IsValidGridPosition(gridPosition))
+        {
+            return false;
+        }
+
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
         if (gridObject.HasAnyUnit())
         {
@@ -136,7 +142,6 @@ public class LevelGrid : MonoBehaviour
         }
         else
         {
-            unit = null;
             return false;
         }
     }

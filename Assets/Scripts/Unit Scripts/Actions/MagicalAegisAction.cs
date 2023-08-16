@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class MagicalAegisAction : BaseAction
 {
-    private List<Unit> targetUnits = new List<Unit>();
-
     float waitTimer = 1f;
 
     private void Update()
@@ -115,32 +113,11 @@ public class MagicalAegisAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        targetUnits = new List<Unit>();
+        List<Unit> targetUnits = GetUnitsInAOE(gridPosition, GetDamageArea(), AOEType.Cube, false);
 
-        var damageRange = GetDamageArea();
-
-        (damageRange.Item1, damageRange.Item2) = (
-            Mathf.RoundToInt(damageRange.Item1 - 1) / 2,
-            Mathf.RoundToInt(damageRange.Item2 - 1) / 2
-        );
-
-        for (int x = -damageRange.Item1; x <= damageRange.Item1; x++)
+        foreach (Unit targetUnit in targetUnits)
         {
-            for (int z = -damageRange.Item2; z <= damageRange.Item2; z++)
-            {
-                GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPosition = gridPosition + offsetGridPosition;
-
-                if (
-                    LevelGrid.Instance.TryGetUnitAtGridPosition(
-                        testGridPosition,
-                        out Unit targetUnit
-                    ) && (!targetUnit.IsEnemy())
-                )
-                {
-                    targetUnit.gameObject.AddComponent<AegisEffect>();
-                }
-            }
+            targetUnit.gameObject.AddComponent<AegisEffect>();
         }
 
         ActionStart(onActionComplete);

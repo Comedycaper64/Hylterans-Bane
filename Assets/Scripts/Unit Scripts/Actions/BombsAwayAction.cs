@@ -63,6 +63,11 @@ public class BombsAwayAction : BaseAction
         return true;
     }
 
+    public override AOEType GetAOEType()
+    {
+        return AOEType.Sphere;
+    }
+
     public override bool ActionDealsDamage()
     {
         return true;

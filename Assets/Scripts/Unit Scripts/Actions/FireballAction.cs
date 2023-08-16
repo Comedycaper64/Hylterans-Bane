@@ -43,7 +43,7 @@ public class FireballAction : BaseAction
 
     public override (int, int) GetDamageArea()
     {
-        return (3, 3);
+        return (2, 2);
     }
 
     public override bool IsSpell()
@@ -64,6 +64,11 @@ public class FireballAction : BaseAction
     public override bool GetIsAOE()
     {
         return true;
+    }
+
+    public override AOEType GetAOEType()
+    {
+        return AOEType.Sphere;
     }
 
     public override bool ActionDealsDamage()

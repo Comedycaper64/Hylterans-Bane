@@ -45,6 +45,11 @@ public class CrossStrikeAction : BaseAction
         return true;
     }
 
+    public override AOEType GetAOEType()
+    {
+        return AOEType.Line;
+    }
+
     public override bool ActionDealsDamage()
     {
         return true;

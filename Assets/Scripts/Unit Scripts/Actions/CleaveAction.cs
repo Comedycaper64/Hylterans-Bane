@@ -153,21 +153,7 @@ public class CleaveAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        targetUnits = new List<Unit>();
-        Collider[] colliderArray = Physics.OverlapSphere(
-            LevelGrid.Instance.GetWorldPosition(gridPosition),
-            GetDamageArea().Item1
-        );
-        foreach (Collider collider in colliderArray)
-        {
-            if (collider.TryGetComponent<Unit>(out Unit targetUnit))
-            {
-                if (targetUnit != unit)
-                {
-                    targetUnits.Add(targetUnit);
-                }
-            }
-        }
+        targetUnits = GetUnitsInAOE(gridPosition, GetDamageArea());
 
         state = State.SwingingSwordBeforeHit;
         float beforeHitStateTime = 1.75f;

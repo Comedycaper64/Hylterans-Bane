@@ -15,10 +15,13 @@ public class GridMouseVisual : MonoBehaviour
     private List<Transform> mouseGridVisualAOE = new List<Transform>();
     private Transform mouseGridArrowVisual;
     private GridSystemVisualSingle mouseGridVisualScript;
+
     private readonly float mouseGridVisualYOffset = 0.1f;
     private readonly float mouseGridArrowVisualYOffset = 2f;
+
     private bool aoeEnabled;
     private (int, int) currentRange;
+    private AOEType currentAOEType;
     private GridSystemVisual.GridVisualType currentVisualType;
 
     //public static EventHandler<Unit> OnMouseOverEnemyUnit;
@@ -94,8 +97,8 @@ public class GridMouseVisual : MonoBehaviour
 
                 if (aoeEnabled)
                 {
-                    SetAOEVisual(false, (0, 0), GridSystemVisual.GridVisualType.White);
-                    SetAOEVisual(true, currentRange, currentVisualType);
+                    DisableAOEVisual();
+                    SetAOEVisual(true, currentRange, currentAOEType, currentVisualType);
                 }
             }
         }
@@ -106,9 +109,15 @@ public class GridMouseVisual : MonoBehaviour
         }
     }
 
+    private void DisableAOEVisual()
+    {
+        SetAOEVisual(false, (0, 0), AOEType.Cube, GridSystemVisual.GridVisualType.White);
+    }
+
     private void SetAOEVisual(
         bool enable,
         (int, int) range,
+        AOEType aOEType,
         GridSystemVisual.GridVisualType visualType
     )
     {
@@ -116,57 +125,98 @@ public class GridMouseVisual : MonoBehaviour
         if (enable)
         {
             currentRange = range;
+            currentAOEType = aOEType;
             currentVisualType = visualType;
 
-            range = (
-                Mathf.RoundToInt((range.Item1 - 1) / 2),
-                Mathf.RoundToInt((range.Item2 - 1) / 2)
-            );
+            // range = (
+            //     Mathf.RoundToInt((range.Item1 - 1) / 2),
+            //     Mathf.RoundToInt((range.Item2 - 1) / 2)
+            // );
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(
                 mouseGridVisual.position
             );
 
-            if (range.Item1 != range.Item2)
-            {
-                GridPosition mouseOffset =
-                    mouseGridPosition
-                    - UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition();
-                //Debug.Log(mouseOffset);
-                if (Mathf.Abs(mouseOffset.x) > Mathf.Abs(mouseOffset.z))
-                {
-                    (range.Item2, range.Item1) = (range.Item1, range.Item2);
-                }
-            }
+            GridPosition mouseOffset =
+                mouseGridPosition - UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition();
 
-            for (
-                int x = mouseGridPosition.x - range.Item1;
-                x <= mouseGridPosition.x + range.Item1;
-                x++
-            )
+            switch (aOEType)
             {
-                for (
-                    int z = mouseGridPosition.z - range.Item2;
-                    z <= mouseGridPosition.z + range.Item2;
-                    z++
-                )
-                {
-                    Vector3 newMouseVisualSpawn =
-                        LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z))
-                        + new Vector3(0, mouseGridVisualYOffset, 0);
-                    Transform newMouseVisual = Instantiate(
-                        mouseGridVisualPrefab,
-                        newMouseVisualSpawn,
-                        Quaternion.identity
-                    ).transform;
-                    newMouseVisual
-                        .GetComponent<GridSystemVisualSingle>()
-                        .Show(GridSystemVisual.Instance.GetGridVisualTypeMaterial(visualType));
-                    newMouseVisual
-                        .GetComponent<GridSystemVisualSingle>()
-                        .ToggleTransparencyOscillation(true);
-                    mouseGridVisualAOE.Add(newMouseVisual);
-                    newMouseVisual.parent = mouseGridVisual;
-                }
+                default:
+                case AOEType.Cube:
+
+                    range = (
+                        Mathf.RoundToInt((range.Item1 - 1) / 2),
+                        Mathf.RoundToInt((range.Item2 - 1) / 2)
+                    );
+
+                    if (range.Item1 != range.Item2)
+                    {
+                        if (Mathf.Abs(mouseOffset.x) > Mathf.Abs(mouseOffset.z))
+                        {
+                            (range.Item2, range.Item1) = (range.Item1, range.Item2);
+                        }
+                    }
+
+                    for (int x = -range.Item1; x <= range.Item1; x++)
+                    {
+                        for (int z = -range.Item2; z <= range.Item2; z++)
+                        {
+                            GridPosition testGridPosition =
+                                mouseGridPosition + new GridPosition(x, z);
+                            SpawnAOEVisual(testGridPosition, visualType);
+                        }
+                    }
+                    break;
+                case AOEType.Sphere:
+                    for (int x = -range.Item1; x <= range.Item1; x++)
+                    {
+                        for (int z = -range.Item1; z <= range.Item1; z++)
+                        {
+                            int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                            if (testDistance > range.Item1)
+                            {
+                                continue;
+                            }
+
+                            GridPosition testGridPosition =
+                                mouseGridPosition + new GridPosition(x, z);
+                            SpawnAOEVisual(testGridPosition, visualType);
+                        }
+                    }
+                    break;
+                case AOEType.Line:
+
+                    GridPosition aoeCentre =
+                        mouseGridPosition - mouseOffset + (mouseOffset * ((range.Item2 + 1) / 2));
+                    Debug.Log("AOE Centre = " + aoeCentre);
+
+                    range = (
+                        Mathf.FloorToInt((range.Item1 - 1) / 2),
+                        Mathf.FloorToInt((range.Item2 - 1) / 2)
+                    );
+
+                    if (range.Item1 != range.Item2)
+                    {
+                        if (Mathf.Abs(mouseOffset.x) > Mathf.Abs(mouseOffset.z))
+                        {
+                            (range.Item2, range.Item1) = (range.Item1, range.Item2);
+                        }
+                    }
+
+                    for (int x = -range.Item1; x <= range.Item1; x++)
+                    {
+                        for (int z = -range.Item2; z <= range.Item2; z++)
+                        {
+                            GridPosition offsetGridPosition = new GridPosition(x, z);
+                            GridPosition testGridPosition = aoeCentre + offsetGridPosition;
+
+                            SpawnAOEVisual(testGridPosition, visualType);
+                        }
+                    }
+                    break;
+                case AOEType.Cone:
+                    Debug.Log("Not implemented yet");
+                    break;
             }
         }
         else if (mouseGridVisualAOE.Count > 0)
@@ -179,10 +229,31 @@ public class GridMouseVisual : MonoBehaviour
         }
     }
 
+    private void SpawnAOEVisual(
+        GridPosition spawnLocation,
+        GridSystemVisual.GridVisualType visualType
+    )
+    {
+        Vector3 newMouseVisualSpawn =
+            LevelGrid.Instance.GetWorldPosition(spawnLocation)
+            + new Vector3(0, mouseGridVisualYOffset, 0);
+        Transform newMouseVisual = Instantiate(
+            mouseGridVisualPrefab,
+            newMouseVisualSpawn,
+            Quaternion.identity
+        ).transform;
+        newMouseVisual
+            .GetComponent<GridSystemVisualSingle>()
+            .Show(GridSystemVisual.Instance.GetGridVisualTypeMaterial(visualType));
+        newMouseVisual.GetComponent<GridSystemVisualSingle>().ToggleTransparencyOscillation(true);
+        mouseGridVisualAOE.Add(newMouseVisual);
+        newMouseVisual.parent = mouseGridVisual;
+    }
+
     private void UpdateMouseVisual()
     {
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-        SetAOEVisual(false, (0, 0), GridSystemVisual.GridVisualType.White);
+        DisableAOEVisual();
         if (!selectedAction)
         {
             mouseGridVisualScript.Hide();
@@ -195,6 +266,7 @@ public class GridMouseVisual : MonoBehaviour
             SetAOEVisual(
                 true,
                 selectedAction.GetDamageArea(),
+                selectedAction.GetAOEType(),
                 GridSystemVisual.GridVisualType.White
             );
         }

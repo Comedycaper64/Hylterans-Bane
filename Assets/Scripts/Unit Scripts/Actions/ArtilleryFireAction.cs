@@ -19,7 +19,7 @@ public class ArtilleryFireAction : BaseAction
         SwingingSwordAfterHit,
     }
 
-    private int fireDistance = 5;
+    private int fireDistance = 1;
     private State state;
     private float stateTimer;
     private List<Unit> targetUnits = new List<Unit>();
@@ -42,6 +42,11 @@ public class ArtilleryFireAction : BaseAction
     public override bool GetIsAOE()
     {
         return true;
+    }
+
+    public override AOEType GetAOEType()
+    {
+        return AOEType.Line;
     }
 
     public override bool ActionDealsDamage()
@@ -112,12 +117,7 @@ public class ArtilleryFireAction : BaseAction
                 GridPosition testGridPosition = gridPosition + offsetGridPosition;
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
 
-                if (testDistance != 5)
-                {
-                    continue;
-                }
-
-                if (!((Mathf.Abs(x) == 5) ^ (Mathf.Abs(z) == 5)))
+                if (testDistance != fireDistance)
                 {
                     continue;
                 }
@@ -138,37 +138,39 @@ public class ArtilleryFireAction : BaseAction
     {
         targetUnits = new List<Unit>();
 
-        GridPosition distanceFromAttacker = gridPosition - unit.GetGridPosition();
+        // GridPosition distanceFromAttacker = gridPosition - unit.GetGridPosition();
 
-        var damageRange = GetDamageArea();
-        if (distanceFromAttacker.z == 0)
-        {
-            (damageRange.Item1, damageRange.Item2) = (damageRange.Item2, damageRange.Item1);
-        }
+        // var damageRange = GetDamageArea();
+        // if (distanceFromAttacker.z == 0)
+        // {
+        //     (damageRange.Item1, damageRange.Item2) = (damageRange.Item2, damageRange.Item1);
+        // }
 
-        (damageRange.Item1, damageRange.Item2) = (
-            Mathf.RoundToInt(damageRange.Item1 - 1) / 2,
-            Mathf.RoundToInt(damageRange.Item2 - 1) / 2
-        );
+        // (damageRange.Item1, damageRange.Item2) = (
+        //     Mathf.RoundToInt(damageRange.Item1 - 1) / 2,
+        //     Mathf.RoundToInt(damageRange.Item2 - 1) / 2
+        // );
 
-        for (int x = -damageRange.Item1; x <= damageRange.Item1; x++)
-        {
-            for (int z = -damageRange.Item2; z <= damageRange.Item2; z++)
-            {
-                GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPosition = gridPosition + offsetGridPosition;
+        // for (int x = -damageRange.Item1; x <= damageRange.Item1; x++)
+        // {
+        //     for (int z = -damageRange.Item2; z <= damageRange.Item2; z++)
+        //     {
+        //         GridPosition offsetGridPosition = new GridPosition(x, z);
+        //         GridPosition testGridPosition = gridPosition + offsetGridPosition;
 
-                if (
-                    LevelGrid.Instance.TryGetUnitAtGridPosition(
-                        testGridPosition,
-                        out Unit targetUnit
-                    )
-                )
-                {
-                    targetUnits.Add(targetUnit);
-                }
-            }
-        }
+        //         if (
+        //             LevelGrid.Instance.TryGetUnitAtGridPosition(
+        //                 testGridPosition,
+        //                 out Unit targetUnit
+        //             )
+        //         )
+        //         {
+        //             targetUnits.Add(targetUnit);
+        //         }
+        //     }
+        // }
+
+        targetUnits = GetUnitsInAOE(gridPosition, GetDamageArea(), GetAOEType());
 
         state = State.SwingingSwordBeforeHit;
         float beforeHitStateTime = 1.75f;

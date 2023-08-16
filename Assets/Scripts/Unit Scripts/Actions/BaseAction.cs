@@ -38,6 +38,11 @@ public abstract class BaseAction : MonoBehaviour
         return (1, 1);
     }
 
+    public virtual AOEType GetAOEType()
+    {
+        return AOEType.Cube;
+    }
+
     public virtual bool ActionDealsDamage()
     {
         return false;
@@ -103,6 +108,112 @@ public abstract class BaseAction : MonoBehaviour
     protected void AttackHit(float damageDealt)
     {
         OnAnyAttackHit?.Invoke(this, damageDealt);
+    }
+
+    //For Cubes range = width
+    //For Spheres range = radius
+    protected List<Unit> GetUnitsInAOE(
+        GridPosition aoeCentre,
+        (int, int) aoeRange,
+        AOEType aOEType = AOEType.Cube,
+        bool enemyUnits = true
+    )
+    {
+        List<Unit> unitsInAoe = new List<Unit>();
+        if (unit.IsEnemy())
+        {
+            enemyUnits = !enemyUnits;
+        }
+
+        switch (aOEType)
+        {
+            default:
+            case AOEType.Cube:
+
+                aoeRange = (
+                    Mathf.RoundToInt((aoeRange.Item1 - 1) / 2),
+                    Mathf.RoundToInt((aoeRange.Item2 - 1) / 2)
+                );
+
+                for (int x = -aoeRange.Item1; x <= aoeRange.Item1; x++)
+                {
+                    for (int z = -aoeRange.Item2; z <= aoeRange.Item2; z++)
+                    {
+                        GridPosition testGridPosition = aoeCentre + new GridPosition(x, z);
+                        if (
+                            LevelGrid.Instance.TryGetUnitAtGridPosition(
+                                testGridPosition,
+                                out Unit targetUnit
+                            ) && (targetUnit.IsEnemy() == enemyUnits)
+                        )
+                        {
+                            unitsInAoe.Add(targetUnit);
+                        }
+                    }
+                }
+                break;
+            case AOEType.Sphere:
+                for (int x = -aoeRange.Item1; x <= aoeRange.Item1; x++)
+                {
+                    for (int z = -aoeRange.Item1; z <= aoeRange.Item1; z++)
+                    {
+                        int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                        if (testDistance > aoeRange.Item1)
+                        {
+                            continue;
+                        }
+
+                        GridPosition testGridPosition = aoeCentre + new GridPosition(x, z);
+                        if (
+                            LevelGrid.Instance.TryGetUnitAtGridPosition(
+                                testGridPosition,
+                                out Unit targetUnit
+                            ) && (targetUnit.IsEnemy() == enemyUnits)
+                        )
+                        {
+                            unitsInAoe.Add(targetUnit);
+                        }
+                    }
+                }
+                break;
+            case AOEType.Line:
+                GridPosition distanceFromAttacker = aoeCentre - unit.GetGridPosition();
+                aoeCentre = unit.GetGridPosition() + (distanceFromAttacker * (aoeRange.Item2 / 2));
+
+                aoeRange = (
+                    Mathf.RoundToInt((aoeRange.Item1 - 1) / 2),
+                    Mathf.RoundToInt((aoeRange.Item2 - 1) / 2)
+                );
+
+                if (distanceFromAttacker.z == 0)
+                {
+                    (aoeRange.Item1, aoeRange.Item2) = (aoeRange.Item2, aoeRange.Item1);
+                }
+
+                for (int x = -aoeRange.Item1; x <= aoeRange.Item1; x++)
+                {
+                    for (int z = -aoeRange.Item2; z <= aoeRange.Item2; z++)
+                    {
+                        GridPosition offsetGridPosition = new GridPosition(x, z);
+                        GridPosition testGridPosition = aoeCentre + offsetGridPosition;
+
+                        if (
+                            LevelGrid.Instance.TryGetUnitAtGridPosition(
+                                testGridPosition,
+                                out Unit targetUnit
+                            ) && (targetUnit.IsEnemy() == enemyUnits)
+                        )
+                        {
+                            unitsInAoe.Add(targetUnit);
+                        }
+                    }
+                }
+                break;
+            case AOEType.Cone:
+                Debug.Log("Not implemented yet");
+                break;
+        }
+        return unitsInAoe;
     }
 
     public Unit GetUnit()
