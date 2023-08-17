@@ -63,15 +63,14 @@ public class UnitActionSystem : MonoBehaviour
             return;
         }
 
-        //If pointer is over a GameObject (like the BusyUI)
-        //Problematic as cancels/moves get caught on world UI. annoying --------------------------------------------------------------------------------------------------------------
-        if (EventSystem.current.IsPointerOverGameObject())
+        //If the cursor is above the unit
+        if (TryHandleUnitSelection())
         {
             return;
         }
 
-        //If the cursor is above the unit
-        if (TryHandleUnitSelection())
+        //If pointer is over a GameObject (like the BusyUI)
+        if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
         }
@@ -104,18 +103,22 @@ public class UnitActionSystem : MonoBehaviour
 
     private void PerformAction(BaseAction actionToHandle, GridPosition gridPosition)
     {
-        StartAction();
-
         selectedUnit.UseHeldActions(actionToHandle.GetRequiredHeldActions());
 
         if (currentState == ActionState.selectingAction)
         {
             currentState = ActionState.noSelectedUnit;
             selectedUnit.SetActionCompleted(true);
-            SetSelectedAction(selectedUnit.GetAction<WaitAction>());
-            SetSelectedUnit(null);
+
+            //StatBonus statBonus = actionStatBonus;
+            //SetSelectedAction(selectedUnit.GetAction<WaitAction>());
+            //AddStatBonuses(statBonus);
+            //actionStatBonus = statBonus;
+            //SetSelectedUnit(null);
             unitTurnFinished = true;
         }
+
+        StartAction();
 
         actionToHandle.TakeAction(gridPosition, FinishAction);
     }
@@ -150,6 +153,12 @@ public class UnitActionSystem : MonoBehaviour
     public void FinishAction()
     {
         isBusy = false;
+
+        if (selectedUnit)
+        {
+            RemoveStatBonuses(actionStatBonus);
+        }
+
         OnUnitActionFinished?.Invoke();
         if (currentState == ActionState.movingUnit)
         {

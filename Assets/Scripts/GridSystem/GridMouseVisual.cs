@@ -188,7 +188,7 @@ public class GridMouseVisual : MonoBehaviour
 
                     GridPosition aoeCentre =
                         mouseGridPosition - mouseOffset + (mouseOffset * ((range.Item2 + 1) / 2));
-                    Debug.Log("AOE Centre = " + aoeCentre);
+                    //Debug.Log("AOE Centre = " + aoeCentre);
 
                     range = (
                         Mathf.FloorToInt((range.Item1 - 1) / 2),
