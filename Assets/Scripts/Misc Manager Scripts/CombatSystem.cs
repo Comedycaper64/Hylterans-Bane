@@ -7,8 +7,8 @@ public class CombatSystem : MonoBehaviour
 {
     public static CombatSystem Instance;
 
-    public event EventHandler<AttackInteraction> OnAttackRoll;
-    public event EventHandler<AttackInteraction> OnSpellSave;
+    public event EventHandler<string[]> OnAttackRoll;
+    public event EventHandler<string[]> OnSpellSave;
 
     private void Awake()
     {
@@ -82,21 +82,35 @@ public class CombatSystem : MonoBehaviour
     public bool TryAttack(UnitStats attackingUnit, UnitStats defendingUnit)
     {
         //Attack role = d20 role + attacking stat + proficiency
-        int attackingUnitAttackRoll = attackingUnit.GetRoll();
+        int attackingUnitAttackRoll = attackingUnit.GetAttackRoll(out RollAugment rollAugment);
         int attackingUnitAttackBonus = attackingUnit.GetToHit();
         int defendingUnitAC = defendingUnit.GetArmourClass();
         //Debug.Log("Attack roll: " + attackingUnitAttackRoll);
+        string attackRoll;
+        if (rollAugment == RollAugment.Advantage)
+        {
+            Debug.Log("ayaya");
+            attackRoll = "(Adv.) " + attackingUnitAttackRoll;
+        }
+        else if (rollAugment == RollAugment.Disadvantage)
+        {
+            attackRoll = "(Dis.) " + attackingUnitAttackRoll;
+        }
+        else
+        {
+            attackRoll = attackingUnitAttackRoll.ToString();
+        }
+
         OnAttackRoll?.Invoke(
             this,
-            new AttackInteraction(
-                attackingUnitAttackRoll,
-                attackingUnitAttackBonus,
-                defendingUnitAC,
-                0,
-                false
-            )
+            new string[]
+            {
+                attackRoll,
+                attackingUnitAttackBonus.ToString(),
+                defendingUnitAC.ToString()
+            }
         );
-        return ((attackingUnitAttackRoll + attackingUnitAttackBonus) >= defendingUnitAC);
+        return (attackingUnitAttackRoll + attackingUnitAttackBonus) >= defendingUnitAC;
     }
 
     public bool TryAttack(
@@ -106,10 +120,10 @@ public class CombatSystem : MonoBehaviour
     )
     {
         //Attack role = d20 role + attacking stat + proficiency
-        int attackingUnitAttackRoll = attackingUnit.GetRoll();
+        int attackingUnitAttackRoll = attackingUnit.GetAttackRoll(out RollAugment rollAugment);
         int attackingUnitAttackBonus = attackingUnit.GetToHit();
         int defendingUnitAC = defendingUnit.GetArmourClass();
-        //Debug.Log("Attack roll: " + attackingUnitAttackRoll);
+
         attackInteraction = new AttackInteraction(
             attackingUnitAttackRoll,
             attackingUnitAttackBonus,
@@ -118,24 +132,39 @@ public class CombatSystem : MonoBehaviour
             false
         );
         //OnAttackRoll?.Invoke(this, attackInteraction);
-        return ((attackingUnitAttackRoll + attackingUnitAttackBonus) >= defendingUnitAC);
+        return (attackingUnitAttackRoll + attackingUnitAttackBonus) >= defendingUnitAC;
     }
 
     public bool TrySpell(UnitStats attackingUnit, UnitStats defendingUnit, StatType spellSave)
     {
         int attackingUnitSpellDC = attackingUnit.GetSpellDC();
-        int defendingUnitSavingThrowRoll = defendingUnit.GetRoll();
+        int defendingUnitSavingThrowRoll = defendingUnit.GetSavingThrowRoll(
+            out RollAugment rollAugment
+        );
         int defendingUnitSavingThrowBonus = defendingUnit.GetSavingThrow(spellSave);
+
+        string defenseRoll;
+        if (rollAugment == RollAugment.Advantage)
+        {
+            defenseRoll = "(Adv.) " + defendingUnitSavingThrowRoll;
+        }
+        else if (rollAugment == RollAugment.Disadvantage)
+        {
+            defenseRoll = "(Dis.) " + defendingUnitSavingThrowRoll;
+        }
+        else
+        {
+            defenseRoll = defendingUnitSavingThrowRoll.ToString();
+        }
 
         OnSpellSave?.Invoke(
             this,
-            new AttackInteraction(
-                attackingUnitSpellDC,
-                0,
-                defendingUnitSavingThrowRoll,
-                defendingUnitSavingThrowBonus,
-                true
-            )
+            new string[]
+            {
+                attackingUnitSpellDC.ToString(),
+                defenseRoll,
+                defendingUnitSavingThrowBonus.ToString()
+            }
         );
         return (
             attackingUnitSpellDC > (defendingUnitSavingThrowRoll + defendingUnitSavingThrowBonus)
@@ -150,7 +179,9 @@ public class CombatSystem : MonoBehaviour
     )
     {
         int attackingUnitSpellDC = attackingUnit.GetSpellDC();
-        int defendingUnitSavingThrowRoll = defendingUnit.GetRoll();
+        int defendingUnitSavingThrowRoll = defendingUnit.GetSavingThrowRoll(
+            out RollAugment rollAugment
+        );
         int defendingUnitSavingThrowBonus = defendingUnit.GetSavingThrow(spellSave);
         attackInteraction = new AttackInteraction(
             attackingUnitSpellDC,

@@ -3606,6 +3606,8 @@ MonoBehaviour:
     damageBonus: 0
     rangeBonus: 0
     acBonus: 0
+  attackAugment: 0
+  savingThrowAugment: 0
   unitLevel: 10
   attackingStat: 3
 --- !u!114 &824528618
@@ -4051,6 +4053,8 @@ MonoBehaviour:
     damageBonus: 0
     rangeBonus: 0
     acBonus: 0
+  attackAugment: 0
+  savingThrowAugment: 0
   unitLevel: 1
   attackingStat: 1
 --- !u!114 &936201264
@@ -4844,6 +4848,7 @@ GameObject:
   - component: {fileID: 1062398875}
   - component: {fileID: 1062398874}
   - component: {fileID: 1062398873}
+  - component: {fileID: 1062398879}
   m_Layer: 8
   m_Name: Unit Melee Skeleton
   m_TagString: FriendlyUnit
@@ -4905,6 +4910,8 @@ MonoBehaviour:
     damageBonus: 0
     rangeBonus: 0
     acBonus: 0
+  attackAugment: 0
+  savingThrowAugment: 0
   unitLevel: 1
   attackingStat: 0
 --- !u!114 &1062398873
@@ -4992,6 +4999,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.3076705, z: 1}
   m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!114 &1062398879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062398869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c488b3f1eb004d44c933db7683e43c65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1067616719
 GameObject:
   m_ObjectHideFlags: 0
@@ -5309,6 +5328,8 @@ MonoBehaviour:
     damageBonus: 0
     rangeBonus: 0
     acBonus: 0
+  attackAugment: 0
+  savingThrowAugment: 0
   unitLevel: 1
   attackingStat: 1
 --- !u!114 &1114122672
@@ -7079,6 +7100,8 @@ MonoBehaviour:
     damageBonus: 0
     rangeBonus: 0
     acBonus: 0
+  attackAugment: 0
+  savingThrowAugment: 0
   unitLevel: 1
   attackingStat: 0
 --- !u!114 &1275831769
@@ -8124,6 +8147,8 @@ MonoBehaviour:
     damageBonus: 0
     rangeBonus: 0
     acBonus: 0
+  attackAugment: 0
+  savingThrowAugment: 0
   unitLevel: 1
   attackingStat: 0
 --- !u!114 &1660141376
@@ -11916,6 +11941,7 @@ GameObject:
   - component: {fileID: 3230543923397928928}
   - component: {fileID: 1967071201357938020}
   - component: {fileID: 1025374781675461938}
+  - component: {fileID: 6536254744077943267}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -11923,6 +11949,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6536254744077943267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6536254744077943266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: f50272f3f0c088b42bf7f9ff5c1384e4, type: 2}
+  isGlobal: 0
+  blendDistance: 0
+  weight: 1
+  priority: 0
 --- !u!4 &6722309297523911128
 Transform:
   m_ObjectHideFlags: 3

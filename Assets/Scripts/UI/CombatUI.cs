@@ -34,15 +34,13 @@ public class CombatUI : MonoBehaviour
         defendingACText.enabled = toggle;
     }
 
-    private IEnumerator TemporarilyDisplayAttackUI(int attackRoll, int attackBonus, int defendingAC)
+    private IEnumerator TemporarilyDisplayAttackUI(
+        string attackRoll,
+        string attackBonus,
+        string defendingAC
+    )
     {
-        attackRollText.text =
-            "Attack Roll: ("
-            + attackRoll
-            + " + "
-            + attackBonus
-            + ") = "
-            + (attackRoll + attackBonus);
+        attackRollText.text = "Attack Roll: " + attackRoll + " + " + attackBonus;
         defendingACText.text = "Defender AC: " + defendingAC;
         ToggleAttackUI(true);
         yield return new WaitForSeconds(attackRollAppearanceTime);
@@ -50,43 +48,37 @@ public class CombatUI : MonoBehaviour
     }
 
     private IEnumerator TemporarilyDisplaySpellUI(
-        int spellSave,
-        int defendingUnitSavingThrowRoll,
-        int defendingUnitSavingThrowBonus
+        string spellSave,
+        string defendingUnitSavingThrowRoll,
+        string defendingUnitSavingThrowBonus
     )
     {
         attackRollText.text = "Spell Save DC: " + spellSave;
         defendingACText.text =
-            "Defender Saving Throw: ("
+            "Defender Saving Throw: "
             + defendingUnitSavingThrowRoll
             + " + "
-            + defendingUnitSavingThrowBonus
-            + ") = "
-            + (defendingUnitSavingThrowRoll + defendingUnitSavingThrowBonus);
+            + defendingUnitSavingThrowBonus;
         ToggleAttackUI(true);
         yield return new WaitForSeconds(attackRollAppearanceTime);
         ToggleAttackUI(false);
     }
 
-    private void CombatSystem_OnAttackRoll(object sender, AttackInteraction attackInteraction)
+    private void CombatSystem_OnAttackRoll(object sender, string[] attackInteraction)
     {
         StartCoroutine(
             TemporarilyDisplayAttackUI(
-                attackInteraction.attackRoll,
-                attackInteraction.attackBonus,
-                attackInteraction.defenseRoll
+                attackInteraction[0],
+                attackInteraction[1],
+                attackInteraction[2]
             )
         );
     }
 
-    private void CombatSystem_OnSpellSave(object sender, AttackInteraction attackInteraction)
+    private void CombatSystem_OnSpellSave(object sender, string[] spellInteraction)
     {
         StartCoroutine(
-            TemporarilyDisplaySpellUI(
-                attackInteraction.attackRoll,
-                attackInteraction.defenseRoll,
-                attackInteraction.defenseBonus
-            )
+            TemporarilyDisplaySpellUI(spellInteraction[0], spellInteraction[1], spellInteraction[2])
         );
     }
 }

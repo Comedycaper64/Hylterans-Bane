@@ -14,6 +14,8 @@ public class UnitStats : MonoBehaviour
     private Armour unitArmour;
 
     public StatBonus currentStatBonus;
+    public int attackAugment = 0;
+    public int savingThrowAugment = 0;
 
     [Min(1)]
     [SerializeField]
@@ -80,10 +82,44 @@ public class UnitStats : MonoBehaviour
         return Random.Range(1, 21);
     }
 
-    // public int GetAttackRoll()
-    // {
-    //     return Random.Range(1, 21) + GetToHit();
-    // }
+    public int GetAttackRoll(out RollAugment rollAugment)
+    {
+        if (attackAugment > 0)
+        {
+            Debug.Log("Advantaged!");
+            rollAugment = RollAugment.Advantage;
+            return Mathf.Max(Random.Range(1, 21), Random.Range(1, 21));
+        }
+        else if (attackAugment < 0)
+        {
+            rollAugment = RollAugment.Disadvantage;
+            return Mathf.Min(Random.Range(1, 21), Random.Range(1, 21));
+        }
+        else
+        {
+            rollAugment = RollAugment.Unchanged;
+            return Random.Range(1, 21);
+        }
+    }
+
+    public int GetSavingThrowRoll(out RollAugment rollAugment)
+    {
+        if (savingThrowAugment > 0)
+        {
+            rollAugment = RollAugment.Advantage;
+            return Mathf.Max(Random.Range(1, 21), Random.Range(1, 21));
+        }
+        else if (savingThrowAugment < 0)
+        {
+            rollAugment = RollAugment.Disadvantage;
+            return Mathf.Min(Random.Range(1, 21), Random.Range(1, 21));
+        }
+        else
+        {
+            rollAugment = RollAugment.Unchanged;
+            return Random.Range(1, 21);
+        }
+    }
 
     public int GetArmourClass()
     {

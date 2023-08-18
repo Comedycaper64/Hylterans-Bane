@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class LongbowExpertAbility : PassiveAbility
 {
-    private int toHitBonus = 2;
     private int rangeBonus = 1;
 
     private MoveAction moveAction;
@@ -29,7 +28,7 @@ public class LongbowExpertAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "Not moving on your turn grants +2 to hit and +1 range";
+        return "Not moving on your turn grants advantage on attack rolls and +1 range";
     }
 
     public override string GetAbilityName()
@@ -42,11 +41,13 @@ public class LongbowExpertAbility : PassiveAbility
         buffActive = enable;
         if (enable)
         {
-            unitStats.currentStatBonus += new StatBonus(toHitBonus, 0, rangeBonus);
+            unitStats.currentStatBonus += new StatBonus(0, 0, rangeBonus);
+            unitStats.attackAugment += 1;
         }
         else
         {
-            unitStats.currentStatBonus -= new StatBonus(toHitBonus, 0, rangeBonus);
+            unitStats.currentStatBonus -= new StatBonus(0, 0, rangeBonus);
+            unitStats.attackAugment -= 1;
         }
     }
 

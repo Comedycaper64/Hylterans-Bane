@@ -108,7 +108,6 @@ public class UnitActionSystem : MonoBehaviour
         if (currentState == ActionState.selectingAction)
         {
             currentState = ActionState.noSelectedUnit;
-            selectedUnit.SetActionCompleted(true);
 
             //StatBonus statBonus = actionStatBonus;
             //SetSelectedAction(selectedUnit.GetAction<WaitAction>());
@@ -167,6 +166,7 @@ public class UnitActionSystem : MonoBehaviour
         }
         else if (unitTurnFinished)
         {
+            selectedUnit.SetActionCompleted(true);
             TurnSystem.Instance.NextInitiative(); //Should be decoupled later
         }
     }
