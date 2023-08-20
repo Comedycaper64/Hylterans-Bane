@@ -13,6 +13,7 @@ public class HealthSystem : MonoBehaviour
     private int health = 100;
     private int healthMax;
     private bool invincible;
+    private bool resolute;
 
     public void Damage(int damageAmount)
     {
@@ -25,7 +26,16 @@ public class HealthSystem : MonoBehaviour
 
         if (health < 0)
         {
-            health = 0;
+            if (resolute)
+            {
+                Debug.Log("Resolute!");
+                health = 1;
+                SetResolute(false);
+            }
+            else
+            {
+                health = 0;
+            }
         }
 
         OnDamaged?.Invoke(this, (float)damageAmount);
@@ -70,5 +80,10 @@ public class HealthSystem : MonoBehaviour
     public void SetInvincible(bool enable)
     {
         invincible = enable;
+    }
+
+    public void SetResolute(bool enable)
+    {
+        resolute = enable;
     }
 }

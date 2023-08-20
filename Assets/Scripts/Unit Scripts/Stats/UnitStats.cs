@@ -72,9 +72,7 @@ public class UnitStats : MonoBehaviour
     public int GetToHit()
     {
         int toHitStat = statDictionary[attackingStat];
-        return GetModifier(toHitStat)
-            + baseStats.GetProficiencyBonus()
-            + currentStatBonus.toHitBonus;
+        return GetModifier(toHitStat) + GetProficiencyBonus() + currentStatBonus.toHitBonus;
     }
 
     public int GetRoll()
@@ -159,6 +157,11 @@ public class UnitStats : MonoBehaviour
 
     public int GetSpellDC()
     {
-        return 8 + baseStats.GetProficiencyBonus() + GetModifier(statDictionary[attackingStat]);
+        return 8 + GetProficiencyBonus() + GetModifier(statDictionary[attackingStat]);
+    }
+
+    private int GetProficiencyBonus()
+    {
+        return 1 + Mathf.CeilToInt(unitLevel / 4f);
     }
 }

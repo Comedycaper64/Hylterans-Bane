@@ -147,9 +147,9 @@ public class TurnSystem : MonoBehaviour
     {
         List<Initiative> tempInitiativeList = new List<Initiative>();
 
-        for (int i = 0; i < initiativeOrder.Count; i++)
+        while (initiativeOrder.TryDequeue(out Initiative currentInitiative))
         {
-            tempInitiativeList.Add(initiativeOrder.Dequeue());
+            tempInitiativeList.Add(currentInitiative);
         }
 
         Initiative initiativeToRemove = tempInitiativeList.Find(

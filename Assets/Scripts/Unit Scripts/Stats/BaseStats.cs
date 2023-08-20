@@ -24,9 +24,9 @@ public class BaseStats : ScriptableObject
     [SerializeField]
     private int charisma = 10;
 
-    [Header("Other")]
-    [SerializeField]
-    private int proficiencyBonus = 2;
+    // [Header("Other")]
+    // [SerializeField]
+    // private int proficiencyBonus = 2;
 
     [SerializeField]
     private HitDiceType hitDice;
@@ -61,10 +61,10 @@ public class BaseStats : ScriptableObject
         return charisma;
     }
 
-    public int GetProficiencyBonus()
-    {
-        return proficiencyBonus;
-    }
+    // public int GetProficiencyBonus()
+    // {
+    //     return proficiencyBonus;
+    // }
 
     public HitDiceType GetHitDiceType()
     {

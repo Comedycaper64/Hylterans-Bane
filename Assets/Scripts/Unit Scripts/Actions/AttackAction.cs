@@ -97,6 +97,7 @@ public class AttackAction : BaseAction
                         SoundManager.Instance.GetSoundEffectVolume()
                     );
                     AttackHit(damageAmount);
+                    UnitHit(targetUnit);
                 }
                 else
                 {

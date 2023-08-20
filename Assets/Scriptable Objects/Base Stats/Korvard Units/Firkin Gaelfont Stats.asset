@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94b4cda4a5afd3c40b4a745dbd88d026, type: 3}
-  m_Name: Queen Merdenhart Stats
+  m_Name: Firkin Gaelfont Stats
   m_EditorClassIdentifier: 
-  strength: 16
-  dexterity: 24
-  constitution: 18
+  strength: 12
+  dexterity: 20
+  constitution: 15
   intelligence: 16
-  wisdom: 14
-  charisma: 18
-  proficiencyBonus: 3
+  wisdom: 10
+  charisma: 6
   hitDice: 2

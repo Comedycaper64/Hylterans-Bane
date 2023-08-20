@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class BaseAction : MonoBehaviour
 {
     public event EventHandler OnActionStarted;
+    public event EventHandler<Unit> OnUnitHit;
     public static event EventHandler<float> OnAnyAttackHit;
 
     // Scripts that extend BaseAction (the other actions) can access the protected fields
@@ -108,6 +109,11 @@ public abstract class BaseAction : MonoBehaviour
     protected void AttackHit(float damageDealt)
     {
         OnAnyAttackHit?.Invoke(this, damageDealt);
+    }
+
+    protected void UnitHit(Unit hitUnit)
+    {
+        OnUnitHit?.Invoke(this, hitUnit);
     }
 
     //For Cubes range = width
