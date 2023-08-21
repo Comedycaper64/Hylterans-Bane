@@ -89,7 +89,6 @@ public class CombatSystem : MonoBehaviour
         string attackRoll;
         if (rollAugment == RollAugment.Advantage)
         {
-            Debug.Log("ayaya");
             attackRoll = "(Adv.) " + attackingUnitAttackRoll;
         }
         else if (rollAugment == RollAugment.Disadvantage)
