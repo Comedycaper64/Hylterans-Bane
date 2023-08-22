@@ -117,7 +117,11 @@ public class MagicalAegisAction : BaseAction
 
         foreach (Unit targetUnit in targetUnits)
         {
-            targetUnit.gameObject.AddComponent<AegisEffect>();
+            AegisEffect aegis = targetUnit.gameObject.AddComponent<AegisEffect>();
+            if (GetComponent<AbjuristAbility>())
+            {
+                aegis.AbjuristAegis();
+            }
         }
 
         ActionStart(onActionComplete);

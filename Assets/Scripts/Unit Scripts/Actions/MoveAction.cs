@@ -258,7 +258,7 @@ public class MoveAction : BaseAction
 
         GridPosition gridToTarget = gridPosition - unit.GetGridPosition();
         int distanceToTarget = Mathf.Abs(gridToTarget.x) + Mathf.Abs(gridToTarget.z);
-        int distanceActionValueModifier = Mathf.RoundToInt((1f / distanceToTarget) * 100f);
+        //int distanceActionValueModifier = Mathf.RoundToInt((1f / distanceToTarget) * 100f);
 
         List<GridPosition> targetPositions = unitAction.GetValidActionGridPositionList(
             gridPosition
@@ -272,7 +272,7 @@ public class MoveAction : BaseAction
         return new EnemyAIAction
         {
             gridPosition = gridPosition,
-            actionValue = targetActionValueTotal + distanceActionValueModifier,
+            actionValue = targetActionValueTotal //+ distanceActionValueModifier,
         };
     }
 
