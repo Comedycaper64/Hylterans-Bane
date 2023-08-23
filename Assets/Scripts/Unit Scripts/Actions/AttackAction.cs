@@ -8,8 +8,6 @@ public class AttackAction : BaseAction
     //[SerializeField]
     private string actionDescription = "A basic weapon attack";
 
-    private bool attackSucceeded;
-
     [SerializeField]
     private AudioClip attackHitSFX;
 
@@ -22,6 +20,9 @@ public class AttackAction : BaseAction
         SwingingSwordAfterHit,
     }
 
+    private int attackNumber = 1;
+    private int attackTracker = 0;
+    private bool[] attackSucceeded;
     private State state;
     private float stateTimer;
     private Unit targetUnit;
@@ -87,7 +88,7 @@ public class AttackAction : BaseAction
                 state = State.SwingingSwordAfterHit;
                 float afterHitStateTime = 0.5f;
                 stateTimer = afterHitStateTime;
-                if (attackSucceeded)
+                if (attackSucceeded[attackTracker])
                 {
                     int damageAmount = unit.GetUnitStats().GetDamage();
                     targetUnit.Damage(damageAmount);
@@ -108,10 +109,18 @@ public class AttackAction : BaseAction
                     //     SoundManager.Instance.GetSoundEffectVolume()
                     // );
                 }
-
+                attackTracker++;
                 break;
             case State.SwingingSwordAfterHit:
-                ActionComplete();
+                if (attackTracker < attackNumber)
+                {
+                    state = State.SwingingSwordBeforeHit;
+                    stateTimer = 1f;
+                }
+                else
+                {
+                    ActionComplete();
+                }
                 break;
         }
     }
@@ -185,12 +194,22 @@ public class AttackAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        attackSucceeded = false;
+        attackTracker = 0;
+        attackNumber = 1;
+        if (GetComponent<DualWieldingProdigyAbility>())
+        {
+            attackNumber++;
+        }
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-        attackSucceeded = CombatSystem.Instance.TryAttack(
-            unit.GetUnitStats(),
-            targetUnit.GetUnitStats()
-        );
+
+        attackSucceeded = new bool[attackNumber];
+        for (int i = 0; i < attackNumber; i++)
+        {
+            attackSucceeded[i] = CombatSystem.Instance.TryAttack(
+                unit.GetUnitStats(),
+                targetUnit.GetUnitStats()
+            );
+        }
 
         state = State.SwingingSwordBeforeHit;
         float beforeHitStateTime = 0.75f;
