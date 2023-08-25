@@ -42,6 +42,11 @@ public class FlashOfSteelRally : RallyingCry
         return "Flash of Steel";
     }
 
+    public override int GetRequiredHeldActions()
+    {
+        return 1;
+    }
+
     public override void PerformAbility(Action onAbilityCompleted)
     {
         GridPosition unitPosition = unit.GetGridPosition();
