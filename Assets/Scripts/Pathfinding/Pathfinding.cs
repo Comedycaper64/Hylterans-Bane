@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class Pathfinding : MonoBehaviour
 {
     public static Pathfinding Instance { get; private set; }
+    public Action OnPathfindingSetup;
 
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
@@ -76,6 +78,7 @@ public class Pathfinding : MonoBehaviour
                 }
             }
         }
+        OnPathfindingSetup?.Invoke();
     }
 
     public List<GridPosition> FindPath(
