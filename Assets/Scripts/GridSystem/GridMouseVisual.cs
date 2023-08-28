@@ -84,10 +84,14 @@ public class GridMouseVisual : MonoBehaviour
                 {
                     mouseGridVisual.gameObject.SetActive(true);
 
+                    GridSystemVisualSingle gridSystemVisualSingle =
+                        GridSystemVisual.Instance.GetGridSystemVisualSingleAtGridPosition(
+                            mouseGridPosition
+                        );
                     mouseGridVisual.position = new Vector3(
-                        mouseGridPosition.x * cellSize,
-                        mouseGridVisualYOffset,
-                        mouseGridPosition.z * cellSize
+                        gridSystemVisualSingle.transform.position.x,
+                        gridSystemVisualSingle.transform.position.y + mouseGridVisualYOffset,
+                        gridSystemVisualSingle.transform.position.z
                     );
                 }
                 else
@@ -234,9 +238,20 @@ public class GridMouseVisual : MonoBehaviour
         GridSystemVisual.GridVisualType visualType
     )
     {
-        Vector3 newMouseVisualSpawn =
-            LevelGrid.Instance.GetWorldPosition(spawnLocation)
-            + new Vector3(0, mouseGridVisualYOffset, 0);
+        GridSystemVisualSingle gridSystemVisualSingle =
+            GridSystemVisual.Instance.GetGridSystemVisualSingleAtGridPosition(spawnLocation);
+        if (gridSystemVisualSingle == null)
+        {
+            return;
+        }
+        Vector3 newMouseVisualSpawn = new Vector3(
+            gridSystemVisualSingle.transform.position.x,
+            gridSystemVisualSingle.transform.position.y + mouseGridVisualYOffset,
+            gridSystemVisualSingle.transform.position.z
+        );
+        // Vector3 newMouseVisualSpawn =
+        //     LevelGrid.Instance.GetWorldPosition(spawnLocation)
+        //     + new Vector3(0, mouseGridVisualYOffset, 0);
         Transform newMouseVisual = Instantiate(
             mouseGridVisualPrefab,
             newMouseVisualSpawn,

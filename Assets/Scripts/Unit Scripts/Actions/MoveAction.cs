@@ -43,6 +43,7 @@ public class MoveAction : BaseAction
             moveDirection,
             Time.deltaTime * rotateSpeed
         );
+        transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
 
         float stoppingDistance = .1f;
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
@@ -79,7 +80,10 @@ public class MoveAction : BaseAction
 
         foreach (GridPosition pathGridPosition in pathGridPositionList)
         {
-            positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
+            //positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
+            GridSystemVisualSingle gridVisual =
+                GridSystemVisual.Instance.GetGridSystemVisualSingleAtGridPosition(pathGridPosition);
+            positionList.Add(gridVisual.transform.position);
         }
 
         OnStartMoving?.Invoke(this, positionList.Count);

@@ -6,7 +6,7 @@ public class GridSystemVisualSingle : MonoBehaviour
 {
     [SerializeField]
     private MeshRenderer meshRenderer;
-
+    private Vector3 worldPosition;
     private bool oscillateTransparency;
 
     private void Update()

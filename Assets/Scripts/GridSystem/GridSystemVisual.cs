@@ -12,6 +12,10 @@ public class GridSystemVisual : MonoBehaviour
     private Transform gridSystemVisualSinglePrefab;
     private GridSystemVisualSingle[,] gridSystemVisualSingleArray;
 
+    [SerializeField]
+    private LayerMask floorLayerMask;
+    private float visualFloorYOffset = 0.75f;
+
     //Struct for matching an enum type to a material
     [Serializable]
     public struct GridVisualTypeMaterial
@@ -70,6 +74,26 @@ public class GridSystemVisual : MonoBehaviour
                     LevelGrid.Instance.GetWorldPosition(gridPosition),
                     Quaternion.identity
                 );
+
+                float raycastOffsetDistance = 5f;
+                if (
+                    Physics.Raycast(
+                        gridSystemVisualSingleTransform.position
+                            + Vector3.down * raycastOffsetDistance,
+                        Vector3.up,
+                        out RaycastHit hitInfo,
+                        raycastOffsetDistance * 2,
+                        floorLayerMask
+                    )
+                )
+                {
+                    gridSystemVisualSingleTransform.position = new Vector3(
+                        gridSystemVisualSingleTransform.position.x,
+                        hitInfo.point.y + visualFloorYOffset,
+                        gridSystemVisualSingleTransform.position.z
+                    );
+                    Debug.Log("ayaya");
+                }
 
                 gridSystemVisualSingleArray[x, z] =
                     gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
@@ -191,7 +215,14 @@ public class GridSystemVisual : MonoBehaviour
 
     public GridSystemVisualSingle GetGridSystemVisualSingleAtGridPosition(GridPosition gridPosition)
     {
-        return gridSystemVisualSingleArray[gridPosition.x, gridPosition.z];
+        if (LevelGrid.Instance.IsValidGridPosition(gridPosition))
+        {
+            return gridSystemVisualSingleArray[gridPosition.x, gridPosition.z];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     //Shows the visual range of the selected action for the selected unit

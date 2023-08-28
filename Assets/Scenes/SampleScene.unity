@@ -708,6 +708,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cyanic Plains Bridge
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7f7cd37ea5415e44aaa1f634d374ebea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: 7f7cd37ea5415e44aaa1f634d374ebea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f7cd37ea5415e44aaa1f634d374ebea, type: 3}
@@ -10271,6 +10281,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1373609578}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1378253164 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: 7f7cd37ea5415e44aaa1f634d374ebea,
+    type: 3}
+  m_PrefabInstance: {fileID: 74787641}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1378253168
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378253164}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: 7f7cd37ea5415e44aaa1f634d374ebea, type: 3}
 --- !u!1001 &1399235534
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13935,7 +13965,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1864840374}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cyanic Plains Bridge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16016,7 +16046,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3290894009107401595}
-  m_LocalRotation: {x: 0.22975291, y: -0.0000000187227, z: 0.0000000044198294, w: 0.973249}
+  m_LocalRotation: {x: 0.22975291, y: 0.0000000187227, z: -0.0000000044198294, w: 0.973249}
   m_LocalPosition: {x: 0, y: 5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16981,7 +17011,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6536254744077943266}
-  m_LocalRotation: {x: 0.22975291, y: -0.0000000187227, z: 0.0000000044198294, w: 0.973249}
+  m_LocalRotation: {x: 0.22975291, y: 0.0000000187227, z: -0.0000000044198294, w: 0.973249}
   m_LocalPosition: {x: 0, y: 5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17907,6 +17937,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSystemVisualSinglePrefab: {fileID: 5596813208268119629, guid: f56e58c9f764eb549b96d1267bc7e44e,
     type: 3}
+  floorLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   gridVisualTypeMaterialList:
   - gridVisualType: 0
     material: {fileID: 2100000, guid: 868b4541058da2e48a9cd771f09472cf, type: 2}
