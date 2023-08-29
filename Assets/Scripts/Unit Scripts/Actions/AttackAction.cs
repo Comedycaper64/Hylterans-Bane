@@ -119,7 +119,14 @@ public class AttackAction : BaseAction
                 }
                 else
                 {
+                    // if (targetUnit.GetComponent<ExtraAttackAbility>())
+                    // {
+                    //     StartCoroutine(EnemyCounterAttack());
+                    // }
+                    // else
+                    // {
                     ActionComplete();
+                    //}
                 }
                 break;
         }
@@ -200,6 +207,10 @@ public class AttackAction : BaseAction
         {
             attackNumber++;
         }
+        if (GetComponent<ExtraAttackAbility>())
+        {
+            attackNumber++;
+        }
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
         attackSucceeded = new bool[attackNumber];
@@ -217,6 +228,28 @@ public class AttackAction : BaseAction
 
         ActionStart(onActionComplete);
     }
+
+    // private IEnumerator EnemyCounterAttack()
+    // {
+    //     bool counterAttackSucceeded = CombatSystem.Instance.TryAttack(
+    //         targetUnit.GetUnitStats(),
+    //         unit.GetUnitStats()
+    //     );
+    //     if (counterAttackSucceeded)
+    //     {
+    //         int damageAmount = targetUnit.GetUnitStats().GetDamage();
+    //         unit.Damage(damageAmount);
+    //         AudioSource.PlayClipAtPoint(
+    //             attackHitSFX,
+    //             Camera.main.transform.position,
+    //             SoundManager.Instance.GetSoundEffectVolume()
+    //         );
+    //         AttackHit(damageAmount);
+    //         UnitHit(unit);
+    //     }
+    //     yield return new WaitForSeconds(1f);
+    //     ActionComplete();
+    // }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
