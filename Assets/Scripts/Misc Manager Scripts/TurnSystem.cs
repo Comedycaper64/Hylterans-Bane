@@ -61,18 +61,30 @@ public class TurnSystem : MonoBehaviour
                 return;
             }
 
-            isPlayerTurn = !currentInitiative.unit.IsEnemy();
-            OnTurnChanged?.Invoke(this, EventArgs.Empty);
-            currentInitiative.unit.SetMovementCompleted(false);
-            currentInitiative.unit.SetActionCompleted(false);
-
-            if (!isPlayerTurn)
+            if (currentInitiative.unitAction != null)
             {
-                EnemyAI.Instance.TakeEnemyTurn(currentInitiative.unit);
+                currentInitiative.unit.SetMovementCompleted(true);
+                currentInitiative.unit.SetActionCompleted(false);
+                UnitActionSystem.Instance.BeginUnitAction(
+                    currentInitiative.unit,
+                    currentInitiative.unitAction
+                );
             }
             else
             {
-                UnitActionSystem.Instance.SetSelectedUnit(currentInitiative.unit);
+                isPlayerTurn = !currentInitiative.unit.IsEnemy();
+                OnTurnChanged?.Invoke(this, EventArgs.Empty);
+                currentInitiative.unit.SetMovementCompleted(false);
+                currentInitiative.unit.SetActionCompleted(false);
+
+                if (!isPlayerTurn)
+                {
+                    EnemyAI.Instance.TakeEnemyTurn(currentInitiative.unit);
+                }
+                else
+                {
+                    UnitActionSystem.Instance.BeginUnitTurn(currentInitiative.unit);
+                }
             }
         }
         else

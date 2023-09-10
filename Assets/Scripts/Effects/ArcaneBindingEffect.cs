@@ -5,6 +5,7 @@ using UnityEngine;
 public class ArcaneBindingEffect : MonoBehaviour
 {
     Unit unit;
+    List<BaseAction> spellActions = new List<BaseAction>();
 
     private void OnEnable()
     {
@@ -17,8 +18,29 @@ public class ArcaneBindingEffect : MonoBehaviour
         unit.OnUnitTurnEnd -= DisableEffect;
     }
 
+    private void BindSpells()
+    {
+        foreach (BaseAction baseAction in unit.GetBaseActionList())
+        {
+            if (baseAction.IsSpell())
+            {
+                baseAction.SetDisabled(true);
+                spellActions.Add(baseAction);
+            }
+        }
+    }
+
+    private void UnbindSpells()
+    {
+        foreach (BaseAction baseAction in spellActions)
+        {
+            baseAction.SetDisabled(false);
+        }
+    }
+
     private void DisableEffect()
     {
+        UnbindSpells();
         Destroy(this);
     }
 }

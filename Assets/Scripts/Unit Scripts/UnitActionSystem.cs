@@ -95,7 +95,7 @@ public class UnitActionSystem : MonoBehaviour
                 PerformAction(selectedAction, mouseGridPosition);
             }
         }
-        else if (InputManager.Instance.IsRightClickDownThisFrame()) //Resets unit to starting position if player right clicks
+        else if (InputManager.Instance.IsRightClickDownThisFrame() && !unitTurnFinished) //Resets unit to starting position if player right clicks
         {
             CancelAction();
         }
@@ -133,9 +133,9 @@ public class UnitActionSystem : MonoBehaviour
 
     public void CancelAction()
     {
-        currentState = ActionState.noSelectedUnit;
         if (!selectedUnit.GetMovementCompleted())
         {
+            currentState = ActionState.noSelectedUnit;
             BaseAction actionToHandle = selectedUnit.GetAction<MoveAction>();
             SetSelectedAction(selectedUnit.GetAction<WaitAction>());
             StartAction();
@@ -146,7 +146,7 @@ public class UnitActionSystem : MonoBehaviour
             selectedAction = null;
             OnUnitActionStarted?.Invoke();
         }
-        SetSelectedUnit(null);
+        //SetSelectedUnit(null);
     }
 
     public void FinishAction()
@@ -159,15 +159,25 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         OnUnitActionFinished?.Invoke();
-        if (currentState == ActionState.movingUnit)
+        if (unitTurnFinished)
+        {
+            selectedUnit.SetActionCompleted(true);
+            TurnSystem.Instance.NextInitiative(); //Should be decoupled later
+        }
+        else if (currentState == ActionState.noSelectedUnit)
+        {
+            SetSelectedAction(selectedUnit.GetAction<MoveAction>());
+            currentState = ActionState.movingUnit;
+        }
+        else if (currentState == ActionState.movingUnit)
         {
             currentState = ActionState.selectingAction;
             OnUnitMoved?.Invoke();
         }
-        else if (unitTurnFinished)
+        else if (currentState == ActionState.selectingAction)
         {
-            selectedUnit.SetActionCompleted(true);
-            TurnSystem.Instance.NextInitiative(); //Should be decoupled later
+            unitTurnFinished = true;
+            OnUnitMoved?.Invoke();
         }
     }
 
@@ -206,19 +216,12 @@ public class UnitActionSystem : MonoBehaviour
         return false;
     }
 
-    public void SetSelectedUnit(Unit unit)
+    public void BeginUnitTurn(Unit unit)
     {
-        selectedUnit = unit;
-        OnSelectedUnitChanged?.Invoke();
-        if (!selectedUnit)
-        {
-            return;
-        }
-
         unitStartPosition = unit.GetGridPosition();
         actionStatBonus = new StatBonus();
 
-        if (selectedUnit.GetHeldActions() < 0)
+        if (unit.GetHeldActions() < 0)
         {
             currentState = ActionState.selectingAction;
             BaseAction waitAction = unit.GetAction<WaitAction>();
@@ -228,6 +231,7 @@ public class UnitActionSystem : MonoBehaviour
         {
             //Default selected action for new selected unit
             unitTurnFinished = false;
+            SetSelectedUnit(unit);
             if (unit.GetMovementCompleted())
             {
                 currentState = ActionState.selectingAction;
@@ -238,6 +242,24 @@ public class UnitActionSystem : MonoBehaviour
                 SetSelectedAction(unit.GetAction<MoveAction>());
                 currentState = ActionState.movingUnit;
             }
+        }
+    }
+
+    public void BeginUnitAction(Unit unit, BaseAction unitAction)
+    {
+        actionStatBonus = new StatBonus();
+        currentState = ActionState.selectingAction;
+        SetSelectedUnit(unit);
+        SetSelectedAction(unitAction);
+    }
+
+    public void SetSelectedUnit(Unit unit)
+    {
+        selectedUnit = unit;
+        OnSelectedUnitChanged?.Invoke();
+        if (!selectedUnit)
+        {
+            return;
         }
     }
 

@@ -78,6 +78,11 @@ public class UnitActionSystemUI : MonoBehaviour
             {
                 continue;
             }
+            if (baseAction.IsDisabled())
+            {
+                continue;
+            }
+
             Transform actionButtonTransform = Instantiate(
                 actionButtonPrefab,
                 actionButtonContainerTransform

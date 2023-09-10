@@ -10,8 +10,12 @@ public class Initiative
         this.unitInitiative = unitInitiative;
     }
 
-    //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //(make rallying cry initiative a subclass)
+    public Initiative(Unit unit, BaseAction unitAction, int unitInitiative)
+    {
+        this.unit = unit;
+        this.unitAction = unitAction;
+        this.unitInitiative = unitInitiative;
+    }
 
     public Initiative(RallyingCry rallyingCry)
     {
@@ -20,5 +24,6 @@ public class Initiative
 
     public int unitInitiative;
     public Unit unit;
+    public BaseAction unitAction;
     public RallyingCry rallyingCry;
 }

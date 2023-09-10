@@ -90,6 +90,11 @@ public class EnemyAI : MonoBehaviour
                     continue;
                 }
 
+                if (baseAction.IsDisabled())
+                {
+                    continue;
+                }
+
                 if (bestEnemyAIAction == null)
                 {
                     bestEnemyAIAction = baseAction.GetBestEnemyAIAction();

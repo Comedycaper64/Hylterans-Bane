@@ -34,6 +34,12 @@ public class PackTheGoodPowderRally : RallyingCry
 
     public override void PerformAbility(Action onAbilityComplete)
     {
-        throw new NotImplementedException();
+        //Add Apprentice Fire! action to initiative order
+        TurnSystem.Instance.AddInitiativeToOrder(
+            new Initiative(unit, unit.GetAction<ArtilleryFireAction>(), 0)
+        );
+        StatChangeEffect statChange = unit.gameObject.AddComponent<StatChangeEffect>();
+        statChange.SetStatChange(new StatBonus(5));
+        AbilityStart(onAbilityComplete);
     }
 }

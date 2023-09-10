@@ -12,6 +12,7 @@ public abstract class BaseAction : MonoBehaviour
     // Scripts that extend BaseAction (the other actions) can access the protected fields
     protected Unit unit;
     protected bool isActive;
+    protected bool disabled;
     protected Action onActionComplete;
 
     protected virtual void Awake()
@@ -72,6 +73,16 @@ public abstract class BaseAction : MonoBehaviour
     public virtual int GetTargetCountAtPosition(GridPosition gridPosition)
     {
         return 0;
+    }
+
+    public virtual bool IsDisabled()
+    {
+        return disabled;
+    }
+
+    public void SetDisabled(bool disabled)
+    {
+        this.disabled = disabled;
     }
 
     public abstract string GetActionName();

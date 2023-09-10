@@ -34,7 +34,7 @@ public class ArcaneBindingRally : RallyingCry
 
     public override void PerformAbility(Action onAbilityCompleted)
     {
-        List<Unit> enemyUnits = UnitManager.Instance.GetFriendlyUnitList();
+        List<Unit> enemyUnits = UnitManager.Instance.GetEnemyUnitList();
         foreach (Unit enemyUnit in enemyUnits)
         {
             enemyUnit.gameObject.AddComponent<ArcaneBindingEffect>();
