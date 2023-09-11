@@ -83,7 +83,12 @@ PrefabInstance:
     - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
       propertyPath: unitName
-      value: Royal Mage Redyn Grandille
+      value: Redyn
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
+        type: 3}
+      propertyPath: unitClass
+      value: Royal Mage
       objectReference: {fileID: 0}
     - target: {fileID: 8013025190346272858, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
@@ -141,6 +146,18 @@ MonoBehaviour:
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &5844001544130863432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426035641503417595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 288b21d2d9c383a4fb05e7afd0b83bcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6890256200386628739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,17 +180,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d2a1c3d303afaa44ab385a14e50cbae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5844001544130863432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8426035641503417595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 288b21d2d9c383a4fb05e7afd0b83bcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

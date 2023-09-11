@@ -89,7 +89,12 @@ PrefabInstance:
     - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
       propertyPath: unitName
-      value: Crown Prince Cyneric Bracken
+      value: Cyneric
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
+        type: 3}
+      propertyPath: unitClass
+      value: Crown Prince
       objectReference: {fileID: 0}
     - target: {fileID: 8013025190346272858, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}

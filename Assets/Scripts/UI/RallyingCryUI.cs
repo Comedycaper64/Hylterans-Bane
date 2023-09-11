@@ -11,6 +11,12 @@ public class RallyingCryUI : MonoBehaviour
     [SerializeField]
     private Transform rallyButtonContainerTransform;
 
+    private void Awake()
+    {
+        ToggleUI(false);
+        ClearRallyUIs();
+    }
+
     //Rallying Cry UI makes vertical stack of rallying cries, greying out used one, highlighting ones where the unit has enough held actions
 
     private void Start()
@@ -66,6 +72,14 @@ public class RallyingCryUI : MonoBehaviour
                 }
             }
             ToggleUI(true);
+        }
+    }
+
+    private void ClearRallyUIs()
+    {
+        foreach (Transform buttonTransform in rallyButtonContainerTransform)
+        {
+            Destroy(buttonTransform.gameObject);
         }
     }
 

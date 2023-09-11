@@ -46,6 +46,11 @@ public class UnitStats : MonoBehaviour
         statDictionary.Add(StatType.CHA, baseStats.GetCharisma());
     }
 
+    public int GetStatValue(StatType statType)
+    {
+        return statDictionary[statType];
+    }
+
     public int GetMaxHealth()
     {
         return GetHitDiceValue(baseStats.GetHitDiceType())
@@ -163,5 +168,10 @@ public class UnitStats : MonoBehaviour
     private int GetProficiencyBonus()
     {
         return 1 + Mathf.CeilToInt(unitLevel / 4f);
+    }
+
+    public int GetLevel()
+    {
+        return unitLevel;
     }
 }

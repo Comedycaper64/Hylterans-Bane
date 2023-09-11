@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
     //private bool leftClickHeld;
     //private bool rightClickHeld;
     public Action OnRallyingCryEvent;
+    public Action OnUnitDetailsEvent;
 
     private void Awake()
     {
@@ -105,5 +106,14 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
             return;
         }
         OnRallyingCryEvent?.Invoke();
+    }
+
+    public void OnUnitDetails(InputAction.CallbackContext context)
+    {
+        if (!context.performed)
+        {
+            return;
+        }
+        OnUnitDetailsEvent?.Invoke();
     }
 }

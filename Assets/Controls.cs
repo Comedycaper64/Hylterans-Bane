@@ -80,6 +80,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Unit Details"",
+                    ""type"": ""Button"",
+                    ""id"": ""2baa27e6-f31e-4ac9-a5bc-53c52e945424"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -214,6 +223,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Rallying Cry"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a8797aac-187d-467a-ac6e-1ef7b7686e44"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Player"",
+                    ""action"": ""Unit Details"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -239,6 +259,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_LeftClick = m_Player.FindAction("LeftClick", throwIfNotFound: true);
         m_Player_RightClick = m_Player.FindAction("RightClick", throwIfNotFound: true);
         m_Player_RallyingCry = m_Player.FindAction("Rallying Cry", throwIfNotFound: true);
+        m_Player_UnitDetails = m_Player.FindAction("Unit Details", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -304,6 +325,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_LeftClick;
     private readonly InputAction m_Player_RightClick;
     private readonly InputAction m_Player_RallyingCry;
+    private readonly InputAction m_Player_UnitDetails;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -314,6 +336,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @LeftClick => m_Wrapper.m_Player_LeftClick;
         public InputAction @RightClick => m_Wrapper.m_Player_RightClick;
         public InputAction @RallyingCry => m_Wrapper.m_Player_RallyingCry;
+        public InputAction @UnitDetails => m_Wrapper.m_Player_UnitDetails;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -341,6 +364,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @RallyingCry.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRallyingCry;
                 @RallyingCry.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRallyingCry;
                 @RallyingCry.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRallyingCry;
+                @UnitDetails.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnitDetails;
+                @UnitDetails.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnitDetails;
+                @UnitDetails.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnitDetails;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -363,6 +389,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @RallyingCry.started += instance.OnRallyingCry;
                 @RallyingCry.performed += instance.OnRallyingCry;
                 @RallyingCry.canceled += instance.OnRallyingCry;
+                @UnitDetails.started += instance.OnUnitDetails;
+                @UnitDetails.performed += instance.OnUnitDetails;
+                @UnitDetails.canceled += instance.OnUnitDetails;
             }
         }
     }
@@ -393,5 +422,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
         void OnRallyingCry(InputAction.CallbackContext context);
+        void OnUnitDetails(InputAction.CallbackContext context);
     }
 }

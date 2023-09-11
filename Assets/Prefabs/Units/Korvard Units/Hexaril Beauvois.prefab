@@ -77,7 +77,12 @@ PrefabInstance:
     - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
       propertyPath: unitName
-      value: Apprentice Hexaril Beauvois
+      value: Hexaril
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
+        type: 3}
+      propertyPath: unitClass
+      value: Artillerist
       objectReference: {fileID: 0}
     - target: {fileID: 8013025190346272858, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
@@ -93,6 +98,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2007674359829705889}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1226039947256595330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426035641503417595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2fcfbe4b36c31643864b4a6649ee7e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1371967499643947384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,17 +151,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b03296b2405b5e744b10ba84c787f857, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1226039947256595330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8426035641503417595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2fcfbe4b36c31643864b4a6649ee7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

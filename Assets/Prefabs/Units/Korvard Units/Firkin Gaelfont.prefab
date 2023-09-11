@@ -77,7 +77,12 @@ PrefabInstance:
     - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
       propertyPath: unitName
-      value: Sir Firkin Gaelfont
+      value: Firkin
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
+        type: 3}
+      propertyPath: unitClass
+      value: Swiftblade
       objectReference: {fileID: 0}
     - target: {fileID: 8013025190346272858, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
@@ -93,6 +98,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2007674359829705889}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6123598580969699575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426035641503417595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2f8ec7697919f43a7ef97fc4bf40ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &419815192610166634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,17 +156,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80d11c1f830f197419924f6175cb1f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-6123598580969699575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8426035641503417595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c2f8ec7697919f43a7ef97fc4bf40ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

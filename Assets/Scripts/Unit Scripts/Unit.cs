@@ -9,6 +9,9 @@ public class Unit : MonoBehaviour
     private String unitName;
 
     [SerializeField]
+    private String unitClass;
+
+    [SerializeField]
     private UnitStats unitStats;
 
     //Toggles unit to have enemyBehaviour
@@ -167,6 +170,11 @@ public class Unit : MonoBehaviour
     public String GetUnitName()
     {
         return unitName;
+    }
+
+    public String GetUnitClass()
+    {
+        return unitClass;
     }
 
     public UnitStats GetUnitStats()

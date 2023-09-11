@@ -63,6 +63,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6027193776703062548, guid: 53ca4d94e727d694e99ae05e8fad03dc,
+        type: 3}
+      propertyPath: unitName
+      value: Bandit
+      objectReference: {fileID: 0}
+    - target: {fileID: 6027193776703062548, guid: 53ca4d94e727d694e99ae05e8fad03dc,
+        type: 3}
+      propertyPath: unitClass
+      value: Scrapper
+      objectReference: {fileID: 0}
     - target: {fileID: 6027193776703062550, guid: 53ca4d94e727d694e99ae05e8fad03dc,
         type: 3}
       propertyPath: m_Name
