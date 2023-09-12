@@ -69,7 +69,7 @@ public class Pathfinding : MonoBehaviour
                     )
                 )
                 {
-                    Debug.Log("Unwalkable tile: " + new GridPosition(x, z));
+                    //Debug.Log("Unwalkable tile: " + new GridPosition(x, z));
                     GetNode(x, z).SetIsWalkable(false);
                 }
                 else if ((terrainEffect != null) && terrainEffect.GetIsDifficultTerrain())

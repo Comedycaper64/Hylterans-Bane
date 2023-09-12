@@ -96,6 +96,12 @@ PrefabInstance:
       propertyPath: unitClass
       value: Crown Prince
       objectReference: {fileID: 0}
+    - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
+        type: 3}
+      propertyPath: unitInitiativeUI
+      value: 
+      objectReference: {fileID: 21300000, guid: 746946f2a0e098047ba81adafebfc935,
+        type: 3}
     - target: {fileID: 8013025190346272858, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
       propertyPath: m_Name

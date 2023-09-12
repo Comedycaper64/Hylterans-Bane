@@ -84,6 +84,12 @@ PrefabInstance:
       propertyPath: unitClass
       value: Artillerist
       objectReference: {fileID: 0}
+    - target: {fileID: 8013025190346272856, guid: aca30e0a898416a46a3dad7094f5d66a,
+        type: 3}
+      propertyPath: unitInitiativeUI
+      value: 
+      objectReference: {fileID: 21300000, guid: 379d64eab51def948be4281d8d9b1d27,
+        type: 3}
     - target: {fileID: 8013025190346272858, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
       propertyPath: m_Name

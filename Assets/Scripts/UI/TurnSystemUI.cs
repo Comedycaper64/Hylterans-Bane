@@ -10,11 +10,14 @@ public class TurnSystemUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI turnNumberText;
 
-    [SerializeField]
-    private GameObject enemyTurnVisualGameObject;
+    // [SerializeField]
+    // private GameObject enemyTurnVisualGameObject;
 
     [SerializeField]
     private Transform initiativeContainer;
+
+    [SerializeField]
+    private Image currentInitiativeImage;
 
     [SerializeField]
     private GameObject initiativePrefab;
@@ -23,24 +26,24 @@ public class TurnSystemUI : MonoBehaviour
 
     private void Start()
     {
-        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        //TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         TurnSystem.Instance.OnNewInitiative += TurnSystem_OnNewInitiative;
         TurnSystem.Instance.OnNextUnitInitiative += TurnSystem_OnNextUnitInitiative;
         UpdateTurnText();
-        UpdateEnemyTurnVisual();
+        //UpdateEnemyTurnVisual();
     }
 
     private void OnDisable()
     {
-        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        //TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
         TurnSystem.Instance.OnNewInitiative -= TurnSystem_OnNewInitiative;
         TurnSystem.Instance.OnNextUnitInitiative -= TurnSystem_OnNextUnitInitiative;
     }
 
-    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
-    {
-        UpdateEnemyTurnVisual();
-    }
+    // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    // {
+    //     UpdateEnemyTurnVisual();
+    // }
 
     private void UpdateTurnText()
     {
@@ -48,11 +51,11 @@ public class TurnSystemUI : MonoBehaviour
             turnNumberText.text = "TURN " + TurnSystem.Instance.GetTurnNumber();
     }
 
-    private void UpdateEnemyTurnVisual()
-    {
-        if (enemyTurnVisualGameObject)
-            enemyTurnVisualGameObject.SetActive(!TurnSystem.Instance.IsPlayerTurn());
-    }
+    // private void UpdateEnemyTurnVisual()
+    // {
+    //     if (enemyTurnVisualGameObject)
+    //         enemyTurnVisualGameObject.SetActive(!TurnSystem.Instance.IsPlayerTurn());
+    // }
 
     private void ClearInitiativeUI()
     {
@@ -87,6 +90,7 @@ public class TurnSystemUI : MonoBehaviour
     private void TurnSystem_OnNextUnitInitiative()
     {
         GameObject lastTurnUnit = initiativeUIQueue.Dequeue();
+        currentInitiativeImage.sprite = lastTurnUnit.GetComponent<Image>().sprite;
         Destroy(lastTurnUnit);
     }
 }

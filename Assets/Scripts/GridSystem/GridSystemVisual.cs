@@ -92,7 +92,7 @@ public class GridSystemVisual : MonoBehaviour
                         hitInfo.point.y + visualFloorYOffset,
                         gridSystemVisualSingleTransform.position.z
                     );
-                    Debug.Log("ayaya");
+                    //Debug.Log("ayaya");
                 }
 
                 gridSystemVisualSingleArray[x, z] =

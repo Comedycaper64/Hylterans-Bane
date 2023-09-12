@@ -7,7 +7,19 @@ using UnityEngine;
 public class UnitStatUI : MonoBehaviour
 {
     [SerializeField]
-    private GameObject unitDetailsContainer;
+    private GameObject unitDetails;
+
+    [SerializeField]
+    private Transform unitActionContainer;
+
+    [SerializeField]
+    private Transform unitPassiveContainer;
+
+    [SerializeField]
+    private Transform unitRallyingCryContainer;
+
+    [SerializeField]
+    private GameObject unitAbilityPrefab;
 
     [SerializeField]
     private TextMeshProUGUI unitNameText;
@@ -53,7 +65,7 @@ public class UnitStatUI : MonoBehaviour
 
     private void ToggleUnitDetailsUI(bool toggle, Unit unit)
     {
-        unitDetailsContainer.SetActive(toggle);
+        unitDetails.SetActive(toggle);
         if (toggle)
         {
             UnitStats unitStats = unit.GetUnitStats();
@@ -66,12 +78,59 @@ public class UnitStatUI : MonoBehaviour
             unitINTText.text = "INT: " + unitStats.GetStatValue(StatType.INT);
             unitWISText.text = "WIS: " + unitStats.GetStatValue(StatType.WIS);
             unitCHAText.text = "CHA: " + unitStats.GetStatValue(StatType.CHA);
+            ClearContainers();
+            foreach (BaseAction action in unit.GetBaseActionList())
+            {
+                string actionName = action.GetActionName();
+                if ((actionName == "Move") || (actionName == "Attack") || (actionName == "Wait"))
+                {
+                    continue;
+                }
+                AbilityDetailUI actionUI = Instantiate(unitAbilityPrefab, unitActionContainer)
+                    .GetComponent<AbilityDetailUI>();
+                actionUI.SetupAbilityUI(actionName, action.GetActionDescription());
+            }
+            foreach (PassiveAbility passiveAbility in unit.GetComponents<PassiveAbility>())
+            {
+                AbilityDetailUI passiveUI = Instantiate(unitAbilityPrefab, unitPassiveContainer)
+                    .GetComponent<AbilityDetailUI>();
+                passiveUI.SetupAbilityUI(
+                    passiveAbility.GetAbilityName(),
+                    passiveAbility.GetAbilityDescription()
+                );
+            }
+            if (unit.TryGetComponent(out RallyingCry rallyingCry))
+            {
+                rallyingCry = unit.GetComponent<RallyingCry>();
+                AbilityDetailUI detailUI = Instantiate(unitAbilityPrefab, unitRallyingCryContainer)
+                    .GetComponent<AbilityDetailUI>();
+                detailUI.SetupAbilityUI(
+                    rallyingCry.GetAbilityName(),
+                    rallyingCry.GetAbilityDescription()
+                );
+            }
+        }
+    }
+
+    private void ClearContainers()
+    {
+        foreach (Transform action in unitActionContainer)
+        {
+            Destroy(action.gameObject);
+        }
+        foreach (Transform passive in unitPassiveContainer)
+        {
+            Destroy(passive.gameObject);
+        }
+        foreach (Transform rally in unitRallyingCryContainer)
+        {
+            Destroy(rally.gameObject);
         }
     }
 
     private void InputManage_OnUnitDetailsEvent()
     {
-        if (unitDetailsContainer.activeInHierarchy)
+        if (unitDetails.activeInHierarchy)
         {
             ToggleUnitDetailsUI(false, null);
         }
