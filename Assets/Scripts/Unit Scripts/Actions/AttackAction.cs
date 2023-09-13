@@ -216,10 +216,7 @@ public class AttackAction : BaseAction
         attackSucceeded = new bool[attackNumber];
         for (int i = 0; i < attackNumber; i++)
         {
-            attackSucceeded[i] = CombatSystem.Instance.TryAttack(
-                unit.GetUnitStats(),
-                targetUnit.GetUnitStats()
-            );
+            attackSucceeded[i] = CombatSystem.Instance.TryAttack(unit, targetUnit);
         }
 
         state = State.SwingingSwordBeforeHit;

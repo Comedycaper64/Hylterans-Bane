@@ -7,6 +7,9 @@ using UnityEngine;
 public class UnitStatUI : MonoBehaviour
 {
     [SerializeField]
+    private LayerMask unitLayerMask;
+
+    [SerializeField]
     private GameObject unitDetails;
 
     [SerializeField]
@@ -101,7 +104,6 @@ public class UnitStatUI : MonoBehaviour
             }
             if (unit.TryGetComponent(out RallyingCry rallyingCry))
             {
-                rallyingCry = unit.GetComponent<RallyingCry>();
                 AbilityDetailUI detailUI = Instantiate(unitAbilityPrefab, unitRallyingCryContainer)
                     .GetComponent<AbilityDetailUI>();
                 detailUI.SetupAbilityUI(
@@ -136,7 +138,15 @@ public class UnitStatUI : MonoBehaviour
         }
         else
         {
-            if (UnitActionSystem.Instance.GetSelectedUnit())
+            Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitLayerMask))
+            {
+                if (raycastHit.transform.TryGetComponent(out Unit unit))
+                {
+                    ToggleUnitDetailsUI(true, unit);
+                }
+            }
+            else if (UnitActionSystem.Instance.GetSelectedUnit())
             {
                 ToggleUnitDetailsUI(true, UnitActionSystem.Instance.GetSelectedUnit());
             }

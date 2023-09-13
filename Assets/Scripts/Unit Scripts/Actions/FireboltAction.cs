@@ -203,10 +203,7 @@ public class FireboltAction : BaseAction
     {
         attackSucceeded = false;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-        attackSucceeded = CombatSystem.Instance.TryAttack(
-            unit.GetUnitStats(),
-            targetUnit.GetUnitStats()
-        );
+        attackSucceeded = CombatSystem.Instance.TryAttack(unit, targetUnit);
 
         state = State.Aiming;
         float aimingStateTime = 0.75f;
