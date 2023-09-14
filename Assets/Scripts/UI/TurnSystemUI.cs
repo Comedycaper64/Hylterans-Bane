@@ -20,6 +20,9 @@ public class TurnSystemUI : MonoBehaviour
     private Image currentInitiativeImage;
 
     [SerializeField]
+    private GameObject endActionButton;
+
+    [SerializeField]
     private GameObject initiativePrefab;
 
     private Queue<GameObject> initiativeUIQueue = new Queue<GameObject>();
@@ -29,7 +32,9 @@ public class TurnSystemUI : MonoBehaviour
         //TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         TurnSystem.Instance.OnNewInitiative += TurnSystem_OnNewInitiative;
         TurnSystem.Instance.OnNextUnitInitiative += TurnSystem_OnNextUnitInitiative;
+        TurnSystem.Instance.OnNextActionInitiative += TurnSystem_OnNextActionInitiative;
         UpdateTurnText();
+        ToggleFinishActionUI(false);
         //UpdateEnemyTurnVisual();
     }
 
@@ -38,6 +43,7 @@ public class TurnSystemUI : MonoBehaviour
         //TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
         TurnSystem.Instance.OnNewInitiative -= TurnSystem_OnNewInitiative;
         TurnSystem.Instance.OnNextUnitInitiative -= TurnSystem_OnNextUnitInitiative;
+        TurnSystem.Instance.OnNextActionInitiative -= TurnSystem_OnNextActionInitiative;
     }
 
     // private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
@@ -49,6 +55,11 @@ public class TurnSystemUI : MonoBehaviour
     {
         if (turnNumberText)
             turnNumberText.text = "TURN " + TurnSystem.Instance.GetTurnNumber();
+    }
+
+    private void ToggleFinishActionUI(bool toggle)
+    {
+        endActionButton.SetActive(toggle);
     }
 
     // private void UpdateEnemyTurnVisual()
@@ -64,6 +75,11 @@ public class TurnSystemUI : MonoBehaviour
             Destroy(initiativeUI.gameObject);
         }
         initiativeUIQueue.Clear();
+    }
+
+    public void FinishAction()
+    {
+        TurnSystem.Instance.FinishAction();
     }
 
     private void TurnSystem_OnNewInitiative(object sender, Queue<Initiative> initiatives)
@@ -89,8 +105,14 @@ public class TurnSystemUI : MonoBehaviour
 
     private void TurnSystem_OnNextUnitInitiative()
     {
+        ToggleFinishActionUI(false);
         GameObject lastTurnUnit = initiativeUIQueue.Dequeue();
         currentInitiativeImage.sprite = lastTurnUnit.GetComponent<Image>().sprite;
         Destroy(lastTurnUnit);
+    }
+
+    private void TurnSystem_OnNextActionInitiative()
+    {
+        ToggleFinishActionUI(true);
     }
 }

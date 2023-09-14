@@ -54,20 +54,27 @@ public class EnemyAI : MonoBehaviour
         TryTakeEnemyAIAction(enemyUnit, FinishEnemyTurn);
     }
 
-    //Each enemy unit tries to take as many actions as it can
-    private bool TryTakeEnemyAIAction(Action onEnemyAIActionComplete)
+    public void TakeEnemyAction(Unit enemyUnit, BaseAction enemyAction)
     {
-        foreach (Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
-        {
-            OnEnemyUnitBeginAction?.Invoke(this, enemyUnit);
-            if (TryTakeEnemyAIAction(enemyUnit, onEnemyAIActionComplete))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        OnEnemyUnitBeginAction?.Invoke(this, enemyUnit);
+        currentEnemyUnit = enemyUnit;
+        TryTakeEnemyAIAction(enemyUnit, enemyAction, FinishEnemyTurn);
     }
+
+    //Each enemy unit tries to take as many actions as it can
+    // private bool TryTakeEnemyAIAction(Action onEnemyAIActionComplete)
+    // {
+    //     foreach (Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
+    //     {
+    //         OnEnemyUnitBeginAction?.Invoke(this, enemyUnit);
+    //         if (TryTakeEnemyAIAction(enemyUnit, onEnemyAIActionComplete))
+    //         {
+    //             return true;
+    //         }
+    //     }
+
+    //     return false;
+    // }
 
     //Does as many actions as it can based on AP, goes through all possible actions and does the one with the best action value
     //Value calculation for an action is done in the actions themselves (hence baseAction is being used)
@@ -124,6 +131,35 @@ public class EnemyAI : MonoBehaviour
 
             enemyUnit.SetMovementCompleted(true);
         }
+
+        if (bestEnemyAIAction != null)
+        {
+            bestBaseAction.TakeAction(bestEnemyAIAction.gridPosition, onEnemyAIActionComplete);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool TryTakeEnemyAIAction(
+        Unit enemyUnit,
+        BaseAction enemyAction,
+        Action onEnemyAIActionComplete
+    )
+    {
+        BaseAction bestBaseAction = enemyAction;
+
+        enemyUnit.SetMovementCompleted(true);
+
+        if (enemyUnit.GetActionCompleted())
+        {
+            return false;
+        }
+
+        enemyUnit.SetActionCompleted(true);
+        EnemyAIAction bestEnemyAIAction = bestBaseAction.GetBestEnemyAIAction();
 
         if (bestEnemyAIAction != null)
         {

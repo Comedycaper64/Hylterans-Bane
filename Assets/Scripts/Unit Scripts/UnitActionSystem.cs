@@ -181,6 +181,16 @@ public class UnitActionSystem : MonoBehaviour
         }
     }
 
+    public void FinishCurrentUnitTurn()
+    {
+        if (selectedUnit)
+        {
+            OnUnitActionStarted?.Invoke();
+            OnUnitActionFinished?.Invoke();
+            selectedUnit.SetActionCompleted(true);
+        }
+    }
+
     //Unit that's clicked on is new selected unit
     private bool TryHandleUnitSelection()
     {

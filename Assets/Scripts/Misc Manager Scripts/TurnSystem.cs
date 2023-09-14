@@ -9,6 +9,7 @@ public class TurnSystem : MonoBehaviour
 
     public event EventHandler OnTurnChanged;
     public event Action OnNextUnitInitiative;
+    public event Action OnNextActionInitiative;
     public event EventHandler<Queue<Initiative>> OnNewInitiative;
 
     //Keeps track of what turn it is
@@ -60,19 +61,31 @@ public class TurnSystem : MonoBehaviour
                 currentInitiative.rallyingCry.PerformAbility(NextInitiative);
                 return;
             }
-
+            isPlayerTurn = !currentInitiative.unit.IsEnemy();
             if (currentInitiative.unitAction != null)
             {
                 currentInitiative.unit.SetMovementCompleted(true);
                 currentInitiative.unit.SetActionCompleted(false);
-                UnitActionSystem.Instance.BeginUnitAction(
-                    currentInitiative.unit,
-                    currentInitiative.unitAction
-                );
+
+                if (!isPlayerTurn)
+                {
+                    EnemyAI.Instance.TakeEnemyAction(
+                        currentInitiative.unit,
+                        currentInitiative.unitAction
+                    );
+                }
+                else
+                {
+                    OnNextActionInitiative?.Invoke();
+
+                    UnitActionSystem.Instance.BeginUnitAction(
+                        currentInitiative.unit,
+                        currentInitiative.unitAction
+                    );
+                }
             }
             else
             {
-                isPlayerTurn = !currentInitiative.unit.IsEnemy();
                 OnTurnChanged?.Invoke(this, EventArgs.Empty);
                 currentInitiative.unit.SetMovementCompleted(false);
                 currentInitiative.unit.SetActionCompleted(false);
@@ -182,6 +195,12 @@ public class TurnSystem : MonoBehaviour
         }
 
         OnNewInitiative?.Invoke(this, initiativeOrder);
+    }
+
+    public void FinishAction()
+    {
+        UnitActionSystem.Instance.FinishCurrentUnitTurn();
+        NextInitiative();
     }
 
     private void EnemyAI_OnEnemyTurnFinished(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AttackAction : BaseAction
@@ -21,8 +22,7 @@ public class AttackAction : BaseAction
     }
 
     private int attackNumber = 1;
-    private int attackTracker = 0;
-    private bool[] attackSucceeded;
+    private bool attackSucceeded;
     private State state;
     private float stateTimer;
     private Unit targetUnit;
@@ -88,7 +88,7 @@ public class AttackAction : BaseAction
                 state = State.SwingingSwordAfterHit;
                 float afterHitStateTime = 0.5f;
                 stateTimer = afterHitStateTime;
-                if (attackSucceeded[attackTracker])
+                if (attackSucceeded)
                 {
                     int damageAmount = unit.GetUnitStats().GetDamage();
                     targetUnit.Damage(damageAmount);
@@ -109,25 +109,12 @@ public class AttackAction : BaseAction
                     //     SoundManager.Instance.GetSoundEffectVolume()
                     // );
                 }
-                attackTracker++;
+
                 break;
             case State.SwingingSwordAfterHit:
-                if (attackTracker < attackNumber)
-                {
-                    state = State.SwingingSwordBeforeHit;
-                    stateTimer = 1f;
-                }
-                else
-                {
-                    // if (targetUnit.GetComponent<ExtraAttackAbility>())
-                    // {
-                    //     StartCoroutine(EnemyCounterAttack());
-                    // }
-                    // else
-                    // {
-                    ActionComplete();
-                    //}
-                }
+
+                ActionComplete();
+
                 break;
         }
     }
@@ -201,7 +188,6 @@ public class AttackAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        attackTracker = 0;
         attackNumber = 1;
         if (GetComponent<DualWieldingProdigyAbility>())
         {
@@ -211,13 +197,25 @@ public class AttackAction : BaseAction
         {
             attackNumber++;
         }
+
+        for (int i = 1; i < attackNumber; i++)
+        {
+            // if (!unit.GetAction<MultiAttackAction>())
+            // {
+            //     unit.AddComponent<MultiAttackAction>();
+            // }
+
+            Debug.Log("Ayaya");
+
+            TurnSystem.Instance.AddInitiativeToOrder(
+                new Initiative(unit, unit.GetAction<MultiAttackAction>(), 0)
+            );
+        }
+
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
-        attackSucceeded = new bool[attackNumber];
-        for (int i = 0; i < attackNumber; i++)
-        {
-            attackSucceeded[i] = CombatSystem.Instance.TryAttack(unit, targetUnit);
-        }
+        attackSucceeded = false;
+        attackSucceeded = CombatSystem.Instance.TryAttack(unit, targetUnit);
 
         state = State.SwingingSwordBeforeHit;
         float beforeHitStateTime = 0.75f;
