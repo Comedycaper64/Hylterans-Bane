@@ -26,6 +26,8 @@ public class UnitStats : MonoBehaviour
 
     private int totalRolledHealth;
 
+    private int unitExperience;
+
     private Dictionary<StatType, int> statDictionary = new Dictionary<StatType, int>();
 
     [SerializeField]
@@ -173,5 +175,28 @@ public class UnitStats : MonoBehaviour
     public int GetLevel()
     {
         return unitLevel;
+    }
+
+    public void LevelUp()
+    {
+        unitLevel++;
+        int rolledHealth = Random.Range(1, GetHitDiceValue(baseStats.GetHitDiceType()));
+        totalRolledHealth += rolledHealth;
+        //re-check unit baseaction and ability lists to enable new stuff
+    }
+
+    public int GetUnitExperience()
+    {
+        return unitExperience;
+    }
+
+    public void AddExperience(int addedExperience)
+    {
+        unitExperience = Mathf.Min(unitExperience + addedExperience, 100);
+        if (unitExperience == 100)
+        {
+            LevelUp();
+            unitExperience = 0;
+        }
     }
 }

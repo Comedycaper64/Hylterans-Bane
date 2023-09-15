@@ -9,7 +9,7 @@ public class DoubleTimeAbility : PassiveAbility
 
     private void Start()
     {
-        moveAction = GetComponent<MoveAction>();
+        moveAction = unit.GetAction<MoveAction>();
         moveAction.OnStartMoving += MoveAction_OnStartMoving;
         unit.OnUnitTurnEnd += Unit_OnUnitTurnEnd;
     }
@@ -32,6 +32,10 @@ public class DoubleTimeAbility : PassiveAbility
 
     private void MoveAction_OnStartMoving(object sender, int distanceMoved)
     {
+        if (IsDisabled())
+        {
+            return;
+        }
         if (distanceMoved == 1)
         {
             unitMoved = false;
@@ -44,6 +48,10 @@ public class DoubleTimeAbility : PassiveAbility
 
     private void Unit_OnUnitTurnEnd()
     {
+        if (IsDisabled())
+        {
+            return;
+        }
         if (!unitMoved)
         {
             unit.IncreaseHeldActions();

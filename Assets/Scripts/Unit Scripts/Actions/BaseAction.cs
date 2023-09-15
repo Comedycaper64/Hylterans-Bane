@@ -85,6 +85,11 @@ public abstract class BaseAction : MonoBehaviour
         this.disabled = disabled;
     }
 
+    public virtual int GetActionUnlockLevel()
+    {
+        return 1;
+    }
+
     public abstract string GetActionName();
 
     public abstract string GetActionDescription();

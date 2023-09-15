@@ -30,6 +30,10 @@ public class ResolutionAbility : PassiveAbility
 
     private void Unit_OnUnitTurnStart()
     {
+        if (IsDisabled())
+        {
+            return;
+        }
         healthSystem.SetResolute(true);
     }
 }

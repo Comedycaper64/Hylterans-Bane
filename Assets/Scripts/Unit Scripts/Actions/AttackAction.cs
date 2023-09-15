@@ -189,11 +189,11 @@ public class AttackAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         attackNumber = 1;
-        if (GetComponent<DualWieldingProdigyAbility>())
+        if (GetUnit().GetAbility<DualWieldingProdigyAbility>())
         {
             attackNumber++;
         }
-        if (GetComponent<ExtraAttackAbility>())
+        if (GetUnit().GetAbility<ExtraAttackAbility>())
         {
             attackNumber++;
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -11,7 +12,6 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private String unitClass;
 
-    [SerializeField]
     private UnitStats unitStats;
 
     //Toggles unit to have enemyBehaviour
@@ -25,6 +25,7 @@ public class Unit : MonoBehaviour
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
     private List<BaseAction> baseActionList = new List<BaseAction>();
+    private List<PassiveAbility> passiveAbilityList = new List<PassiveAbility>();
 
     //SERIALIZABLES
 
@@ -58,13 +59,36 @@ public class Unit : MonoBehaviour
     {
         heldActions = 0;
         healthSystem = GetComponent<HealthSystem>();
+        unitStats = GetComponent<UnitStats>();
         //Puts each component that extends the BaseAction into the array
         BaseAction[] baseActionArray = GetComponents<BaseAction>();
         foreach (BaseAction baseAction in baseActionArray)
         {
-            baseActionList.Add(baseAction);
+            if (baseAction.GetActionUnlockLevel() <= unitStats.GetLevel())
+            {
+                baseAction.SetDisabled(false);
+                baseActionList.Add(baseAction);
+            }
+            else
+            {
+                baseAction.SetDisabled(true);
+            }
         }
         baseActionList.Sort((BaseAction a, BaseAction b) => b.GetUIPriority() - a.GetUIPriority());
+
+        PassiveAbility[] passiveAbilities = GetComponents<PassiveAbility>();
+        foreach (PassiveAbility passiveAbility in passiveAbilities)
+        {
+            if (passiveAbility.GetAbilityUnlockLevel() <= unitStats.GetLevel())
+            {
+                passiveAbility.SetIsDisabled(false);
+                passiveAbilityList.Add(passiveAbility);
+            }
+            else
+            {
+                passiveAbility.SetIsDisabled(true);
+            }
+        }
 
         SetActionCompleted(true);
         SetMovementCompleted(true);
@@ -98,9 +122,22 @@ public class Unit : MonoBehaviour
     {
         foreach (BaseAction baseAction in baseActionList)
         {
-            if (baseAction is T)
+            if (baseAction is T t)
             {
-                return (T)baseAction;
+                return t;
+            }
+        }
+        return null;
+    }
+
+    public T GetAbility<T>()
+        where T : PassiveAbility
+    {
+        foreach (PassiveAbility passiveAbility in passiveAbilityList)
+        {
+            if (passiveAbility is T t)
+            {
+                return t;
             }
         }
         return null;
@@ -145,6 +182,11 @@ public class Unit : MonoBehaviour
     public List<BaseAction> GetBaseActionList()
     {
         return baseActionList;
+    }
+
+    public List<PassiveAbility> GetPassiveAbilityList()
+    {
+        return passiveAbilityList;
     }
 
     public GridPosition GetGridPosition()

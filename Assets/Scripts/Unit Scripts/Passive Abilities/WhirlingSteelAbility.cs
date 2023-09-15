@@ -25,12 +25,20 @@ public class WhirlingSteelAbility : PassiveAbility
 
     private void Unit_OnUnitTurnStart()
     {
+        if (IsDisabled())
+        {
+            return;
+        }
         unitStats.currentStatBonus -= statBonus;
         statBonus = new StatBonus();
     }
 
     private void AttackAction_OnUnitHit(object sender, Unit e)
     {
+        if (IsDisabled())
+        {
+            return;
+        }
         unitStats.currentStatBonus -= statBonus;
         statBonus = new StatBonus(0, 0, 0, statBonus.acBonus + 1);
         unitStats.currentStatBonus += statBonus;

@@ -53,6 +53,11 @@ public class LongbowExpertAbility : PassiveAbility
 
     private void MoveAction_OnStartMoving(object sender, int distanceMoved)
     {
+        if (IsDisabled())
+        {
+            return;
+        }
+
         if ((distanceMoved == 1) && !buffActive)
         {
             BuffUnit(true);

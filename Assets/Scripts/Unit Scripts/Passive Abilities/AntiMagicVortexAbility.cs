@@ -12,6 +12,10 @@ public class AntiMagicVortexAbility : PassiveAbility
     private void Start()
     {
         MoveAction.OnAnyUnitMoved += MoveAction_OnAnyUnitMoved;
+        if (IsDisabled())
+        {
+            return;
+        }
         StartCoroutine(InitialBuff());
     }
 
@@ -65,6 +69,11 @@ public class AntiMagicVortexAbility : PassiveAbility
 
     private void MoveAction_OnAnyUnitMoved(object sender, GridPosition newPosition)
     {
+        if (IsDisabled())
+        {
+            return;
+        }
+
         MoveAction sendingAction = (MoveAction)sender;
         Unit sendingUnit = sendingAction.GetUnit();
 

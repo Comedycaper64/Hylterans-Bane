@@ -118,7 +118,7 @@ public class MagicalAegisAction : BaseAction
         foreach (Unit targetUnit in targetUnits)
         {
             AegisEffect aegis = targetUnit.gameObject.AddComponent<AegisEffect>();
-            if (GetComponent<AbjuristAbility>())
+            if (GetUnit().GetAbility<AbjuristAbility>())
             {
                 aegis.AbjuristAegis();
             }

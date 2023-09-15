@@ -13,4 +13,9 @@ public class ExtraAttackAbility : PassiveAbility
     {
         return "Extra Attack";
     }
+
+    public override int GetAbilityUnlockLevel()
+    {
+        return 5;
+    }
 }
