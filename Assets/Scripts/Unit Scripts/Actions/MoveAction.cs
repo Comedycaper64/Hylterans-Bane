@@ -225,20 +225,14 @@ public class MoveAction : BaseAction
         int targetCountAtGridPosition;
         BaseAction unitAction;
 
-        // NEEDS IMPROVING ---------------------------------------------------------------------------------------------------
-
         if (unit.GetAction<AttackAction>())
         {
             unitAction = unit.GetAction<AttackAction>();
         }
-        else if (unit.GetAction<FireballAction>())
-        {
-            unitAction = unit.GetAction<FireballAction>();
-        }
-        else if (unit.GetAction<CleaveAction>())
-        {
-            unitAction = unit.GetAction<CleaveAction>();
-        }
+        // else if (unit.GetAction<FireboltAction>())
+        // {
+        //     unitAction = unit.GetAction<FireboltAction>();
+        // }
         else
         {
             return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0, };

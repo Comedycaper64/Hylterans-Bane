@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8013025189776292053}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 8013025190034257886}
   - component: {fileID: 8013025190034257884}
   - component: {fileID: 8013025190034257885}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 8013025190334747164}
   - component: {fileID: 8013025190334747165}
   - component: {fileID: 8013025190334747166}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: UnitWorldUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -469,7 +469,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &8013025190334747165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,7 +556,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Unit
   unitClass: 
-  unitStats: {fileID: 8013025190346272855}
   isEnemy: 0
   backSpriteAttacking: {fileID: 8013025190040047815}
   backSpriteDead: {fileID: 8013025191059375025}
@@ -776,7 +775,7 @@ GameObject:
   - component: {fileID: 8013025190813361595}
   - component: {fileID: 8013025190813361593}
   - component: {fileID: 8013025190813361594}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Held Action Tracker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -825,7 +824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -911,7 +910,7 @@ GameObject:
   - component: {fileID: 8013025190982309683}
   - component: {fileID: 8013025190982309681}
   - component: {fileID: 8013025190982309682}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: AOE Attack Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -960,7 +959,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1185,7 +1184,7 @@ GameObject:
   - component: {fileID: 8013025191226176265}
   - component: {fileID: 8013025191226176263}
   - component: {fileID: 8013025191226176264}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Predicted Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1234,7 +1233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1262,7 +1261,7 @@ GameObject:
   - component: {fileID: 8013025191615501817}
   - component: {fileID: 8013025191615501818}
   - component: {fileID: 8013025191615501819}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1311,7 +1310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

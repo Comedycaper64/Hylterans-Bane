@@ -205,8 +205,6 @@ public class AttackAction : BaseAction
             //     unit.AddComponent<MultiAttackAction>();
             // }
 
-            Debug.Log("Ayaya");
-
             TurnSystem.Instance.AddInitiativeToOrder(
                 new Initiative(unit, unit.GetAction<MultiAttackAction>(), 0)
             );

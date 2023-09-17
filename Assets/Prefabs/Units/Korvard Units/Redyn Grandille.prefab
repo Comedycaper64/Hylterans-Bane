@@ -77,6 +77,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8013025190346272855, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
+      propertyPath: unitWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: f4f945855c6c26744b8aef1fb56b46a6,
+        type: 2}
+    - target: {fileID: 8013025190346272855, guid: aca30e0a898416a46a3dad7094f5d66a,
+        type: 3}
       propertyPath: attackingStat
       value: 3
       objectReference: {fileID: 0}
@@ -147,8 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a616c4b6c555b4eb09fda456d80596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flingFireboltSFX: {fileID: 8300000, guid: 1cc48027846611041a279bd609f88de2, type: 3}
-  maxShootDistance: 4
+  attackHitSFX: {fileID: 8300000, guid: 1cc48027846611041a279bd609f88de2, type: 3}
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 128
