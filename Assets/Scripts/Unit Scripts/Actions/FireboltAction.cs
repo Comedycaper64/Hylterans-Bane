@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FireboltAction : AttackAction
 {
-    private string actionDescription = "A ranged attack that shoots a firebolt";
+    private string fireBoltDescription = "A ranged attack that shoots a firebolt";
 
     // private bool attackSucceeded;
 
@@ -38,7 +38,7 @@ public class FireboltAction : AttackAction
 
     public override string GetActionDescription()
     {
-        return actionDescription;
+        return fireBoltDescription;
     }
 
     // public override bool ActionDealsDamage()

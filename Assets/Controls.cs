@@ -89,6 +89,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Show Grid"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e1e7fdf-ca6f-4ee3-acb9-120bad8407f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -234,6 +243,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Unit Details"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f65bcd17-9695-493d-80f0-637ed181941a"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Player"",
+                    ""action"": ""Show Grid"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -260,6 +280,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_RightClick = m_Player.FindAction("RightClick", throwIfNotFound: true);
         m_Player_RallyingCry = m_Player.FindAction("Rallying Cry", throwIfNotFound: true);
         m_Player_UnitDetails = m_Player.FindAction("Unit Details", throwIfNotFound: true);
+        m_Player_ShowGrid = m_Player.FindAction("Show Grid", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -326,6 +347,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RightClick;
     private readonly InputAction m_Player_RallyingCry;
     private readonly InputAction m_Player_UnitDetails;
+    private readonly InputAction m_Player_ShowGrid;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -337,6 +359,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @RightClick => m_Wrapper.m_Player_RightClick;
         public InputAction @RallyingCry => m_Wrapper.m_Player_RallyingCry;
         public InputAction @UnitDetails => m_Wrapper.m_Player_UnitDetails;
+        public InputAction @ShowGrid => m_Wrapper.m_Player_ShowGrid;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -367,6 +390,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @UnitDetails.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnitDetails;
                 @UnitDetails.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnitDetails;
                 @UnitDetails.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnitDetails;
+                @ShowGrid.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowGrid;
+                @ShowGrid.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowGrid;
+                @ShowGrid.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowGrid;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -392,6 +418,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @UnitDetails.started += instance.OnUnitDetails;
                 @UnitDetails.performed += instance.OnUnitDetails;
                 @UnitDetails.canceled += instance.OnUnitDetails;
+                @ShowGrid.started += instance.OnShowGrid;
+                @ShowGrid.performed += instance.OnShowGrid;
+                @ShowGrid.canceled += instance.OnShowGrid;
             }
         }
     }
@@ -423,5 +452,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnRallyingCry(InputAction.CallbackContext context);
         void OnUnitDetails(InputAction.CallbackContext context);
+        void OnShowGrid(InputAction.CallbackContext context);
     }
 }

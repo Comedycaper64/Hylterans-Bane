@@ -7,8 +7,8 @@ using Cinemachine;
 public class CameraController : MonoBehaviour
 {
     //Camera controls
-    private const float MIN_FOLLOW_Y_OFFSET = 2f;
-    private const float MAX_FOLLOW_Y_OFFSET = 12f;
+    private const float MIN_FOLLOW_Y_OFFSET = -2f;
+    private const float MAX_FOLLOW_Y_OFFSET = 4f;
 
     private float xAxisCameraRange;
     private float zAxisCameraRange;
@@ -28,8 +28,8 @@ public class CameraController : MonoBehaviour
             cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         defaultFollowTarget = cinemachineVirtualCamera.Follow;
         targetFollowOffset = cinemachineTransposer.m_FollowOffset;
-        xAxisCameraRange = LevelGrid.Instance.GetWidth() * LevelGrid.Instance.GetCellSize();
-        zAxisCameraRange = LevelGrid.Instance.GetHeight() * LevelGrid.Instance.GetCellSize();
+        xAxisCameraRange = LevelGrid.Instance.GetWidth() * LevelGrid.Instance.GetCellSize() - 5f;
+        zAxisCameraRange = LevelGrid.Instance.GetHeight() * LevelGrid.Instance.GetCellSize() - 10f;
         EnemyAI.Instance.OnEnemyUnitBeginAction += EnemyAI_OnEnemyUnitBeginAction;
         EnemyAI.Instance.OnEnemyTurnFinished += EnemyAI_OnEnemyTurnFinished;
     }
@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         HandleZoom();
-        HandleRotation();
+        //HandleRotation();
         if (focusFollowTarget)
         {
             FollowFocusUnit();
@@ -66,9 +66,9 @@ public class CameraController : MonoBehaviour
         Vector3 movementThisFrame = moveVector * moveSpeed * Time.deltaTime;
         Vector3 newPosition = transform.position + movementThisFrame;
         transform.position = new Vector3(
-            Mathf.Clamp(newPosition.x, 0, xAxisCameraRange),
+            Mathf.Clamp(newPosition.x, 5f, xAxisCameraRange),
             transform.position.y,
-            Mathf.Clamp(newPosition.z, 0, zAxisCameraRange)
+            Mathf.Clamp(newPosition.z, 0f, zAxisCameraRange)
         );
     }
 
@@ -93,9 +93,14 @@ public class CameraController : MonoBehaviour
         );
 
         float zoomSpeed = 5f;
-        cinemachineTransposer.m_FollowOffset = Vector3.Lerp(
-            cinemachineTransposer.m_FollowOffset,
-            targetFollowOffset,
+        // cinemachineTransposer.m_FollowOffset = Vector3.Lerp(
+        //     cinemachineTransposer.m_FollowOffset,
+        //     targetFollowOffset,
+        //     Time.deltaTime * zoomSpeed
+        // );
+        transform.position = Vector3.Lerp(
+            transform.position,
+            new Vector3(transform.position.x, targetFollowOffset.y, transform.position.z),
             Time.deltaTime * zoomSpeed
         );
     }

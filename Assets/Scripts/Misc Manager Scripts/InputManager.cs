@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
     //private bool rightClickHeld;
     public Action OnRallyingCryEvent;
     public Action OnUnitDetailsEvent;
+    public EventHandler<bool> OnShowGridEvent;
 
     private void Awake()
     {
@@ -115,5 +116,17 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
             return;
         }
         OnUnitDetailsEvent?.Invoke();
+    }
+
+    public void OnShowGrid(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            OnShowGridEvent?.Invoke(this, true);
+        }
+        else if (context.canceled)
+        {
+            OnShowGridEvent?.Invoke(this, false);
+        }
     }
 }

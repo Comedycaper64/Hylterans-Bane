@@ -14,7 +14,11 @@ public class GridSystemVisual : MonoBehaviour
 
     [SerializeField]
     private LayerMask floorLayerMask;
+
+    [SerializeField]
     private float visualFloorYOffset = 0.75f;
+
+    private bool showEntireGrid = false;
 
     //Struct for matching an enum type to a material
     [Serializable]
@@ -75,12 +79,12 @@ public class GridSystemVisual : MonoBehaviour
                     Quaternion.identity
                 );
 
-                float raycastOffsetDistance = 5f;
+                float raycastOffsetDistance = 10f;
                 if (
                     Physics.Raycast(
                         gridSystemVisualSingleTransform.position
-                            + Vector3.down * raycastOffsetDistance,
-                        Vector3.up,
+                            + Vector3.up * raycastOffsetDistance,
+                        Vector3.down,
                         out RaycastHit hitInfo,
                         raycastOffsetDistance * 2,
                         floorLayerMask
@@ -93,6 +97,14 @@ public class GridSystemVisual : MonoBehaviour
                         gridSystemVisualSingleTransform.position.z
                     );
                     //Debug.Log("ayaya");
+                }
+                else
+                {
+                    gridSystemVisualSingleTransform.position = new Vector3(
+                        gridSystemVisualSingleTransform.position.x,
+                        visualFloorYOffset,
+                        gridSystemVisualSingleTransform.position.z
+                    );
                 }
 
                 gridSystemVisualSingleArray[x, z] =
@@ -109,6 +121,7 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        InputManager.Instance.OnShowGridEvent += InputManager_OnShowGrid;
 
         //Changes visible tiles based on selected unit / selected action
         UpdateGridVisual();
@@ -123,6 +136,7 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        InputManager.Instance.OnShowGridEvent -= InputManager_OnShowGrid;
     }
 
     //Meshenabled = false for all visual squares
@@ -132,9 +146,16 @@ public class GridSystemVisual : MonoBehaviour
         {
             for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
             {
-                gridSystemVisualSingleArray[x, z].Show(
-                    GetGridVisualTypeMaterial(GridVisualType.SoftWhite)
-                );
+                if (showEntireGrid)
+                {
+                    gridSystemVisualSingleArray[x, z].Show(
+                        GetGridVisualTypeMaterial(GridVisualType.SoftWhite)
+                    );
+                }
+                else
+                {
+                    gridSystemVisualSingleArray[x, z].Hide();
+                }
             }
         }
     }
@@ -314,6 +335,12 @@ public class GridSystemVisual : MonoBehaviour
         {
             HideAllGridPosition();
         }
+    }
+
+    private void InputManager_OnShowGrid(object sender, bool e)
+    {
+        showEntireGrid = e;
+        UpdateGridVisual();
     }
 
     //Gets the corresponding material of the gridVisualType enum
