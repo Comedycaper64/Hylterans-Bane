@@ -32,11 +32,13 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         UnitManager.Instance.OnEnemyDied += UnitManager_OnEnemyDied;
+        UnitManager.Instance.OnFriendlyUnitDied += UnitManager_OnFriendlyUnitDied;
     }
 
     private void OnDisable()
     {
         UnitManager.Instance.OnEnemyDied -= UnitManager_OnEnemyDied;
+        UnitManager.Instance.OnFriendlyUnitDied -= UnitManager_OnFriendlyUnitDied;
     }
 
     public void ResetLevel()
@@ -69,6 +71,14 @@ public class LevelManager : MonoBehaviour
         if (UnitManager.Instance.GetEnemyUnitList().Count == 0)
         {
             OpenNextLevelUI();
+        }
+    }
+
+    private void UnitManager_OnFriendlyUnitDied(object sender, EventArgs e)
+    {
+        if (UnitManager.Instance.GetFriendlyUnitList().Count == 0)
+        {
+            levelLostUI.SetActive(true);
         }
     }
 }

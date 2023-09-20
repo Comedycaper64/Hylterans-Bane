@@ -6,6 +6,7 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public event EventHandler OnEnemyDied;
+    public event EventHandler OnFriendlyUnitDied;
 
     public static UnitManager Instance { get; private set; }
 
@@ -69,6 +70,7 @@ public class UnitManager : MonoBehaviour
         else
         {
             friendlyUnitList.Remove(unit);
+            OnFriendlyUnitDied?.Invoke(this, EventArgs.Empty);
         }
     }
 
