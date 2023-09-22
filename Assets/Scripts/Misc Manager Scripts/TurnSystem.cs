@@ -35,7 +35,7 @@ public class TurnSystem : MonoBehaviour
         EnemyAI.Instance.OnEnemyTurnFinished += EnemyAI_OnEnemyTurnFinished;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
 
-        StartCoroutine(BeginCombat());
+        StartCoroutine(BeginCombat(0.5f));
     }
 
     private void OnDisable()
@@ -44,9 +44,14 @@ public class TurnSystem : MonoBehaviour
         Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
     }
 
-    private IEnumerator BeginCombat()
+    public void BeginCombat()
     {
-        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(BeginCombat(0.1f));
+    }
+
+    private IEnumerator BeginCombat(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         GetNewInitiativeRound();
     }
 

@@ -72,10 +72,15 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         //The manager uses player input to advance the text, so it needs the InputReader from the player
-        //input = GameObject.FindGameObjectWithTag("Player").GetComponent<InputReader>();
+        input = InputManager.Instance;
 
-        //input.IsLeftClickDownThisFrame += OnInteract;
+        input.OnLeftClickEvent += OnInteract;
         currentCharacterImage = null;
+    }
+
+    private void OnDisable()
+    {
+        input.OnLeftClickEvent -= OnInteract;
     }
 
     private void OnInteract()
@@ -147,6 +152,12 @@ public class DialogueManager : MonoBehaviour
             case "DialogueChangeScene":
                 currentDialogue = null;
                 ChangeScene((DialogueChangeScene)conversationNode);
+                break;
+            case "DialogueTrigger":
+                currentDialogue = null;
+                DialogueTrigger trigger = (DialogueTrigger)conversationNode;
+                trigger.BeginCombat();
+                EndDialogue();
                 break;
             default:
             case "Dialogue":

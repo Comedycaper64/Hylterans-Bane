@@ -10,7 +10,8 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
 
     private Controls controls;
 
-    //private bool leftClickHeld;
+    public Action OnLeftClickEvent;
+
     //private bool rightClickHeld;
     public Action OnRallyingCryEvent;
     public Action OnUnitDetailsEvent;
@@ -78,14 +79,11 @@ public class InputManager : MonoBehaviour, Controls.IPlayerActions
 
     public void OnLeftClick(InputAction.CallbackContext context)
     {
-        // if (context.performed)
-        // {
-        //     leftClickHeld = true;
-        // }
-        // else if (context.canceled)
-        // {
-        //     leftClickHeld = false;
-        // }
+        if (!context.performed)
+        {
+            return;
+        }
+        OnLeftClickEvent?.Invoke();
     }
 
     public void OnRightClick(InputAction.CallbackContext context)
