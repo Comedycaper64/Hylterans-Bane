@@ -24,7 +24,7 @@ public class DelegationAction : BaseAction
 
     public override string GetActionDescription()
     {
-        return "Allows an adjacent unit to have a turn after this unit. \nA queen can't be expected to do all the work. That's what subjects are for.";
+        return "Allows an adjacent unit to have a turn after this unit. \nHeld Actions Used : 1 \nA queen can't be expected to do all the work. That's what subjects are for.";
     }
 
     public override string GetActionName()

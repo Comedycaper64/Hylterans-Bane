@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class BombsAwayAction : BaseAction
 {
-    private string actionDescription = "An explosive shell launched at high velocity";
+    private string actionDescription =
+        "An explosive mortal shell fired in an arc. \nHeld Actions Used : 3 \nAttack Roll against Enemy Armour.";
 
     [SerializeField]
     private Transform bombProjectilePrefab;

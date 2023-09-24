@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class ArtilleryFireAction : BaseAction
 {
-    private readonly string actionDescription = "A powerful cannon blast forwards.";
+    private readonly string actionDescription =
+        "A powerful cannon blast hitting enemies in a line from this unit. \nHeld Actions Used : 3 \nAttack Roll against Enemy Armour.";
 
     [SerializeField]
     private readonly StatBonus actionStatBonus = new(0, 2, 0);

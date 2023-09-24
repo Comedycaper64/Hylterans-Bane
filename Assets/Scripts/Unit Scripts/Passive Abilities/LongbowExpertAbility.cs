@@ -28,7 +28,7 @@ public class LongbowExpertAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "Not moving on your turn grants advantage on attack rolls and +1 range";
+        return "Not moving on your turn grants advantage on attack rolls and +1 range on the current turn's attack.";
     }
 
     public override string GetAbilityName()

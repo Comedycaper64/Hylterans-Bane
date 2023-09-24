@@ -6,7 +6,7 @@ using UnityEngine;
 public class CrossStrikeAction : BaseAction
 {
     private readonly string actionDescription =
-        "Utilising both blades, swipe across enemies near you.";
+        "Utilising both blades, swipe across enemies near you.\nHeld Actions Used : 1 \nAttack Roll against Enemy Armour.";
 
     [SerializeField]
     private readonly StatBonus actionStatBonus = new(0, 2, 0);
@@ -63,6 +63,11 @@ public class CrossStrikeAction : BaseAction
     public override int GetActionRange()
     {
         return maxStrikeDistance;
+    }
+
+    public override int GetRequiredHeldActions()
+    {
+        return 1;
     }
 
     private void Update()

@@ -46,7 +46,7 @@ public class WhirlingSteelAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "Swinging blades form an impenetrable barrier around the wielder.";
+        return "Swinging blades form an impenetrable barrier around the wielder. Every time this unit attacks it gains +1 to its AC. This bonus resets on the start of its turn.";
     }
 
     public override string GetAbilityName()

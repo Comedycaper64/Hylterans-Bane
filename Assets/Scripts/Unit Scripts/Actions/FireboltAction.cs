@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class FireboltAction : AttackAction
 {
-    private string fireBoltDescription = "A ranged attack that shoots a firebolt";
+    private string fireBoltDescription =
+        "A ranged attack that shoots a firebolt. \nAttack Roll against Enemy Armour.";
 
     // private bool attackSucceeded;
 

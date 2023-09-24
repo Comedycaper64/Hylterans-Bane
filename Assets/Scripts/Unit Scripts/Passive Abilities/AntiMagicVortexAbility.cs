@@ -102,7 +102,7 @@ public class AntiMagicVortexAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "The weaving of abjuration gives nearby units advantage on saving throws against magic";
+        return "Units within 2 spaces have advantage on saving throws against magic. Prudent wards ensure survival.";
     }
 
     public override string GetAbilityName()

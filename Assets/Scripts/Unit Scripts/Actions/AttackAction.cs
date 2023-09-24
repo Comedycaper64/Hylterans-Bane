@@ -7,7 +7,8 @@ using UnityEngine;
 public class AttackAction : BaseAction
 {
     //[SerializeField]
-    private string actionDescription = "A basic weapon attack";
+    private string actionDescription =
+        "A basic weapon attack. \n Attack Roll against Enemy Armour.";
 
     [SerializeField]
     private AudioClip attackHitSFX;

@@ -37,7 +37,7 @@ public class MinorBarrierAction : BaseAction
 
     public override string GetActionDescription()
     {
-        return "Formulates a simple ward on an ally. Increases their AC by 5 until this unit's next turn";
+        return "Formulates a simple ward on an ally. Increases their AC by 5 until this unit's next turn.";
     }
 
     public override string GetActionName()

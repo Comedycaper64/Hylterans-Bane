@@ -24,7 +24,7 @@ public class MagicalAegisAction : BaseAction
 
     public override string GetActionDescription()
     {
-        return "A shield of abjuration protects your allies from damage once.";
+        return "A shield of abjuration forms around a set of allies that protects them from damage once. Lasts until broken. \nHeld Actions Used : 2";
     }
 
     public override string GetActionName()
