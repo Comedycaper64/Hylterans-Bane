@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &832847440620512839
 CanvasRenderer:
@@ -194,7 +194,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 800, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &832847440841004046
 CanvasRenderer:
@@ -355,11 +355,11 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
-  m_Spacing: 5.625
+  m_ChildAlignment: 4
+  m_Spacing: 11.25
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
+  m_ChildControlWidth: 0
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -407,7 +407,7 @@ MonoBehaviour:
     items: []
   spacingSizerFallback:
     screenConfigName: 
-    OptimizedSize: 10
+    OptimizedSize: 20
     MinSize: 0
     MaxSize: 300
     UseMinSize: 0
@@ -420,13 +420,13 @@ MonoBehaviour:
   customSpacingSizers:
     items: []
   settingsFallback:
-    ChildAlignment: 3
+    ChildAlignment: 4
     ReverseArrangement: 0
     ChildForceExpandHeight: 0
     ChildForceExpandWidth: 0
     ChildScaleWidth: 0
     ChildScaleHeight: 0
-    ChildControlWidth: 1
+    ChildControlWidth: 0
     ChildControlHeight: 1
     Orientation: 0
     screenConfigName: Fallback
@@ -580,7 +580,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &832847441202356188
 CanvasRenderer:
