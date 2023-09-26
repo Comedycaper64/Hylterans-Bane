@@ -64,10 +64,10 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         //If the cursor is above the unit
-        if (TryHandleUnitSelection())
-        {
-            return;
-        }
+        // if (TryHandleUnitSelection())
+        // {
+        //     return;
+        // }
 
         //If pointer is over a GameObject (like the BusyUI)
         if (EventSystem.current.IsPointerOverGameObject())

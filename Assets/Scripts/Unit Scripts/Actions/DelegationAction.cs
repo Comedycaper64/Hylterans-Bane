@@ -65,6 +65,12 @@ public class DelegationAction : BaseAction
                     continue;
                 }
 
+                int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                if (testDistance > delegationRange)
+                {
+                    continue;
+                }
+
                 if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
                 {
                     // Grid Position is empty, no Unit
