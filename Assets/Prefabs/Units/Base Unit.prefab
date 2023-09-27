@@ -119,7 +119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.817, y: 0}
+  m_AnchoredPosition: {x: 0.31699997, y: 0}
   m_SizeDelta: {x: 1, y: 0.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8013025190034257887
@@ -405,7 +405,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.8, y: 2}
+  m_AnchoredPosition: {x: 0, y: 2.5}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8013025190334747162
@@ -557,11 +557,7 @@ MonoBehaviour:
   unitName: Unit
   unitClass: 
   isEnemy: 0
-  backSpriteAttacking: {fileID: 8013025190040047815}
-  backSpriteDead: {fileID: 8013025191059375025}
   baseMesh: {fileID: 8013025189621575042}
-  availableMaterial: {fileID: 2100000, guid: ffcc6949f9bf0bc4785da5511e349882, type: 2}
-  usedMaterial: {fileID: 2100000, guid: 7ce9d1b9ab044d64797ff3b633504901, type: 2}
   unitInitiativeUI: {fileID: 21300000, guid: dca608e6acc0b334981c8aa3f88d80ec, type: 3}
 --- !u!114 &8013025190346272855
 MonoBehaviour:
@@ -799,7 +795,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.5, y: 0}
   m_SizeDelta: {x: 0.5, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8013025190813361593
@@ -934,7 +930,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.5, y: 0.6}
+  m_AnchoredPosition: {x: 0, y: 0.6}
   m_SizeDelta: {x: 3, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8013025190982309681

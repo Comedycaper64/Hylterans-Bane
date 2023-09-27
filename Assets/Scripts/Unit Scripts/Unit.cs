@@ -29,20 +29,20 @@ public class Unit : MonoBehaviour
 
     //SERIALIZABLES
 
-    [SerializeField]
-    private GameObject backSpriteAttacking;
+    // [SerializeField]
+    // private GameObject backSpriteAttacking;
 
-    [SerializeField]
-    private GameObject backSpriteDead;
+    // [SerializeField]
+    // private GameObject backSpriteDead;
 
     [SerializeField]
     private MeshRenderer baseMesh;
 
-    [SerializeField]
-    private Material availableMaterial;
+    // [SerializeField]
+    // private Material availableMaterial;
 
-    [SerializeField]
-    private Material usedMaterial;
+    // [SerializeField]
+    // private Material usedMaterial;
 
     [SerializeField]
     private Sprite unitInitiativeUI;
@@ -148,12 +148,12 @@ public class Unit : MonoBehaviour
         turnActionCompleted = completed;
         if (turnActionCompleted)
         {
-            baseMesh.material = usedMaterial;
+            //baseMesh.material = usedMaterial;
             OnUnitTurnEnd?.Invoke();
         }
         else
         {
-            baseMesh.material = availableMaterial;
+            //baseMesh.material = availableMaterial;
             OnUnitTurnStart?.Invoke();
         }
     }
@@ -263,10 +263,10 @@ public class Unit : MonoBehaviour
         GridObject gridObject = LevelGrid.Instance.GetGridObject(gridPosition);
 
         float deathDelayTimer = 1.5f;
-        if (backSpriteAttacking)
-            backSpriteAttacking.SetActive(false);
-        if (backSpriteDead)
-            backSpriteDead.SetActive(true);
+        // if (backSpriteAttacking)
+        //     backSpriteAttacking.SetActive(false);
+        // if (backSpriteDead)
+        //     backSpriteDead.SetActive(true);
         if (this)
             Destroy(gameObject, deathDelayTimer);
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
