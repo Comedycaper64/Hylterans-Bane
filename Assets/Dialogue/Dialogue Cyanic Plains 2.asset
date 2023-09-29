@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a64bceacac0ac4d8cd34f46f777598, type: 3}
+  m_Name: Dialogue Cyanic Plains 2
+  m_EditorClassIdentifier: 
+  characterName: Redyn
+  characterImages:
+  - {fileID: 21300000, guid: 19769d349c55fe4498b77466dd601644, type: 3}
+  characterTalkSound: {fileID: 0}
+  leftSideCharacterImage: 1
+  rightSideCharacterImage: 0
+  sentences:
+  - "Prince Cyneric, dear, why don\u2019t you have some bluebread-\u201C"
