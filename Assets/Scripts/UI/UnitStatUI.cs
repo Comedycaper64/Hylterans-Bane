@@ -34,6 +34,18 @@ public class UnitStatUI : MonoBehaviour
     private TextMeshProUGUI unitLevelText;
 
     [SerializeField]
+    private TextMeshProUGUI unitHPText;
+
+    [SerializeField]
+    private TextMeshProUGUI unitACText;
+
+    [SerializeField]
+    private TextMeshProUGUI unitToHitText;
+
+    [SerializeField]
+    private TextMeshProUGUI unitSpellDCText;
+
+    [SerializeField]
     private TextMeshProUGUI unitSTRText;
 
     [SerializeField]
@@ -75,6 +87,10 @@ public class UnitStatUI : MonoBehaviour
             unitNameText.text = unit.GetUnitName();
             unitClassText.text = unit.GetUnitClass();
             unitLevelText.text = "Level " + unitStats.GetLevel();
+            unitHPText.text = "Hit Points: " + unit.GetHealth() + " / " + unitStats.GetMaxHealth();
+            unitACText.text = "Armour Class: " + unitStats.GetArmourClass();
+            unitToHitText.text = "To Hit: " + unitStats.GetToHit();
+            unitSpellDCText.text = "Ability Save DC: " + unitStats.GetAbilitySaveDC();
             unitSTRText.text = "STR: " + unitStats.GetStatValue(StatType.STR);
             unitDEXText.text = "DEX: " + unitStats.GetStatValue(StatType.DEX);
             unitCONText.text = "CON: " + unitStats.GetStatValue(StatType.CON);
@@ -85,7 +101,12 @@ public class UnitStatUI : MonoBehaviour
             foreach (BaseAction action in unit.GetBaseActionList())
             {
                 string actionName = action.GetActionName();
-                if ((actionName == "Move") || (actionName == "Attack") || (actionName == "Wait"))
+                if (
+                    (actionName == "Move")
+                    || (actionName == "Attack")
+                    || (actionName == "Wait")
+                    || (actionName == "Multiattack")
+                )
                 {
                     continue;
                 }
@@ -93,7 +114,7 @@ public class UnitStatUI : MonoBehaviour
                     .GetComponent<AbilityDetailUI>();
                 actionUI.SetupAbilityUI(actionName, action.GetActionDescription());
             }
-            foreach (PassiveAbility passiveAbility in unit.GetComponents<PassiveAbility>())
+            foreach (PassiveAbility passiveAbility in unit.GetPassiveAbilityList())
             {
                 AbilityDetailUI passiveUI = Instantiate(unitAbilityPrefab, unitPassiveContainer)
                     .GetComponent<AbilityDetailUI>();

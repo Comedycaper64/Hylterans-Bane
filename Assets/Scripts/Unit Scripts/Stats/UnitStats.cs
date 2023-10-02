@@ -56,7 +56,7 @@ public class UnitStats : MonoBehaviour
     public int GetMaxHealth()
     {
         return GetHitDiceValue(baseStats.GetHitDiceType())
-            + totalRolledHealth
+            + (GetHitDiceValue(baseStats.GetHitDiceType()) / 2 * unitLevel)
             + (GetModifier(statDictionary[StatType.CON]) * unitLevel);
     }
 
@@ -162,7 +162,7 @@ public class UnitStats : MonoBehaviour
         return Mathf.FloorToInt(score - 10) / 2;
     }
 
-    public int GetSpellDC()
+    public int GetAbilitySaveDC()
     {
         return 8 + GetProficiencyBonus() + GetModifier(statDictionary[attackingStat]);
     }

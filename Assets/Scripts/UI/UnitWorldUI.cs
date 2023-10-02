@@ -126,7 +126,7 @@ public class UnitWorldUI : MonoBehaviour
         UnitStats thisUnitStats = thisUnit.GetUnitStats();
         if (isSpell)
         {
-            aoeDamageText.text = "Spell Save DC: " + thisUnitStats.GetSpellDC();
+            aoeDamageText.text = "Spell Save DC: " + thisUnitStats.GetAbilitySaveDC();
         }
         else
         {

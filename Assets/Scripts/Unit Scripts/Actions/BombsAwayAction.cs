@@ -17,8 +17,8 @@ public class BombsAwayAction : BaseAction
     private int minThrowDistance = 4;
     private int maxThrowDistance = 8;
 
-    [SerializeField]
-    private StatBonus actionStatBonus = new StatBonus(0, 2, 0);
+    // [SerializeField]
+    // private StatBonus actionStatBonus = new StatBonus(0, 2, 0);
 
     // [SerializeField]
     // private float damageRadius = 3f;
@@ -74,10 +74,10 @@ public class BombsAwayAction : BaseAction
         return true;
     }
 
-    public override StatBonus GetStatBonus()
-    {
-        return actionStatBonus;
-    }
+    // public override StatBonus GetStatBonus()
+    // {
+    //     return actionStatBonus;
+    // }
 
     private void Update()
     {

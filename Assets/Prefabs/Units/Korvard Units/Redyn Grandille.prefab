@@ -205,6 +205,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8013025190346272855, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
+      propertyPath: unitLevel
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013025190346272855, guid: aca30e0a898416a46a3dad7094f5d66a,
+        type: 3}
       propertyPath: unitArmour
       value: 
       objectReference: {fileID: 11400000, guid: f18cd7253e42fa54ab285e6f1b586013,

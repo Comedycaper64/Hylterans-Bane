@@ -70,6 +70,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1151388028547126963, guid: 1ad2d2402498c0e4798efa592adebaf0,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: 1ad2d2402498c0e4798efa592adebaf0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: 1ad2d2402498c0e4798efa592adebaf0,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: 1ad2d2402498c0e4798efa592adebaf0,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7071068
       objectReference: {fileID: 0}
@@ -87,6 +102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: 1ad2d2402498c0e4798efa592adebaf0,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -223,6 +243,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cb9d7249d23ec854492349dbdc97f1ab,
         type: 2}
+    - target: {fileID: 6027193776703062555, guid: 53ca4d94e727d694e99ae05e8fad03dc,
+        type: 3}
+      propertyPath: unitLevel
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6027193776703062555, guid: 53ca4d94e727d694e99ae05e8fad03dc,
         type: 3}
       propertyPath: unitArmour

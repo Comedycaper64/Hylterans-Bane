@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Dialogue Change Cyanic Plains
   m_EditorClassIdentifier: 
   musicTrack: {fileID: 0}
-  changeToScene: 2
+  changeToScene: 1

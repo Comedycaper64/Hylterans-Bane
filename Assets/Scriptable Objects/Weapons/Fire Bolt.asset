@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Fire Bolt
   m_EditorClassIdentifier: 
   weaponName: Fire Bolt
-  weaponDamage: 3
+  weaponDamage: 6
   weaponRange: 4

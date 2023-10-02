@@ -50,10 +50,10 @@ public class MultiAttackAction : BaseAction
         return true;
     }
 
-    public override int GetActionUnlockLevel()
-    {
-        return 5;
-    }
+    // public override int GetActionUnlockLevel()
+    // {
+    //     return 5;
+    // }
 
     private void Update()
     {

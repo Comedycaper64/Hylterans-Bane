@@ -201,11 +201,6 @@ public class AttackAction : BaseAction
 
         for (int i = 1; i < attackNumber; i++)
         {
-            // if (!unit.GetAction<MultiAttackAction>())
-            // {
-            //     unit.AddComponent<MultiAttackAction>();
-            // }
-
             TurnSystem.Instance.AddInitiativeToOrder(
                 new Initiative(unit, unit.GetAction<MultiAttackAction>(), 0)
             );

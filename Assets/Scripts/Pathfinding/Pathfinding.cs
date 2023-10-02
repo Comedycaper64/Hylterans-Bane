@@ -137,18 +137,27 @@ public class Pathfinding : MonoBehaviour
 
                 if (!neighbourNode.IsWalkable())
                 {
-                    // if (neighbourNode == endNode)
-                    // {
-                    //     Debug.Log("ayaya");
-                    // }
                     closedList.Add(neighbourNode);
                     continue;
                 }
 
+                // if (
+                //     LevelGrid.Instance.TryGetUnitAtGridPosition(
+                //         neighbourNode.GetGridPosition(),
+                //         out Unit unit
+                //     )
+                // )
+                // {
+                //     if (TurnSystem.Instance.IsPlayerTurn() == unit.IsEnemy())
+                //     {
+                //         closedList.Add(neighbourNode);
+                //         continue;
+                //     }
+                // }
+
                 int difficultTerrainMultiplier = 1;
                 if (neighbourNode.IsDifficultTerrain())
                 {
-                    //Debug.Log("Ayaya");
                     difficultTerrainMultiplier = 2;
                 }
 
