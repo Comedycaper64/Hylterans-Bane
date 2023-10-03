@@ -23,7 +23,14 @@ public class UnitWorldUI : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI aoeDamageText;
-    private float combatResultAppearanceTime = 2f;
+
+    [SerializeField]
+    private Transform attackTextStack;
+
+    [SerializeField]
+    private GameObject attackTextPrefab;
+
+    //private float combatResultAppearanceTime = 2f;
 
     //Logic for the healthbars and actionPoint trackers above a unit's head
     private void Start()
@@ -73,52 +80,47 @@ public class UnitWorldUI : MonoBehaviour
         heldActionText.text = newHeldActions.ToString();
     }
 
-    private IEnumerator ShowAOEAttackResult(AttackInteraction attackInteraction)
+    private void ShowAOEAttackResult(AttackInteraction attackInteraction)
     {
+        string attackText;
+        string stateText;
         if (attackInteraction.spellAttack)
         {
-            aoeDamageText.text =
+            attackText =
                 "Save: " + (attackInteraction.defenseRoll + attackInteraction.defenseBonus);
-
-            yield return new WaitForSeconds(combatResultAppearanceTime);
 
             if (
                 (attackInteraction.defenseRoll + attackInteraction.defenseBonus)
                 >= attackInteraction.attackRoll
             )
             {
-                aoeDamageText.text = "Saved!";
+                stateText = "Saved!";
             }
             else
             {
-                aoeDamageText.text = "Failed.";
+                stateText = "Failed.";
             }
-            yield return new WaitForSeconds(combatResultAppearanceTime);
-
-            aoeDamageText.text = "";
         }
         else
         {
-            aoeDamageText.text =
-                "To Hit: " + (attackInteraction.attackRoll + attackInteraction.attackBonus);
-
-            yield return new WaitForSeconds(combatResultAppearanceTime);
+            attackText =
+                "Attack: " + (attackInteraction.attackRoll + attackInteraction.attackBonus);
 
             if (
                 (attackInteraction.attackRoll + attackInteraction.attackBonus)
                 >= attackInteraction.defenseRoll
             )
             {
-                aoeDamageText.text = "Attack Hit!";
+                stateText = "Hit!";
             }
             else
             {
-                aoeDamageText.text = "Attack Missed.";
+                stateText = "Missed.";
             }
-            yield return new WaitForSeconds(combatResultAppearanceTime);
-
-            aoeDamageText.text = "";
         }
+        UnitAttackTextUI unitAttackTextUI = Instantiate(attackTextPrefab, attackTextStack)
+            .GetComponent<UnitAttackTextUI>();
+        unitAttackTextUI.SetupText(attackText, stateText);
     }
 
     private void ShowAttackerToHit(bool isSpell = false)
@@ -126,11 +128,11 @@ public class UnitWorldUI : MonoBehaviour
         UnitStats thisUnitStats = thisUnit.GetUnitStats();
         if (isSpell)
         {
-            aoeDamageText.text = "Spell Save DC: " + thisUnitStats.GetAbilitySaveDC();
+            aoeDamageText.text = "Save DC: " + thisUnitStats.GetAbilitySaveDC();
         }
         else
         {
-            aoeDamageText.text = "To Hit Bonus: " + thisUnitStats.GetToHit();
+            aoeDamageText.text = "To Hit: +" + thisUnitStats.GetToHit();
         }
     }
 
@@ -144,13 +146,12 @@ public class UnitWorldUI : MonoBehaviour
         if (isSpell)
         {
             int savingThrow = thisUnitStats.GetSavingThrow(saveStat);
-            aoeDamageText.text =
-                "Save Bonus: " + savingThrow + "\nChance to hit: " + chanceToHit + "%";
+            aoeDamageText.text = "Save: +" + savingThrow + "\nHit: " + chanceToHit + "%";
         }
         else
         {
             int armourClass = thisUnitStats.GetArmourClass();
-            aoeDamageText.text = "AC: " + armourClass + "\nChance to hit: " + chanceToHit + "%";
+            aoeDamageText.text = "AC: " + armourClass + "\nHit: " + chanceToHit + "%";
         }
     }
 
@@ -159,46 +160,47 @@ public class UnitWorldUI : MonoBehaviour
         aoeDamageText.text = "";
     }
 
-    private IEnumerator TemporarilyDisplayAttackUI(
+    private void TemporarilyDisplayAttackUI(
         bool attacker,
         string attackRoll = "",
         string attackBonus = "",
         string defendingAC = ""
     )
     {
+        string attackText;
         if (attacker)
         {
-            aoeDamageText.text = "Attack Roll: " + attackRoll + " + " + attackBonus;
+            attackText = "Attack: " + attackRoll + " + " + attackBonus;
         }
         else
         {
-            aoeDamageText.text = "Defender AC: " + defendingAC;
+            attackText = "AC: " + defendingAC;
         }
-        yield return new WaitForSeconds(combatResultAppearanceTime);
-        ClearAttackUI();
+        UnitAttackTextUI unitAttackTextUI = Instantiate(attackTextPrefab, attackTextStack)
+            .GetComponent<UnitAttackTextUI>();
+        unitAttackTextUI.SetupText(attackText);
     }
 
-    private IEnumerator TemporarilyDisplaySpellUI(
+    private void TemporarilyDisplaySpellUI(
         bool attacker,
         string spellSave = "",
         string defendingUnitSavingThrowRoll = "",
         string defendingUnitSavingThrowBonus = ""
     )
     {
+        string attackText;
         if (attacker)
         {
-            aoeDamageText.text = "Spell Save DC: " + spellSave;
+            attackText = "Save DC: " + spellSave;
         }
         else
         {
-            aoeDamageText.text =
-                "Defender Saving Throw: "
-                + defendingUnitSavingThrowRoll
-                + " + "
-                + defendingUnitSavingThrowBonus;
+            attackText =
+                "Save: " + defendingUnitSavingThrowRoll + " + " + defendingUnitSavingThrowBonus;
         }
-        yield return new WaitForSeconds(combatResultAppearanceTime);
-        ClearAttackUI();
+        UnitAttackTextUI unitAttackTextUI = Instantiate(attackTextPrefab, attackTextStack)
+            .GetComponent<UnitAttackTextUI>();
+        unitAttackTextUI.SetupText(attackText);
     }
 
     private void Unit_OnHeldActionsChanged(object sender, int newHeldActions)
@@ -208,7 +210,7 @@ public class UnitWorldUI : MonoBehaviour
 
     private void Unit_OnAOEAttack(object sender, AttackInteraction attackInteraction)
     {
-        StartCoroutine(ShowAOEAttackResult(attackInteraction));
+        ShowAOEAttackResult(attackInteraction);
     }
 
     private void HealthSystem_OnDamaged(object sender, float e)
@@ -220,19 +222,15 @@ public class UnitWorldUI : MonoBehaviour
     {
         if (thisUnit == attackInteraction[0] as Unit)
         {
-            StartCoroutine(
-                TemporarilyDisplayAttackUI(
-                    true,
-                    attackInteraction[2].ToString(),
-                    attackInteraction[3].ToString()
-                )
+            TemporarilyDisplayAttackUI(
+                true,
+                attackInteraction[2].ToString(),
+                attackInteraction[3].ToString()
             );
         }
         else if (thisUnit == attackInteraction[1] as Unit)
         {
-            StartCoroutine(
-                TemporarilyDisplayAttackUI(false, "", "", attackInteraction[4].ToString())
-            );
+            TemporarilyDisplayAttackUI(false, "", "", attackInteraction[4].ToString());
         }
     }
 
@@ -240,17 +238,15 @@ public class UnitWorldUI : MonoBehaviour
     {
         if (thisUnit == spellInteraction[0] as Unit)
         {
-            StartCoroutine(TemporarilyDisplaySpellUI(true, spellInteraction[2].ToString()));
+            TemporarilyDisplaySpellUI(true, spellInteraction[2].ToString());
         }
         else if (thisUnit == spellInteraction[1] as Unit)
         {
-            StartCoroutine(
-                TemporarilyDisplaySpellUI(
-                    false,
-                    "",
-                    spellInteraction[3].ToString(),
-                    spellInteraction[4].ToString()
-                )
+            TemporarilyDisplaySpellUI(
+                false,
+                "",
+                spellInteraction[3].ToString(),
+                spellInteraction[4].ToString()
             );
         }
     }
