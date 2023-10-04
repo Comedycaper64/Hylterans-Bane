@@ -6,7 +6,7 @@ using UnityEngine;
 public class DeadeyeAction : BaseAction
 {
     private string actionDescription =
-        "A precise ranged attack bolstered by austere confidence. \nHeld Actions Used : 1 \nsAttack Roll against Enemy Armour.";
+        "A precise ranged attack bolstered by austere confidence.\n+3 to hit, +2 damage, +2 range \nHeld Actions Used : 1 \nsAttack Roll against Enemy Armour.";
 
     private bool attackSucceeded;
 

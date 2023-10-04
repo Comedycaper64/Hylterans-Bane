@@ -22,7 +22,7 @@ public class DoubleTimeAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "Not moving on your turn grants a held action.";
+        return "Not moving on your turn grants a held action. This does not apply when the unit is overexerted.";
     }
 
     public override string GetAbilityName()

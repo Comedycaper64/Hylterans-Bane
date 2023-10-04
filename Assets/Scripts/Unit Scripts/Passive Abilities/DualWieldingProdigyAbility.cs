@@ -7,7 +7,7 @@ public class DualWieldingProdigyAbility : PassiveAbility
 {
     public override string GetAbilityDescription()
     {
-        return "Allows this unit to perform an extra strike when taking the attack action. This stacks with the Extra Attack ability.";
+        return "Allows this unit to perform an extra strike when taking the attack action. This stacks with the Extra Attack ability. \n'Many envied the dextrous style unique to the Swiftblade.'";
     }
 
     public override string GetAbilityName()

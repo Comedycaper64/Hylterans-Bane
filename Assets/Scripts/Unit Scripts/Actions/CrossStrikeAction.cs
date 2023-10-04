@@ -6,7 +6,7 @@ using UnityEngine;
 public class CrossStrikeAction : BaseAction
 {
     private readonly string actionDescription =
-        "Utilising both blades, swipe across enemies near you.\nHeld Actions Used : 1 \nAttack Roll against Enemy Armour.";
+        "Utilising both blades, swipe across enemies near you.\n+2 damage \nHeld Actions Used : 1 \nAttack Roll against Enemy Armour.";
 
     [SerializeField]
     private readonly StatBonus actionStatBonus = new(0, 2, 0);

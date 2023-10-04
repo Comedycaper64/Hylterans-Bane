@@ -34,7 +34,7 @@ public class FlashOfSteelRally : RallyingCry
 
     public override string GetAbilityDescription()
     {
-        return "'Now! Strike them!' \nHeld Actions Used: 2 \nAllows each unit within 2 spaces of Firkin to perform an attack on the closest enemy within their range, prioritising lower health enemies.";
+        return "Allows each unit within 2 spaces of Firkin to perform an attack on the closest enemy within their range, prioritising lower health enemies. \nHeld Actions Used: 2 \n'Now! Strike them!'";
     }
 
     public override string GetAbilityName()

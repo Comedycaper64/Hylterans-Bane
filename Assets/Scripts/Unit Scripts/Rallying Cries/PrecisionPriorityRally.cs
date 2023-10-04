@@ -24,7 +24,7 @@ public class PrecisionPriorityRally : RallyingCry
 
     public override string GetAbilityDescription()
     {
-        return "'Steady aim!'\nHeld Actions Used: 1 \nGrants each friendly unit +10 to hit until the end of their turn.";
+        return "Grants each friendly unit +10 to hit until the end of their turn. \nHeld Actions Used: 1 \n'Steady aim, make this one count!'";
     }
 
     public override string GetAbilityName()

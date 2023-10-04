@@ -20,7 +20,7 @@ public class ResolutionAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "A queen's fervor is unbreakable. Survives a lethal attack with 1 hit point once a turn.";
+        return "Survives a lethal attack with 1 hit point once a turn. \n'A queen's fervor is unbreakable.'";
     }
 
     public override string GetAbilityName()

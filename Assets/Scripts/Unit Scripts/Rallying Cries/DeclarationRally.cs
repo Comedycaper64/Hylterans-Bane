@@ -26,7 +26,7 @@ public class DeclarationRally : RallyingCry
 
     public override string GetAbilityDescription()
     {
-        return "'Brave soldiers of Korvard, this marks the turning of the tide!' \nHeld Actions Used: 0 \nGrants each unit within 2 spaces of the queen 1 held action.";
+        return "Grants each unit within 2 spaces of the queen 1 held action.\nHeld Actions Used: 0 \n 'Brave soldiers of Korvard, this marks the turning of the tide!'";
     }
 
     public override string GetAbilityName()

@@ -105,7 +105,7 @@ public class DedicationAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "Units within 2 spaces have +3 to hit and +2 to damage. The queen's presence inspires her subjects on the field of battle.";
+        return "Units within 2 spaces of the Queen have +3 to hit and +2 to damage. \n'The Queen's presence inspires her subjects on the field of battle.'";
     }
 
     public override string GetAbilityName()

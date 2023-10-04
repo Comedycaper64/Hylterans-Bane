@@ -89,7 +89,7 @@ PrefabInstance:
         type: 3}
       propertyPath: unitWeapon
       value: 
-      objectReference: {fileID: 11400000, guid: f4f6823d204f24e41a54254b5d397b1a,
+      objectReference: {fileID: 11400000, guid: c7f44612c7b973f48b9028a5b271d343,
         type: 2}
     - target: {fileID: 8013025190346272855, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}

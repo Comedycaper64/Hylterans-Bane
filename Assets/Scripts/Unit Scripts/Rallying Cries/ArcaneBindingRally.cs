@@ -24,7 +24,7 @@ public class ArcaneBindingRally : RallyingCry
 
     public override string GetAbilityDescription()
     {
-        return "'Go forth freely!' \nHeld Actions Used: 2 \nPrevents enemy units from casting spells on their next turn";
+        return "Prevents enemy units from casting spells on their next turn \nHeld Actions Used: 2 \n'Go forth freely, no spells will escape their lips!'";
     }
 
     public override string GetAbilityName()

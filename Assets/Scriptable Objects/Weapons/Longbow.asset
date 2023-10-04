@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Longbow
   m_EditorClassIdentifier: 
   weaponName: Longbow
-  weaponDamage: 6
+  weaponDamage: 8
   weaponRange: 4
