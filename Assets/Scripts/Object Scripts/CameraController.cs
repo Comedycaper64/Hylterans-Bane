@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         HandleZoom();
-        //HandleRotation();
+        HandleRotation();
         if (focusFollowTarget)
         {
             FollowFocusUnit();
@@ -84,7 +84,7 @@ public class CameraController : MonoBehaviour
     private void HandleZoom()
     {
         float zoomIncreaseAmount = 0.01f;
-        targetFollowOffset.y += InputManager.Instance.GetCameraZoomAmount() * zoomIncreaseAmount;
+        targetFollowOffset.y -= InputManager.Instance.GetCameraZoomAmount() * zoomIncreaseAmount;
 
         targetFollowOffset.y = Mathf.Clamp(
             targetFollowOffset.y,
