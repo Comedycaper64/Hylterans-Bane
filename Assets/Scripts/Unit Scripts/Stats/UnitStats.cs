@@ -162,6 +162,11 @@ public class UnitStats : MonoBehaviour
         return Mathf.FloorToInt(score - 10) / 2;
     }
 
+    public int GetMovement()
+    {
+        return baseStats.GetMovement();
+    }
+
     public int GetAbilitySaveDC()
     {
         return 8 + GetProficiencyBonus() + GetModifier(statDictionary[attackingStat]);

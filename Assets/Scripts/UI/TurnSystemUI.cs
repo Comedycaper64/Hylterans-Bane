@@ -27,6 +27,8 @@ public class TurnSystemUI : MonoBehaviour
 
     private Queue<GameObject> initiativeUIQueue = new Queue<GameObject>();
 
+    public static EventHandler<Unit> OnInitiativeUIPressed;
+
     private void Start()
     {
         //TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
@@ -82,6 +84,14 @@ public class TurnSystemUI : MonoBehaviour
         TurnSystem.Instance.FinishAction();
     }
 
+    public void InitiativeUIPressed(Unit unit)
+    {
+        if (TurnSystem.Instance.IsPlayerTurn())
+        {
+            OnInitiativeUIPressed?.Invoke(this, unit);
+        }
+    }
+
     private void TurnSystem_OnNewInitiative(object sender, Queue<Initiative> initiatives)
     {
         ClearInitiativeUI();
@@ -91,13 +101,18 @@ public class TurnSystemUI : MonoBehaviour
             if (initiative.unit)
             {
                 newInitiativeUI.GetComponent<Image>().sprite = initiative.unit.GetInitiativeUI();
+                newInitiativeUI.GetComponent<InitiativeUI>().SetupInitiativeUnit(initiative.unit);
             }
             else
             {
                 newInitiativeUI.GetComponent<Image>().sprite = initiative.rallyingCry
                     .GetUnit()
                     .GetInitiativeUI();
+                newInitiativeUI
+                    .GetComponent<InitiativeUI>()
+                    .SetupInitiativeUnit(initiative.rallyingCry.GetUnit());
             }
+
             initiativeUIQueue.Enqueue(newInitiativeUI);
         }
         UpdateTurnText();

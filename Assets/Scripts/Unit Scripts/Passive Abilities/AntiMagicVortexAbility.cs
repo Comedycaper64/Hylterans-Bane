@@ -102,7 +102,7 @@ public class AntiMagicVortexAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "Units within 2 spaces have advantage on saving throws against magic. \n'Prudent wards improve battlefield survivability.'";
+        return "Units within 2 spaces have advantage on saving throws against magic. \n<i>'Prudent wards improve battlefield survivability.'</i>";
     }
 
     public override string GetAbilityName()

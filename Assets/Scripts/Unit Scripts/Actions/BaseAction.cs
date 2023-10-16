@@ -30,6 +30,11 @@ public abstract class BaseAction : MonoBehaviour
         return false;
     }
 
+    public virtual bool IsFriendlyFire()
+    {
+        return false;
+    }
+
     public virtual StatType SpellSave()
     {
         return new StatType();

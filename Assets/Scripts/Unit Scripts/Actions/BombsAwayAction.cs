@@ -6,7 +6,7 @@ using UnityEngine;
 public class BombsAwayAction : BaseAction
 {
     private string actionDescription =
-        "An explosive mortal shell fired in an arc. \nHeld Actions Used : 3 \nAttack Roll against Enemy Armour.";
+        "An explosive mortal shell fired in an arc. \nHeld Actions Used : 3 \nAffects both allies and enemies.";
 
     [SerializeField]
     private Transform bombProjectilePrefab;
@@ -60,6 +60,11 @@ public class BombsAwayAction : BaseAction
     }
 
     public override bool GetIsAOE()
+    {
+        return true;
+    }
+
+    public override bool IsFriendlyFire()
     {
         return true;
     }

@@ -144,7 +144,10 @@ public class CrossStrikeAction : BaseAction
     {
         targetUnits = new List<Unit>();
 
-        if (LevelGrid.Instance.TryGetUnitAtGridPosition(gridPosition, out Unit unit))
+        if (
+            LevelGrid.Instance.TryGetUnitAtGridPosition(gridPosition, out Unit unit)
+            && unit.IsEnemy()
+        )
         {
             targetUnits.Add(unit);
         }
@@ -155,7 +158,7 @@ public class CrossStrikeAction : BaseAction
                 LevelGrid.Instance.TryGetUnitAtGridPosition(
                     gridPosition + new GridPosition(1, 0),
                     out Unit unit1
-                )
+                ) && unit1.IsEnemy()
             )
             {
                 targetUnits.Add(unit1);
@@ -164,7 +167,7 @@ public class CrossStrikeAction : BaseAction
                 LevelGrid.Instance.TryGetUnitAtGridPosition(
                     gridPosition + new GridPosition(-1, 0),
                     out Unit unit2
-                )
+                ) && unit2.IsEnemy()
             )
             {
                 targetUnits.Add(unit2);
@@ -176,7 +179,7 @@ public class CrossStrikeAction : BaseAction
                 LevelGrid.Instance.TryGetUnitAtGridPosition(
                     gridPosition + new GridPosition(0, 1),
                     out Unit unit1
-                )
+                ) && unit1.IsEnemy()
             )
             {
                 targetUnits.Add(unit1);
@@ -185,7 +188,7 @@ public class CrossStrikeAction : BaseAction
                 LevelGrid.Instance.TryGetUnitAtGridPosition(
                     gridPosition + new GridPosition(0, -1),
                     out Unit unit2
-                )
+                ) && unit2.IsEnemy()
             )
             {
                 targetUnits.Add(unit2);

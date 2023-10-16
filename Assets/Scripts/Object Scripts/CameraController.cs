@@ -28,10 +28,11 @@ public class CameraController : MonoBehaviour
             cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         defaultFollowTarget = cinemachineVirtualCamera.Follow;
         targetFollowOffset = cinemachineTransposer.m_FollowOffset;
-        xAxisCameraRange = LevelGrid.Instance.GetWidth() * LevelGrid.Instance.GetCellSize() - 5f;
-        zAxisCameraRange = LevelGrid.Instance.GetHeight() * LevelGrid.Instance.GetCellSize() - 10f;
+        xAxisCameraRange = LevelGrid.Instance.GetWidth() * LevelGrid.Instance.GetCellSize();
+        zAxisCameraRange = LevelGrid.Instance.GetHeight() * LevelGrid.Instance.GetCellSize();
         EnemyAI.Instance.OnEnemyUnitBeginAction += EnemyAI_OnEnemyUnitBeginAction;
         EnemyAI.Instance.OnEnemyTurnFinished += EnemyAI_OnEnemyTurnFinished;
+        TurnSystemUI.OnInitiativeUIPressed += TurnSystemUI_OnInitiativeUIPressed;
     }
 
     private void OnDisable()
@@ -46,16 +47,27 @@ public class CameraController : MonoBehaviour
         HandleRotation();
         if (focusFollowTarget)
         {
-            FollowFocusUnit();
+            MoveTowardsFocusUnit();
             return;
         }
         HandleMovement();
     }
 
-    private void FollowFocusUnit()
+    private void MoveTowardsFocusUnit()
     {
-        transform.position = focusFollowTarget.position;
+        float moveSpeed = 7.5f;
+        Vector3 moveVector = focusFollowTarget.position - transform.position;
+        moveVector.y = 0;
+        Vector3 movementThisFrame = moveVector * moveSpeed * Time.deltaTime;
+        Vector3 newPosition = transform.position + movementThisFrame;
+        transform.position = new Vector3(
+            Mathf.Clamp(newPosition.x, 0f, xAxisCameraRange),
+            transform.position.y,
+            Mathf.Clamp(newPosition.z, 0f, zAxisCameraRange)
+        );
     }
+
+    private void ClampMovement() { }
 
     private void HandleMovement()
     {
@@ -66,7 +78,7 @@ public class CameraController : MonoBehaviour
         Vector3 movementThisFrame = moveVector * moveSpeed * Time.deltaTime;
         Vector3 newPosition = transform.position + movementThisFrame;
         transform.position = new Vector3(
-            Mathf.Clamp(newPosition.x, 5f, xAxisCameraRange),
+            Mathf.Clamp(newPosition.x, 0f, xAxisCameraRange),
             transform.position.y,
             Mathf.Clamp(newPosition.z, 0f, zAxisCameraRange)
         );
@@ -105,6 +117,13 @@ public class CameraController : MonoBehaviour
         );
     }
 
+    private IEnumerator PanToUnit(Unit unit)
+    {
+        focusFollowTarget = unit.transform;
+        yield return new WaitForSeconds(1f);
+        focusFollowTarget = null;
+    }
+
     private void EnemyAI_OnEnemyUnitBeginAction(object sender, Unit focusUnit)
     {
         focusFollowTarget = focusUnit.transform;
@@ -113,5 +132,10 @@ public class CameraController : MonoBehaviour
     private void EnemyAI_OnEnemyTurnFinished(object sender, EventArgs e)
     {
         focusFollowTarget = null;
+    }
+
+    private void TurnSystemUI_OnInitiativeUIPressed(object sender, Unit e)
+    {
+        StartCoroutine(PanToUnit(e));
     }
 }

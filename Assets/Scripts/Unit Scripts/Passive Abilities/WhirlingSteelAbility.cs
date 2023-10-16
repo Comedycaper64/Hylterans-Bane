@@ -46,7 +46,7 @@ public class WhirlingSteelAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "Every time this unit attacks using the Attack action it gains +1 to its AC. This bonus resets on the start of its turn. \n'A cyclone of steel forms an impenetrable barrier around the wielder.'";
+        return "Every time this unit attacks using the Attack action it gains +1 to its AC. This bonus resets on the start of its turn. \n<i>'A cyclone of steel forms an impenetrable barrier around the wielder.'</i>";
     }
 
     public override string GetAbilityName()

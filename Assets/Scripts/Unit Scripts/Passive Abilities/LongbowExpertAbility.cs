@@ -28,7 +28,7 @@ public class LongbowExpertAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "Not moving on your turn grants advantage on attack rolls and +1 range on the current turn's attack. \n'Extra time spent aiming a killing blow tends to pay off.'";
+        return "Not moving on your turn grants advantage on attack rolls and +1 range on the current turn's attack. \n<i>'Extra time spent aiming a killing blow tends to pay off.'</i>";
     }
 
     public override string GetAbilityName()

@@ -18,5 +18,5 @@ MonoBehaviour:
   intelligence: 16
   wisdom: 10
   charisma: 17
-  proficiencyBonus: 3
   hitDice: 2
+  maxMoveDistance: 4

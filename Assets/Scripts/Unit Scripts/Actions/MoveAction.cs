@@ -5,14 +5,10 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
-    //[SerializeField]
     private string actionDescription;
     public event EventHandler<int> OnStartMoving;
     public event EventHandler OnStopMoving;
     public static event EventHandler<GridPosition> OnAnyUnitMoved;
-
-    [SerializeField]
-    private int maxMoveDistance = 4;
 
     private List<Vector3> positionList;
     private int currentPositionIndex;
@@ -119,6 +115,8 @@ public class MoveAction : BaseAction
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
         GridPosition unitGridPosition = unit.GetGridPosition();
+
+        int maxMoveDistance = unit.GetUnitStats().GetMovement();
 
         for (int x = -maxMoveDistance; x <= maxMoveDistance; x++)
         {
@@ -276,6 +274,6 @@ public class MoveAction : BaseAction
 
     public override int GetActionRange()
     {
-        return maxMoveDistance;
+        return unit.GetUnitStats().GetMovement();
     }
 }

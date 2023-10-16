@@ -19,3 +19,4 @@ MonoBehaviour:
   wisdom: 11
   charisma: 14
   hitDice: 3
+  maxMoveDistance: 4

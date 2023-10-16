@@ -253,11 +253,19 @@ public class UnitWorldUI : MonoBehaviour
 
     private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction baseAction)
     {
+        int actionRange = baseAction.GetActionRange();
+        GridPosition gridPositionDistance =
+            thisUnit.GetGridPosition() - baseAction.GetUnit().GetGridPosition();
+        int testDistance = Mathf.Abs(gridPositionDistance.x) + Mathf.Abs(gridPositionDistance.z);
         if ((thisUnit == baseAction.GetUnit()) && baseAction.ActionDealsDamage())
         {
             ShowAttackerToHit(baseAction.IsSpell());
         }
-        else if (thisUnit.IsEnemy() && baseAction.ActionDealsDamage())
+        else if (
+            (thisUnit.IsEnemy() || baseAction.IsFriendlyFire())
+            && baseAction.ActionDealsDamage()
+            && ((testDistance <= actionRange) || baseAction.GetIsAOE())
+        )
         {
             ShowPredictedHealthLoss(baseAction.GetUnit().GetUnitStats().GetDamage());
             BattleForecast unitBattleForecast = CombatSystem.Instance.GetBattleForecast(

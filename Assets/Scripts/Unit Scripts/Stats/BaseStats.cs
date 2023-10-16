@@ -27,6 +27,9 @@ public class BaseStats : ScriptableObject
     [SerializeField]
     private HitDiceType hitDice;
 
+    [SerializeField]
+    private int maxMoveDistance;
+
     public int GetStrength()
     {
         return strength;
@@ -60,5 +63,10 @@ public class BaseStats : ScriptableObject
     public HitDiceType GetHitDiceType()
     {
         return hitDice;
+    }
+
+    public int GetMovement()
+    {
+        return maxMoveDistance;
     }
 }
