@@ -54,7 +54,7 @@ public class DoubleTimeAbility : PassiveAbility
         }
         if (!unitMoved)
         {
-            unit.IncreaseHeldActions();
+            unit.IncreaseSpirit();
         }
     }
 }

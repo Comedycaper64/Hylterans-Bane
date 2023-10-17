@@ -103,7 +103,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private void PerformAction(BaseAction actionToHandle, GridPosition gridPosition)
     {
-        selectedUnit.UseHeldActions(actionToHandle.GetRequiredHeldActions());
+        selectedUnit.UseSpirit(actionToHandle.GetRequiredHeldActions());
 
         if (currentState == ActionState.selectingAction)
         {
@@ -185,6 +185,7 @@ public class UnitActionSystem : MonoBehaviour
     {
         if (selectedUnit)
         {
+            selectedAction = null;
             OnUnitActionStarted?.Invoke();
             OnUnitActionFinished?.Invoke();
             selectedUnit.SetActionCompleted(true);
@@ -231,7 +232,7 @@ public class UnitActionSystem : MonoBehaviour
         unitStartPosition = unit.GetGridPosition();
         actionStatBonus = new StatBonus();
 
-        if (unit.GetHeldActions() < 0)
+        if (unit.GetHeldActions() < 1)
         {
             currentState = ActionState.selectingAction;
             BaseAction waitAction = unit.GetAction<WaitAction>();

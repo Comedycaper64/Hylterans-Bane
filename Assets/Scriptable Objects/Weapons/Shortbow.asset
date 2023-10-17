@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Shortbow
   weaponDamage: 4
-  weaponRange: 3
+  weaponMinRange: 2
+  weaponMaxRange: 4

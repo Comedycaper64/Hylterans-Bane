@@ -22,7 +22,7 @@ public class AttackAction : BaseAction
         SwingingSwordAfterHit,
     }
 
-    private int attackNumber = 1;
+    //private int attackNumber = 1;
     private bool attackSucceeded;
     private State state;
     private float stateTimer;
@@ -129,7 +129,9 @@ public class AttackAction : BaseAction
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        int maxAttackDistance = unit.GetUnitStats().GetAttackRange();
+        (int, int) attackRange = unit.GetUnitStats().GetAttackRange();
+        int minAttackDistance = attackRange.Item1;
+        int maxAttackDistance = attackRange.Item2;
 
         for (int x = -maxAttackDistance; x <= maxAttackDistance; x++)
         {
@@ -144,7 +146,7 @@ public class AttackAction : BaseAction
                 }
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > maxAttackDistance)
+                if ((testDistance > maxAttackDistance) || (testDistance < minAttackDistance))
                 {
                     continue;
                 }
@@ -189,22 +191,22 @@ public class AttackAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        attackNumber = 1;
-        if (GetUnit().GetAbility<DualWieldingProdigyAbility>())
-        {
-            attackNumber++;
-        }
-        if (GetUnit().GetAbility<ExtraAttackAbility>())
-        {
-            attackNumber++;
-        }
-
-        for (int i = 1; i < attackNumber; i++)
+        // attackNumber = 1;
+        // if (GetUnit().GetAbility<DualWieldingProdigyAbility>())
+        // {
+        //     attackNumber++;
+        // }
+        if (GetUnit().GetAbility<ExtraAttackAbility>() && (unit.GetSpirit() > unit.GetMinSpirit()))
         {
             TurnSystem.Instance.AddInitiativeToOrder(
-                new Initiative(unit, unit.GetAction<MultiAttackAction>(), 0)
+                new Initiative(unit, unit.GetAction<AttackAction>(), 0)
             );
         }
+
+        // for (int i = 1; i < attackNumber; i++)
+        // {
+
+        // }
 
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
@@ -250,7 +252,7 @@ public class AttackAction : BaseAction
         };
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
         return unit.GetUnitStats().GetAttackRange();
     }

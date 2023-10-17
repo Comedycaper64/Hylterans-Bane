@@ -135,7 +135,9 @@ public class MultiAttackAction : BaseAction
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        int maxAttackDistance = unit.GetUnitStats().GetAttackRange();
+        (int, int) attackRange = unit.GetUnitStats().GetAttackRange();
+        int minAttackDistance = attackRange.Item1;
+        int maxAttackDistance = attackRange.Item2;
 
         for (int x = -maxAttackDistance; x <= maxAttackDistance; x++)
         {
@@ -150,7 +152,7 @@ public class MultiAttackAction : BaseAction
                 }
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > maxAttackDistance)
+                if ((testDistance > maxAttackDistance) || (testDistance < minAttackDistance))
                 {
                     continue;
                 }
@@ -216,7 +218,7 @@ public class MultiAttackAction : BaseAction
         };
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
         return unit.GetUnitStats().GetAttackRange();
     }

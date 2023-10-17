@@ -7,7 +7,7 @@ public class DedicationAbility : PassiveAbility
 {
     private List<Unit> buffedUnits = new List<Unit>();
 
-    private int abilityRange = 2;
+    private int abilityRange = 1;
     private int toHitBuff = 3;
     private int damageBuff = 2;
 
@@ -105,7 +105,7 @@ public class DedicationAbility : PassiveAbility
 
     public override string GetAbilityDescription()
     {
-        return "Units within 2 spaces of the Queen have +3 to hit and +2 to damage. \n<i>'The Queen's presence inspires her subjects on the field of battle.'</i>";
+        return "Units adjacent to the Queen have +3 to hit and +2 to damage. \n<i>'The Queen's presence inspires her subjects on the field of battle.'</i>";
     }
 
     public override string GetAbilityName()

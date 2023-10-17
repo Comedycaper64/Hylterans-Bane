@@ -19,6 +19,11 @@ public class WaitAction : BaseAction
         return actionDescription;
     }
 
+    public override int GetRequiredHeldActions()
+    {
+        return 0;
+    }
+
     public override int GetUIPriority()
     {
         return -1;
@@ -41,7 +46,7 @@ public class WaitAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        unit.IncreaseHeldActions();
+        //unit.IncreaseHeldActions();
         ActionStart(onActionComplete);
     }
 

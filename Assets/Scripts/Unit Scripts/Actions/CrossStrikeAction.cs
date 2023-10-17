@@ -60,9 +60,9 @@ public class CrossStrikeAction : BaseAction
         return actionStatBonus;
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
-        return maxStrikeDistance;
+        return (1, maxStrikeDistance);
     }
 
     public override int GetRequiredHeldActions()

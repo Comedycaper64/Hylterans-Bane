@@ -32,9 +32,9 @@ public class MagicalAegisAction : BaseAction
         return "Magical Aegis";
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
-        return 4;
+        return (0, 4);
     }
 
     public override int GetRequiredHeldActions()
@@ -62,7 +62,10 @@ public class MagicalAegisAction : BaseAction
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
         GridPosition unitGridPosition = unit.GetGridPosition();
-        int maxCastDistance = GetActionRange();
+
+        (int, int) castDistance = GetActionRange();
+        int minCastDistance = castDistance.Item1;
+        int maxCastDistance = castDistance.Item2;
 
         for (int x = -maxCastDistance; x <= maxCastDistance; x++)
         {
@@ -77,7 +80,7 @@ public class MagicalAegisAction : BaseAction
                 }
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > maxCastDistance)
+                if ((testDistance > maxCastDistance) || (testDistance < minCastDistance))
                 {
                     continue;
                 }

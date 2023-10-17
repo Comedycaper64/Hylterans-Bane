@@ -20,7 +20,7 @@ public abstract class RallyingCry : MonoBehaviour
 
     protected void AbilityStart(Action onActionComplete)
     {
-        unit.UseHeldActions(GetRequiredHeldActions());
+        unit.UseSpirit(GetRequiredHeldActions());
         isActive = true;
         this.onActionComplete = onActionComplete;
         OnAbilityStarted?.Invoke(this, EventArgs.Empty);

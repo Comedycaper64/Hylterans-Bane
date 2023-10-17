@@ -23,6 +23,11 @@ public class MoveAction : BaseAction
         return actionDescription;
     }
 
+    public override int GetRequiredHeldActions()
+    {
+        return 0;
+    }
+
     private void Update()
     {
         if (!isActive)
@@ -172,18 +177,16 @@ public class MoveAction : BaseAction
             if (closestPlayerUnit == null)
             {
                 closestPlayerUnit = playerUnit;
-                Pathfinding.Instance.FindPath(
+                closestPlayerDistance = Pathfinding.Instance.GetPathLength(
                     unit.GetGridPosition(),
-                    playerUnit.GetGridPosition(),
-                    out closestPlayerDistance
+                    playerUnit.GetGridPosition()
                 );
                 continue;
             }
 
-            Pathfinding.Instance.FindPath(
+            int distanceToUnit = Pathfinding.Instance.GetPathLength(
                 unit.GetGridPosition(),
-                playerUnit.GetGridPosition(),
-                out int distanceToUnit
+                playerUnit.GetGridPosition()
             );
 
             if (distanceToUnit < closestPlayerDistance)
@@ -272,8 +275,8 @@ public class MoveAction : BaseAction
         };
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
-        return unit.GetUnitStats().GetMovement();
+        return (0, unit.GetUnitStats().GetMovement());
     }
 }

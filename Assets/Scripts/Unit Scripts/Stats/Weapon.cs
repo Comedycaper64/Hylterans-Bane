@@ -12,7 +12,10 @@ public class Weapon : ScriptableObject
     private int weaponDamage;
 
     [SerializeField]
-    private int weaponRange;
+    private int weaponMinRange;
+
+    [SerializeField]
+    private int weaponMaxRange;
 
     public string GetWeaponName()
     {
@@ -24,8 +27,13 @@ public class Weapon : ScriptableObject
         return weaponDamage;
     }
 
-    public int GetWeaponRange()
+    public int GetWeaponMinRange()
     {
-        return weaponRange;
+        return weaponMinRange;
+    }
+
+    public int GetWeaponMaxRange()
+    {
+        return weaponMaxRange;
     }
 }

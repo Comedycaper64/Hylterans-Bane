@@ -36,7 +36,7 @@ public class UnitWorldUI : MonoBehaviour
     private void Start()
     {
         thisUnit = GetComponentInParent<Unit>();
-        thisUnit.OnHeldActionsChanged += Unit_OnHeldActionsChanged;
+        thisUnit.OnSpiritChanged += Unit_OnHeldActionsChanged;
         thisUnit.OnAOEAttack += Unit_OnAOEAttack;
         healthSystem.OnDamaged += HealthSystem_OnDamaged;
         CombatSystem.Instance.OnAttackRoll += CombatSystem_OnAttackRoll;
@@ -52,7 +52,7 @@ public class UnitWorldUI : MonoBehaviour
 
     private void OnDisable()
     {
-        thisUnit.OnHeldActionsChanged -= Unit_OnHeldActionsChanged;
+        thisUnit.OnSpiritChanged -= Unit_OnHeldActionsChanged;
         thisUnit.OnAOEAttack -= Unit_OnAOEAttack;
         healthSystem.OnDamaged -= HealthSystem_OnDamaged;
         CombatSystem.Instance.OnAttackRoll -= CombatSystem_OnAttackRoll;
@@ -253,7 +253,7 @@ public class UnitWorldUI : MonoBehaviour
 
     private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction baseAction)
     {
-        int actionRange = baseAction.GetActionRange();
+        (int, int) actionRange = baseAction.GetActionRange();
         GridPosition gridPositionDistance =
             thisUnit.GetGridPosition() - baseAction.GetUnit().GetGridPosition();
         int testDistance = Mathf.Abs(gridPositionDistance.x) + Mathf.Abs(gridPositionDistance.z);
@@ -264,7 +264,10 @@ public class UnitWorldUI : MonoBehaviour
         else if (
             (thisUnit.IsEnemy() || baseAction.IsFriendlyFire())
             && baseAction.ActionDealsDamage()
-            && ((testDistance <= actionRange) || baseAction.GetIsAOE())
+            && (
+                ((testDistance <= actionRange.Item2) && (testDistance >= actionRange.Item1))
+                || baseAction.GetIsAOE()
+            )
         )
         {
             ShowPredictedHealthLoss(baseAction.GetUnit().GetUnitStats().GetDamage());

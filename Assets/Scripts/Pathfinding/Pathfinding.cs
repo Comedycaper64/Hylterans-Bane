@@ -141,19 +141,22 @@ public class Pathfinding : MonoBehaviour
                     continue;
                 }
 
-                // if (
-                //     LevelGrid.Instance.TryGetUnitAtGridPosition(
-                //         neighbourNode.GetGridPosition(),
-                //         out Unit unit
-                //     )
-                // )
-                // {
-                //     if (TurnSystem.Instance.IsPlayerTurn() == unit.IsEnemy())
-                //     {
-                //         closedList.Add(neighbourNode);
-                //         continue;
-                //     }
-                // }
+                if (
+                    LevelGrid.Instance.TryGetUnitAtGridPosition(
+                        neighbourNode.GetGridPosition(),
+                        out Unit unit
+                    )
+                )
+                {
+                    if (
+                        (TurnSystem.Instance.IsPlayerTurn() == unit.IsEnemy())
+                        && (neighbourNode != endNode)
+                    )
+                    {
+                        closedList.Add(neighbourNode);
+                        continue;
+                    }
+                }
 
                 int difficultTerrainMultiplier = 1;
                 if (neighbourNode.IsDifficultTerrain())

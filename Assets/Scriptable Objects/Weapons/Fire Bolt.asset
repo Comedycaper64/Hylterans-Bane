@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Fire Bolt
   weaponDamage: 6
-  weaponRange: 4
+  weaponMinRange: 2
+  weaponMaxRange: 4

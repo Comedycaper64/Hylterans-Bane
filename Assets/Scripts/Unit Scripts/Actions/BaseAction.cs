@@ -65,14 +65,14 @@ public abstract class BaseAction : MonoBehaviour
         return 0;
     }
 
-    public virtual int GetActionRange()
+    public virtual (int, int) GetActionRange()
     {
-        return 0;
+        return (0, 0);
     }
 
     public virtual int GetRequiredHeldActions()
     {
-        return 0;
+        return 1;
     }
 
     public virtual int GetTargetCountAtPosition(GridPosition gridPosition)

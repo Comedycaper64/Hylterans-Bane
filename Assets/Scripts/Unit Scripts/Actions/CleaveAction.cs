@@ -54,9 +54,9 @@ public class CleaveAction : BaseAction
         return actionStatBonus;
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
-        return maxSlashDistance;
+        return (1, maxSlashDistance);
     }
 
     private void Update()

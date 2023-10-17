@@ -142,9 +142,12 @@ public class UnitStats : MonoBehaviour
             + currentStatBonus.damageBonus;
     }
 
-    public int GetAttackRange()
+    public (int, int) GetAttackRange()
     {
-        return unitWeapon.GetWeaponRange() + currentStatBonus.rangeBonus;
+        return (
+            unitWeapon.GetWeaponMinRange(),
+            unitWeapon.GetWeaponMaxRange() + currentStatBonus.rangeBonus
+        );
     }
 
     public int GetInitiative()

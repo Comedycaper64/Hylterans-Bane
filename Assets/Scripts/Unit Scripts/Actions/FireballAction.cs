@@ -56,9 +56,9 @@ public class FireballAction : BaseAction
         return StatType.DEX;
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
-        return maxThrowDistance;
+        return (2, maxThrowDistance);
     }
 
     public override bool GetIsAOE()

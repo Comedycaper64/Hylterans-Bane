@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MultiAttackAction))]
+//[RequireComponent(typeof(MultiAttackAction))]
 public class ExtraAttackAbility : PassiveAbility
 {
     public override string GetAbilityDescription()
     {
-        return "Allows this unit to perform an extra strike when taking the attack action.";
+        return "Allows this unit to perform extra attacks at the cost of <b>Spirit</b>.";
     }
 
     public override string GetAbilityName()
     {
-        return "Extra Attack";
+        return "Fighting Spirit";
     }
 
     public override int GetAbilityUnlockLevel()

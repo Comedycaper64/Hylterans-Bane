@@ -65,9 +65,9 @@ public class ArtilleryFireAction : BaseAction
         return actionStatBonus;
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
-        return fireDistance;
+        return (fireDistance, fireDistance);
     }
 
     private void Update()

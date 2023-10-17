@@ -20,7 +20,9 @@ public class Unit : MonoBehaviour
     private bool turnMovementCompleted;
     private bool turnActionCompleted;
 
-    private int heldActions;
+    private int spirit;
+    private int maxSpirit = 3;
+    private int minSpirit = -3;
 
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
@@ -48,7 +50,7 @@ public class Unit : MonoBehaviour
     private Sprite unitInitiativeUI;
 
     //EVENTS
-    public event EventHandler<int> OnHeldActionsChanged;
+    public event EventHandler<int> OnSpiritChanged;
     public event EventHandler<AttackInteraction> OnAOEAttack;
     public static event EventHandler<GridPosition> OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
@@ -57,7 +59,7 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
-        heldActions = 0;
+        spirit = 0;
         healthSystem = GetComponent<HealthSystem>();
         unitStats = GetComponent<UnitStats>();
         //Puts each component that extends the BaseAction into the array
@@ -226,19 +228,34 @@ public class Unit : MonoBehaviour
 
     public int GetHeldActions()
     {
-        return heldActions;
+        return spirit;
     }
 
-    public void IncreaseHeldActions()
+    public void IncreaseSpirit()
     {
-        heldActions++;
-        OnHeldActionsChanged?.Invoke(this, heldActions);
+        if (spirit >= maxSpirit)
+        {
+            return;
+        }
+
+        spirit++;
+        OnSpiritChanged?.Invoke(this, spirit);
     }
 
-    public void UseHeldActions(int numberUsed)
+    public int GetSpirit()
     {
-        heldActions -= numberUsed;
-        OnHeldActionsChanged?.Invoke(this, heldActions);
+        return spirit;
+    }
+
+    public int GetMinSpirit()
+    {
+        return minSpirit;
+    }
+
+    public void UseSpirit(int numberUsed)
+    {
+        spirit -= numberUsed;
+        OnSpiritChanged?.Invoke(this, spirit);
     }
 
     public void PerformAOEAttack(AttackInteraction attackInteraction)

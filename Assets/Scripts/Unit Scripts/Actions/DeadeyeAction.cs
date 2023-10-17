@@ -44,7 +44,7 @@ public class DeadeyeAction : BaseAction
 
     public override int GetRequiredHeldActions()
     {
-        return 1;
+        return 2;
     }
 
     public override bool ActionDealsDamage()
@@ -62,7 +62,7 @@ public class DeadeyeAction : BaseAction
         return 5;
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
         return unit.GetUnitStats().GetAttackRange();
     }
@@ -154,7 +154,9 @@ public class DeadeyeAction : BaseAction
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        int maxShootDistance = unit.GetUnitStats().GetAttackRange();
+        (int, int) attackRange = unit.GetUnitStats().GetAttackRange();
+        int minShootDistance = attackRange.Item1;
+        int maxShootDistance = attackRange.Item2;
 
         for (int x = -maxShootDistance; x <= maxShootDistance; x++)
         {
@@ -169,7 +171,7 @@ public class DeadeyeAction : BaseAction
                 }
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > maxShootDistance)
+                if ((testDistance > maxShootDistance) || (testDistance < minShootDistance))
                 {
                     continue;
                 }

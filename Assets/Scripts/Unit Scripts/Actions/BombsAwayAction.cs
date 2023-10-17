@@ -54,9 +54,9 @@ public class BombsAwayAction : BaseAction
         return 3;
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
-        return maxThrowDistance;
+        return (minThrowDistance, maxThrowDistance);
     }
 
     public override bool GetIsAOE()

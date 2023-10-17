@@ -37,9 +37,9 @@ public class DelegationAction : BaseAction
         return 1;
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
-        return 1;
+        return (1, 1);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -51,7 +51,7 @@ public class DelegationAction : BaseAction
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        int delegationRange = GetActionRange();
+        int delegationRange = GetActionRange().Item2;
 
         for (int x = -delegationRange; x <= delegationRange; x++)
         {

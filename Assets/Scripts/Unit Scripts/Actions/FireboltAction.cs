@@ -23,7 +23,7 @@ public class FireboltAction : AttackAction
     // private State state;
 
     // [SerializeField]
-    private int maxShootDistance = 4;
+    // private int maxShootDistance = 4;
 
     // private float stateTimer;
     // private Unit targetUnit;
@@ -52,10 +52,10 @@ public class FireboltAction : AttackAction
     //     return 5;
     // }
 
-    public override int GetActionRange()
-    {
-        return maxShootDistance;
-    }
+    // public override (int, int) GetActionRange()
+    // {
+    //     return unit.GetUnitStats().GetAttackRange();
+    // }
 
     // private void Update()
     // {

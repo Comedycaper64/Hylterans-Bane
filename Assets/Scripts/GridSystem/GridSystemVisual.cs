@@ -117,7 +117,7 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitAction;
-        //UnitActionSystem.Instance.OnUnitActionFinished += UnitActionSystem_OnUnitAction;
+        UnitActionSystem.Instance.OnUnitActionFinished += UnitActionSystem_OnUnitAction;
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
@@ -132,7 +132,7 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedActionChanged -=
             UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitAction;
-        //UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitAction;
+        UnitActionSystem.Instance.OnUnitActionFinished -= UnitActionSystem_OnUnitAction;
         UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition -= LevelGrid_OnAnyUnitMovedGridPosition;
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
@@ -163,15 +163,15 @@ public class GridSystemVisual : MonoBehaviour
     //Generic method for showing all tiles based on central gridposition and range
     private void ShowGridPositionRange(
         GridPosition gridPosition,
-        int range,
+        (int, int) range,
         GridVisualType gridVisualType
     )
     {
         List<GridPosition> gridPositionList = new List<GridPosition>();
 
-        for (int x = -range; x <= range; x++)
+        for (int x = -range.Item2; x <= range.Item2; x++)
         {
-            for (int z = -range; z <= range; z++)
+            for (int z = -range.Item2; z <= range.Item2; z++)
             {
                 GridPosition testGridPosition = gridPosition + new GridPosition(x, z);
 
@@ -182,7 +182,7 @@ public class GridSystemVisual : MonoBehaviour
 
                 //Accounts for diagonal tiles by calculating absolute range away from the center
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > range)
+                if ((testDistance > range.Item2) || (testDistance < range.Item1))
                 {
                     continue;
                 }
@@ -194,31 +194,31 @@ public class GridSystemVisual : MonoBehaviour
         ShowGridPositionList(gridPositionList, gridVisualType);
     }
 
-    private void ShowGridPositionRangeSquare(
-        GridPosition gridPosition,
-        int range,
-        GridVisualType gridVisualType
-    )
-    {
-        List<GridPosition> gridPositionList = new List<GridPosition>();
+    // private void ShowGridPositionRangeSquare(
+    //     GridPosition gridPosition,
+    //     (int, int) range,
+    //     GridVisualType gridVisualType
+    // )
+    // {
+    //     List<GridPosition> gridPositionList = new List<GridPosition>();
 
-        for (int x = -range; x <= range; x++)
-        {
-            for (int z = -range; z <= range; z++)
-            {
-                GridPosition testGridPosition = gridPosition + new GridPosition(x, z);
+    //     for (int x = -range; x <= range; x++)
+    //     {
+    //         for (int z = -range; z <= range; z++)
+    //         {
+    //             GridPosition testGridPosition = gridPosition + new GridPosition(x, z);
 
-                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
-                {
-                    continue;
-                }
+    //             if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+    //             {
+    //                 continue;
+    //             }
 
-                gridPositionList.Add(testGridPosition);
-            }
-        }
+    //             gridPositionList.Add(testGridPosition);
+    //         }
+    //     }
 
-        ShowGridPositionList(gridPositionList, gridVisualType);
-    }
+    //     ShowGridPositionList(gridPositionList, gridVisualType);
+    // }
 
     //Meshenabled = true for all visual squares that are in the input list, also applies a material based on the gridVisualType enum
     public void ShowGridPositionList(

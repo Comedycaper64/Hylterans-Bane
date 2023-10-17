@@ -45,9 +45,9 @@ public class MinorBarrierAction : BaseAction
         return "Minor Barrier";
     }
 
-    public override int GetActionRange()
+    public override (int, int) GetActionRange()
     {
-        return 3;
+        return (0, 3);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -59,11 +59,13 @@ public class MinorBarrierAction : BaseAction
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        int barrierRange = GetActionRange();
+        (int, int) barrierRange = GetActionRange();
+        int minBarrierRange = barrierRange.Item1;
+        int maxBarrierRange = barrierRange.Item2;
 
-        for (int x = -barrierRange; x <= barrierRange; x++)
+        for (int x = -maxBarrierRange; x <= maxBarrierRange; x++)
         {
-            for (int z = -barrierRange; z <= barrierRange; z++)
+            for (int z = -maxBarrierRange; z <= maxBarrierRange; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = gridPosition + offsetGridPosition;
@@ -76,6 +78,12 @@ public class MinorBarrierAction : BaseAction
                 if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
                 {
                     // Grid Position is empty, no Unit
+                    continue;
+                }
+
+                int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                if ((testDistance > maxBarrierRange) || (testDistance < minBarrierRange))
+                {
                     continue;
                 }
 

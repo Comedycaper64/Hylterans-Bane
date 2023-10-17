@@ -94,6 +94,7 @@ public class TurnSystem : MonoBehaviour
                 OnTurnChanged?.Invoke(this, EventArgs.Empty);
                 currentInitiative.unit.SetMovementCompleted(false);
                 currentInitiative.unit.SetActionCompleted(false);
+                currentInitiative.unit.IncreaseSpirit();
 
                 if (!isPlayerTurn)
                 {

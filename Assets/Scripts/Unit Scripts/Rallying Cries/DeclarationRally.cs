@@ -49,7 +49,7 @@ public class DeclarationRally : RallyingCry
 
             if (!unitOutOfRange)
             {
-                friendlyUnit.IncreaseHeldActions();
+                friendlyUnit.IncreaseSpirit();
             }
         }
 

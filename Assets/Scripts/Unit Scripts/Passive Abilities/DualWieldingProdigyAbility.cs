@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MultiAttackAction))]
+//[RequireComponent(typeof(MultiAttackAction))]
 public class DualWieldingProdigyAbility : PassiveAbility
 {
     public override string GetAbilityDescription()
