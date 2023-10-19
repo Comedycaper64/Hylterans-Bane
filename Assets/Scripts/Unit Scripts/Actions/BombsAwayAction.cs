@@ -114,7 +114,7 @@ public class BombsAwayAction : BaseAction
                     GetDamageArea().Item1,
                     false,
                     SpellSave(),
-                    unit.GetUnitStats(),
+                    unit,
                     OnFireballBehaviourComplete
                 );
                 break;

@@ -37,10 +37,10 @@ public class UnitWorldUI : MonoBehaviour
     {
         thisUnit = GetComponentInParent<Unit>();
         thisUnit.OnSpiritChanged += Unit_OnHeldActionsChanged;
-        thisUnit.OnAOEAttack += Unit_OnAOEAttack;
+        //thisUnit.OnAOEAttack += Unit_OnAOEAttack;
         healthSystem.OnDamaged += HealthSystem_OnDamaged;
-        CombatSystem.Instance.OnAttackRoll += CombatSystem_OnAttackRoll;
-        CombatSystem.Instance.OnSpellSave += CombatSystem_OnSpellSave;
+        CombatSystem.Instance.OnAttackInteraction += CombatSystem_OnAttackRoll;
+        //CombatSystem.Instance.OnSpellSave += CombatSystem_OnSpellSave;
         UnitActionSystem.Instance.OnSelectedActionChanged +=
             UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnUnitActionStarted += UnitActionSystem_OnUnitActionStarted;
@@ -53,10 +53,10 @@ public class UnitWorldUI : MonoBehaviour
     private void OnDisable()
     {
         thisUnit.OnSpiritChanged -= Unit_OnHeldActionsChanged;
-        thisUnit.OnAOEAttack -= Unit_OnAOEAttack;
+        //thisUnit.OnAOEAttack -= Unit_OnAOEAttack;
         healthSystem.OnDamaged -= HealthSystem_OnDamaged;
-        CombatSystem.Instance.OnAttackRoll -= CombatSystem_OnAttackRoll;
-        CombatSystem.Instance.OnSpellSave -= CombatSystem_OnSpellSave;
+        CombatSystem.Instance.OnAttackInteraction -= CombatSystem_OnAttackRoll;
+        //CombatSystem.Instance.OnSpellSave -= CombatSystem_OnSpellSave;
         UnitActionSystem.Instance.OnSelectedActionChanged -=
             UnitActionSystem_OnSelectedActionChanged;
         UnitActionSystem.Instance.OnUnitActionStarted -= UnitActionSystem_OnUnitActionStarted;
@@ -82,45 +82,51 @@ public class UnitWorldUI : MonoBehaviour
 
     private void ShowAOEAttackResult(AttackInteraction attackInteraction)
     {
-        string attackText;
-        string stateText;
-        if (attackInteraction.spellAttack)
-        {
-            attackText =
-                "Save: " + (attackInteraction.defenseRoll + attackInteraction.defenseBonus);
+        TemporarilyDisplayAttackUI(
+            attackInteraction.attackHit,
+            attackInteraction.attackCrit,
+            attackInteraction.attackDamage
+        );
+        // string attackText;
+        // Color textColour;
 
-            if (
-                (attackInteraction.defenseRoll + attackInteraction.defenseBonus)
-                >= attackInteraction.attackRoll
-            )
-            {
-                stateText = "Saved!";
-            }
-            else
-            {
-                stateText = "Failed.";
-            }
-        }
-        else
-        {
-            attackText =
-                "Attack: " + (attackInteraction.attackRoll + attackInteraction.attackBonus);
+        // if (attackInteraction.spellAttack)
+        // {
+        //     attackText =
+        //         "Save: " + (attackInteraction.defenseRoll + attackInteraction.defenseBonus);
 
-            if (
-                (attackInteraction.attackRoll + attackInteraction.attackBonus)
-                >= attackInteraction.defenseRoll
-            )
-            {
-                stateText = "Hit!";
-            }
-            else
-            {
-                stateText = "Missed.";
-            }
-        }
-        UnitAttackTextUI unitAttackTextUI = Instantiate(attackTextPrefab, attackTextStack)
-            .GetComponent<UnitAttackTextUI>();
-        unitAttackTextUI.SetupText(attackText, stateText);
+        //     if (
+        //         (attackInteraction.defenseRoll + attackInteraction.defenseBonus)
+        //         >= attackInteraction.attackRoll
+        //     )
+        //     {
+        //         stateText = "Saved!";
+        //     }
+        //     else
+        //     {
+        //         stateText = "Failed.";
+        //     }
+        // }
+        // else
+        // {
+        //     attackText =
+        //         "Attack: " + (attackInteraction.attackRoll + attackInteraction.attackBonus);
+
+        //     if (
+        //         (attackInteraction.attackRoll + attackInteraction.attackBonus)
+        //         >= attackInteraction.defenseRoll
+        //     )
+        //     {
+        //         stateText = "Hit!";
+        //     }
+        //     else
+        //     {
+        //         stateText = "Missed.";
+        //     }
+        // }
+        // UnitAttackTextUI unitAttackTextUI = Instantiate(attackTextPrefab, attackTextStack)
+        //     .GetComponent<UnitAttackTextUI>();
+        // unitAttackTextUI.SetupText(attackText, textColour);
     }
 
     private void ShowAttackerToHit(bool isSpell = false)
@@ -160,96 +166,83 @@ public class UnitWorldUI : MonoBehaviour
         aoeDamageText.text = "";
     }
 
-    private void TemporarilyDisplayAttackUI(
-        bool attacker,
-        string attackRoll = "",
-        string attackBonus = "",
-        string defendingAC = ""
-    )
+    private void TemporarilyDisplayAttackUI(bool attackHit, bool attackCrit, int attackDamage)
     {
         string attackText;
-        if (attacker)
+        Color textColour;
+        if (attackCrit)
         {
-            attackText = "Attack: " + attackRoll + " + " + attackBonus;
+            attackText = attackDamage.ToString();
+            textColour = Color.yellow;
+        }
+        else if (attackHit)
+        {
+            attackText = attackDamage.ToString();
+            textColour = Color.red;
         }
         else
         {
-            attackText = "AC: " + defendingAC;
+            attackText = "Miss";
+            textColour = Color.white;
         }
         UnitAttackTextUI unitAttackTextUI = Instantiate(attackTextPrefab, attackTextStack)
             .GetComponent<UnitAttackTextUI>();
-        unitAttackTextUI.SetupText(attackText);
+        unitAttackTextUI.SetupText(attackText, textColour);
     }
 
-    private void TemporarilyDisplaySpellUI(
-        bool attacker,
-        string spellSave = "",
-        string defendingUnitSavingThrowRoll = "",
-        string defendingUnitSavingThrowBonus = ""
-    )
-    {
-        string attackText;
-        if (attacker)
-        {
-            attackText = "Save DC: " + spellSave;
-        }
-        else
-        {
-            attackText =
-                "Save: " + defendingUnitSavingThrowRoll + " + " + defendingUnitSavingThrowBonus;
-        }
-        UnitAttackTextUI unitAttackTextUI = Instantiate(attackTextPrefab, attackTextStack)
-            .GetComponent<UnitAttackTextUI>();
-        unitAttackTextUI.SetupText(attackText);
-    }
+    // private void TemporarilyDisplaySpellUI(bool spellHit, int spellDamage)
+    // {
+    //     string attackText;
+    //     Color textColour;
+    //     if (spellHit)
+    //     {
+    //         attackText = spellDamage.ToString();
+    //         textColour = Color.red;
+    //     }
+    //     else
+    //     {
+    //         attackText = "Miss";
+    //         textColour = Color.white;
+    //     }
+    //     UnitAttackTextUI unitAttackTextUI = Instantiate(attackTextPrefab, attackTextStack)
+    //         .GetComponent<UnitAttackTextUI>();
+    //     unitAttackTextUI.SetupText(attackText, textColour);
+    // }
 
     private void Unit_OnHeldActionsChanged(object sender, int newHeldActions)
     {
         UpdateHeldActionsText(newHeldActions);
     }
 
-    private void Unit_OnAOEAttack(object sender, AttackInteraction attackInteraction)
-    {
-        ShowAOEAttackResult(attackInteraction);
-    }
+    // private void Unit_OnAOEAttack(object sender, AttackInteraction attackInteraction)
+    // {
+    //     ShowAOEAttackResult(attackInteraction);
+    // }
 
     private void HealthSystem_OnDamaged(object sender, float e)
     {
         UpdateHealthBar();
     }
 
-    private void CombatSystem_OnAttackRoll(object sender, object[] attackInteraction)
+    private void CombatSystem_OnAttackRoll(object sender, AttackInteraction attackInteraction)
     {
-        if (thisUnit == attackInteraction[0] as Unit)
+        if (thisUnit == attackInteraction.defender)
         {
             TemporarilyDisplayAttackUI(
-                true,
-                attackInteraction[2].ToString(),
-                attackInteraction[3].ToString()
+                attackInteraction.attackHit,
+                attackInteraction.attackCrit,
+                attackInteraction.attackDamage
             );
-        }
-        else if (thisUnit == attackInteraction[1] as Unit)
-        {
-            TemporarilyDisplayAttackUI(false, "", "", attackInteraction[4].ToString());
         }
     }
 
-    private void CombatSystem_OnSpellSave(object sender, object[] spellInteraction)
-    {
-        if (thisUnit == spellInteraction[0] as Unit)
-        {
-            TemporarilyDisplaySpellUI(true, spellInteraction[2].ToString());
-        }
-        else if (thisUnit == spellInteraction[1] as Unit)
-        {
-            TemporarilyDisplaySpellUI(
-                false,
-                "",
-                spellInteraction[3].ToString(),
-                spellInteraction[4].ToString()
-            );
-        }
-    }
+    // private void CombatSystem_OnSpellSave(object sender, AttackInteraction spellInteraction)
+    // {
+    //     if (thisUnit == spellInteraction.defender)
+    //     {
+    //         TemporarilyDisplaySpellUI(spellInteraction.attackHit, spellInteraction.attackDamage);
+    //     }
+    // }
 
     private void UnitActionSystem_OnSelectedActionChanged(object sender, BaseAction baseAction)
     {

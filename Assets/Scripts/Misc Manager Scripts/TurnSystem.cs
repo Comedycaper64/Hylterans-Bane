@@ -156,7 +156,7 @@ public class TurnSystem : MonoBehaviour
     {
         List<Initiative> tempInitiativeList = new List<Initiative>();
         tempInitiativeList.Add(initiativeToAdd);
-        Debug.Log("Old Initiative Count: " + initiativeOrder.Count);
+        //Debug.Log("Old Initiative Count: " + initiativeOrder.Count);
 
         while (initiativeOrder.TryDequeue(out Initiative currentInitiative))
         {
@@ -169,7 +169,7 @@ public class TurnSystem : MonoBehaviour
             initiativeOrder.Enqueue(initiative);
         }
 
-        Debug.Log("New Initiative Count: " + initiativeOrder.Count);
+        //Debug.Log("New Initiative Count: " + initiativeOrder.Count);
 
         OnNewInitiative?.Invoke(this, initiativeOrder);
     }

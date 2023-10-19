@@ -26,7 +26,7 @@ public class AbilityProjectile : MonoBehaviour
     private bool isSpell;
     private StatType spellSave;
 
-    private UnitStats attackingUnit;
+    private Unit attackingUnit;
 
     private GridPosition targetGridPosition;
     private Vector3 targetPosition;
@@ -115,29 +115,28 @@ public class AbilityProjectile : MonoBehaviour
     private IEnumerator DealDamageToEachTarget(List<Unit> targetUnits)
     {
         List<Unit> hitUnits = new List<Unit>();
+        int damage = 0;
         foreach (Unit targetUnit in targetUnits)
         {
             AttackInteraction targetUnitAttackInteraction;
-            bool unitHit;
             if (isSpell)
             {
-                unitHit = CombatSystem.Instance.TrySpell(
+                targetUnitAttackInteraction = CombatSystem.Instance.TrySpell(
                     attackingUnit,
-                    targetUnit.GetUnitStats(),
-                    spellSave,
-                    out targetUnitAttackInteraction
+                    targetUnit,
+                    spellSave
                 );
             }
             else
             {
-                unitHit = CombatSystem.Instance.TryAttack(
+                targetUnitAttackInteraction = CombatSystem.Instance.TryAttack(
                     attackingUnit,
-                    targetUnit.GetUnitStats(),
-                    out targetUnitAttackInteraction
+                    targetUnit
                 );
             }
             targetUnit.PerformAOEAttack(targetUnitAttackInteraction);
-            if (unitHit)
+            damage = targetUnitAttackInteraction.attackDamage;
+            if (targetUnitAttackInteraction.attackHit)
             {
                 hitUnits.Add(targetUnit);
             }
@@ -145,8 +144,7 @@ public class AbilityProjectile : MonoBehaviour
         yield return new WaitForSeconds(1f);
         foreach (Unit hitUnit in hitUnits)
         {
-            int damageAmount = attackingUnit.GetDamage();
-            hitUnit.gameObject.GetComponent<Unit>().Damage(damageAmount);
+            hitUnit.gameObject.GetComponent<Unit>().Damage(damage);
             OnAnyProjectileExploded?.Invoke(this, EventArgs.Empty);
         }
         yield return new WaitForSeconds(1f);
@@ -159,7 +157,7 @@ public class AbilityProjectile : MonoBehaviour
         int damageRadius,
         bool isSpell,
         StatType spellSave,
-        UnitStats attackingUnit,
+        Unit attackingUnit,
         Action onGrenadeBehaviourComplete
     )
     {

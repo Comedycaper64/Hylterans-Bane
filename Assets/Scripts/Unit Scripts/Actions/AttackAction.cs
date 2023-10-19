@@ -23,7 +23,7 @@ public class AttackAction : BaseAction
     }
 
     //private int attackNumber = 1;
-    private bool attackSucceeded;
+    private AttackInteraction currentAttackInteraction;
     private State state;
     private float stateTimer;
     private Unit targetUnit;
@@ -89,16 +89,15 @@ public class AttackAction : BaseAction
                 state = State.SwingingSwordAfterHit;
                 float afterHitStateTime = 0.5f;
                 stateTimer = afterHitStateTime;
-                if (attackSucceeded)
+                if (currentAttackInteraction.attackHit)
                 {
-                    int damageAmount = unit.GetUnitStats().GetDamage();
-                    targetUnit.Damage(damageAmount);
+                    targetUnit.Damage(currentAttackInteraction.attackDamage);
                     AudioSource.PlayClipAtPoint(
                         attackHitSFX,
                         Camera.main.transform.position,
                         SoundManager.Instance.GetSoundEffectVolume()
                     );
-                    AttackHit(damageAmount);
+                    AttackHit(currentAttackInteraction.attackDamage);
                     UnitHit(targetUnit);
                 }
                 else
@@ -210,8 +209,7 @@ public class AttackAction : BaseAction
 
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
-        attackSucceeded = false;
-        attackSucceeded = CombatSystem.Instance.TryAttack(unit, targetUnit);
+        currentAttackInteraction = CombatSystem.Instance.TryAttack(unit, targetUnit);
 
         state = State.SwingingSwordBeforeHit;
         float beforeHitStateTime = 0.75f;

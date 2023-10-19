@@ -91,7 +91,7 @@ public class UnitStats : MonoBehaviour
     {
         if (attackAugment > 0)
         {
-            Debug.Log("Advantaged!");
+            //Debug.Log("Advantaged!");
             rollAugment = RollAugment.Advantage;
             return Mathf.Max(Random.Range(1, 21), Random.Range(1, 21));
         }

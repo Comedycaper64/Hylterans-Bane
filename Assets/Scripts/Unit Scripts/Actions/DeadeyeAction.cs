@@ -8,7 +8,7 @@ public class DeadeyeAction : BaseAction
     private string actionDescription =
         "A precise ranged attack bolstered by austere confidence.\n+3 to hit, +2 damage, +2 range \nHeld Actions Used : 1";
 
-    private bool attackSucceeded;
+    private AttackInteraction currentAttackInteraction;
 
     [SerializeField]
     private AudioClip shootCrossbowSFX;
@@ -133,11 +133,10 @@ public class DeadeyeAction : BaseAction
             SoundManager.Instance.GetSoundEffectVolume()
         );
 
-        if (attackSucceeded)
+        if (currentAttackInteraction.attackHit)
         {
-            int damageAmount = unit.GetUnitStats().GetDamage();
-            targetUnit.Damage(damageAmount);
-            AttackHit(damageAmount);
+            targetUnit.Damage(currentAttackInteraction.attackDamage);
+            AttackHit(currentAttackInteraction.attackDamage);
         }
     }
 
@@ -217,10 +216,8 @@ public class DeadeyeAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         //unit.UseHeldActions(GetRequiredHeldActions());
-
-        attackSucceeded = false;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-        attackSucceeded = CombatSystem.Instance.TryAttack(unit, targetUnit);
+        currentAttackInteraction = CombatSystem.Instance.TryAttack(unit, targetUnit);
         state = State.Aiming;
         float aimingStateTime = 0.75f;
         stateTimer = aimingStateTime;

@@ -111,7 +111,7 @@ public class FireballAction : BaseAction
                     GetDamageArea().Item1,
                     true,
                     SpellSave(),
-                    unit.GetUnitStats(),
+                    unit,
                     OnFireballBehaviourComplete
                 );
                 break;

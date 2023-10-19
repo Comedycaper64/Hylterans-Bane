@@ -205,24 +205,24 @@ public class CrossStrikeAction : BaseAction
     private IEnumerator DealDamageToEachTarget(List<Unit> targetUnits)
     {
         List<Unit> hitUnits = new List<Unit>();
+        List<int> unitDamage = new List<int>();
         foreach (Unit targetUnit in targetUnits)
         {
-            AttackInteraction targetUnitAttackInteraction;
-            bool unitHit = CombatSystem.Instance.TryAttack(
-                unit.GetUnitStats(),
-                targetUnit.GetUnitStats(),
-                out targetUnitAttackInteraction
+            AttackInteraction targetUnitAttackInteraction = CombatSystem.Instance.TryAttack(
+                unit,
+                targetUnit
             );
             targetUnit.PerformAOEAttack(targetUnitAttackInteraction);
-            if (unitHit)
+            if (targetUnitAttackInteraction.attackHit)
             {
                 hitUnits.Add(targetUnit);
+                unitDamage.Add(targetUnitAttackInteraction.attackDamage);
             }
         }
         yield return new WaitForSeconds(1f);
         foreach (Unit hitUnit in hitUnits)
         {
-            int damageAmount = unit.GetUnitStats().GetDamage();
+            int damageAmount = unitDamage[hitUnits.IndexOf(hitUnit)];
             hitUnit.gameObject.GetComponent<Unit>().Damage(damageAmount);
             AttackHit(damageAmount);
         }
