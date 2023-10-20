@@ -190,22 +190,12 @@ public class AttackAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        // attackNumber = 1;
-        // if (GetUnit().GetAbility<DualWieldingProdigyAbility>())
-        // {
-        //     attackNumber++;
-        // }
         if (GetUnit().GetAbility<ExtraAttackAbility>() && (unit.GetSpirit() > unit.GetMinSpirit()))
         {
             TurnSystem.Instance.AddInitiativeToOrder(
                 new Initiative(unit, unit.GetAction<AttackAction>(), 0)
             );
         }
-
-        // for (int i = 1; i < attackNumber; i++)
-        // {
-
-        // }
 
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
@@ -243,10 +233,15 @@ public class AttackAction : BaseAction
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        int distanceFromTarget = GridPosition.AbsDistance(gridPosition, unit.GetGridPosition());
+        float sweetSpotModifier = Mathf.Min(distanceFromTarget / GetActionRange().Item2, 1f);
+        //Makes it so that ranged characters try to stay at their max ranges when attacking targets
         return new EnemyAIAction
         {
             gridPosition = gridPosition,
-            actionValue = 100 + Mathf.RoundToInt((1f / targetUnit.GetHealth()) * 100f),
+            actionValue = Mathf.RoundToInt(
+                (100f + (1f / targetUnit.GetHealth() * 100f)) * sweetSpotModifier
+            ),
         };
     }
 

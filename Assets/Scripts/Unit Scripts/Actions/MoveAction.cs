@@ -167,9 +167,8 @@ public class MoveAction : BaseAction
         return validGridPositionList;
     }
 
-    private int GetMoveLocationValue(GridPosition gridPosition)
+    private int GetMoveLocationValue(GridPosition gridPosition, List<Unit> playerUnitList)
     {
-        List<Unit> playerUnitList = UnitManager.Instance.GetFriendlyUnitList();
         Unit closestPlayerUnit = null;
         int closestPlayerDistance = 0;
         foreach (Unit playerUnit in playerUnitList)
@@ -201,15 +200,20 @@ public class MoveAction : BaseAction
             return 0;
         }
 
-        if (
+        int distanceFromGridPosition;
+
+        if (!Pathfinding.Instance.HasPath(gridPosition, closestPlayerUnit.GetGridPosition()))
+        {
+            playerUnitList.Remove(closestPlayerUnit);
+            return GetMoveLocationValue(gridPosition, playerUnitList);
+        }
+        else
+        {
             Pathfinding.Instance.FindPath(
                 gridPosition,
                 closestPlayerUnit.GetGridPosition(),
-                out int distanceFromGridPosition
-            ) == null
-        )
-        {
-            return -1;
+                out distanceFromGridPosition
+            );
         }
 
         int distanceMovedToClosestUnit = closestPlayerDistance - distanceFromGridPosition;
@@ -230,10 +234,10 @@ public class MoveAction : BaseAction
         {
             unitAction = unit.GetAction<AttackAction>();
         }
-        // else if (unit.GetAction<FireboltAction>())
-        // {
-        //     unitAction = unit.GetAction<FireboltAction>();
-        // }
+        else if (gridPosition == unit.GetGridPosition())
+        {
+            return new EnemyAIAction { gridPosition = gridPosition, actionValue = 1, };
+        }
         else
         {
             return new EnemyAIAction { gridPosition = gridPosition, actionValue = 0, };
@@ -243,7 +247,10 @@ public class MoveAction : BaseAction
 
         if (targetCountAtGridPosition == 0)
         {
-            int moveActionValue = GetMoveLocationValue(gridPosition);
+            int moveActionValue = GetMoveLocationValue(
+                gridPosition,
+                UnitManager.Instance.GetFriendlyUnitList()
+            );
             if (moveActionValue == -1)
             {
                 gridPosition = unit.GetGridPosition();

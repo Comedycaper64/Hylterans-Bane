@@ -67,7 +67,7 @@ public class CrossStrikeAction : BaseAction
 
     public override int GetRequiredHeldActions()
     {
-        return 1;
+        return 2;
     }
 
     private void Update()

@@ -161,7 +161,7 @@ public class UnitActionSystem : MonoBehaviour
         OnUnitActionFinished?.Invoke();
         if (unitTurnFinished)
         {
-            selectedUnit.SetActionCompleted(true);
+            selectedUnit.FinishUnitTurn();
             TurnSystem.Instance.NextInitiative(); //Should be decoupled later
         }
         else if (currentState == ActionState.noSelectedUnit)
@@ -188,7 +188,7 @@ public class UnitActionSystem : MonoBehaviour
             selectedAction = null;
             OnUnitActionStarted?.Invoke();
             OnUnitActionFinished?.Invoke();
-            selectedUnit.SetActionCompleted(true);
+            selectedUnit.FinishUnitTurn();
         }
     }
 

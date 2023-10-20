@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public struct GridPosition : IEquatable<GridPosition>
 {
@@ -22,6 +23,12 @@ public struct GridPosition : IEquatable<GridPosition>
     public bool Equals(GridPosition other)
     {
         return this == other;
+    }
+
+    public static int AbsDistance(GridPosition a, GridPosition b)
+    {
+        GridPosition offset = b - a;
+        return Mathf.Abs(offset.x) + Mathf.Abs(offset.z);
     }
 
     public override int GetHashCode()

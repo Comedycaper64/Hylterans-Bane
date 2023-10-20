@@ -145,19 +145,24 @@ public class Unit : MonoBehaviour
         return null;
     }
 
+    public void StartUnitTurn()
+    {
+        SetMovementCompleted(false);
+        SetActionCompleted(false);
+        IncreaseSpirit();
+        OnUnitTurnStart?.Invoke();
+    }
+
+    public void FinishUnitTurn()
+    {
+        SetMovementCompleted(true);
+        SetActionCompleted(true);
+        OnUnitTurnEnd?.Invoke();
+    }
+
     public void SetActionCompleted(bool completed)
     {
         turnActionCompleted = completed;
-        if (turnActionCompleted)
-        {
-            //baseMesh.material = usedMaterial;
-            OnUnitTurnEnd?.Invoke();
-        }
-        else
-        {
-            //baseMesh.material = availableMaterial;
-            OnUnitTurnStart?.Invoke();
-        }
     }
 
     public bool GetActionCompleted()
