@@ -7,8 +7,8 @@ using Cinemachine;
 public class CameraController : MonoBehaviour
 {
     //Camera controls
-    private const float MIN_FOLLOW_Y_OFFSET = -2f;
-    private const float MAX_FOLLOW_Y_OFFSET = 4f;
+    private const float MIN_FOLLOW_Y_OFFSET = -3f;
+    private const float MAX_FOLLOW_Y_OFFSET = 3f;
 
     private float xAxisCameraRange;
     private float zAxisCameraRange;

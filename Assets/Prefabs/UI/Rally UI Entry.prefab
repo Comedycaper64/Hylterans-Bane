@@ -541,10 +541,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29dd4ba8fd20ca4e8240620303f4444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 832847441182925796}
   button: {fileID: 832847441182925794}
   unitName: {fileID: 832847441202356189}
   abilityName: {fileID: 832847440620512840}
   abilityDescription: {fileID: 832847440841004047}
+  availableColour: {r: 0, g: 0.3285701, b: 0.3490566, a: 0.89411765}
+  unavailableColour: {r: 0.35686275, g: 0.3334584, b: 0.043137252, a: 0.8352941}
+  usedColour: {r: 0.3773585, g: 0, b: 0, a: 0.84313726}
 --- !u!1 &832847441202356191
 GameObject:
   m_ObjectHideFlags: 0

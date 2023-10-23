@@ -103,7 +103,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private void PerformAction(BaseAction actionToHandle, GridPosition gridPosition)
     {
-        selectedUnit.UseSpirit(actionToHandle.GetRequiredHeldActions());
+        selectedUnit.GetSpiritSystem().UseSpirit(actionToHandle.GetRequiredHeldActions());
 
         if (currentState == ActionState.selectingAction)
         {
@@ -232,7 +232,7 @@ public class UnitActionSystem : MonoBehaviour
         unitStartPosition = unit.GetGridPosition();
         actionStatBonus = new StatBonus();
 
-        if (unit.GetHeldActions() < 1)
+        if (unit.GetSpiritSystem().GetSpirit() < 1)
         {
             currentState = ActionState.selectingAction;
             BaseAction waitAction = unit.GetAction<WaitAction>();
@@ -312,6 +312,11 @@ public class UnitActionSystem : MonoBehaviour
     public ActionState GetCurrentState()
     {
         return currentState;
+    }
+
+    public void SetState(ActionState actionState)
+    {
+        currentState = actionState;
     }
 
     public bool GetIsBusy()

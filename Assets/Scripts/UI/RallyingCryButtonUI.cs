@@ -12,6 +12,9 @@ public class RallyingCryButtonUI : MonoBehaviour
     private RallyingCry rallyingCry;
 
     [SerializeField]
+    private Image buttonImage;
+
+    [SerializeField]
     private Button button;
 
     [SerializeField]
@@ -26,6 +29,15 @@ public class RallyingCryButtonUI : MonoBehaviour
     private bool unitHasEnoughHeldActions;
 
     private bool rallyingCryUsed;
+
+    [SerializeField]
+    private Color availableColour;
+
+    [SerializeField]
+    private Color unavailableColour;
+
+    [SerializeField]
+    private Color usedColour;
 
     private void Awake()
     {
@@ -43,19 +55,15 @@ public class RallyingCryButtonUI : MonoBehaviour
 
     private void CheckHeldActionRequirement(RallyingCry rallyingCry)
     {
-        unitHasEnoughHeldActions =
-            rallyingCry.GetRequiredHeldActions() > rallyingCry.GetUnit().GetHeldActions()
-                ? false
-                : true;
-
-        var colors = button.colors;
+        unitHasEnoughHeldActions = UnitHasRequiredSpirit(rallyingCry);
+        //var colors = button.colors;
         if (!unitHasEnoughHeldActions)
         {
-            colors.normalColor = Color.red;
+            buttonImage.color = unavailableColour;
         }
         else
         {
-            colors.normalColor = Color.white;
+            buttonImage.color = availableColour;
         }
     }
 
@@ -63,8 +71,8 @@ public class RallyingCryButtonUI : MonoBehaviour
     {
         if (rallyingCryUsed)
         {
-            var colors = button.colors;
-            colors.normalColor = Color.grey;
+            //var colors = button.colors;
+            buttonImage.color = usedColour;
             button.interactable = false;
         }
         else
@@ -75,7 +83,22 @@ public class RallyingCryButtonUI : MonoBehaviour
 
     public void UseRallyingCry()
     {
-        OnChooseRallyingCry?.Invoke(this, rallyingCry);
-        rallyingCryUsed = true;
+        if (UnitHasRequiredSpirit(rallyingCry))
+        {
+            OnChooseRallyingCry?.Invoke(this, rallyingCry);
+            rallyingCryUsed = true;
+        }
+        else
+        {
+            //Unit is overexerted popup
+        }
+    }
+
+    private bool UnitHasRequiredSpirit(RallyingCry rallyingCry)
+    {
+        return
+            rallyingCry.GetUnit().GetSpiritSystem().GetSpirit() >= rallyingCry.GetRequiredSpirit()
+            ? true
+            : false;
     }
 }

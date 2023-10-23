@@ -24,12 +24,17 @@ public class PackTheGoodPowderRally : RallyingCry
 
     public override string GetAbilityDescription()
     {
-        return "Immediately allows this unit to use its Fire! action, with a +5 to hit.\nHeld Actions Used: 3 \n<i>'Pack the good powder!'</i>";
+        return "Immediately allows this unit to use its Fire! action, with a +5 to hit.\nSpirit Used: 3 \n<i>'Pack the good powder!'</i>";
     }
 
     public override string GetAbilityName()
     {
         return "Pack The Good Powder!";
+    }
+
+    public override int GetRequiredSpirit()
+    {
+        return 3;
     }
 
     public override void PerformAbility(Action onAbilityComplete)

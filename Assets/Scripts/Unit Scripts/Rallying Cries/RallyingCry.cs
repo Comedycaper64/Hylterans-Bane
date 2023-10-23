@@ -20,7 +20,7 @@ public abstract class RallyingCry : MonoBehaviour
 
     protected void AbilityStart(Action onActionComplete)
     {
-        unit.UseSpirit(GetRequiredHeldActions());
+        unit.GetSpiritSystem().UseSpirit(GetRequiredSpirit());
         isActive = true;
         this.onActionComplete = onActionComplete;
         OnAbilityStarted?.Invoke(this, EventArgs.Empty);
@@ -34,7 +34,7 @@ public abstract class RallyingCry : MonoBehaviour
         OnAbilityCompleted?.Invoke(this, EventArgs.Empty);
     }
 
-    public virtual int GetRequiredHeldActions()
+    public virtual int GetRequiredSpirit()
     {
         return 0;
     }

@@ -24,7 +24,7 @@ public class PrecisionPriorityRally : RallyingCry
 
     public override string GetAbilityDescription()
     {
-        return "Grants each friendly unit +10 to hit until the end of their turn. \nHeld Actions Used: 1 \n<i>'Steady aim, make this one count!'</i>";
+        return "Grants each friendly unit +10 to hit until the end of their turn. \nSpirit Used: 1 \n<i>'Steady aim, make this one count!'</i>";
     }
 
     public override string GetAbilityName()
@@ -32,7 +32,7 @@ public class PrecisionPriorityRally : RallyingCry
         return "Precision Priority";
     }
 
-    public override int GetRequiredHeldActions()
+    public override int GetRequiredSpirit()
     {
         return 1;
     }

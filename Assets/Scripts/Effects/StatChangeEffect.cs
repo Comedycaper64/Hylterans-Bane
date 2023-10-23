@@ -9,6 +9,7 @@ public class StatChangeEffect : MonoBehaviour
     private StatBonus statBonus;
     private int duration;
 
+    //Generic stats buff / debuff that lasts for set number of turns
     public void SetStatChange(StatBonus statBonus, int duration = 1)
     {
         unitStats = GetComponent<UnitStats>();

@@ -140,7 +140,7 @@ PrefabInstance:
     - target: {fileID: 8013025189748231891, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8013025189748231891, guid: aca30e0a898416a46a3dad7094f5d66a,
         type: 3}
@@ -263,10 +263,6 @@ PrefabInstance:
         type: 3}
       insertIndex: 1
       addedObject: {fileID: 690154124561804451}
-    - targetCorrespondingSourceObject: {fileID: 8013025189748231891, guid: aca30e0a898416a46a3dad7094f5d66a,
-        type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 6267425290503847420}
   m_SourcePrefab: {fileID: 100100000, guid: aca30e0a898416a46a3dad7094f5d66a, type: 3}
 --- !u!1 &8426035641503417595 stripped
 GameObject:
@@ -355,86 +351,4 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8013025189748231891, guid: aca30e0a898416a46a3dad7094f5d66a,
     type: 3}
   m_PrefabInstance: {fileID: 2007674359829705889}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &5868444735684385303
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 2
-    m_TransformParent: {fileID: 8426035641988184690}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7635826562936255635, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 6c411eee9e524b74aa6e085691689cea, type: 2}
-    - target: {fileID: 919132149155446097, guid: 11715168fcabbc3479a23a7efefe1962,
-        type: 3}
-      propertyPath: m_Name
-      value: Redyn Grandille Shield
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_AddedGameObjects: []
-  m_SourcePrefab: {fileID: 100100000, guid: 11715168fcabbc3479a23a7efefe1962, type: 3}
---- !u!4 &6267425290503847420 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 11715168fcabbc3479a23a7efefe1962,
-    type: 3}
-  m_PrefabInstance: {fileID: 5868444735684385303}
   m_PrefabAsset: {fileID: 0}

@@ -11,6 +11,7 @@ public class AegisEffect : MonoBehaviour
     private bool abjuristAegis = false;
     private StatBonus abjuristBonus = new StatBonus(0, 0, 0, 2);
 
+    // When enabled, Aegis makes unit invulnerable to next attack
     private void OnEnable()
     {
         unitHealthSystem = GetComponent<HealthSystem>();
@@ -25,12 +26,14 @@ public class AegisEffect : MonoBehaviour
         unitHealthSystem.OnDamaged -= DisableShield;
     }
 
+    //If unit has Abjurist ability, Aegis grants AC bonus
     public void AbjuristAegis()
     {
         abjuristAegis = true;
         unitStats.currentStatBonus += abjuristBonus;
     }
 
+    //Disables shield when damage taken
     private void DisableShield(object sender, float e)
     {
         if (abjuristAegis)

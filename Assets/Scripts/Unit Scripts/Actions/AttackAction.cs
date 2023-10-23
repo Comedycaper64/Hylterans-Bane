@@ -190,7 +190,10 @@ public class AttackAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        if (GetUnit().GetAbility<ExtraAttackAbility>() && (unit.GetSpirit() > unit.GetMinSpirit()))
+        if (
+            GetUnit().GetAbility<ExtraAttackAbility>()
+            && (unit.GetSpiritSystem().GetSpirit() > unit.GetSpiritSystem().GetMinSpirit())
+        )
         {
             TurnSystem.Instance.AddInitiativeToOrder(
                 new Initiative(unit, unit.GetAction<AttackAction>(), 0)

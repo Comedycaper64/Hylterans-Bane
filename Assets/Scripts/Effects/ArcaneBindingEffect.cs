@@ -10,6 +10,7 @@ public class ArcaneBindingEffect : MonoBehaviour
     private void OnEnable()
     {
         unit = GetComponent<Unit>();
+        BindSpells();
         unit.OnUnitTurnEnd += DisableEffect;
     }
 
@@ -18,6 +19,7 @@ public class ArcaneBindingEffect : MonoBehaviour
         unit.OnUnitTurnEnd -= DisableEffect;
     }
 
+    //Disables spells, adds them to list
     private void BindSpells()
     {
         foreach (BaseAction baseAction in unit.GetBaseActionList())
@@ -30,6 +32,7 @@ public class ArcaneBindingEffect : MonoBehaviour
         }
     }
 
+    //Unbinds spell from initial list
     private void UnbindSpells()
     {
         foreach (BaseAction baseAction in spellActions)

@@ -104,6 +104,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Base Enemy Unit
       objectReference: {fileID: 0}
+    - target: {fileID: 8013025190780308999, guid: aca30e0a898416a46a3dad7094f5d66a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e4a10ceb3c677df4ebbacb18aaaa412f, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: aca30e0a898416a46a3dad7094f5d66a, type: 3}

@@ -9,6 +9,7 @@ public class GuidedStrikeEffect : MonoBehaviour
     UnitStats unitStats;
     private StatBonus guidingBonus = new StatBonus(10);
 
+    //Grants +10 to hit until end of turn
     private void OnEnable()
     {
         unitStats = GetComponent<UnitStats>();

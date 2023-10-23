@@ -15,8 +15,11 @@ public class UnitWorldUI : MonoBehaviour
     [SerializeField]
     private Image healthBarPredictedImage;
 
-    [SerializeField]
+    //[SerializeField]
     private HealthSystem healthSystem;
+
+    //[SerializeField]
+    private SpiritSystem spiritSystem;
 
     [SerializeField]
     private TextMeshProUGUI heldActionText;
@@ -36,7 +39,9 @@ public class UnitWorldUI : MonoBehaviour
     private void Start()
     {
         thisUnit = GetComponentInParent<Unit>();
-        thisUnit.OnSpiritChanged += Unit_OnHeldActionsChanged;
+        spiritSystem = thisUnit.GetSpiritSystem();
+        healthSystem = GetComponentInParent<HealthSystem>();
+        spiritSystem.OnSpiritChanged += Unit_OnHeldActionsChanged;
         //thisUnit.OnAOEAttack += Unit_OnAOEAttack;
         healthSystem.OnDamaged += HealthSystem_OnDamaged;
         CombatSystem.Instance.OnAttackInteraction += CombatSystem_OnAttackRoll;
@@ -52,7 +57,7 @@ public class UnitWorldUI : MonoBehaviour
 
     private void OnDisable()
     {
-        thisUnit.OnSpiritChanged -= Unit_OnHeldActionsChanged;
+        spiritSystem.OnSpiritChanged -= Unit_OnHeldActionsChanged;
         //thisUnit.OnAOEAttack -= Unit_OnAOEAttack;
         healthSystem.OnDamaged -= HealthSystem_OnDamaged;
         CombatSystem.Instance.OnAttackInteraction -= CombatSystem_OnAttackRoll;

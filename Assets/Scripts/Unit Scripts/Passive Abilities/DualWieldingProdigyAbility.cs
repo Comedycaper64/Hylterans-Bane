@@ -31,7 +31,7 @@ public class DualWieldingProdigyAbility : PassiveAbility
     {
         if (!attackedThisTurn)
         {
-            unit.IncreaseSpirit();
+            unit.GetSpiritSystem().IncreaseSpirit();
             attackedThisTurn = true;
         }
     }

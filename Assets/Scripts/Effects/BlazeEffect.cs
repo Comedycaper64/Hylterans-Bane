@@ -21,6 +21,7 @@ public class BlazeEffect : MonoBehaviour
         unit.OnUnitTurnStart -= DealDamage;
     }
 
+    //Deals 10% of unit health as damage at the start of unit turn. Destroys effect once effect duration is 0
     private void DealDamage()
     {
         unitHealthSystem.Damage(Mathf.RoundToInt(unitHealthSystem.GetMaxHealth() / 10));

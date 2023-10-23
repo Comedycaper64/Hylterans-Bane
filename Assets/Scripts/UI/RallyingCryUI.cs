@@ -49,6 +49,7 @@ public class RallyingCryUI : MonoBehaviour
                 List<Unit> unitList = UnitManager.Instance.GetFriendlyUnitList();
                 foreach (Unit unit in unitList)
                 {
+                    Debug.Log(unit.GetUnitName());
                     RallyingCry rallyingCry;
                     if (!unit.TryGetComponent<RallyingCry>(out rallyingCry))
                     {

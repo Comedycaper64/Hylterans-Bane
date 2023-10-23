@@ -617,7 +617,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarImage: {fileID: 8013025190034257885}
   healthBarPredictedImage: {fileID: 8013025191226176264}
-  healthSystem: {fileID: 8013025190346272857}
   heldActionText: {fileID: 8013025190813361594}
   aoeDamageText: {fileID: 8421551254836500529}
   attackTextStack: {fileID: 5980093213513070849}
@@ -653,6 +652,7 @@ GameObject:
   - component: {fileID: 8013025190346272851}
   - component: {fileID: 8013025190346272853}
   - component: {fileID: 7676635002249270510}
+  - component: {fileID: -379425021196573041}
   m_Layer: 8
   m_Name: Base Unit
   m_TagString: FriendlyUnit
@@ -782,7 +782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cebaefd5cacd9d94a97f0dd49bc35853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMoveDistance: 4
 --- !u!114 &7676635002249270510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -799,6 +798,18 @@ MonoBehaviour:
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &-379425021196573041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8013025190346272858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca6fcb50bae4c04eb24d66d61164eb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8013025190780309001
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,7 +820,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8013025190780309000}
   - component: {fileID: 8013025190780308997}
-  - component: {fileID: 8013025190780308998}
   - component: {fileID: 8013025190780308999}
   m_Layer: 8
   m_Name: SelectedVisual
@@ -841,19 +851,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8013025190780309001}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &8013025190780308998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8013025190780309001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd280623c52de1d429a764deb93f9644, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit: {fileID: 8013025190346272856}
 --- !u!23 &8013025190780308999
 MeshRenderer:
   m_ObjectHideFlags: 0

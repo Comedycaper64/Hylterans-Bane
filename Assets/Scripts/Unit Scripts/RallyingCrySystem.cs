@@ -31,6 +31,10 @@ public class RallyingCrySystem : MonoBehaviour
                 unitActionSystem.GetSelectedUnit().SetMovementCompleted(true);
                 unitActionSystem.CancelAction();
             }
+            else if (unitActionSystem.GetCurrentState() == UnitActionSystem.ActionState.movingUnit)
+            {
+                unitActionSystem.SetState(UnitActionSystem.ActionState.noSelectedUnit);
+            }
 
             unitActionSystem.StartAction();
             rallyingCry.PerformAbility(unitActionSystem.FinishAction);

@@ -20,22 +20,11 @@ public class Unit : MonoBehaviour
     private bool turnMovementCompleted;
     private bool turnActionCompleted;
 
-    private int spirit;
-    private int maxSpirit = 3;
-    private int minSpirit = -3;
-
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
+    private SpiritSystem spiritSystem;
     private List<BaseAction> baseActionList = new List<BaseAction>();
     private List<PassiveAbility> passiveAbilityList = new List<PassiveAbility>();
-
-    //SERIALIZABLES
-
-    // [SerializeField]
-    // private GameObject backSpriteAttacking;
-
-    // [SerializeField]
-    // private GameObject backSpriteDead;
 
     [SerializeField]
     private MeshRenderer baseMesh;
@@ -50,7 +39,7 @@ public class Unit : MonoBehaviour
     private Sprite unitInitiativeUI;
 
     //EVENTS
-    public event EventHandler<int> OnSpiritChanged;
+
     public event EventHandler<AttackInteraction> OnAOEAttack;
     public static event EventHandler<GridPosition> OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
@@ -59,8 +48,8 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
-        spirit = 0;
         healthSystem = GetComponent<HealthSystem>();
+        spiritSystem = GetComponent<SpiritSystem>();
         unitStats = GetComponent<UnitStats>();
         //Puts each component that extends the BaseAction into the array
         BaseAction[] baseActionArray = GetComponents<BaseAction>();
@@ -104,7 +93,7 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         healthSystem.SetHealth(unitStats.GetMaxHealth());
         healthSystem.OnDead += HealthSystem_OnDead;
-
+        Debug.Log(GetUnitName());
         OnAnyUnitSpawned?.Invoke(this, gridPosition);
     }
 
@@ -149,7 +138,7 @@ public class Unit : MonoBehaviour
     {
         SetMovementCompleted(false);
         SetActionCompleted(false);
-        IncreaseSpirit();
+        spiritSystem.IncreaseSpirit();
         OnUnitTurnStart?.Invoke();
     }
 
@@ -206,6 +195,11 @@ public class Unit : MonoBehaviour
         healthSystem.Damage(damageAmount);
     }
 
+    public SpiritSystem GetSpiritSystem()
+    {
+        return spiritSystem;
+    }
+
     public float GetHealth()
     {
         return healthSystem.GetHealth();
@@ -229,38 +223,6 @@ public class Unit : MonoBehaviour
     public UnitStats GetUnitStats()
     {
         return unitStats;
-    }
-
-    public int GetHeldActions()
-    {
-        return spirit;
-    }
-
-    public void IncreaseSpirit()
-    {
-        if (spirit >= maxSpirit)
-        {
-            return;
-        }
-
-        spirit++;
-        OnSpiritChanged?.Invoke(this, spirit);
-    }
-
-    public int GetSpirit()
-    {
-        return spirit;
-    }
-
-    public int GetMinSpirit()
-    {
-        return minSpirit;
-    }
-
-    public void UseSpirit(int numberUsed)
-    {
-        spirit -= numberUsed;
-        OnSpiritChanged?.Invoke(this, spirit);
     }
 
     public void PerformAOEAttack(AttackInteraction attackInteraction)
